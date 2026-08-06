@@ -1,0 +1,54 @@
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import CourseManager from "./course-manager";
+
+export default async function AdminCoursesPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  if (profile?.role !== "admin") redirect("/dashboard");
+
+  const [{ data: courses }, { data: categories }, { data: forums }, { data: showcaseRows }, { data: niches }] = await Promise.all([
+    supabase
+      .from("courses")
+      .select("id, title, slug, description, price, product_codes, workload_hours, course_type, is_subscription_only, has_certificate, published, category_id, forum_id, niche_id, thumbnail_url, checkout_url, position, category:categories(name), forum:forums(title, slug)")
+      .order("position")
+      .order("created_at", { ascending: false }),
+    supabase.from("categories").select("id, name").order("name"),
+    supabase.from("forums").select("id, title, slug").order("title"),
+    supabase.from("showcase_courses").select("course_id, sales_video_panda_id, position, active"),
+    supabase.from("niches").select("id, name").eq("active", true).order("position"),
+  ]);
+
+  type CourseRow = {
+    id: string; title: string; slug: string; description: string | null;
+    price: number | null; product_codes: string[]; workload_hours: number | null;
+    course_type: "course" | "material"; is_subscription_only: boolean;
+    has_certificate: boolean; published: boolean;
+    category_id: string | null; forum_id: string | null; niche_id: string | null;
+    thumbnail_url: string | null; checkout_url: string | null;
+    position: number;
+    category: { name: string } | null;
+    forum: { title: string; slug: string } | null;
+  };
+
+  type ShowcaseRow = { course_id: string; sales_video_panda_id: string | null; position: number; active: boolean };
+  const showcaseMap = Object.fromEntries(
+    ((showcaseRows ?? []) as ShowcaseRow[]).map((r) => [r.course_id, r])
+  );
+
+  const coursesWithShowcase = ((courses as unknown as CourseRow[] | null) ?? []).map((c) => ({
+    ...c,
+    showcase: showcaseMap[c.id] ?? null,
+  }));
+
+  return (
+    <CourseManager
+      courses={coursesWithShowcase}
+      categories={(categories as { id: string; name: string }[] | null) ?? []}
+      forums={(forums as { id: string; title: string; slug: string }[] | null) ?? []}
+      niches={(niches as { id: string; name: string }[] | null) ?? []}
+    />
+  );
+}
