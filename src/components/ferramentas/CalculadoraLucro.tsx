@@ -375,7 +375,7 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
   const btnNext = 'bg-[#f6614f] hover:bg-[#5288EF] text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors'
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-lumii-bg">
       {/* Header */}
       <div className="bg-[#0F0F0F] text-white">
         <div className="flex h-[3px]">

@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const FROM = "Handify <noreply@mail.handify.com.br>";
+const FROM = "Lumii <noreply@mail.handify.com.br>";
 const REPLY_TO = "contato@handify.com.br";
 
 function getResend() {
@@ -64,7 +64,7 @@ a { text-decoration: none; }
         <!-- Header -->
         <tr>
           <td colspan="3" class="header-td" bgcolor="#0F0F0F" style="padding:28px 48px;background-color:#0F0F0F;font-family:Arial,Helvetica,sans-serif;">
-            <span style="color:#f6614f;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1;mso-line-height-rule:exactly;">Handify&#8482;</span>
+            <span style="color:#f6614f;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1;mso-line-height-rule:exactly;">Lumii</span>
           </td>
         </tr>
 
@@ -79,7 +79,7 @@ a { text-decoration: none; }
         <tr>
           <td colspan="3" class="footer-td" style="padding:20px 48px;border-top:1px solid #eeeeee;font-family:Arial,Helvetica,sans-serif;">
             <p style="color:#999999;font-size:12px;margin:0;line-height:1.6;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
-              Handify&#8482; — Plataforma de Cursos de Artesanato<br>
+              Lumii — Plataforma de Cursos de Artesanato<br>
               Este é um e-mail automático, não responda a esta mensagem.
             </p>
           </td>
@@ -157,11 +157,11 @@ export async function sendWelcomeEmail({
     from: FROM,
     replyTo: REPLY_TO,
     to,
-    subject: "Bem-vinda à Handify! Cuidar de quem cuida da infância.",
+    subject: "Bem-vinda à Lumii! Cuidar de quem cuida da infância.",
     html: emailWrapper(`
       <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">Bem-vinda, ${firstName}! 👋</h1>
       <p style="color:#2D2D2D;font-size:16px;line-height:1.65;margin:0 0 14px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
-        Sua conta na Handify foi criada com sucesso. Um espaço feito para aprender e criar está esperando por você!
+        Sua conta na Lumii foi criada com sucesso. Um espaço feito para aprender e criar está esperando por você!
       </p>
       <p style="color:#555555;font-size:15px;line-height:1.65;margin:0 0 28px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
         Explore nossos cursos de artesanato e comece sua jornada criativa hoje mesmo.
@@ -336,7 +336,7 @@ export async function sendNewCourseEmail({
     from: FROM,
     replyTo: REPLY_TO,
     to,
-    subject: `Novo curso na Handify: ${courseTitle}`,
+    subject: `Novo curso na Lumii: ${courseTitle}`,
     html: emailWrapper(`
       <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
         Novo curso disponível, ${firstName}! ✨
@@ -378,7 +378,7 @@ export async function sendRefundEmail({
     from: FROM,
     replyTo: REPLY_TO,
     to,
-    subject: "Seu reembolso foi processado — a Handify continua aqui por você",
+    subject: "Seu reembolso foi processado — a Lumii continua aqui por você",
     html: emailWrapper(`
       <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
         Olá, ${firstName}!
@@ -388,7 +388,7 @@ export async function sendRefundEmail({
         Entendemos que às vezes o momento não é o ideal — e tudo bem!
       </p>
       <p style="color:#555555;font-size:15px;line-height:1.65;margin:0 0 14px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
-        Quando você se sentir pronta para aprender e criar, a Handify vai estar aqui esperando por você.
+        Quando você se sentir pronta para aprender e criar, a Lumii vai estar aqui esperando por você.
         Nossos cursos foram feitos com muito carinho para acompanhar o seu ritmo — seja ele qual for.
       </p>
       <p style="color:#555555;font-size:15px;line-height:1.65;margin:0 0 28px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
@@ -431,7 +431,7 @@ export async function sendNewsPostEmail({
     from: FROM,
     replyTo: REPLY_TO,
     to,
-    subject: `Novidade na Handify: ${postTitle}`,
+    subject: `Novidade na Lumii: ${postTitle}`,
     html: emailWrapper(`
       <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
         Olá, ${firstName}! Tem novidade por aqui 📣

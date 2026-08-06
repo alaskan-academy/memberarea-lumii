@@ -254,7 +254,7 @@ export default async function CursosPage({
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-lumii-bg">
       {migrada === "1" && <MigradaBanner />}
       {/* Hero */}
       <div className="bg-white border-b border-border/60">

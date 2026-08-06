@@ -4,8 +4,8 @@
   "description": "Cursos online da Lumii",
   "start_url": "/cursos",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#6699F3",
+  "background_color": "#243149",
+  "theme_color": "#243149",
   "orientation": "any",
   "icons": [
     {

@@ -59,7 +59,7 @@ export default async function ForumLandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-lumii-bg">
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">

@@ -73,7 +73,7 @@ export default function FerramentasHub({ niches }: { niches: NicheRow[] }) {
     : tab.tools
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-lumii-bg">
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">

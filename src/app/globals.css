@@ -168,12 +168,15 @@
   transition: box-shadow 200ms ease-out;
   /* Superfície branca "crua": redefine localmente os tokens de texto,
      já que --foreground/--muted-foreground agora são claros (tema navy
-     do fundo do produto). Como são custom properties, o valor cascateia
-     para qualquer descendente que use text-foreground/text-muted-foreground. */
+     do fundo do produto). Redefinir as custom properties não basta —
+     elementos filho SEM classe text-* própria herdam a `color` já
+     resolvida do ancestral (não reavaliam a variável), então também
+     fixamos `color` aqui para propagar corretamente por herança normal. */
   --foreground: #212d42;
   --muted-foreground: #6b7280;
   --card-foreground: #212d42;
   --popover-foreground: #212d42;
+  color: #212d42;
 }
 .handify-card:hover {
   box-shadow: 0 4px 12px rgba(246, 97, 79, 0.12);
@@ -187,6 +190,7 @@
   --muted-foreground: #6b7280;
   --card-foreground: #212d42;
   --popover-foreground: #212d42;
+  color: #212d42;
 }
 
 /* Palavra em destaque coral dentro de título */

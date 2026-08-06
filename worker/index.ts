@@ -6,7 +6,7 @@ declare const self: ServiceWorkerGlobalScope;
 self.addEventListener("push", (event) => {
   if (!event.data) return;
 
-  let data: { title: string; body?: string; link?: string } = { title: "Handify" };
+  let data: { title: string; body?: string; link?: string } = { title: "Lumii" };
   try {
     data = event.data.json() as typeof data;
   } catch {
