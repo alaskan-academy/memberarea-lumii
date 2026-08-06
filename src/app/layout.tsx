@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Handify™ — Área de Membros",
-  description: "Um espaço feito para aprender e criar.",
+  title: "Lumii — Área de Membros",
+  description: "Aprenda e crie com a Lumii.",
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",
