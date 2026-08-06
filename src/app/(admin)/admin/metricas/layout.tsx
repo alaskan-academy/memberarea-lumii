@@ -35,7 +35,7 @@ export default function MetricasLayout({ children }: { children: React.ReactNode
                 className={cn(
                   "flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors",
                   active
-                    ? "border-[#6699F3] text-[#6699F3]"
+                    ? "border-[#f6614f] text-[#f6614f]"
                     : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
                 )}
               >

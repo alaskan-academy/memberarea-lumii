@@ -45,7 +45,7 @@ function AtivarContent() {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Ativar meu acesso</CardTitle>
         <CardDescription className="text-foreground/80 text-sm leading-relaxed">
-          <span className="font-semibold text-[#6699F3]">
+          <span className="font-semibold text-[#f6614f]">
             Temos uma área de membros nova para você!
           </span>{" "}
           Digite o e-mail que usou na compra dos seus cursos para ativar seu acesso.
@@ -63,8 +63,8 @@ function AtivarContent() {
             </div>
           )}
 
-          <div className="rounded-md bg-[#6699F3]/8 border border-[#6699F3]/20 px-4 py-3 text-sm text-[#2D2D2D] leading-relaxed">
-            <strong className="text-[#6699F3]">Importante:</strong> use o mesmo e-mail que você usou
+          <div className="rounded-md bg-[#f6614f]/8 border border-[#f6614f]/20 px-4 py-3 text-sm text-[#2D2D2D] leading-relaxed">
+            <strong className="text-[#f6614f]">Importante:</strong> use o mesmo e-mail que você usou
             quando comprou seu curso. Esse é o e-mail que vai identificar seu acesso.
           </div>
 
@@ -104,7 +104,7 @@ function AtivarContent() {
               href="https://wa.me/message/ZVYBKLSWPO7OM1"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#6699F3] underline-offset-4 hover:underline"
+              className="text-[#f6614f] underline-offset-4 hover:underline"
             >
               Falar com suporte
             </a>

@@ -69,8 +69,8 @@ export default function LessonCompleteButton({
           optimisticCompleted
             ? showUnmarkState
               ? "bg-red-50 border border-red-200 text-red-500 cursor-pointer"
-              : "bg-[#72CF92]/15 text-[#72CF92] border border-transparent cursor-pointer"
-            : "bg-white border border-border hover:border-[#6699F3] hover:text-[#6699F3] text-foreground cursor-pointer"
+              : "bg-[#71c69a]/15 text-[#71c69a] border border-transparent cursor-pointer"
+            : "bg-white border border-border hover:border-[#f6614f] hover:text-[#f6614f] text-foreground cursor-pointer"
         )}
         aria-label={optimisticCompleted ? "Desmarcar aula como concluída" : "Marcar aula como concluída"}
       >

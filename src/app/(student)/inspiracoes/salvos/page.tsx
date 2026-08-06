@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getBookmarks } from '@/lib/inspiracoes/actions'
 import { InspiracaoSalvos } from '@/components/inspiracoes/InspiracaoSalvos'
 
-export const metadata = { title: 'Salvos — Inspirações | Handify' }
+export const metadata = { title: 'Salvos — Inspirações | Lumii' }
 
 export default async function InspiracaoSalvosPage() {
   const supabase = await createClient()
@@ -23,8 +23,8 @@ export default async function InspiracaoSalvosPage() {
         >
           <ArrowLeft className="w-4 h-4" />
         </Link>
-        <div className="w-9 h-9 rounded-xl bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-          <Bookmark className="w-5 h-5 text-[#6699F3]" />
+        <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+          <Bookmark className="w-5 h-5 text-[#f6614f]" />
         </div>
         <div>
           <h1 className="font-black text-xl text-foreground">Salvos</h1>

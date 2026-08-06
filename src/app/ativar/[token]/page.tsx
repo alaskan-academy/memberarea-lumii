@@ -25,7 +25,7 @@ export default async function AtivarPage({
           </p>
           <a
             href="/login"
-            className="inline-block mt-2 bg-[#6699F3] text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#4d7de0] transition-colors"
+            className="inline-block mt-2 bg-[#f6614f] text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#4d7de0] transition-colors"
           >
             Ir para o login
           </a>

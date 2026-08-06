@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import MenuClient from "./menu-client";
 
-export const metadata = { title: "Menu de Navegação — Admin Handify" };
+export const metadata = { title: "Menu de Navegação — Admin Lumii" };
 
 export default async function AdminMenuPage() {
   const supabase = await createClient();

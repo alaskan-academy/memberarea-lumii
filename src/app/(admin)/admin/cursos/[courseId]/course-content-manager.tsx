@@ -59,12 +59,12 @@ function ModuleForm({ courseId, initial, onSave, onCancel, moduleId, nextPositio
         <label className="text-xs font-medium text-muted-foreground">Título do módulo *</label>
         <input name="title" required defaultValue={initial?.title ?? ""}
           placeholder="Ex: Módulo 1 — Introdução"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background" />
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background" />
       </div>
       <input name="position" type="hidden" defaultValue={initial?.position ?? nextPosition} />
       <div className="flex gap-2">
         <button type="submit" disabled={isPending}
-          className="flex items-center gap-1 text-xs px-3 py-2 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium">
+          className="flex items-center gap-1 text-xs px-3 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium">
           <Save className="w-3.5 h-3.5" />
           {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : moduleId ? "Salvar" : "Criar módulo"}
         </button>
@@ -144,7 +144,7 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 pl-4 border-l-2 border-[#6699F3]/20">
+    <form onSubmit={handleSubmit} className="space-y-4 pl-4 border-l-2 border-[#f6614f]/20">
       {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-1.5 rounded-lg">{error}</p>}
 
       {/* Título e duração */}
@@ -154,13 +154,13 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
           <input name="title" required
             defaultValue={initial?.title ?? ""}
             placeholder="Título da aula"
-            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background" />
+            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background" />
         </div>
         <div className="space-y-1">
           <label className="text-xs font-medium text-muted-foreground">Duração (segundos)</label>
           <input name="duration_seconds" type="number" min="0"
             defaultValue={initial?.duration_seconds ?? 0}
-            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background" />
+            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background" />
         </div>
       </div>
 
@@ -168,7 +168,7 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
       {savedLessonId ? (
         <a
           href={`/admin/cursos/${courseId}/aulas/${savedLessonId}`}
-          className="flex items-center gap-1.5 text-xs text-[#6699F3] hover:underline font-medium"
+          className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline font-medium"
         >
           Editar conteúdo (vídeo, texto, HTML, downloads) no editor de blocos →
         </a>
@@ -207,14 +207,14 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
             e.target.value = "";
           }} />
         <button type="button" onClick={() => fileRef.current?.click()}
-          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-dashed border-border hover:border-[#6699F3] text-muted-foreground hover:text-[#6699F3] transition-colors">
+          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-dashed border-border hover:border-[#f6614f] text-muted-foreground hover:text-[#f6614f] transition-colors">
           <Upload className="w-3.5 h-3.5" /> Adicionar arquivo
         </button>
         {newMaterials.length > 0 && (
           <div className="space-y-1">
             <p className="text-[11px] text-muted-foreground">Para upload:</p>
             {newMaterials.map((m, i) => (
-              <div key={i} className="flex items-center justify-between text-xs bg-[#6699F3]/5 px-3 py-1.5 rounded-lg border border-[#6699F3]/20">
+              <div key={i} className="flex items-center justify-between text-xs bg-[#f6614f]/5 px-3 py-1.5 rounded-lg border border-[#f6614f]/20">
                 <span className="truncate">{m.name}</span>
                 <button type="button" onClick={() => setNewMaterials((prev) => prev.filter((_, j) => j !== i))}
                   className="text-red-500 hover:text-red-600 ml-2 shrink-0 font-bold">×</button>
@@ -233,7 +233,7 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
 
       <div className="flex gap-2">
         <button type="submit" disabled={isPending}
-          className="flex items-center gap-1.5 text-xs px-4 py-2 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium">
+          className="flex items-center gap-1.5 text-xs px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium">
           {isPending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
           {isPending ? "Salvando..." : lessonId ? "Salvar aula" : "Criar aula"}
         </button>
@@ -295,7 +295,7 @@ function SortableLesson({ lesson: initialLesson, courseId, moduleId, editingLess
                 {lesson.title}
               </p>
               <p className="text-[11px] text-muted-foreground flex items-center gap-1.5">
-                {lesson.is_preview && <span className="text-[#72CF92]">Prévia</span>}
+                {lesson.is_preview && <span className="text-[#71c69a]">Prévia</span>}
                 {lesson.archived && <span className="text-orange-500">Arquivada</span>}
                 {lesson.materials.length > 0 && (
                   <span className="text-muted-foreground/70">{lesson.materials.length} material(is)</span>
@@ -317,7 +317,7 @@ function SortableLesson({ lesson: initialLesson, courseId, moduleId, editingLess
                 : <Archive className="w-3.5 h-3.5 text-muted-foreground" />}
             </button>
             <a href={`/admin/cursos/${courseId}/aulas/${lesson.id}`}
-              className="text-[11px] text-[#6699F3] hover:underline px-1">
+              className="text-[11px] text-[#f6614f] hover:underline px-1">
               Blocos →
             </a>
             <button onClick={() => onDelete(lesson.id, lesson.title)} disabled={isPending}
@@ -473,7 +473,7 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
           <div className="px-4 py-2 border-t border-border/30">
             <button
               onClick={() => { setAddingLessonToModule(mod.id); setEditingLessonId(null); }}
-              className="flex items-center gap-1 text-xs text-[#6699F3] hover:underline">
+              className="flex items-center gap-1 text-xs text-[#f6614f] hover:underline">
               <Plus className="w-3 h-3" /> Nova aula
             </button>
           </div>
@@ -527,11 +527,11 @@ export default function CourseContentManager({ courseId, initialModules }: {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-[#6699F3]" />
+          <BookOpen className="w-4 h-4 text-[#f6614f]" />
           Módulos e Aulas
         </h2>
         <button onClick={() => { setAddingModule(true); setEditingModuleId(null); }}
-          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border border-[#6699F3] text-[#6699F3] hover:bg-[#6699F3]/10 transition-colors">
+          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border border-[#f6614f] text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors">
           <Plus className="w-3.5 h-3.5" /> Novo módulo
         </button>
       </div>

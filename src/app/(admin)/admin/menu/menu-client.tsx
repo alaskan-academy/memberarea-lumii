@@ -166,7 +166,7 @@ function ItemForm({
               name="active"
               value="true"
               defaultChecked={item?.active ?? true}
-              className="w-4 h-4 accent-[#6699F3]"
+              className="w-4 h-4 accent-[#f6614f]"
             />
             <span className="text-sm font-medium">Ativo</span>
           </label>
@@ -184,7 +184,7 @@ function ItemForm({
         <Button
           type="submit"
           disabled={isPending}
-          style={{ background: "#6699F3" }}
+          style={{ background: "#f6614f" }}
           className="text-white"
         >
           {isPending ? "Salvando…" : isEdit ? "Salvar alterações" : "Criar item"}
@@ -271,10 +271,10 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
     const busy = deletingId === item.id || togglingId === item.id;
     const visibilityColor =
       item.visible_to === "admin"
-        ? { color: "#FEC649", border: "#FEC649", bg: "#FEC64918" }
+        ? { color: "#eebc3e", border: "#eebc3e", bg: "#eebc3e18" }
         : item.visible_to === "guest"
-        ? { color: "#6699F3", border: "#6699F3", bg: "#6699F318" }
-        : { color: "#72CF92", border: "#72CF92", bg: "#72CF9218" };
+        ? { color: "#f6614f", border: "#f6614f", bg: "#f6614f18" }
+        : { color: "#71c69a", border: "#71c69a", bg: "#71c69a18" };
 
     return (
       <div
@@ -340,7 +340,7 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
         </div>
         <Button
           onClick={() => setDialogItem("new")}
-          style={{ background: "#6699F3" }}
+          style={{ background: "#f6614f" }}
           className="text-white"
         >
           <Plus className="w-4 h-4 mr-1" /> Novo item

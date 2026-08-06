@@ -5,7 +5,7 @@ import { adminGetSuppliers } from '@/lib/fornecedores/actions'
 import { Plus, Store } from 'lucide-react'
 import { AdminFornecedoresTable } from '@/components/admin/AdminFornecedoresTable'
 
-export const metadata = { title: 'Admin — Fornecedores | Handify' }
+export const metadata = { title: 'Admin — Fornecedores | Lumii' }
 
 export default async function AdminFornecedoresPage() {
   const supabase = await createClient()
@@ -22,7 +22,7 @@ export default async function AdminFornecedoresPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Store className="w-5 h-5 text-[#6699F3]" />
+          <Store className="w-5 h-5 text-[#f6614f]" />
           <h1 className="text-xl font-bold">Fornecedores</h1>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -46,7 +46,7 @@ export default async function AdminFornecedoresPage() {
           </Link>
           <Link
             href="/admin/fornecedores/novo"
-            className="flex items-center gap-1.5 text-xs px-3 py-2 bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
+            className="flex items-center gap-1.5 text-xs px-3 py-2 bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             Nova loja

@@ -51,7 +51,7 @@ export function ReviewsModal({ supplier, userId, onClose }: Props) {
         {/* Header */}
         <div className="p-4 border-b border-border/60 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <MessageCircle className="w-4 h-4 text-[#6699F3]" />
+            <MessageCircle className="w-4 h-4 text-[#f6614f]" />
             <div>
               <p className="font-semibold text-sm">{supplier.name}</p>
               <p className="text-xs text-muted-foreground">Comentários das alunas</p>
@@ -79,8 +79,8 @@ export function ReviewsModal({ supplier, userId, onClose }: Props) {
                   {r.profiles?.avatar_url ? (
                     <img src={r.profiles.avatar_url} className="w-6 h-6 rounded-full object-cover" alt="" />
                   ) : (
-                    <div className="w-6 h-6 rounded-full bg-[#6699F3]/20 flex items-center justify-center">
-                      <User className="w-3 h-3 text-[#6699F3]" />
+                    <div className="w-6 h-6 rounded-full bg-[#f6614f]/20 flex items-center justify-center">
+                      <User className="w-3 h-3 text-[#f6614f]" />
                     </div>
                   )}
                   <span className="text-xs font-medium">{r.profiles?.full_name ?? 'Aluna'}</span>
@@ -105,12 +105,12 @@ export function ReviewsModal({ supplier, userId, onClose }: Props) {
                 value={body}
                 onChange={e => setBody(e.target.value)}
                 placeholder="Compartilhe sua experiência (mínimo 10 caracteres)..."
-                className="flex-1 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3] resize-none"
+                className="flex-1 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] resize-none"
               />
               <button
                 type="submit"
                 disabled={submitting || body.trim().length < 10}
-                className="self-end px-3 py-2 bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-40 transition-colors shrink-0"
+                className="self-end px-3 py-2 bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-40 transition-colors shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>

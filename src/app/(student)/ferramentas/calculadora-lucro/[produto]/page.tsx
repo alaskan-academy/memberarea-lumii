@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ produto: 
   const { produto } = await params
   const config = CONFIGS[SLUG_MAP[produto] ?? produto]
   if (!config) return {}
-  return { title: `Calculadora de Lucro — ${config.nome} | Handify` }
+  return { title: `Calculadora de Lucro — ${config.nome} | Lumii` }
 }
 
 export default async function CalculadoraPage({

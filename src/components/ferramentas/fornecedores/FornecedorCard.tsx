@@ -15,7 +15,7 @@ const CHANNEL_ICONS: Record<Channel, React.ReactNode> = {
 }
 
 const CHANNEL_COLORS: Record<Channel, string> = {
-  website:      'bg-[#6699F3]/10 text-[#6699F3] hover:bg-[#6699F3]/20',
+  website:      'bg-[#f6614f]/10 text-[#f6614f] hover:bg-[#f6614f]/20',
   instagram:    'bg-pink-50 text-pink-600 hover:bg-pink-100',
   shopee:       'bg-orange-50 text-orange-600 hover:bg-orange-100',
   mercadolivre: 'bg-yellow-50 text-yellow-700 hover:bg-yellow-100',
@@ -71,7 +71,7 @@ export function FornecedorCard({ supplier, userId, onOpenReviews, linkedProducts
           <div className="flex items-center gap-1.5 flex-wrap">
             <h3 className="font-semibold text-sm text-foreground truncate">{supplier.name}</h3>
             {supplier.verified && (
-              <BadgeCheck className="w-4 h-4 text-[#6699F3] shrink-0" aria-label="Verificado Handify" />
+              <BadgeCheck className="w-4 h-4 text-[#f6614f] shrink-0" aria-label="Verificado Lumii" />
             )}
           </div>
 
@@ -79,7 +79,7 @@ export function FornecedorCard({ supplier, userId, onOpenReviews, linkedProducts
           {supplierNiches.length > 0 && (
             <div className="flex gap-1 flex-wrap mt-1">
               {supplierNiches.map(n => (
-                <span key={n.id} className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-[#72CF92]/15 text-green-700">
+                <span key={n.id} className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-[#71c69a]/15 text-green-700">
                   {n.name}
                 </span>
               ))}
@@ -167,10 +167,10 @@ export function FornecedorCard({ supplier, userId, onOpenReviews, linkedProducts
                     </div>
                   )}
                 </div>
-                <span className="text-xs text-foreground group-hover:text-[#6699F3] transition-colors flex-1 leading-snug line-clamp-1">
+                <span className="text-xs text-foreground group-hover:text-[#f6614f] transition-colors flex-1 leading-snug line-clamp-1">
                   {p.name}
                 </span>
-                <ExternalLink className="w-3 h-3 text-muted-foreground/40 group-hover:text-[#6699F3] transition-colors shrink-0" />
+                <ExternalLink className="w-3 h-3 text-muted-foreground/40 group-hover:text-[#f6614f] transition-colors shrink-0" />
               </a>
             ))}
           </div>

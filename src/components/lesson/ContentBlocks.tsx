@@ -94,12 +94,12 @@ function VideoBlock({
 function DownloadBlock({ material }: { material?: LessonMaterial }) {
   if (!material) return null;
   return (
-    <div className="rounded-xl border-2 border-[#6699F3]/25 bg-[#6699F3]/5 p-4 sm:p-5 flex items-center gap-4">
-      <div className="w-12 h-12 rounded-xl bg-[#6699F3]/15 flex items-center justify-center shrink-0">
-        <Download className="w-6 h-6 text-[#6699F3]" />
+    <div className="rounded-xl border-2 border-[#f6614f]/25 bg-[#f6614f]/5 p-4 sm:p-5 flex items-center gap-4">
+      <div className="w-12 h-12 rounded-xl bg-[#f6614f]/15 flex items-center justify-center shrink-0">
+        <Download className="w-6 h-6 text-[#f6614f]" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-bold text-[#6699F3] uppercase tracking-wider mb-0.5">
+        <p className="text-[11px] font-bold text-[#f6614f] uppercase tracking-wider mb-0.5">
           Material da aula
         </p>
         <p className="text-sm font-medium text-foreground truncate">{material.name}</p>
@@ -108,7 +108,7 @@ function DownloadBlock({ material }: { material?: LessonMaterial }) {
         <a
           href={material.signed_url}
           download
-          className="flex items-center gap-1.5 bg-[#6699F3] hover:bg-[#5580d4] active:bg-[#4a70c0] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shrink-0 min-h-[44px]"
+          className="flex items-center gap-1.5 bg-[#f6614f] hover:bg-[#5580d4] active:bg-[#4a70c0] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shrink-0 min-h-[44px]"
         >
           <Download className="w-4 h-4" />
           <span>Baixar</span>
@@ -195,15 +195,15 @@ export default function ContentBlocks({ blocks, materials, videoPlayerProps }: C
         <div className="hidden lg:block">
           <button
             onClick={() => setMaterialsOpen((v) => !v)}
-            className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-border hover:border-[#6699F3]/50 bg-white hover:bg-[#6699F3]/5 transition-all text-sm font-medium text-foreground"
+            className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-border hover:border-[#f6614f]/50 bg-white hover:bg-[#f6614f]/5 transition-all text-sm font-medium text-foreground"
           >
             <span className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-                <Download className="w-4 h-4 text-[#6699F3]" />
+              <div className="w-8 h-8 rounded-lg bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+                <Download className="w-4 h-4 text-[#f6614f]" />
               </div>
               <span>
                 Materiais da aula
-                <span className="ml-1.5 text-xs font-semibold text-[#6699F3] bg-[#6699F3]/10 px-1.5 py-0.5 rounded-full">
+                <span className="ml-1.5 text-xs font-semibold text-[#f6614f] bg-[#f6614f]/10 px-1.5 py-0.5 rounded-full">
                   {orphanMaterials.length}
                 </span>
               </span>

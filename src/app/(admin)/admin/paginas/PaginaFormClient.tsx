@@ -96,7 +96,7 @@ export default function PaginaFormClient({
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Ex: Termos de Uso"
             maxLength={200}
-            className="w-full rounded-lg border border-border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 font-medium"
+            className="w-full rounded-lg border border-border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 font-medium"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function PaginaFormClient({
               onChange={(e) => { setSlug(slugify(e.target.value)); setSlugManual(true); }}
               placeholder="termos-de-uso"
               maxLength={100}
-              className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 font-mono"
+              className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 font-mono"
             />
           </div>
           {slug && (
@@ -132,7 +132,7 @@ export default function PaginaFormClient({
           </div>
           <button
             onClick={() => setPublished((v) => !v)}
-            className={`relative w-11 h-6 rounded-full transition-colors ${published ? "bg-[#6699F3]" : "bg-muted-foreground/30"}`}
+            className={`relative w-11 h-6 rounded-full transition-colors ${published ? "bg-[#f6614f]" : "bg-muted-foreground/30"}`}
             aria-label={published ? "Despublicar" : "Publicar"}
           >
             <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${published ? "translate-x-5" : "translate-x-0"}`} />
@@ -176,7 +176,7 @@ export default function PaginaFormClient({
         <button
           onClick={handleSave}
           disabled={saving || !title || !slug}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#6699F3] text-white text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#f6614f] text-white text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           {saving ? (
             <Loader2 className="w-4 h-4 animate-spin" />

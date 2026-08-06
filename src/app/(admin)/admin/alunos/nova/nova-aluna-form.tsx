@@ -24,7 +24,7 @@ export default function NovaAlunaForm() {
           required
           minLength={2}
           placeholder="Maria Silva"
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         />
       </div>
 
@@ -37,7 +37,7 @@ export default function NovaAlunaForm() {
           type="email"
           required
           placeholder="maria@exemplo.com"
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         />
       </div>
 
@@ -50,7 +50,7 @@ export default function NovaAlunaForm() {
             name="phone"
             type="tel"
             placeholder="(11) 99999-9999"
-            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
           />
         </div>
 
@@ -61,7 +61,7 @@ export default function NovaAlunaForm() {
           <input
             name="date_of_birth"
             type="date"
-            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
           />
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function NovaAlunaForm() {
           inputMode="numeric"
           maxLength={14}
           placeholder="000.000.000-00"
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         />
         <p className="text-xs text-muted-foreground mt-1">
           Armazenado criptografado · usado apenas no certificado de conclusão
@@ -92,7 +92,7 @@ export default function NovaAlunaForm() {
           type="password"
           minLength={8}
           placeholder="Mín. 8 caracteres (opcional — gera automático se vazio)"
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         />
         <p className="text-xs text-muted-foreground mt-1">
           Se deixar em branco, uma senha aleatória segura será gerada.
@@ -103,7 +103,7 @@ export default function NovaAlunaForm() {
       <button
         type="submit"
         disabled={pending}
-        className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-[#6699F3] hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+        className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors disabled:opacity-50"
       >
         {pending ? "Criando conta…" : "Criar aluna"}
       </button>

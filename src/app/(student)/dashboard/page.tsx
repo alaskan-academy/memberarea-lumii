@@ -201,7 +201,7 @@ export default async function MinhaJornadaPage() {
           </div>
           <Link
             href="/cursos"
-            className="inline-flex items-center min-h-[44px] px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors bg-[#6699F3] hover:bg-[#5580d4]"
+            className="inline-flex items-center min-h-[44px] px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors bg-[#f6614f] hover:bg-[#5580d4]"
           >
             Explorar cursos
           </Link>
@@ -239,7 +239,7 @@ export default async function MinhaJornadaPage() {
         <div className="text-center pt-2">
           <Link
             href="/cursos"
-            className="text-sm text-[#6699F3] font-medium hover:underline"
+            className="text-sm text-[#f6614f] font-medium hover:underline"
           >
             Explorar mais cursos →
           </Link>
@@ -262,7 +262,7 @@ function JornadaSection({
     <section>
       <div className="flex items-center gap-2 mb-4">
         <h2 className="text-lg font-semibold">{title}</h2>
-        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#6699F3]/10 text-[#6699F3]">
+        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#f6614f]/10 text-[#f6614f]">
           {badge}
         </span>
       </div>

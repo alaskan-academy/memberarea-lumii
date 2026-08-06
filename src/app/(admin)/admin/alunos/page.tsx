@@ -259,7 +259,7 @@ export default async function AlunosPage({
         <div className="flex items-center gap-2">
           <Link
             href="/admin/alunos/nova"
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors"
           >
             <UserPlus className="w-4 h-4" />
             Nova aluna
@@ -278,7 +278,7 @@ export default async function AlunosPage({
       {totalBuyers > 0 && (
         <div className="handify-card p-5">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-4 h-4 text-[#6699F3]" />
+            <TrendingUp className="w-4 h-4 text-[#f6614f]" />
             <h2 className="text-sm font-semibold">
               Taxa de conversão compra → conta
             </h2>
@@ -297,9 +297,9 @@ export default async function AlunosPage({
             {/* Com conta */}
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
-                <UserCheck className="w-4 h-4 text-[#72CF92]" />
+                <UserCheck className="w-4 h-4 text-[#71c69a]" />
               </div>
-              <p className="text-2xl font-bold text-[#72CF92]">{withAccount}</p>
+              <p className="text-2xl font-bold text-[#71c69a]">{withAccount}</p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 Criaram conta
               </p>
@@ -315,7 +315,7 @@ export default async function AlunosPage({
             {/* Taxa */}
             <div className="text-center">
               <div className="mb-1 h-5" />
-              <p className="text-2xl font-bold text-[#6699F3]">
+              <p className="text-2xl font-bold text-[#f6614f]">
                 {conversionRate}%
               </p>
               <p className="text-xs text-muted-foreground mt-0.5">
@@ -331,10 +331,10 @@ export default async function AlunosPage({
                 width: `${conversionRate}%`,
                 background:
                   conversionRate >= 75
-                    ? "#72CF92"
+                    ? "#71c69a"
                     : conversionRate >= 50
-                      ? "#6699F3"
-                      : "#FEC649",
+                      ? "#f6614f"
+                      : "#eebc3e",
               }}
             />
           </div>
@@ -348,14 +348,14 @@ export default async function AlunosPage({
             href="/admin/alunos?tab=cadastradas"
             className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
               activeTab === "cadastradas"
-                ? "border-[#6699F3] text-[#6699F3]"
+                ? "border-[#f6614f] text-[#f6614f]"
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
             }`}
           >
             <UserCheck className="w-4 h-4" />
             Cadastradas
             {activeTab === "cadastradas" && count > 0 && (
-              <span className="ml-1 text-xs bg-[#6699F3]/15 text-[#6699F3] px-1.5 py-0.5 rounded-full font-semibold">
+              <span className="ml-1 text-xs bg-[#f6614f]/15 text-[#f6614f] px-1.5 py-0.5 rounded-full font-semibold">
                 {count}
               </span>
             )}
@@ -395,7 +395,7 @@ export default async function AlunosPage({
         <>
           <AlunosSearch defaultValue={q} />
           {cpfSearch && (
-            <p className="text-xs text-[#6699F3]">
+            <p className="text-xs text-[#f6614f]">
               Buscando por CPF nos registros de compra.
             </p>
           )}
@@ -448,7 +448,7 @@ export default async function AlunosPage({
                         <div className="flex items-center gap-2.5">
                           <div
                             className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                            style={{ background: "#6699F3" }}
+                            style={{ background: "#f6614f" }}
                           >
                             {p.full_name?.charAt(0)?.toUpperCase() ?? "?"}
                           </div>
@@ -498,7 +498,7 @@ export default async function AlunosPage({
                             Banida
                           </span>
                         ) : (
-                          <span className="inline-block px-2 py-0.5 rounded-full bg-[#72CF92]/15 text-[#5bb577] text-xs font-medium">
+                          <span className="inline-block px-2 py-0.5 rounded-full bg-[#71c69a]/15 text-[#5bb577] text-xs font-medium">
                             Ativa
                           </span>
                         )}
@@ -506,7 +506,7 @@ export default async function AlunosPage({
                       <td className="px-4 py-3 text-right">
                         <Link
                           href={`/admin/alunos/${p.id}`}
-                          className="text-xs font-medium text-[#6699F3] hover:underline"
+                          className="text-xs font-medium text-[#f6614f] hover:underline"
                         >
                           Ver →
                         </Link>

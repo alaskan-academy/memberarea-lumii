@@ -60,7 +60,7 @@ export default function SemCadastroClient({
           placeholder="Buscar por nome ou e-mail…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30"
+          className="w-full pl-9 pr-4 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
         />
       </div>
 
@@ -150,7 +150,7 @@ function TableRow({
         <div className="flex items-center gap-2.5">
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-            style={{ background: "#FEC649", color: "#2D2D2D" }}
+            style={{ background: "#eebc3e", color: "#2D2D2D" }}
           >
             {(row.buyer_name ?? row.email).charAt(0).toUpperCase()}
           </div>
@@ -190,7 +190,7 @@ function TableRow({
 
       {/* Cursos */}
       <td className="px-4 py-3 hidden sm:table-cell">
-        <span className="inline-flex items-center gap-1 text-xs font-medium text-[#6699F3]">
+        <span className="inline-flex items-center gap-1 text-xs font-medium text-[#f6614f]">
           <Package className="w-3.5 h-3.5" />
           {row.courses.length} curso{row.courses.length !== 1 ? "s" : ""}
         </span>
@@ -210,7 +210,7 @@ function TableRow({
       >
         <div className="flex items-center justify-end gap-2">
           {sent !== null && (
-            <span className="text-xs text-[#72CF92] font-medium whitespace-nowrap">
+            <span className="text-xs text-[#71c69a] font-medium whitespace-nowrap">
               {sent > 0
                 ? `${sent} enviado${sent !== 1 ? "s" : ""} ✓`
                 : "Sem cursos válidos"}
@@ -225,7 +225,7 @@ function TableRow({
             onClick={handleResend}
             disabled={pending}
             title="Reenviar e-mail de ativação"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[#6699F3]/30 text-[#6699F3] hover:bg-[#6699F3]/10 transition-colors disabled:opacity-50 whitespace-nowrap"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[#f6614f]/30 text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors disabled:opacity-50 whitespace-nowrap"
           >
             <RefreshCw
               className={`w-3.5 h-3.5 ${pending ? "animate-spin" : ""}`}
@@ -311,16 +311,16 @@ function DetailModal({
       >
         {/* Faixa tricolor */}
         <div className="flex h-[3px] shrink-0">
-          <span className="flex-1" style={{ background: "#6699F3" }} />
-          <span className="flex-1" style={{ background: "#72CF92" }} />
-          <span className="flex-1" style={{ background: "#FEC649" }} />
+          <span className="flex-1" style={{ background: "#f6614f" }} />
+          <span className="flex-1" style={{ background: "#71c69a" }} />
+          <span className="flex-1" style={{ background: "#eebc3e" }} />
         </div>
 
         {/* Header */}
         <div className="flex items-start gap-4 px-5 pt-5 pb-4">
           <div
             className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold shrink-0 mt-0.5"
-            style={{ background: "#FEC649", color: "#2D2D2D" }}
+            style={{ background: "#eebc3e", color: "#2D2D2D" }}
           >
             {initials}
           </div>
@@ -338,14 +338,14 @@ function DetailModal({
                   required
                   value={emailDraft}
                   onChange={(e) => setEmailDraft(e.target.value)}
-                  className="flex-1 min-w-0 text-sm px-2 py-1 rounded-md border border-[#6699F3] bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/25"
+                  className="flex-1 min-w-0 text-sm px-2 py-1 rounded-md border border-[#f6614f] bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/25"
                   style={{ fontFamily: "inherit" }}
                 />
                 <button
                   type="submit"
                   disabled={correctPending}
                   title="Salvar"
-                  className="w-7 h-7 rounded-md flex items-center justify-center bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
+                  className="w-7 h-7 rounded-md flex items-center justify-center bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
                 >
                   {correctPending
                     ? <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -369,7 +369,7 @@ function DetailModal({
                 <span className="text-xs text-muted-foreground truncate max-w-[200px] group-hover:text-foreground transition-colors">
                   {row.email}
                 </span>
-                <Pencil className="w-3 h-3 text-muted-foreground/40 group-hover:text-[#6699F3] transition-colors shrink-0" />
+                <Pencil className="w-3 h-3 text-muted-foreground/40 group-hover:text-[#f6614f] transition-colors shrink-0" />
               </button>
             )}
 
@@ -455,7 +455,7 @@ function DetailModal({
           <button
             onClick={handleResend}
             disabled={resendPending}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${resendPending ? "animate-spin" : ""}`} />
             {resendPending ? "Enviando…" : "Reenviar link de ativação"}

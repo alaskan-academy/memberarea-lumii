@@ -317,7 +317,7 @@ async function issueCertificateIfComplete(
 
   // Gera PDF
   const pdfBytes = await generateCertificatePdf({
-    studentName: profile.full_name ?? "Aluna Handify",
+    studentName: profile.full_name ?? "Aluna Lumii",
     cpf: cpfFormatted,
     courseTitle: course.title,
     workloadHours: course.workload_hours ?? 0,

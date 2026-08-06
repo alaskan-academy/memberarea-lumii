@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { Sparkles, Plus, Edit, Archive, Eye, EyeOff } from 'lucide-react'
 
-export const metadata = { title: 'Admin — Inspirações | Handify' }
+export const metadata = { title: 'Admin — Inspirações | Lumii' }
 
 const TYPE_LABELS: Record<string, { label: string; cls: string }> = {
   foto:      { label: 'Foto',      cls: 'bg-blue-50 text-blue-700' },
@@ -44,8 +44,8 @@ export default async function AdminInspiracoesPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#6699F3]/15 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-[#6699F3]" />
+          <div className="w-9 h-9 rounded-xl bg-[#f6614f]/15 flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-[#f6614f]" />
           </div>
           <div>
             <h1 className="text-xl font-bold">Inspirações</h1>
@@ -56,17 +56,17 @@ export default async function AdminInspiracoesPage() {
           {(pendingCount ?? 0) > 0 && (
             <Link
               href="/admin/inspiracoes/comentarios"
-              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-[#6699F3] border border-[#6699F3]/40 rounded-lg hover:bg-[#6699F3]/8 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-[#f6614f] border border-[#f6614f]/40 rounded-lg hover:bg-[#f6614f]/8 transition-colors"
             >
               Comentários
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#6699F3] text-white text-[10px] font-bold">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#f6614f] text-white text-[10px] font-bold">
                 {pendingCount}
               </span>
             </Link>
           )}
           <Link
             href="/admin/inspiracoes/novo"
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             Novo post
@@ -79,7 +79,7 @@ export default async function AdminInspiracoesPage() {
           <Sparkles className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
           <p className="text-sm font-medium text-muted-foreground">Nenhum post ainda.</p>
           <Link href="/admin/inspiracoes/novo"
-            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] transition-colors">
+            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] transition-colors">
             <Plus className="w-3.5 h-3.5" />
             Criar primeiro post
           </Link>
@@ -152,7 +152,7 @@ function PostSection({
                       <div className="min-w-0">
                         <p className="text-xs font-medium truncate max-w-[180px] sm:max-w-xs">{p.title}</p>
                         {p.pinned && (
-                          <span className="text-[10px] text-[#6699F3] font-medium">📌 Fixado</span>
+                          <span className="text-[10px] text-[#f6614f] font-medium">📌 Fixado</span>
                         )}
                       </div>
                     </div>
@@ -174,7 +174,7 @@ function PostSection({
                   </td>
                   <td className="px-4 py-3 hidden lg:table-cell">
                     {p.course?.title ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#6699F3]/10 text-[#6699F3] font-medium truncate max-w-[140px] inline-block">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#f6614f]/10 text-[#f6614f] font-medium truncate max-w-[140px] inline-block">
                         {p.course.title}
                       </span>
                     ) : (
@@ -189,7 +189,7 @@ function PostSection({
                   <td className="px-4 py-3 text-right">
                     <Link
                       href={`/admin/inspiracoes/${p.id}`}
-                      className="inline-flex items-center gap-1 text-xs text-[#6699F3] hover:underline"
+                      className="inline-flex items-center gap-1 text-xs text-[#f6614f] hover:underline"
                     >
                       <Edit className="w-3 h-3" />
                       Editar

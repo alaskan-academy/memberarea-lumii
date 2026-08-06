@@ -198,7 +198,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
 
         {/* Toggles */}
         <div className="flex gap-6">
-          <Toggle label="Verificado Handify" value={verified} onChange={setVerified} />
+          <Toggle label="Verificado Lumii" value={verified} onChange={setVerified} />
           <Toggle label="Ativo" value={active} onChange={setActive} />
         </div>
       </div>
@@ -209,7 +209,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
         {channels.map((ch, i) => (
           <div key={i} className="flex gap-2">
             <select value={ch.channel} onChange={e => updateChannel(i, 'channel', e.target.value)}
-              className="w-40 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]">
+              className="w-40 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]">
               {Object.entries(CHANNEL_LABELS).map(([k, v]) => (
                 <option key={k} value={k}>{v}</option>
               ))}
@@ -223,7 +223,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
           </div>
         ))}
         <button type="button" onClick={addChannel}
-          className="flex items-center gap-1.5 text-xs text-[#6699F3] hover:underline">
+          className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
           <Plus className="w-3.5 h-3.5" />
           Adicionar canal
         </button>
@@ -242,8 +242,8 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
                 onClick={() => toggleNiche(n.id)}
                 className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                   selectedNiches.has(n.id)
-                    ? 'bg-[#72CF92] text-white border-[#72CF92]'
-                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#72CF92]/60'
+                    ? 'bg-[#71c69a] text-white border-[#71c69a]'
+                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#71c69a]/60'
                 }`}
               >
                 {n.name}
@@ -276,8 +276,8 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
               onClick={() => toggleTag(t.slug)}
               className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                 tags.has(t.slug)
-                  ? 'bg-[#6699F3] text-white border-[#6699F3]'
-                  : 'bg-white text-muted-foreground border-border/60 hover:border-[#6699F3]/60'
+                  ? 'bg-[#f6614f] text-white border-[#f6614f]'
+                  : 'bg-white text-muted-foreground border-border/60 hover:border-[#f6614f]/60'
               }`}
             >
               {t.label}
@@ -302,10 +302,10 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
                           if (e.key === 'Escape') setEditingTagId(null)
                         }}
                         autoFocus
-                        className="flex-1 text-sm border border-[#6699F3] rounded-lg px-2.5 py-1 focus:outline-none bg-background"
+                        className="flex-1 text-sm border border-[#f6614f] rounded-lg px-2.5 py-1 focus:outline-none bg-background"
                       />
                       <button type="button" onClick={() => handleUpdateTag(t.id)} disabled={tagPending}
-                        className="p-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50">
+                        className="p-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50">
                         <Check className="w-3.5 h-3.5" />
                       </button>
                       <button type="button" onClick={() => setEditingTagId(null)}
@@ -336,10 +336,10 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
                 onChange={e => setNewTagLabel(e.target.value)}
                 placeholder="Nova tag..."
                 onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleCreateTag())}
-                className="flex-1 text-sm border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+                className="flex-1 text-sm border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
               />
               <button type="button" onClick={handleCreateTag} disabled={tagPending || !newTagLabel.trim()}
-                className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0">
+                className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0">
                 {tagPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
                 Criar
               </button>
@@ -355,12 +355,12 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
         <div className="space-y-2 pt-2 border-t border-border/40">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Package className="w-4 h-4 text-[#6699F3]" />
+              <Package className="w-4 h-4 text-[#f6614f]" />
               Produtos vinculados ({linkedProducts.length})
             </h2>
             <Link
               href="/admin/fornecedores/produtos/novo"
-              className="text-xs px-2.5 py-1.5 border border-[#6699F3]/40 text-[#6699F3] rounded-lg hover:bg-[#6699F3]/5 transition-colors"
+              className="text-xs px-2.5 py-1.5 border border-[#f6614f]/40 text-[#f6614f] rounded-lg hover:bg-[#f6614f]/5 transition-colors"
             >
               + Novo produto
             </Link>
@@ -376,7 +376,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
                 <Link
                   key={p.id}
                   href={`/admin/fornecedores/produtos/${p.id}`}
-                  className="flex items-center gap-3 p-2.5 rounded-xl border border-border/60 bg-white hover:border-[#6699F3]/40 hover:bg-[#6699F3]/3 transition-colors group"
+                  className="flex items-center gap-3 p-2.5 rounded-xl border border-border/60 bg-white hover:border-[#f6614f]/40 hover:bg-[#f6614f]/3 transition-colors group"
                 >
                   <div className="w-9 h-9 rounded-lg border border-border/40 bg-muted flex items-center justify-center overflow-hidden shrink-0">
                     {p.image_url ? (
@@ -389,7 +389,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
                     <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
                     {!p.active && <span className="text-[10px] text-muted-foreground">Inativo</span>}
                   </div>
-                  <Pencil className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-[#6699F3] transition-colors shrink-0" />
+                  <Pencil className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-[#f6614f] transition-colors shrink-0" />
                 </Link>
               ))}
             </div>
@@ -403,7 +403,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
           Cancelar
         </Link>
         <button type="submit" disabled={loading}
-          className="flex-1 py-2.5 text-sm font-medium bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors">
+          className="flex-1 py-2.5 text-sm font-medium bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors">
           {loading ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar fornecedor'}
         </button>
       </div>
@@ -411,7 +411,7 @@ export function SupplierForm({ supplier, tagTypes: initialTagTypes = [], niches 
   )
 }
 
-const INPUT_CLS = "w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]"
+const INPUT_CLS = "w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]"
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -427,7 +427,7 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
     <label className="flex items-center gap-2 cursor-pointer">
       <div
         onClick={() => onChange(!value)}
-        className={`w-10 h-6 rounded-full transition-colors relative ${value ? 'bg-[#6699F3]' : 'bg-muted-foreground/30'}`}
+        className={`w-10 h-6 rounded-full transition-colors relative ${value ? 'bg-[#f6614f]' : 'bg-muted-foreground/30'}`}
       >
         <span className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-[left] ${value ? 'left-5' : 'left-1'}`} />
       </div>

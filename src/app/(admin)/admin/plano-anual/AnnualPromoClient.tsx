@@ -34,8 +34,8 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-[#FEC649]/15 flex items-center justify-center">
-          <Star className="w-5 h-5 text-[#FEC649]" />
+        <div className="w-10 h-10 rounded-xl bg-[#eebc3e]/15 flex items-center justify-center">
+          <Star className="w-5 h-5 text-[#eebc3e]" />
         </div>
         <div>
           <h1 className="font-black text-xl">Botão Plano Anual</h1>
@@ -58,7 +58,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
           </div>
           <button
             onClick={() => set("active", !form.active)}
-            className={`relative w-11 h-6 rounded-full transition-colors ${form.active ? "bg-[#6699F3]" : "bg-muted-foreground/30"}`}
+            className={`relative w-11 h-6 rounded-full transition-colors ${form.active ? "bg-[#f6614f]" : "bg-muted-foreground/30"}`}
             aria-label={form.active ? "Desativar" : "Ativar"}
           >
             <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${form.active ? "translate-x-5" : "translate-x-0"}`} />
@@ -73,7 +73,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
             onChange={(e) => set("badge_text", e.target.value)}
             placeholder="Ex: Plano Anual, Seja Premium…"
             maxLength={30}
-            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
           />
         </div>
 
@@ -88,7 +88,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
               onChange={(e) => set("link_url", e.target.value)}
               placeholder="https://checkout.payt.com.br/…"
               type="url"
-              className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30"
+              className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
             />
             {form.link_url && (
               <a href={form.link_url} target="_blank" rel="noopener noreferrer"
@@ -105,9 +105,9 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
           <input
             value={form.modal_title}
             onChange={(e) => set("modal_title", e.target.value)}
-            placeholder="Assine o Plano Anual Handify™"
+            placeholder="Assine o Plano Anual Lumii"
             maxLength={100}
-            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
           />
         </div>
 
@@ -120,7 +120,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
             placeholder="Descreva os benefícios do plano anual…"
             rows={5}
             maxLength={2000}
-            className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30"
+            className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
           />
           <p className="text-[10px] text-muted-foreground">Suporte a quebras de linha</p>
         </div>
@@ -133,7 +133,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
             onChange={(e) => set("button_text", e.target.value)}
             placeholder="Assinar agora"
             maxLength={50}
-            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
           />
         </div>
       </div>
@@ -142,7 +142,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
       <div className="flex items-center gap-3">
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#6699F3] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#f6614f] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           {saved ? <Check className="w-4 h-4" /> : <Loader2 className="w-4 h-4 opacity-0" />}
           {saved ? "Salvo!" : "Salvar configurações"}

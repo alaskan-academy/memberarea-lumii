@@ -97,7 +97,7 @@ export default function CadastroEmailForm({
                   aria-invalid={!!fe.full_name}
                 />
                 {defaultName && !fe.full_name && (
-                  <p className="text-xs text-[#6699F3]">
+                  <p className="text-xs text-[#f6614f]">
                     Preenchido automaticamente com o nome da sua compra.
                   </p>
                 )}
@@ -108,11 +108,11 @@ export default function CadastroEmailForm({
               <div className="space-y-2">
                 <Label>E-mail</Label>
                 <div className="flex items-center gap-2 border border-border rounded-md px-3 py-2 bg-muted/40">
-                  <Lock className="w-4 h-4 text-[#888] shrink-0" />
+                  <Lock className="w-4 h-4 text-muted-foreground shrink-0" />
                   <span className="text-sm flex-1">{email}</span>
                 </div>
                 <input type="hidden" name="email" value={email} />
-                <p className="text-xs text-[#888]">
+                <p className="text-xs text-muted-foreground">
                   E-mail vinculado à sua compra — não pode ser alterado.
                 </p>
               </div>
@@ -120,7 +120,7 @@ export default function CadastroEmailForm({
               {/* WhatsApp */}
               <div className="space-y-2">
                 <Label htmlFor="phone" className="flex items-center gap-1.5">
-                  <Phone className="w-4 h-4 text-[#6699F3]" />
+                  <Phone className="w-4 h-4 text-[#f6614f]" />
                   WhatsApp
                 </Label>
                 <Input
@@ -136,7 +136,7 @@ export default function CadastroEmailForm({
                   aria-invalid={!!fe.phone}
                 />
                 {defaultPhone && !fe.phone && (
-                  <p className="text-xs text-[#6699F3]">
+                  <p className="text-xs text-[#f6614f]">
                     Preenchido automaticamente com o número da sua compra.
                   </p>
                 )}
@@ -146,7 +146,7 @@ export default function CadastroEmailForm({
               {/* CPF */}
               <div className="space-y-2">
                 <Label htmlFor="cpf" className="flex items-center gap-1.5">
-                  <CreditCard className="w-4 h-4 text-[#6699F3]" />
+                  <CreditCard className="w-4 h-4 text-[#f6614f]" />
                   CPF
                 </Label>
                 <Input
@@ -164,7 +164,7 @@ export default function CadastroEmailForm({
                   aria-invalid={!!fe.cpf}
                 />
                 {defaultCpf && !fe.cpf && (
-                  <p className="text-xs text-[#6699F3]">
+                  <p className="text-xs text-[#f6614f]">
                     Preenchido automaticamente com o CPF da sua compra.
                   </p>
                 )}
@@ -174,9 +174,9 @@ export default function CadastroEmailForm({
               {/* Data de nascimento */}
               <div className="space-y-2">
                 <Label htmlFor="date_of_birth" className="flex items-center gap-1.5">
-                  <Cake className="w-4 h-4 text-[#6699F3]" />
+                  <Cake className="w-4 h-4 text-[#f6614f]" />
                   Data de nascimento
-                  <span className="text-[#888] font-normal text-xs">(opcional)</span>
+                  <span className="text-muted-foreground font-normal text-xs">(opcional)</span>
                 </Label>
                 <Input
                   id="date_of_birth"
@@ -190,7 +190,7 @@ export default function CadastroEmailForm({
                   disabled={isPending}
                 />
                 <input type="hidden" name="date_of_birth" value={birthToISO(birthDate)} />
-                <p className="text-xs text-[#888]">
+                <p className="text-xs text-muted-foreground">
                   Para promoções especiais na sua data!
                 </p>
               </div>
@@ -229,13 +229,13 @@ export default function CadastroEmailForm({
         </CardContent>
 
         {!state?.success && (
-          <CardFooter className="flex flex-col gap-4 bg-white border-t-0 rounded-b-xl">
+          <CardFooter className="flex flex-col gap-4 border-t-0 rounded-b-xl">
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending ? "Criando conta…" : "Criar minha conta"}
             </Button>
-            <p className="text-sm text-center text-[#888]">
+            <p className="text-sm text-center text-muted-foreground">
               Já tem conta?{" "}
-              <Link href="/login" className="text-[#2D2D2D] font-medium underline-offset-4 hover:underline">
+              <Link href="/login" className="text-foreground font-medium underline-offset-4 hover:underline">
                 Entrar
               </Link>
             </p>
@@ -243,9 +243,9 @@ export default function CadastroEmailForm({
         )}
 
         {state?.success && (
-          <CardFooter className="bg-white border-t-0 rounded-b-xl">
-            <p className="text-sm text-center text-[#888] w-full">
-              <Link href="/login" className="text-[#2D2D2D] font-medium underline-offset-4 hover:underline">
+          <CardFooter className="border-t-0 rounded-b-xl">
+            <p className="text-sm text-center text-muted-foreground w-full">
+              <Link href="/login" className="text-foreground font-medium underline-offset-4 hover:underline">
                 Ir para o login
               </Link>
             </p>

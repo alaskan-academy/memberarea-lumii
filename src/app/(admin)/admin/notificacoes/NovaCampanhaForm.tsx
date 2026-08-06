@@ -36,7 +36,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
       <button
         onClick={() => setOpen(true)}
         className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors"
-        style={{ background: "#6699F3" }}
+        style={{ background: "#f6614f" }}
       >
         <Plus className="w-4 h-4" />
         Nova notificação
@@ -68,7 +68,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
             </label>
             <input name="title" required maxLength={120}
               placeholder="Ex: Novo curso disponível!"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40" />
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40" />
           </div>
 
           {/* Mensagem */}
@@ -78,7 +78,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
             </label>
             <textarea name="body" required maxLength={500} rows={3}
               placeholder="Texto da notificação que a aluna verá…"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 resize-none" />
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 resize-none" />
           </div>
 
           {/* Link opcional */}
@@ -87,7 +87,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
               Link ao clicar (opcional)
             </label>
             <input name="link" type="url" placeholder="https://… ou /cursos/slug"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40" />
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40" />
           </div>
 
           {/* Público-alvo */}
@@ -96,7 +96,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
               Para quem enviar <span className="text-red-500">*</span>
             </label>
             <select name="target" defaultValue="all"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40">
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40">
               <option value="all">
                 Todas as alunas
               </option>
@@ -112,14 +112,14 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
           <div className="flex items-center gap-3">
             <button type="button"
               onClick={() => setAgendado((v) => !v)}
-              className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${agendado ? "border-[#6699F3] text-[#6699F3] bg-[#6699F3]/10" : "border-border text-muted-foreground hover:border-[#6699F3] hover:text-[#6699F3]"}`}>
+              className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${agendado ? "border-[#f6614f] text-[#f6614f] bg-[#f6614f]/10" : "border-border text-muted-foreground hover:border-[#f6614f] hover:text-[#f6614f]"}`}>
               <Clock className="w-3.5 h-3.5" />
               Agendar envio
             </button>
             {agendado && (
               <input name="scheduled_at" type="datetime-local" required={agendado}
                 min={new Date().toISOString().slice(0, 16)}
-                className="flex-1 px-3 py-1.5 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40" />
+                className="flex-1 px-3 py-1.5 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40" />
             )}
           </div>
           {!agendado && (
@@ -140,7 +140,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
             </button>
             <button type="submit" disabled={isPending}
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors disabled:opacity-60"
-              style={{ background: "#6699F3" }}>
+              style={{ background: "#f6614f" }}>
               {agendado ? <Clock className="w-3.5 h-3.5" /> : <Send className="w-3.5 h-3.5" />}
               {isPending ? "Enviando…" : agendado ? "Agendar" : "Enviar agora"}
             </button>

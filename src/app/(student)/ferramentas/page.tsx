@@ -2,7 +2,7 @@ import FerramentasHub from '@/components/ferramentas/FerramentasHub'
 import { getNiches } from '@/lib/fornecedores/actions'
 
 export const metadata = {
-  title: 'Ferramentas | Handify',
+  title: 'Ferramentas | Lumii',
 }
 
 export default async function FerramentasPage() {

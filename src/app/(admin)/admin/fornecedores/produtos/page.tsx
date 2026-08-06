@@ -5,7 +5,7 @@ import { adminGetProducts } from '@/lib/fornecedores/actions'
 import { Plus, Package } from 'lucide-react'
 import { AdminProdutosTable } from '@/components/admin/AdminProdutosTable'
 
-export const metadata = { title: 'Admin — Produtos | Handify' }
+export const metadata = { title: 'Admin — Produtos | Lumii' }
 
 export default async function AdminProdutosPage() {
   const supabase = await createClient()
@@ -21,7 +21,7 @@ export default async function AdminProdutosPage() {
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Package className="w-5 h-5 text-[#6699F3]" />
+          <Package className="w-5 h-5 text-[#f6614f]" />
           <h1 className="text-xl font-bold">Produtos</h1>
         </div>
         <div className="flex gap-2">
@@ -33,7 +33,7 @@ export default async function AdminProdutosPage() {
           </Link>
           <Link
             href="/admin/fornecedores/produtos/novo"
-            className="flex items-center gap-1.5 text-xs px-3 py-2 bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
+            className="flex items-center gap-1.5 text-xs px-3 py-2 bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             Novo produto

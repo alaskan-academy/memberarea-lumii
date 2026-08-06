@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { MessageSquare } from "lucide-react";
 import ForumModerationClient from "./ForumModerationClient";
 
-export const metadata = { title: "Fórum — Moderação Admin Handify" };
+export const metadata = { title: "Fórum — Moderação Admin Lumii" };
 
 export default async function AdminForumPage() {
   const supabase = await createClient();
@@ -50,14 +50,14 @@ export default async function AdminForumPage() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 rounded-xl bg-[#6699F3]/10 flex items-center justify-center">
-          <MessageSquare className="w-5 h-5 text-[#6699F3]" />
+        <div className="w-10 h-10 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
+          <MessageSquare className="w-5 h-5 text-[#f6614f]" />
         </div>
         <div>
           <h1 className="font-black text-xl text-foreground">Moderação do Fórum</h1>
           <p className="text-sm text-muted-foreground">
             {pendingCount > 0 ? (
-              <span className="text-[#FEC649] font-semibold">{pendingCount} aguardando aprovação</span>
+              <span className="text-[#eebc3e] font-semibold">{pendingCount} aguardando aprovação</span>
             ) : (
               "Nenhum post pendente"
             )}

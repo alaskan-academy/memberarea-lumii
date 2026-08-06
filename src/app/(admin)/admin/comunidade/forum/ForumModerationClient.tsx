@@ -76,28 +76,28 @@ export default function ForumModerationClient({ posts: initialPosts }: Props) {
   const PostCard = ({ post }: { post: ForumPostRow }) => (
     <div key={post.id} className={cn(
       "bg-white rounded-xl border shadow-sm p-4",
-      !post.approved ? "border-[#FEC649]/40 bg-[#FEC649]/5" : "border-border/60"
+      !post.approved ? "border-[#eebc3e]/40 bg-[#eebc3e]/5" : "border-border/60"
     )}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <span className="text-xs font-semibold text-[#6699F3] bg-[#6699F3]/10 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-semibold text-[#f6614f] bg-[#f6614f]/10 px-2 py-0.5 rounded-full">
               {post.forum_title}
             </span>
             {!post.approved && (
-              <span className="flex items-center gap-1 text-xs font-semibold text-[#b8900d] bg-[#FEC649]/15 px-2 py-0.5 rounded-full">
+              <span className="flex items-center gap-1 text-xs font-semibold text-[#b8900d] bg-[#eebc3e]/15 px-2 py-0.5 rounded-full">
                 <Clock className="w-3 h-3" /> Pendente
               </span>
             )}
             {post.pinned && (
-              <span className="text-xs font-semibold text-[#72CF92] bg-[#72CF92]/10 px-2 py-0.5 rounded-full">Fixado</span>
+              <span className="text-xs font-semibold text-[#71c69a] bg-[#71c69a]/10 px-2 py-0.5 rounded-full">Fixado</span>
             )}
           </div>
           <h3 className="font-semibold text-sm text-foreground line-clamp-1 mb-0.5">{post.title}</h3>
           <p className="text-xs text-foreground/70 line-clamp-2 mb-2">{post.body}</p>
           {post.attachment_url && (
             <a href={post.attachment_url} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[10px] text-[#6699F3] hover:underline mb-2">
+              className="inline-flex items-center gap-1 text-[10px] text-[#f6614f] hover:underline mb-2">
               <Paperclip className="w-3 h-3" />
               {post.attachment_name || "Ver anexo"}
             </a>
@@ -116,7 +116,7 @@ export default function ForumModerationClient({ posts: initialPosts }: Props) {
               <button
                 onClick={() => handleApprove(post.id, post.forum_slug)}
                 title="Aprovar post"
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold text-white bg-[#72CF92] hover:opacity-90 transition-opacity"
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold text-white bg-[#71c69a] hover:opacity-90 transition-opacity"
               >
                 <CheckCircle className="w-3.5 h-3.5" /> Aprovar
               </button>
@@ -136,7 +136,7 @@ export default function ForumModerationClient({ posts: initialPosts }: Props) {
                 href={`/comunidade/forum/${post.forum_slug}`}
                 target="_blank"
                 title="Ver no fórum"
-                className="p-1.5 rounded-lg text-muted-foreground hover:text-[#6699F3] hover:bg-[#6699F3]/10 transition-colors"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
               </Link>
@@ -145,7 +145,7 @@ export default function ForumModerationClient({ posts: initialPosts }: Props) {
               <button
                 onClick={() => handleTogglePin(post.id, post.pinned)}
                 title={post.pinned ? "Desfixar" : "Fixar no topo"}
-                className="p-1.5 rounded-lg text-muted-foreground hover:text-[#FEC649] hover:bg-[#FEC649]/10 transition-colors"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-[#eebc3e] hover:bg-[#eebc3e]/10 transition-colors"
               >
                 {post.pinned ? <PinOff className="w-4 h-4" /> : <Pin className="w-4 h-4" />}
               </button>

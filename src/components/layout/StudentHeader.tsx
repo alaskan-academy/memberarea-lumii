@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LogOut, User, Star } from "lucide-react";
 import { logoutAction } from "@/app/(auth)/actions";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import AnnualPromoModal, { type AnnualPromoData } from "@/components/promo/AnnualPromoModal";
+import Logo from "@/components/brand/Logo";
 import type { Role } from "@/types";
 
 export type NavItem = {
@@ -68,7 +68,7 @@ export default function StudentHeader({
 
   return (
     <>
-    <header className="sticky top-0 z-40 bg-white shadow-sm">
+    <header className="sticky top-0 z-40 bg-lumii-bg-sidebar shadow-sm">
       <div className="brand-stripe"><span /><span /><span /></div>
 
       <div className="border-b border-border/60">
@@ -77,17 +77,7 @@ export default function StudentHeader({
 
             {/* Logo */}
             <Link href="/cursos" className="flex items-center gap-2 shrink-0">
-              <Image
-                src="/logo-vertical-azul.png"
-                alt="Handify™"
-                width={28}
-                height={28}
-                unoptimized
-                className="object-contain"
-              />
-              <span className="font-black text-base tracking-tight hidden sm:block" style={{ color: "#6699F3" }}>
-                Handify<sup className="text-xs ml-px">™</sup>
-              </span>
+              <Logo size={26} />
             </Link>
 
             <div className="flex-1" />
@@ -96,9 +86,9 @@ export default function StudentHeader({
             {annualPromo && (
               <button
                 onClick={() => setPromoOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FEC649]/15 text-[#c9930a] text-xs font-bold hover:bg-[#FEC649]/25 transition-colors shrink-0"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-lumii-yellow/15 text-[#8a6410] text-xs font-bold hover:bg-lumii-yellow/25 transition-colors shrink-0"
               >
-                <Star className="w-3.5 h-3.5 fill-[#FEC649] text-[#FEC649]" />
+                <Star className="w-3.5 h-3.5 fill-lumii-yellow text-lumii-yellow" />
                 {annualPromo.badge_text}
               </button>
             )}
@@ -115,8 +105,7 @@ export default function StudentHeader({
               <div className="relative" ref={avatarRef}>
                 <button
                   onClick={() => setAvatarOpen((v) => !v)}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white hover:opacity-90 transition-opacity ml-1"
-                  style={{ background: "#6699F3" }}
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white hover:opacity-90 transition-opacity ml-1 bg-primary"
                   aria-label="Menu do usuário"
                   aria-expanded={avatarOpen}
                 >
@@ -160,9 +149,9 @@ export default function StudentHeader({
       {annualPromo && (
         <button
           onClick={() => setPromoOpen(true)}
-          className="sm:hidden w-full flex items-center justify-center gap-2 min-h-[44px] bg-[#FEC649]/20 text-[#b07d00] text-xs font-bold border-b border-[#FEC649]/30 hover:bg-[#FEC649]/30 active:bg-[#FEC649]/40 transition-colors"
+          className="sm:hidden w-full flex items-center justify-center gap-2 min-h-[44px] bg-lumii-yellow/20 text-[#8a6410] text-xs font-bold border-b border-lumii-yellow/30 hover:bg-lumii-yellow/30 active:bg-lumii-yellow/40 transition-colors"
         >
-          <Star className="w-3.5 h-3.5 fill-[#FEC649] text-[#FEC649]" />
+          <Star className="w-3.5 h-3.5 fill-lumii-yellow text-lumii-yellow" />
           {annualPromo.badge_text}
           <span className="opacity-60">— toque para saber mais</span>
         </button>

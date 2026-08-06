@@ -52,8 +52,8 @@ export function SugestaoModal({ userId, onClose }: Props) {
         <div className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-[#6699F3]/10">
-                <Lightbulb className="w-4 h-4 text-[#6699F3]" />
+              <div className="p-2 rounded-lg bg-[#f6614f]/10">
+                <Lightbulb className="w-4 h-4 text-[#f6614f]" />
               </div>
               <div>
                 <h2 className="font-semibold text-sm text-foreground">Sugerir fornecedor</h2>
@@ -77,7 +77,7 @@ export function SugestaoModal({ userId, onClose }: Props) {
               </p>
               <button
                 onClick={onClose}
-                className="px-4 py-2 bg-[#6699F3] text-white text-sm font-medium rounded-lg hover:bg-[#5588e8] transition-colors"
+                className="px-4 py-2 bg-[#f6614f] text-white text-sm font-medium rounded-lg hover:bg-[#5588e8] transition-colors"
               >
                 Fechar
               </button>
@@ -94,7 +94,7 @@ export function SugestaoModal({ userId, onClose }: Props) {
                   value={form.name}
                   onChange={e => set('name', e.target.value)}
                   placeholder="Ex: Aromas Brasil"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]"
                 />
               </div>
 
@@ -107,7 +107,7 @@ export function SugestaoModal({ userId, onClose }: Props) {
                   value={form.url}
                   onChange={e => set('url', e.target.value)}
                   placeholder="https://..."
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]"
                 />
               </div>
 
@@ -120,7 +120,7 @@ export function SugestaoModal({ userId, onClose }: Props) {
                   value={form.what_they_sell}
                   onChange={e => set('what_they_sell', e.target.value)}
                   placeholder="Ex: Essências, ceras, pavios..."
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]"
                 />
               </div>
 
@@ -133,7 +133,7 @@ export function SugestaoModal({ userId, onClose }: Props) {
                   value={form.notes}
                   onChange={e => set('notes', e.target.value)}
                   placeholder="Preço bom, qualidade, entrega rápida..."
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3] resize-none"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] resize-none"
                 />
               </div>
 
@@ -152,7 +152,7 @@ export function SugestaoModal({ userId, onClose }: Props) {
                 <button
                   type="submit"
                   disabled={loading || !form.name.trim()}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#6699F3] text-white text-sm font-medium rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#f6614f] text-white text-sm font-medium rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors"
                 >
                   <Send className="w-3.5 h-3.5" />
                   {loading ? 'Enviando...' : 'Enviar'}

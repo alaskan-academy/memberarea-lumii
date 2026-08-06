@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getTagTypes, getNiches } from '@/lib/fornecedores/actions'
 import { SupplierForm } from '@/components/ferramentas/fornecedores/SupplierForm'
 
-export const metadata = { title: 'Admin — Novo Fornecedor | Handify' }
+export const metadata = { title: 'Admin — Novo Fornecedor | Lumii' }
 
 export default async function NovoFornecedorPage() {
   const supabase = await createClient()

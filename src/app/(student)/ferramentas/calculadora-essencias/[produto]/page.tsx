@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ produto: 
   const { produto } = await params
   const config = CONFIGS[SLUG_MAP[produto] ?? produto]
   if (!config) return {}
-  return { title: `Calculadora de Essências — ${config.nome} | Handify` }
+  return { title: `Calculadora de Essências — ${config.nome} | Lumii` }
 }
 
 export default async function CalculadoraEssenciasPage({

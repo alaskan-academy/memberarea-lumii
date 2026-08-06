@@ -54,7 +54,7 @@ export default function AdminHeader() {
   );
 
   return (
-    <header className="bg-[#0F0F0F] text-white sticky top-0 z-40">
+    <header className="bg-lumii-navy text-white sticky top-0 z-40">
       <div className="brand-stripe"><span /><span /><span /></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,7 +88,7 @@ export default function AdminHeader() {
                         className={cn(
                           "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                           isActive
-                            ? "text-[#6699F3] bg-[#6699F3]/15"
+                            ? "text-[#f6614f] bg-[#f6614f]/15"
                             : "text-white/70 hover:text-white hover:bg-white/10"
                         )}
                       >
@@ -112,7 +112,7 @@ export default function AdminHeader() {
                           className={cn(
                             "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                             isActive
-                              ? "text-[#6699F3] bg-[#6699F3]/15"
+                              ? "text-[#f6614f] bg-[#f6614f]/15"
                               : "text-white/70 hover:text-white hover:bg-white/10"
                           )}
                         >
@@ -129,8 +129,8 @@ export default function AdminHeader() {
 
           {/* Logo + seção ativa */}
           <div className="flex items-center gap-2 min-w-0">
-            <Settings className="w-4 h-4 text-[#6699F3] shrink-0" />
-            <span className="font-bold text-sm whitespace-nowrap">Handify Admin</span>
+            <Settings className="w-4 h-4 text-[#f6614f] shrink-0" />
+            <span className="font-bold text-sm whitespace-nowrap">Lumii Admin</span>
             {active && (
               <>
                 <span className="text-white/30 text-sm">/</span>

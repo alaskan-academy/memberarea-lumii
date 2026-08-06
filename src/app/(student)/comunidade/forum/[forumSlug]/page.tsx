@@ -7,7 +7,7 @@ export async function generateMetadata({ params }: { params: Promise<{ forumSlug
   const { forumSlug } = await params;
   const supabase = await createClient();
   const { data: forum } = await supabase.from("forums").select("title").eq("slug", forumSlug).single();
-  return { title: forum ? `${forum.title} — Handify` : "Fórum — Handify" };
+  return { title: forum ? `${forum.title} — Lumii` : "Fórum — Lumii" };
 }
 
 export default async function ForumSlugPage({ params }: { params: Promise<{ forumSlug: string }> }) {

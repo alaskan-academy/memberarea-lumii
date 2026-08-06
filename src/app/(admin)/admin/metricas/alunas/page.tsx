@@ -198,13 +198,13 @@ export default async function AlunaRankingPage() {
     <div className="space-y-8">
       {/* Cards de engajamento */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={UserCheck} label="Alunas com progresso" value={alunaComProgresso} color="#6699F3"
+        <StatCard icon={UserCheck} label="Alunas com progresso" value={alunaComProgresso} color="#f6614f"
           tooltip="Alunas que iniciaram pelo menos uma aula — têm algum registro de progresso na plataforma." />
-        <StatCard icon={BookOpen} label="Aulas concluídas total" value={totalCompleted} color="#72CF92"
+        <StatCard icon={BookOpen} label="Aulas concluídas total" value={totalCompleted} color="#71c69a"
           tooltip="Soma de todas as aulas marcadas como concluídas em toda a plataforma (pelo botão explícito ou ao atingir 90% do vídeo)." />
-        <StatCard icon={Award} label="Com certificados" value={alunaComCertificado} color="#FEC649"
+        <StatCard icon={Award} label="Com certificados" value={alunaComCertificado} color="#eebc3e"
           tooltip="Número de alunas que receberam pelo menos um certificado de conclusão de curso." />
-        <StatCard icon={Activity} label="Taxa de engajamento" value={`${engagementRate}%`} color="#6699F3"
+        <StatCard icon={Activity} label="Taxa de engajamento" value={`${engagementRate}%`} color="#f6614f"
           tooltip="Proporção de aulas concluídas em relação ao total de aulas iniciadas (concluídas ÷ total com progresso × 100)." />
       </div>
 
@@ -221,7 +221,7 @@ export default async function AlunaRankingPage() {
           title="Mais dedicadas"
           subtitle="por aulas concluídas"
           icon={BookOpen}
-          color="#6699F3"
+          color="#f6614f"
           items={topByLessons.map(({ profile, count }) => ({
             id: profile!.id,
             name: profile!.full_name ?? profile!.email,
@@ -237,7 +237,7 @@ export default async function AlunaRankingPage() {
           title="Mais certificadas"
           subtitle="por cursos concluídos"
           icon={Award}
-          color="#72CF92"
+          color="#71c69a"
           items={topByCerts.map(({ profile, count }) => ({
             id: profile!.id,
             name: profile!.full_name ?? profile!.email,
@@ -253,7 +253,7 @@ export default async function AlunaRankingPage() {
           title="Mais matrículas"
           subtitle="por cursos adquiridos"
           icon={Trophy}
-          color="#FEC649"
+          color="#eebc3e"
           items={topByEnrolls.map(({ profile, count }) => ({
             id: profile!.id,
             name: profile!.full_name ?? profile!.email,
@@ -269,7 +269,7 @@ export default async function AlunaRankingPage() {
           title="Últimas ativas"
           subtitle="mais recentes na plataforma"
           icon={Clock}
-          color="#6699F3"
+          color="#f6614f"
           items={recentlyActive.map(({ profile, lastActive }) => ({
             id: profile!.id,
             name: profile!.full_name ?? profile!.email,
@@ -284,7 +284,7 @@ export default async function AlunaRankingPage() {
       {/* Novatas */}
       <div className="handify-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
-          <UserCheck className="w-4 h-4 text-[#72CF92]" />
+          <UserCheck className="w-4 h-4 text-[#71c69a]" />
           Novatas recentes
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -331,7 +331,7 @@ function Avatar({ name, url, size = 36 }: { name: string; url: string | null; si
   return (
     <div
       className="rounded-full flex items-center justify-center shrink-0 text-white font-semibold"
-      style={{ width: size, height: size, background: "#6699F3", fontSize: size * 0.35 }}
+      style={{ width: size, height: size, background: "#f6614f", fontSize: size * 0.35 }}
     >
       {initials || "?"}
     </div>

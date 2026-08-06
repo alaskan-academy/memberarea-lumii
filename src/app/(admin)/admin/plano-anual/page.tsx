@@ -22,7 +22,7 @@ export default async function PlanoAnualAdminPage() {
     active: false,
     link_url: "",
     badge_text: "Plano Anual",
-    modal_title: "Assine o Plano Anual Handify™",
+    modal_title: "Assine o Plano Anual Lumii",
     modal_desc: "",
     button_text: "Assinar agora",
   };

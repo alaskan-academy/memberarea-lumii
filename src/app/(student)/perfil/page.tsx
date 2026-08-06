@@ -7,7 +7,7 @@ export default function PerfilPage() {
     <Suspense
       fallback={
         <div className="flex justify-center py-24">
-          <Loader2 className="w-6 h-6 animate-spin text-[#6699F3]" />
+          <Loader2 className="w-6 h-6 animate-spin text-[#f6614f]" />
         </div>
       }
     >

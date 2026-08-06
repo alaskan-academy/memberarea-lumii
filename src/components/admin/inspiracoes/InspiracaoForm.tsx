@@ -32,7 +32,7 @@ const TYPE_OPTIONS: { value: InspiracaoType; icon: any; label: string; desc: str
 
 const NIVEL_OPTIONS = ['Iniciante', 'Intermediário', 'Avançado']
 
-const INPUT_CLS = "w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3] bg-white"
+const INPUT_CLS = "w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] bg-white"
 const LABEL_CLS = "block text-xs font-medium text-foreground mb-1"
 
 // ── Props ─────────────────────────────────────────────────────────────────────
@@ -274,12 +274,12 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 onClick={() => setType(opt.value)}
                 className={`flex items-center gap-2.5 p-3 rounded-xl border text-left transition-colors ${
                   active
-                    ? 'border-[#6699F3] bg-[#6699F3]/8 text-[#6699F3]'
-                    : 'border-border/60 hover:border-[#6699F3]/40 text-foreground'
+                    ? 'border-[#f6614f] bg-[#f6614f]/8 text-[#f6614f]'
+                    : 'border-border/60 hover:border-[#f6614f]/40 text-foreground'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  active ? 'bg-[#6699F3]/15' : 'bg-muted'
+                  active ? 'bg-[#f6614f]/15' : 'bg-muted'
                 }`}>
                   <Icon className="w-4 h-4" />
                 </div>
@@ -356,7 +356,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 </div>
               ))}
               <button type="button" onClick={addMediaUrl}
-                className="flex items-center gap-1.5 text-xs text-[#6699F3] hover:underline">
+                className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar imagem
               </button>
@@ -388,8 +388,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                     className={cn(
                       'px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors',
                       videoAspect === val
-                        ? 'bg-[#6699F3] text-white border-[#6699F3]'
-                        : 'bg-white text-foreground/70 border-border hover:border-[#6699F3]/50'
+                        ? 'bg-[#f6614f] text-white border-[#f6614f]'
+                        : 'bg-white text-foreground/70 border-border hover:border-[#f6614f]/50'
                     )}
                   >
                     {label}
@@ -471,7 +471,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                   <input
                     value={ing.quantidade}
                     onChange={e => updateIngrediente(i, 'quantidade', e.target.value)}
-                    className="w-32 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3] bg-white"
+                    className="w-32 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] bg-white"
                     placeholder="Ex: 300g"
                   />
                   {ingredientes.length > 1 && (
@@ -483,7 +483,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 </div>
               ))}
               <button type="button" onClick={addIngrediente}
-                className="flex items-center gap-1.5 text-xs text-[#6699F3] hover:underline">
+                className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar ingrediente
               </button>
@@ -517,7 +517,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 </div>
               ))}
               <button type="button" onClick={addPasso}
-                className="flex items-center gap-1.5 text-xs text-[#6699F3] hover:underline">
+                className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar passo
               </button>
@@ -616,8 +616,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 onClick={() => toggleTag(slug)}
                 className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                   tags.has(slug)
-                    ? 'bg-[#6699F3] text-white border-[#6699F3]'
-                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#6699F3]/60'
+                    ? 'bg-[#f6614f] text-white border-[#f6614f]'
+                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#f6614f]/60'
                 }`}
               >
                 {name}
@@ -633,7 +633,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Cursos relacionados (opcional)</h2>
             {courseIds.size > 0 && (
-              <span className="text-xs text-[#6699F3] font-medium">{courseIds.size} selecionado{courseIds.size > 1 ? 's' : ''}</span>
+              <span className="text-xs text-[#f6614f] font-medium">{courseIds.size} selecionado{courseIds.size > 1 ? 's' : ''}</span>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -644,8 +644,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 onClick={() => toggleCourse(c.id)}
                 className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                   courseIds.has(c.id)
-                    ? 'bg-[#FEC649] text-[#6b4f00] border-[#FEC649]'
-                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#FEC649]/60'
+                    ? 'bg-[#eebc3e] text-[#6b4f00] border-[#eebc3e]'
+                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#eebc3e]/60'
                 }`}
               >
                 {c.title}
@@ -673,7 +673,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 py-2.5 text-sm font-medium bg-[#6699F3] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors"
+          className="flex-1 py-2.5 text-sm font-medium bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors"
         >
           {loading ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar post'}
         </button>
@@ -687,7 +687,7 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
     <label className="flex items-center gap-2 cursor-pointer">
       <div
         onClick={() => onChange(!value)}
-        className={`w-10 h-6 rounded-full transition-colors relative ${value ? 'bg-[#6699F3]' : 'bg-muted-foreground/30'}`}
+        className={`w-10 h-6 rounded-full transition-colors relative ${value ? 'bg-[#f6614f]' : 'bg-muted-foreground/30'}`}
       >
         <span className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-[left] ${value ? 'left-5' : 'left-1'}`} />
       </div>

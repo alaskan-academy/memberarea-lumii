@@ -24,8 +24,8 @@ export async function generateMetadata({
 
   return {
     title: courseTitle
-      ? `Certificado — ${courseTitle} | Handify™`
-      : "Verificação de Certificado | Handify™",
+      ? `Certificado — ${courseTitle} | Lumii`
+      : "Verificação de Certificado | Lumii",
   };
 }
 
@@ -62,12 +62,12 @@ export default async function VerificarPage({
   });
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] flex flex-col">
+    <div className="min-h-screen bg-lumii-bg flex flex-col">
       {/* Header simples */}
       <header className="bg-white border-b border-border/40">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="font-bold text-[#6699F3] text-xl tracking-tight">
-            Handify™
+          <Link href="/" className="font-bold text-[#f6614f] text-xl tracking-tight">
+            Lumii
           </Link>
           <span className="text-xs text-muted-foreground">Verificação de Certificado</span>
         </div>
@@ -75,20 +75,20 @@ export default async function VerificarPage({
 
       {/* Faixa tricolor */}
       <div className="flex h-1">
-        <div className="flex-1 bg-[#6699F3]" />
-        <div className="flex-1 bg-[#72CF92]" />
-        <div className="flex-1 bg-[#FEC649]" />
+        <div className="flex-1 bg-[#f6614f]" />
+        <div className="flex-1 bg-[#71c69a]" />
+        <div className="flex-1 bg-[#eebc3e]" />
       </div>
 
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-lg space-y-6">
           {/* Selo de verificação */}
           <div className="text-center space-y-3">
-            <div className="inline-flex w-20 h-20 rounded-full bg-[#72CF92]/15 items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10 text-[#72CF92]" />
+            <div className="inline-flex w-20 h-20 rounded-full bg-[#71c69a]/15 items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10 text-[#71c69a]" />
             </div>
             <div>
-              <p className="text-[#72CF92] text-sm font-semibold uppercase tracking-widest">
+              <p className="text-[#71c69a] text-sm font-semibold uppercase tracking-widest">
                 Certificado Autêntico
               </p>
               <h1 className="text-2xl font-bold text-foreground mt-1">
@@ -101,10 +101,10 @@ export default async function VerificarPage({
           <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
             {/* Header do card */}
             <div className="bg-[#0F0F0F] px-6 py-5 flex items-center gap-3">
-              <Award className="w-6 h-6 text-[#6699F3] shrink-0" />
+              <Award className="w-6 h-6 text-[#f6614f] shrink-0" />
               <div>
                 <p className="text-white font-semibold text-sm">Certificado de Conclusão</p>
-                <p className="text-[#6699F3] text-xs font-medium">Handify™</p>
+                <p className="text-[#f6614f] text-xs font-medium">Lumii</p>
               </div>
             </div>
 
@@ -154,14 +154,14 @@ export default async function VerificarPage({
 
           <p className="text-center text-sm text-muted-foreground">
             Este certificado foi emitido pela{" "}
-            <span className="font-semibold text-[#6699F3]">Handify™</span> — Plataforma de
+            <span className="font-semibold text-[#f6614f]">Lumii</span> — Plataforma de
             Cursos de Artesanato.
           </p>
         </div>
       </main>
 
       <footer className="py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Handify™ — Todos os direitos reservados
+        © {new Date().getFullYear()} Lumii — Todos os direitos reservados
       </footer>
     </div>
   );

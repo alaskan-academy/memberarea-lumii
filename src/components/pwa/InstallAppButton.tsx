@@ -114,7 +114,7 @@ export default function InstallAppButton() {
       <>
         <button
           onClick={() => setShowIosModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors min-h-[44px]"
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors min-h-[44px]"
         >
           <Share className="w-4 h-4 shrink-0" />
           Adicionar à tela inicial
@@ -132,9 +132,9 @@ export default function InstallAppButton() {
             >
               {/* Faixa tricolor */}
               <div className="flex h-[3px]">
-                <span className="flex-1" style={{ background: "#6699F3" }} />
-                <span className="flex-1" style={{ background: "#72CF92" }} />
-                <span className="flex-1" style={{ background: "#FEC649" }} />
+                <span className="flex-1" style={{ background: "#f6614f" }} />
+                <span className="flex-1" style={{ background: "#71c69a" }} />
+                <span className="flex-1" style={{ background: "#eebc3e" }} />
               </div>
 
               <div className="p-6 space-y-5">
@@ -156,7 +156,7 @@ export default function InstallAppButton() {
                   {[
                     {
                       n: 1,
-                      icon: <Share className="w-4 h-4 text-[#6699F3] shrink-0 mt-0.5" />,
+                      icon: <Share className="w-4 h-4 text-[#f6614f] shrink-0 mt-0.5" />,
                       text: (
                         <>
                           Toque no ícone de{" "}
@@ -167,7 +167,7 @@ export default function InstallAppButton() {
                     },
                     {
                       n: 2,
-                      icon: <Download className="w-4 h-4 text-[#6699F3] shrink-0 mt-0.5" />,
+                      icon: <Download className="w-4 h-4 text-[#f6614f] shrink-0 mt-0.5" />,
                       text: (
                         <>
                           Role e toque em{" "}
@@ -177,7 +177,7 @@ export default function InstallAppButton() {
                     },
                     {
                       n: 3,
-                      icon: <CheckCircle className="w-4 h-4 text-[#72CF92] shrink-0 mt-0.5" />,
+                      icon: <CheckCircle className="w-4 h-4 text-[#71c69a] shrink-0 mt-0.5" />,
                       text: (
                         <>
                           Toque em{" "}
@@ -190,7 +190,7 @@ export default function InstallAppButton() {
                     <li key={n} className="flex items-start gap-3">
                       <span
                         className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-                        style={{ background: "#6699F3", color: "#fff" }}
+                        style={{ background: "#f6614f", color: "#fff" }}
                       >
                         {n}
                       </span>
@@ -204,7 +204,7 @@ export default function InstallAppButton() {
 
                 <button
                   onClick={() => setShowIosModal(false)}
-                  className="w-full py-2.5 text-sm font-semibold rounded-xl bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors"
+                  className="w-full py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors"
                 >
                   Entendido
                 </button>
@@ -220,7 +220,7 @@ export default function InstallAppButton() {
   return (
     <button
       onClick={handleInstall}
-      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors min-h-[44px]"
+      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors min-h-[44px]"
     >
       <Download className="w-4 h-4 shrink-0" />
       Baixar app

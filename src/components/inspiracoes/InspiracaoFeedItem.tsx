@@ -92,7 +92,7 @@ function Carrossel({ images }: { images: { url: string; alt?: string }[] }) {
                 onClick={() => setIdx(i)}
                 className={cn(
                   'w-1.5 h-1.5 rounded-full transition-colors',
-                  i === idx ? 'bg-[#6699F3]' : 'bg-foreground/25'
+                  i === idx ? 'bg-[#f6614f]' : 'bg-foreground/25'
                 )}
                 aria-label={`Imagem ${i + 1}`}
               />
@@ -139,8 +139,8 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
 
       {/* Header do post */}
       <div className="px-4 pt-4 pb-3 flex items-start gap-3">
-        <div className="w-9 h-9 rounded-full bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-          <Icon className="w-4.5 h-4.5 text-[#6699F3]" />
+        <div className="w-9 h-9 rounded-full bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+          <Icon className="w-4.5 h-4.5 text-[#f6614f]" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
@@ -149,7 +149,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
               {label}
             </span>
             {post.pinned && (
-              <span className="text-[10px] bg-[#FEC649] text-[#0F0F0F] px-1.5 py-0.5 rounded-full font-bold leading-none">
+              <span className="text-[10px] bg-[#eebc3e] text-[#0F0F0F] px-1.5 py-0.5 rounded-full font-bold leading-none">
                 📌 Fixado
               </span>
             )}
@@ -157,7 +157,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           <h2 className="font-bold text-sm leading-snug mt-1">{post.title}</h2>
           {post.author && (
             <p className="text-xs text-muted-foreground mt-0.5">
-              por {post.author.full_name ?? 'Handify'}
+              por {post.author.full_name ?? 'Lumii'}
               {' · '}
               {new Date(post.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', timeZone: "America/Sao_Paulo" })}
             </p>
@@ -303,7 +303,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
                   <ol className="space-y-2.5">
                     {post.recipe_data.passos.map((passo, i) => (
                       <li key={i} className="flex gap-3 text-xs text-foreground/80 leading-relaxed">
-                        <span className="shrink-0 w-5 h-5 rounded-full bg-[#6699F3]/10 text-[#6699F3] font-bold flex items-center justify-center text-[10px]">
+                        <span className="shrink-0 w-5 h-5 rounded-full bg-[#f6614f]/10 text-[#f6614f] font-bold flex items-center justify-center text-[10px]">
                           {i + 1}
                         </span>
                         {passo}
@@ -314,7 +314,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
               )}
 
               {post.recipe_data.dicas && (
-                <div className="bg-[#72CF92]/10 rounded-xl p-3 border border-[#72CF92]/20">
+                <div className="bg-[#71c69a]/10 rounded-xl p-3 border border-[#71c69a]/20">
                   <p className="text-xs font-semibold text-[#2a9d5a] mb-1">💡 Dicas</p>
                   <p className="text-xs text-foreground/75 leading-relaxed">{post.recipe_data.dicas}</p>
                 </div>
@@ -331,7 +331,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
                   {post.recipe_data.preco_venda && (
                     <div className="text-xs">
                       <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Preço de venda</p>
-                      <p className="font-bold mt-0.5 text-[#6699F3]">{post.recipe_data.preco_venda}</p>
+                      <p className="font-bold mt-0.5 text-[#f6614f]">{post.recipe_data.preco_venda}</p>
                     </div>
                   )}
                 </div>
@@ -378,11 +378,11 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
                     <img
                       src={post.featured_student.avatar_url}
                       alt={post.featured_student.full_name ?? ''}
-                      className="w-20 h-20 rounded-full object-cover border-2 border-[#6699F3]/30"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-[#f6614f]/30"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-full bg-[#6699F3]/10 flex items-center justify-center">
-                      <User className="w-10 h-10 text-[#6699F3]/40" />
+                    <div className="w-20 h-20 rounded-full bg-[#f6614f]/10 flex items-center justify-center">
+                      <User className="w-10 h-10 text-[#f6614f]/40" />
                     </div>
                   )}
                   <div>
@@ -433,7 +433,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           {post.tags.map(tag => (
             <span
               key={tag}
-              className="text-xs px-2 py-0.5 rounded-full bg-[#6699F3]/8 text-[#6699F3] border border-[#6699F3]/20 font-medium"
+              className="text-xs px-2 py-0.5 rounded-full bg-[#f6614f]/8 text-[#f6614f] border border-[#f6614f]/20 font-medium"
             >
               #{tag}
             </span>
@@ -445,7 +445,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
       {needsExpand && (
         <button
           onClick={() => setExpanded(v => !v)}
-          className="w-full py-2 text-sm text-[#6699F3] font-semibold flex items-center justify-center gap-1 hover:bg-[#6699F3]/5 transition-colors"
+          className="w-full py-2 text-sm text-[#f6614f] font-semibold flex items-center justify-center gap-1 hover:bg-[#f6614f]/5 transition-colors"
         >
           {expanded ? (
             <>Ver menos <ChevronUp className="w-4 h-4" /></>
@@ -469,7 +469,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           aria-expanded={commentsOpen}
           className={cn(
             'flex items-center gap-1.5 text-sm transition-colors min-h-[44px] px-1',
-            commentsOpen ? 'text-[#6699F3]' : 'text-foreground/50 hover:text-foreground/80'
+            commentsOpen ? 'text-[#f6614f]' : 'text-foreground/50 hover:text-foreground/80'
           )}
         >
           <MessageCircle className="w-5 h-5" />

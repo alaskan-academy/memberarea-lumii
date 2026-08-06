@@ -19,8 +19,8 @@ export function NichePills({ niches, selected, onChange }: Props) {
         className={cn(
           'px-4 py-2 rounded-full text-sm font-semibold transition-colors min-h-[40px]',
           selected === ''
-            ? 'bg-[#6699F3] text-white shadow-sm'
-            : 'bg-white border border-border/60 text-foreground hover:border-[#6699F3]/40 hover:text-[#6699F3]'
+            ? 'bg-[#f6614f] text-white shadow-sm'
+            : 'bg-white border border-border/60 text-foreground hover:border-[#f6614f]/40 hover:text-[#f6614f]'
         )}
       >
         Todos
@@ -32,8 +32,8 @@ export function NichePills({ niches, selected, onChange }: Props) {
           className={cn(
             'px-4 py-2 rounded-full text-sm font-semibold transition-colors min-h-[40px]',
             selected === niche.id
-              ? 'bg-[#6699F3] text-white shadow-sm'
-              : 'bg-white border border-border/60 text-foreground hover:border-[#6699F3]/40 hover:text-[#6699F3]'
+              ? 'bg-[#f6614f] text-white shadow-sm'
+              : 'bg-white border border-border/60 text-foreground hover:border-[#f6614f]/40 hover:text-[#f6614f]'
           )}
         >
           {niche.name}

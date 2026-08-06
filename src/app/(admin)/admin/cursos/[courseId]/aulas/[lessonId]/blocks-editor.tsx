@@ -76,7 +76,7 @@ function ContentInput({
     return (
       <textarea
         rows={10}
-        className="w-full text-xs border border-border rounded-lg px-3 py-2 font-mono resize-y focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+        className="w-full text-xs border border-border rounded-lg px-3 py-2 font-mono resize-y focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
         placeholder="<p>Conteúdo HTML aqui...</p>"
         value={rawHtml}
         onChange={(e) => onChange(JSON.stringify({ html: e.target.value }))}
@@ -96,7 +96,7 @@ function ContentInput({
         </div>
         <input
           type="url"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="https://docs.google.com/forms/..."
           value={(parsed.url as string) ?? ""}
           onChange={(e) =>
@@ -105,7 +105,7 @@ function ContentInput({
         />
         <input
           type="text"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="Título (opcional)"
           value={(parsed.title as string) ?? ""}
           onChange={(e) =>
@@ -114,7 +114,7 @@ function ContentInput({
         />
         <input
           type="number"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="Altura em px (ex: 600)"
           value={(parsed.height as number) ?? ""}
           onChange={(e) =>
@@ -134,7 +134,7 @@ function ContentInput({
     return (
       <input
         type="text"
-        className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+        className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
         placeholder="ID do material (copie da seção Materiais abaixo)"
         value={(parsed.material_id as string) ?? ""}
         onChange={(e) =>
@@ -152,7 +152,7 @@ function ContentInput({
         </p>
         <input
           type="text"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="ID Panda, https://player.pandavideo.com.br/embed/?v=... ou https://youtu.be/..."
           value={(parsed.video_panda_id as string) ?? ""}
           onChange={(e) =>
@@ -308,8 +308,8 @@ export default function AdminBlocksEditor({
               onClick={() => openAddForm(t)}
               className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border transition-colors
                 ${addingType === t
-                  ? "bg-[#6699F3] border-[#6699F3] text-white"
-                  : "border-[#6699F3] text-[#6699F3] hover:bg-[#6699F3]/10"
+                  ? "bg-[#f6614f] border-[#f6614f] text-white"
+                  : "border-[#f6614f] text-[#f6614f] hover:bg-[#f6614f]/10"
                 }`}
             >
               <Plus className="w-3 h-3" />
@@ -329,7 +329,7 @@ export default function AdminBlocksEditor({
 
       {/* Form: novo bloco */}
       {addingType && (
-        <div className="handify-card p-4 space-y-3 border-[#6699F3]/40 bg-[#6699F3]/[0.03]">
+        <div className="handify-card p-4 space-y-3 border-[#f6614f]/40 bg-[#f6614f]/[0.03]">
           <p className="text-sm font-semibold">
             Novo bloco: {BLOCK_LABELS[addingType]}
           </p>
@@ -342,7 +342,7 @@ export default function AdminBlocksEditor({
             <button
               onClick={handleAdd}
               disabled={isPending}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
             >
               <Save className="w-3 h-3" />
               {isPending ? "Salvando…" : "Salvar bloco"}
@@ -413,7 +413,7 @@ export default function AdminBlocksEditor({
                   <select
                     value={editType}
                     onChange={(e) => setEditType(e.target.value as BlockType)}
-                    className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+                    className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
                   >
                     {(["video", "text", "html", "embed", "download"] as BlockType[]).map(
                       (t) => (
@@ -431,7 +431,7 @@ export default function AdminBlocksEditor({
                   <button
                     onClick={() => handleSaveEdit(block)}
                     disabled={isPending}
-                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
                   >
                     <Save className="w-3 h-3" />
                     {isPending ? "Salvando…" : "Salvar"}

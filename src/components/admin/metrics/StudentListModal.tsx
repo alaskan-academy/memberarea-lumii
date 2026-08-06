@@ -48,8 +48,8 @@ export function StudentListModal({
           >
             {/* Header */}
             <div className="px-5 py-4 border-b border-border flex items-center gap-3 shrink-0">
-              <div className="w-8 h-8 rounded-lg bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-                <Users className="w-4 h-4 text-[#6699F3]" />
+              <div className="w-8 h-8 rounded-lg bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+                <Users className="w-4 h-4 text-[#f6614f]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm">{title}</p>
@@ -89,7 +89,7 @@ export function StudentListModal({
                               className="w-8 h-8 rounded-full object-cover shrink-0"
                             />
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-[#6699F3]/15 flex items-center justify-center text-sm font-bold text-[#6699F3] shrink-0">
+                            <div className="w-8 h-8 rounded-full bg-[#f6614f]/15 flex items-center justify-center text-sm font-bold text-[#f6614f] shrink-0">
                               {initial}
                             </div>
                           )}
@@ -114,7 +114,7 @@ export function StudentListModal({
                 </span>
                 <Link
                   href="/admin/alunos"
-                  className="text-xs font-medium text-[#6699F3] hover:underline flex items-center gap-1"
+                  className="text-xs font-medium text-[#f6614f] hover:underline flex items-center gap-1"
                   onClick={markNavigating}
                 >
                   Ver todas em Alunas <ChevronRight className="w-3 h-3" />

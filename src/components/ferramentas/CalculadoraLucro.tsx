@@ -117,13 +117,13 @@ function StepBar({ current }: { current: number }) {
         return (
           <div key={n} className="flex-1 flex items-center">
             <div className="flex flex-col items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors ${done ? 'bg-[#6699F3] border-[#6699F3] text-white' : active ? 'bg-white border-[#6699F3] text-[#6699F3]' : 'bg-white border-gray-200 text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors ${done ? 'bg-[#f6614f] border-[#f6614f] text-white' : active ? 'bg-white border-[#f6614f] text-[#f6614f]' : 'bg-white border-gray-200 text-gray-400'}`}>
                 {done ? '✓' : n}
               </div>
-              <span className={`text-[10px] mt-1 font-medium hidden sm:block ${active ? 'text-[#6699F3]' : done ? 'text-gray-500' : 'text-gray-400'}`}>{label}</span>
+              <span className={`text-[10px] mt-1 font-medium hidden sm:block ${active ? 'text-[#f6614f]' : done ? 'text-gray-500' : 'text-gray-400'}`}>{label}</span>
             </div>
             {i < steps.length - 1 && (
-              <div className={`flex-1 h-0.5 mx-1 ${n < current ? 'bg-[#6699F3]' : 'bg-gray-200'}`} />
+              <div className={`flex-1 h-0.5 mx-1 ${n < current ? 'bg-[#f6614f]' : 'bg-gray-200'}`} />
             )}
           </div>
         )
@@ -142,28 +142,28 @@ function MpRow({ item, placeholder, onChange, onRemove }: {
   return (
     <div className="bg-[#fafaf8] rounded-xl border border-gray-200 p-3 mb-3">
       <div className="flex gap-2 mb-2">
-        <input type="text" className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 font-medium focus:outline-none focus:border-[#6699F3]" placeholder={placeholder} value={item.name} onChange={e => onChange('name', e.target.value)} />
+        <input type="text" className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 font-medium focus:outline-none focus:border-[#f6614f]" placeholder={placeholder} value={item.name} onChange={e => onChange('name', e.target.value)} />
         <button type="button" onClick={onRemove} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg border border-gray-200 text-xs font-bold shrink-0">✕</button>
       </div>
       <div className="flex flex-wrap gap-2 items-end">
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">Comprei</span>
-          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#6699F3]" placeholder="1000" min={0} value={item.qtyBought} onChange={e => onChange('qtyBought', e.target.value)} />
+          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#f6614f]" placeholder="1000" min={0} value={item.qtyBought} onChange={e => onChange('qtyBought', e.target.value)} />
         </div>
-        <select className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:border-[#6699F3]" value={item.unit} onChange={e => onChange('unit', e.target.value)}>
+        <select className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:border-[#f6614f]" value={item.unit} onChange={e => onChange('unit', e.target.value)}>
           <option>g</option><option>mL</option><option>un</option>
         </select>
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">por R$</span>
-          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#6699F3]" placeholder="40,00" min={0} step={0.01} value={item.priceBought} onChange={e => onChange('priceBought', e.target.value)} />
+          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#f6614f]" placeholder="40,00" min={0} step={0.01} value={item.priceBought} onChange={e => onChange('priceBought', e.target.value)} />
         </div>
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">Usei no lote</span>
-          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#6699F3]" placeholder="300" min={0} value={item.qtyUsed} onChange={e => onChange('qtyUsed', e.target.value)} />
+          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#f6614f]" placeholder="300" min={0} value={item.qtyUsed} onChange={e => onChange('qtyUsed', e.target.value)} />
         </div>
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">= Custo</span>
-          <div className={`text-sm font-bold px-2 py-1.5 rounded-lg ${cost > 0 ? 'text-[#6699F3] bg-blue-50' : 'text-gray-400 bg-gray-100'}`}>{cost > 0 ? fmt(cost) : 'R$ —'}</div>
+          <div className={`text-sm font-bold px-2 py-1.5 rounded-lg ${cost > 0 ? 'text-[#f6614f] bg-blue-50' : 'text-gray-400 bg-gray-100'}`}>{cost > 0 ? fmt(cost) : 'R$ —'}</div>
         </div>
       </div>
     </div>
@@ -181,8 +181,8 @@ function EmbRow({ item, placeholder, scopeLabel, batchQty, onChange, onRemove }:
   return (
     <div className="bg-[#fafaf8] rounded-xl border border-gray-200 p-3 mb-3">
       <div className="flex gap-2 mb-2">
-        <input type="text" className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 font-medium focus:outline-none focus:border-[#6699F3]" placeholder={placeholder} value={item.name} onChange={e => onChange('name', e.target.value)} />
-        <select className="text-xs font-bold border border-[#EEF3FD] rounded-lg px-2 py-1.5 bg-[#EEF3FD] text-[#6699F3] focus:outline-none cursor-pointer shrink-0" value={item.scope} onChange={e => onChange('scope', e.target.value)}>
+        <input type="text" className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 font-medium focus:outline-none focus:border-[#f6614f]" placeholder={placeholder} value={item.name} onChange={e => onChange('name', e.target.value)} />
+        <select className="text-xs font-bold border border-[#EEF3FD] rounded-lg px-2 py-1.5 bg-[#EEF3FD] text-[#f6614f] focus:outline-none cursor-pointer shrink-0" value={item.scope} onChange={e => onChange('scope', e.target.value)}>
           <option value="unit">{scopeLabel}</option>
           <option value="lote">por lote inteiro</option>
         </select>
@@ -191,22 +191,22 @@ function EmbRow({ item, placeholder, scopeLabel, batchQty, onChange, onRemove }:
       <div className="flex flex-wrap gap-2 items-end">
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">Comprei</span>
-          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#6699F3]" placeholder="100" min={0} value={item.qtyBought} onChange={e => onChange('qtyBought', e.target.value)} />
+          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#f6614f]" placeholder="100" min={0} value={item.qtyBought} onChange={e => onChange('qtyBought', e.target.value)} />
         </div>
-        <select className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:border-[#6699F3]" value={item.unit} onChange={e => onChange('unit', e.target.value)}>
+        <select className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:border-[#f6614f]" value={item.unit} onChange={e => onChange('unit', e.target.value)}>
           <option>un</option><option>m</option><option>cm</option><option>g</option>
         </select>
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">por R$</span>
-          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#6699F3]" placeholder="25,00" min={0} step={0.01} value={item.priceBought} onChange={e => onChange('priceBought', e.target.value)} />
+          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#f6614f]" placeholder="25,00" min={0} step={0.01} value={item.priceBought} onChange={e => onChange('priceBought', e.target.value)} />
         </div>
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">{usedLabel}</span>
-          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#6699F3]" placeholder="1" min={0} value={item.qtyUsed} onChange={e => onChange('qtyUsed', e.target.value)} />
+          <input type="number" className="w-20 text-sm border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#f6614f]" placeholder="1" min={0} value={item.qtyUsed} onChange={e => onChange('qtyUsed', e.target.value)} />
         </div>
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-500 font-medium mb-1">= Custo</span>
-          <div className={`text-sm font-bold px-2 py-1.5 rounded-lg ${cost > 0 ? 'text-[#6699F3] bg-blue-50' : 'text-gray-400 bg-gray-100'}`}>{cost > 0 ? fmt(cost) : 'R$ —'}</div>
+          <div className={`text-sm font-bold px-2 py-1.5 rounded-lg ${cost > 0 ? 'text-[#f6614f] bg-blue-50' : 'text-gray-400 bg-gray-100'}`}>{cost > 0 ? fmt(cost) : 'R$ —'}</div>
         </div>
       </div>
     </div>
@@ -370,23 +370,23 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
   }
 
   const alert = marginAlert()
-  const inputCls = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6699F3] focus:ring-2 focus:ring-[#6699F3]/20 bg-white'
+  const inputCls = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#f6614f] focus:ring-2 focus:ring-[#f6614f]/20 bg-white'
   const btnBack = 'text-sm font-semibold text-gray-500 hover:text-gray-700 px-4 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors'
-  const btnNext = 'bg-[#6699F3] hover:bg-[#5288EF] text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors'
+  const btnNext = 'bg-[#f6614f] hover:bg-[#5288EF] text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors'
 
   return (
     <div className="min-h-screen bg-[#F5F5F0]">
       {/* Header */}
       <div className="bg-[#0F0F0F] text-white">
         <div className="flex h-[3px]">
-          <span className="flex-1 bg-[#6699F3]" /><span className="flex-1 bg-[#72CF92]" /><span className="flex-1 bg-[#FEC649]" />
+          <span className="flex-1 bg-[#f6614f]" /><span className="flex-1 bg-[#71c69a]" /><span className="flex-1 bg-[#eebc3e]" />
         </div>
         <div className="max-w-2xl mx-auto px-4 py-8 text-center">
           <Link href="/ferramentas" className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-white mb-4 transition-colors">
             <ChevronLeft className="w-3 h-3" />Ferramentas
           </Link>
           <div className="text-3xl mb-2">{config.icon}</div>
-          <h1 className="text-2xl font-black">Calculadora de <span className="text-[#72CF92]">Lucro Real</span></h1>
+          <h1 className="text-2xl font-black">Calculadora de <span className="text-[#71c69a]">Lucro Real</span></h1>
           <p className="text-sm text-gray-400 mt-2">{config.subtitulo}</p>
         </div>
       </div>
@@ -451,14 +451,14 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
             ))}
 
             <button type="button" onClick={() => setMpItems(prev => [...prev, newMp()])}
-              className="w-full border-2 border-dashed border-[#6699F3]/40 hover:border-[#6699F3] text-[#6699F3] hover:bg-[#EEF3FD] rounded-xl py-2.5 text-sm font-semibold transition-colors mb-4">
+              className="w-full border-2 border-dashed border-[#f6614f]/40 hover:border-[#f6614f] text-[#f6614f] hover:bg-[#EEF3FD] rounded-xl py-2.5 text-sm font-semibold transition-colors mb-4">
               + Adicionar ingrediente
             </button>
 
             {mpTotal > 0 && (
               <div className="flex justify-between items-center bg-[#F5F5F0] rounded-xl px-4 py-3 mb-4 border border-gray-200">
                 <span className="text-sm font-medium text-gray-600">Total matéria-prima (lote)</span>
-                <span className="text-sm font-black text-[#6699F3]">{fmt(mpTotal)}</span>
+                <span className="text-sm font-black text-[#f6614f]">{fmt(mpTotal)}</span>
               </div>
             )}
 
@@ -487,14 +487,14 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
             ))}
 
             <button type="button" onClick={() => setEmbItems(prev => [...prev, newEmb()])}
-              className="w-full border-2 border-dashed border-[#6699F3]/40 hover:border-[#6699F3] text-[#6699F3] hover:bg-[#EEF3FD] rounded-xl py-2.5 text-sm font-semibold transition-colors mb-4">
+              className="w-full border-2 border-dashed border-[#f6614f]/40 hover:border-[#f6614f] text-[#f6614f] hover:bg-[#EEF3FD] rounded-xl py-2.5 text-sm font-semibold transition-colors mb-4">
               + Adicionar embalagem
             </button>
 
             {embTotal > 0 && (
               <div className="flex justify-between items-center bg-[#F5F5F0] rounded-xl px-4 py-3 mb-4 border border-gray-200">
                 <span className="text-sm font-medium text-gray-600">Total embalagens (por unidade)</span>
-                <span className="text-sm font-black text-[#6699F3]">{fmt(embTotal)}</span>
+                <span className="text-sm font-black text-[#f6614f]">{fmt(embTotal)}</span>
               </div>
             )}
 
@@ -530,7 +530,7 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
                 <div className="flex gap-1.5 mt-2 flex-wrap">
                   {[['6.42', 'Sal. mín.'], ['15', 'Sugestão'], ['25', 'Profissional']].map(([val, label]) => (
                     <button key={val} type="button" onClick={() => setLaborRate(val)}
-                      className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg border transition-colors ${laborRate === val ? 'bg-[#6699F3] border-[#6699F3] text-white' : 'bg-white border-gray-200 text-gray-600 hover:border-[#6699F3] hover:text-[#6699F3]'}`}>
+                      className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg border transition-colors ${laborRate === val ? 'bg-[#f6614f] border-[#f6614f] text-white' : 'bg-white border-gray-200 text-gray-600 hover:border-[#f6614f] hover:text-[#f6614f]'}`}>
                       R${val} ({label})
                     </button>
                   ))}
@@ -607,7 +607,7 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
 
             <div className="flex justify-between">
               <button onClick={() => goToStep(3)} className={btnBack}>← Voltar</button>
-              <button onClick={calculate} className="bg-[#72CF92] hover:bg-[#5dc07e] text-white font-black text-sm px-6 py-3 rounded-xl transition-colors">
+              <button onClick={calculate} className="bg-[#71c69a] hover:bg-[#5dc07e] text-white font-black text-sm px-6 py-3 rounded-xl transition-colors">
                 Calcular meu lucro ✓
               </button>
             </div>
@@ -627,12 +627,12 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
               <div className="bg-[#F5F5F0] rounded-xl p-4 mb-5">
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-sm font-semibold text-gray-700">Qual margem de lucro você quer?</span>
-                  <span className="bg-[#6699F3] text-white text-sm font-black px-3 py-1 rounded-full">{margin}%</span>
+                  <span className="bg-[#f6614f] text-white text-sm font-black px-3 py-1 rounded-full">{margin}%</span>
                 </div>
                 <input type="range" min={1} max={90} value={margin}
                   onChange={e => setMargin(parseInt(e.target.value))}
                   className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                  style={{ background: `linear-gradient(to right, #6699F3 ${margin}%, #e5e7eb ${margin}%)` }}
+                  style={{ background: `linear-gradient(to right, #f6614f ${margin}%, #e5e7eb ${margin}%)` }}
                 />
                 <div className="flex justify-between text-[10px] text-gray-400 mt-1.5">
                   <span>1%</span><span>30% — mínimo</span><span>60% — ideal</span><span>90%</span>
@@ -642,7 +642,7 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
 
               {/* Results grid */}
               <div className="grid grid-cols-2 gap-3 mb-5">
-                <div className="col-span-2 bg-[#6699F3] text-white rounded-xl p-4 text-center">
+                <div className="col-span-2 bg-[#f6614f] text-white rounded-xl p-4 text-center">
                   <div className="text-xs font-semibold opacity-80 mb-1">Preço sugerido por unidade</div>
                   <div className="text-3xl font-black">{fmt(price)}</div>
                   <div className="text-xs opacity-70 mt-1">com {margin}% de margem</div>
@@ -675,8 +675,8 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { label: 'Econômico', p: ecoPrice, m: 30, cls: 'border-gray-200 text-gray-700' },
-                    { label: '⭐ Padrão', p: stdPrice, m: 50, cls: 'border-[#6699F3] text-[#6699F3]' },
-                    { label: 'Premium', p: prmPrice, m: 65, cls: 'border-[#FEC649] text-amber-700' },
+                    { label: '⭐ Padrão', p: stdPrice, m: 50, cls: 'border-[#f6614f] text-[#f6614f]' },
+                    { label: 'Premium', p: prmPrice, m: 65, cls: 'border-[#eebc3e] text-amber-700' },
                   ].map(t => (
                     <div key={t.label} className={`rounded-xl p-3 text-center border-2 ${t.cls}`}>
                       <div className="text-[11px] font-bold mb-1">{t.label}</div>
@@ -705,20 +705,20 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
                 ))}
                 <div className="flex justify-between items-center pt-2 mt-1">
                   <span className="text-sm font-black text-[#2D2D2D]">Custo total por unidade</span>
-                  <span className="text-sm font-black text-[#6699F3]">{fmt(calcResult.baseCost)}</span>
+                  <span className="text-sm font-black text-[#f6614f]">{fmt(calcResult.baseCost)}</span>
                 </div>
               </div>
 
               {/* Actions */}
               <div className="flex gap-2 flex-wrap">
-                <button onClick={saveRecipe} className="flex-1 text-sm font-semibold border border-gray-200 hover:border-[#6699F3] hover:text-[#6699F3] text-gray-600 px-4 py-2.5 rounded-xl transition-colors">
+                <button onClick={saveRecipe} className="flex-1 text-sm font-semibold border border-gray-200 hover:border-[#f6614f] hover:text-[#f6614f] text-gray-600 px-4 py-2.5 rounded-xl transition-colors">
                   💾 Salvar receita
                 </button>
                 <button onClick={() => window.print()} className="flex-1 text-sm font-semibold border border-gray-200 hover:border-gray-400 text-gray-600 px-4 py-2.5 rounded-xl transition-colors">
                   🖨️ Imprimir
                 </button>
                 <button onClick={() => { setStep(1); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                  className="flex-1 bg-[#6699F3] hover:bg-[#5288EF] text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-colors">
+                  className="flex-1 bg-[#f6614f] hover:bg-[#5288EF] text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-colors">
                   + Nova calculadora
                 </button>
               </div>
@@ -743,7 +743,7 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
                     </div>
                   </div>
                   <div className="flex gap-2 shrink-0">
-                    <button onClick={() => loadRecipe(r)} className="text-xs font-bold text-[#6699F3] border border-[#6699F3]/30 hover:bg-[#EEF3FD] px-3 py-1.5 rounded-lg transition-colors">Abrir</button>
+                    <button onClick={() => loadRecipe(r)} className="text-xs font-bold text-[#f6614f] border border-[#f6614f]/30 hover:bg-[#EEF3FD] px-3 py-1.5 rounded-lg transition-colors">Abrir</button>
                     <button onClick={() => deleteRecipe(r.id)} className="text-xs font-bold text-gray-400 hover:text-red-500 border border-gray-200 hover:border-red-200 px-2.5 py-1.5 rounded-lg transition-colors">✕</button>
                   </div>
                 </div>

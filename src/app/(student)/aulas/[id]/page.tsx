@@ -191,9 +191,9 @@ export default async function LessonPage({
             <div className="w-full aspect-video rounded-xl bg-muted flex flex-col items-center justify-center gap-4">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ background: "#6699F3" + "20" }}
+                style={{ background: "#f6614f" + "20" }}
               >
-                <Lock className="w-7 h-7 text-[#6699F3]" />
+                <Lock className="w-7 h-7 text-[#f6614f]" />
               </div>
               <div className="text-center space-y-1">
                 <p className="font-semibold">Esta aula requer matrícula</p>
@@ -204,7 +204,7 @@ export default async function LessonPage({
               {mod?.course && (
                 <Link
                   href={`/cursos/${mod.course.slug}`}
-                  className="text-sm text-[#6699F3] hover:underline font-medium"
+                  className="text-sm text-[#f6614f] hover:underline font-medium"
                 >
                   Ver detalhes do curso →
                 </Link>
@@ -233,8 +233,8 @@ export default async function LessonPage({
                   <LessonCompleteButton lessonId={id} isCompleted={isCompleted} />
                 )}
                 {lesson.is_preview && (
-                  <span className="inline-flex items-center gap-2 text-sm text-[#72CF92] font-medium bg-[#72CF92]/10 px-3 py-2 rounded-full self-start">
-                    <span className="w-2 h-2 rounded-full bg-[#72CF92]" />
+                  <span className="inline-flex items-center gap-2 text-sm text-[#71c69a] font-medium bg-[#71c69a]/10 px-3 py-2 rounded-full self-start">
+                    <span className="w-2 h-2 rounded-full bg-[#71c69a]" />
                     Prévia gratuita
                   </span>
                 )}
@@ -247,7 +247,7 @@ export default async function LessonPage({
                 {prevLesson ? (
                   <Link
                     href={`/aulas/${prevLesson.id}`}
-                    className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2.5 min-h-[44px] rounded-lg border border-border hover:border-[#6699F3]"
+                    className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2.5 min-h-[44px] rounded-lg border border-border hover:border-[#f6614f]"
                   >
                     <ChevronLeft className="w-4 h-4 shrink-0" />
                     Anterior

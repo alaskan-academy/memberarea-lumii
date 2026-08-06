@@ -39,7 +39,7 @@ export function AdminFornecedoresTable({ suppliers }: { suppliers: Supplier[] })
           placeholder="Buscar por nome ou tag..."
           value={busca}
           onChange={e => setBusca(e.target.value)}
-          className="w-full pl-9 pr-8 py-2 text-sm rounded-lg border border-border/60 bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]"
+          className="w-full pl-9 pr-8 py-2 text-sm rounded-lg border border-border/60 bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]"
         />
         {busca && (
           <button
@@ -90,7 +90,7 @@ export function AdminFornecedoresTable({ suppliers }: { suppliers: Supplier[] })
                         <div>
                           <div className="flex items-center gap-1">
                             <span className="font-medium text-xs">{s.name}</span>
-                            {s.verified && <BadgeCheck className="w-3.5 h-3.5 text-[#6699F3]" aria-label="Verificado Handify" />}
+                            {s.verified && <BadgeCheck className="w-3.5 h-3.5 text-[#f6614f]" aria-label="Verificado Lumii" />}
                           </div>
                         </div>
                       </div>
@@ -114,7 +114,7 @@ export function AdminFornecedoresTable({ suppliers }: { suppliers: Supplier[] })
                     <td className="px-4 py-3 text-right">
                       <Link
                         href={`/admin/fornecedores/${s.id}`}
-                        className="inline-flex items-center gap-1 text-xs text-[#6699F3] hover:underline"
+                        className="inline-flex items-center gap-1 text-xs text-[#f6614f] hover:underline"
                       >
                         <Edit className="w-3 h-3" />
                         Editar

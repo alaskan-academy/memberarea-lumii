@@ -26,17 +26,17 @@ const TYPE_ICON: Record<string, React.ElementType> = {
 };
 
 const TYPE_COLOR: Record<string, string> = {
-  admin_broadcast: "#6699F3",
-  course_completed: "#72CF92",
-  certificate_ready: "#72CF92",
-  news_post: "#FEC649",
+  admin_broadcast: "#f6614f",
+  course_completed: "#71c69a",
+  certificate_ready: "#71c69a",
+  news_post: "#eebc3e",
 };
 
 function typeIcon(type: string): React.ElementType {
   return TYPE_ICON[type] ?? Info;
 }
 function typeColor(type: string): string {
-  return TYPE_COLOR[type] ?? "#6699F3";
+  return TYPE_COLOR[type] ?? "#f6614f";
 }
 
 function fmtDate(iso: string) {
@@ -117,7 +117,7 @@ export default function NotificacoesClient({
         {unreadCount > 0 && (
           <button
             onClick={handleReadAll}
-            className="flex items-center gap-1.5 text-sm text-[#6699F3] hover:text-[#4d7de0] transition-colors font-medium"
+            className="flex items-center gap-1.5 text-sm text-[#f6614f] hover:text-[#4d7de0] transition-colors font-medium"
           >
             <CheckCheck className="w-4 h-4" />
             Marcar todas como lidas
@@ -133,7 +133,7 @@ export default function NotificacoesClient({
             onClick={() => setFilter(f)}
             className={`px-3 py-2 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
               filter === f
-                ? "bg-[#6699F3] text-white"
+                ? "bg-[#f6614f] text-white"
                 : "border border-border text-muted-foreground hover:bg-muted"
             }`}
           >
@@ -161,7 +161,7 @@ export default function NotificacoesClient({
             const inner = (
               <div
                 className={`flex gap-4 px-5 py-4 transition-colors ${
-                  !n.read ? "bg-[#6699F3]/[0.04]" : "hover:bg-muted/40"
+                  !n.read ? "bg-[#f6614f]/[0.04]" : "hover:bg-muted/40"
                 }`}
                 onClick={() => { if (!n.read) handleRead(n.id); }}
               >
@@ -188,7 +188,7 @@ export default function NotificacoesClient({
                 {!n.read && (
                   <div
                     className="w-2.5 h-2.5 rounded-full shrink-0 mt-1.5"
-                    style={{ background: "#6699F3" }}
+                    style={{ background: "#f6614f" }}
                   />
                 )}
               </div>

@@ -72,7 +72,7 @@ export function AdminProdutosTable({ products }: Props) {
                     return tags.length === 0
                       ? <span className="text-xs text-muted-foreground/60 italic">—</span>
                       : tags.map(t => (
-                          <span key={t} className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#6699F3]/10 text-[#6699F3] font-medium capitalize">
+                          <span key={t} className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#f6614f]/10 text-[#f6614f] font-medium capitalize">
                             {t.replace(/-/g, ' ')}
                           </span>
                         ))

@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { adminGetReviews, adminApproveReview, adminDeleteReview } from '@/lib/fornecedores/actions'
 import { ArrowLeft, Check, Trash2 } from 'lucide-react'
 
-export const metadata = { title: 'Admin — Comentários de Fornecedores | Handify' }
+export const metadata = { title: 'Admin — Comentários de Fornecedores | Lumii' }
 
 export default async function AdminComentariosPage() {
   const supabase = await createClient()
@@ -34,7 +34,7 @@ export default async function AdminComentariosPage() {
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="text-xs font-medium">{r.profiles?.full_name ?? 'Aluna'}</span>
               <span className="text-[10px] text-muted-foreground">→</span>
-              <span className="text-xs text-[#6699F3]">{r.suppliers?.name}</span>
+              <span className="text-xs text-[#f6614f]">{r.suppliers?.name}</span>
               <span className="text-[10px] text-muted-foreground ml-auto">
                 {new Date(r.created_at).toLocaleDateString('pt-BR')}
               </span>
@@ -74,7 +74,7 @@ export default async function AdminComentariosPage() {
         <h2 className="text-sm font-semibold mb-3 flex items-center gap-2">
           Aguardando aprovação
           {pending.length > 0 && (
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#6699F3] text-white text-[10px] font-bold">
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#f6614f] text-white text-[10px] font-bold">
               {pending.length}
             </span>
           )}

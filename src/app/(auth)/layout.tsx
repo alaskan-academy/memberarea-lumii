@@ -1,29 +1,21 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
+import Logo from "@/components/brand/Logo";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F5F5F0]">
-      {/* Faixa tricolor Handify no topo */}
+    <div className="min-h-screen flex flex-col bg-lumii-bg">
+      {/* Faixa Lumii no topo */}
       <div className="brand-stripe">
         <span /><span /><span />
       </div>
 
       <div className="flex flex-1 items-center justify-center px-4 py-12">
         <div className="w-full max-w-md space-y-8">
-          {/* Logo Handify */}
+          {/* Logo Lumii */}
           <div className="flex flex-col items-center gap-3">
-            <Image
-              src="/logo-vertical-azul.png"
-              alt="Handify™"
-              width={140}
-              height={140}
-              priority
-              unoptimized
-              className="object-contain"
-            />
-            <span className="text-xs text-[#888] tracking-wide">
-              Um espaço feito para aprender e criar.
+            <Logo size={56} />
+            <span className="text-xs text-lumii-muted/60 tracking-wide">
+              Cuidar de quem cuida da infância.
             </span>
           </div>
 
@@ -32,8 +24,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       </div>
 
       {/* Rodapé */}
-      <footer className="py-4 text-center text-xs text-[#888] border-t border-border/40">
-        © {new Date().getFullYear()} Handify™ — Todos os direitos reservados
+      <footer className="py-4 text-center text-xs text-lumii-muted/40 border-t border-border/40">
+        © {new Date().getFullYear()} Lumii — Todos os direitos reservados
       </footer>
     </div>
   );

@@ -89,13 +89,13 @@ export default async function VideosMetricasPage() {
 
       {/* Cards — apenas vídeos da plataforma */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCard icon={Video} label="Vídeos na plataforma" value={linked.length} color="#6699F3"
+        <SummaryCard icon={Video} label="Vídeos na plataforma" value={linked.length} color="#f6614f"
           tooltip="Vídeos do Panda vinculados a uma aula cadastrada na plataforma." />
-        <SummaryCard icon={Clock} label="Duração total" value={formatDuration(totalDuration)} color="#72CF92"
+        <SummaryCard icon={Clock} label="Duração total" value={formatDuration(totalDuration)} color="#71c69a"
           tooltip="Soma das durações de todos os vídeos vinculados à plataforma." />
-        <SummaryCard icon={HardDrive} label="Armazenamento" value={formatStorage(totalStorage)} color="#FEC649"
+        <SummaryCard icon={HardDrive} label="Armazenamento" value={formatStorage(totalStorage)} color="#eebc3e"
           tooltip="Espaço ocupado pelos vídeos vinculados à plataforma no Panda Video." />
-        <SummaryCard icon={Eye} label="Aulas iniciadas" value={totalViews} color="#6699F3"
+        <SummaryCard icon={Eye} label="Aulas iniciadas" value={totalViews} color="#f6614f"
           tooltip="Soma de alunas que iniciaram cada aula (registros de lesson_progress). Analytics de views do Panda requer autenticação AWS não disponível via API key." />
       </div>
 
@@ -103,7 +103,7 @@ export default async function VideosMetricasPage() {
         {/* Mais assistidas */}
         <div className="handify-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
-            <Eye className="w-4 h-4 text-[#6699F3]" />
+            <Eye className="w-4 h-4 text-[#f6614f]" />
             Mais assistidas
           </h2>
           <p className="text-xs text-muted-foreground mb-4">por alunas com progresso registrado na plataforma</p>
@@ -118,7 +118,7 @@ export default async function VideosMetricasPage() {
                     <p className="text-sm font-medium truncate">{v.lesson.lessonTitle}</p>
                     <p className="text-xs text-muted-foreground truncate">{v.lesson.courseTitle}</p>
                     <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full rounded-full bg-[#6699F3]"
+                      <div className="h-full rounded-full bg-[#f6614f]"
                         style={{ width: `${Math.round((v.started / maxStarted) * 100)}%` }} />
                     </div>
                   </div>
@@ -132,7 +132,7 @@ export default async function VideosMetricasPage() {
         {/* Mais concluídas */}
         <div className="handify-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
-            <Play className="w-4 h-4 text-[#72CF92]" />
+            <Play className="w-4 h-4 text-[#71c69a]" />
             Mais concluídas
           </h2>
           <p className="text-xs text-muted-foreground mb-4">por alunas que finalizaram a aula</p>
@@ -147,7 +147,7 @@ export default async function VideosMetricasPage() {
                     <p className="text-sm font-medium truncate">{v.lesson.lessonTitle}</p>
                     <p className="text-xs text-muted-foreground truncate">{v.lesson.courseTitle}</p>
                     <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full rounded-full bg-[#72CF92]"
+                      <div className="h-full rounded-full bg-[#71c69a]"
                         style={{ width: `${Math.round((v.completed / (topByCompleted[0]?.completed || 1)) * 100)}%` }} />
                     </div>
                   </div>
@@ -163,7 +163,7 @@ export default async function VideosMetricasPage() {
       {linked.length > 0 && (
         <div className="handify-card p-6">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
-            <Video className="w-4 h-4 text-[#6699F3]" />
+            <Video className="w-4 h-4 text-[#f6614f]" />
             Todas as aulas em vídeo — {linked.length} vídeos
           </h2>
           <div className="overflow-x-auto">
@@ -204,7 +204,7 @@ export default async function VideosMetricasPage() {
                     </td>
                     <td className="py-2.5 text-right tabular-nums font-medium">
                       {v.completed > 0 ? (
-                        <span style={{ color: "#72CF92" }}>{v.completed}</span>
+                        <span style={{ color: "#71c69a" }}>{v.completed}</span>
                       ) : (
                         <span className="text-muted-foreground">—</span>
                       )}

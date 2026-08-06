@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
+import Logo from "@/components/brand/Logo";
 import HtmlContent from "./HtmlContent";
 
 export async function generateMetadata({
@@ -20,7 +20,7 @@ export async function generateMetadata({
     .single();
 
   return {
-    title: page?.title ? `${page.title} — Handify™` : "Handify™",
+    title: page?.title ? `${page.title} — Lumii` : "Lumii",
   };
 }
 
@@ -45,27 +45,13 @@ export default async function StaticPage({
   const htmlBlock = blocks.find((b) => b.type === "html");
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-lumii-bg">
       {/* Header simples */}
       <header className="bg-white border-b border-border/60 sticky top-0 z-10">
-        <div className="flex h-1">
-          <span className="flex-1 bg-[#6699F3]" />
-          <span className="flex-1 bg-[#72CF92]" />
-          <span className="flex-1 bg-[#FEC649]" />
-        </div>
+        <div className="brand-stripe !h-1" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center h-14 gap-4">
           <Link href="/cursos" className="flex items-center gap-2 shrink-0">
-            <Image
-              src="/logo-vertical-azul.png"
-              alt="Handify™"
-              width={26}
-              height={26}
-              unoptimized
-              className="object-contain"
-            />
-            <span className="font-black text-sm" style={{ color: "#6699F3" }}>
-              Handify<sup className="text-[10px] ml-px">™</sup>
-            </span>
+            <Logo size={24} />
           </Link>
           <div className="flex-1" />
           <Link
@@ -100,7 +86,7 @@ export default async function StaticPage({
       </main>
 
       <footer className="py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Handify™ — Todos os direitos reservados
+        © {new Date().getFullYear()} Lumii — Todos os direitos reservados
       </footer>
     </div>
   );

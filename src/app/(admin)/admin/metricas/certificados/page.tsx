@@ -50,7 +50,7 @@ export default async function CertificadosPage() {
         </Link>
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
-            <Award className="w-5 h-5 text-[#FEC649]" />
+            <Award className="w-5 h-5 text-[#eebc3e]" />
             Certificados emitidos
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -122,7 +122,7 @@ export default async function CertificadosPage() {
                       href={`/verificar/${row.verify_hash}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[#72CF92]/30 text-[#3d9e5a] hover:bg-[#72CF92]/10 transition-colors whitespace-nowrap"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[#71c69a]/30 text-[#3d9e5a] hover:bg-[#71c69a]/10 transition-colors whitespace-nowrap"
                       title="Verificar certificado"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
@@ -157,7 +157,7 @@ function StudentAvatar({ name, url, size = 36 }: { name: string; url: string | n
   return (
     <div
       className="rounded-full flex items-center justify-center shrink-0 text-white font-semibold"
-      style={{ width: size, height: size, background: "#FEC649", fontSize: size * 0.35, color: "#2D2D2D" }}
+      style={{ width: size, height: size, background: "#eebc3e", fontSize: size * 0.35, color: "#2D2D2D" }}
     >
       {initials || "?"}
     </div>

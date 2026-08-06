@@ -20,13 +20,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// ─── Cores predefinidas (Handify + básicas) ────────────────────────────────
+// ─── Cores predefinidas (Lumii + básicas) ────────────────────────────────
 
 const TEXT_COLORS = [
   { label: "Padrão", value: "" },
-  { label: "Azul Handify", value: "#6699F3" },
-  { label: "Verde Handify", value: "#72CF92" },
-  { label: "Amarelo Handify", value: "#FEC649" },
+  { label: "Coral Lumii", value: "#f6614f" },
+  { label: "Verde Lumii", value: "#71c69a" },
+  { label: "Amarelo Lumii", value: "#eebc3e" },
+  { label: "Navy Lumii", value: "#212d42" },
   { label: "Preto", value: "#0F0F0F" },
   { label: "Cinza", value: "#2D2D2D" },
   { label: "Vermelho", value: "#EF4444" },
@@ -65,7 +66,7 @@ function ToolBtn({
       className={cn(
         "p-1.5 rounded transition-colors",
         active
-          ? "bg-[#6699F3] text-white"
+          ? "bg-[#f6614f] text-white"
           : "text-muted-foreground hover:text-foreground hover:bg-muted",
         disabled && "opacity-30 cursor-not-allowed"
       )}
@@ -188,7 +189,7 @@ function LinkDialog({ editor }: { editor: Editor }) {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && apply()}
-              className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+              className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
             />
             <div className="flex gap-2 justify-end">
               <button
@@ -201,7 +202,7 @@ function LinkDialog({ editor }: { editor: Editor }) {
               <button
                 type="button"
                 onClick={apply}
-                className="text-xs px-3 py-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4]"
+                className="text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4]"
               >
                 Aplicar
               </button>
@@ -429,7 +430,7 @@ export default function RichTextEditor({
   if (!editor) return null;
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden bg-background focus-within:ring-2 focus-within:ring-[#6699F3]/40">
+    <div className="border border-border rounded-lg overflow-hidden bg-background focus-within:ring-2 focus-within:ring-[#f6614f]/40">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
