@@ -378,9 +378,6 @@ export default function CalculadoraLucro({ config }: { config: ProdutoConfig }) 
     <div className="min-h-screen bg-lumii-bg">
       {/* Header */}
       <div className="bg-[#0F0F0F] text-white">
-        <div className="flex h-[3px]">
-          <span className="flex-1 bg-[#f6614f]" /><span className="flex-1 bg-[#71c69a]" /><span className="flex-1 bg-[#eebc3e]" />
-        </div>
         <div className="max-w-2xl mx-auto px-4 py-8 text-center">
           <Link href="/ferramentas" className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-white mb-4 transition-colors">
             <ChevronLeft className="w-3 h-3" />Ferramentas

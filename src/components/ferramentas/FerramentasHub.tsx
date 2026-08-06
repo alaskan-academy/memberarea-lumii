@@ -211,11 +211,6 @@ export default function FerramentasHub({ niches }: { niches: NicheRow[] }) {
                 href={tool.href}
                 className="group bg-white rounded-2xl border border-border/60 hover:border-[#f6614f]/50 hover:shadow-md transition-all overflow-hidden flex flex-col"
               >
-                <div className="flex h-[3px]">
-                  <span className="flex-1 bg-[#f6614f]" />
-                  <span className="flex-1 bg-[#71c69a]" />
-                  <span className="flex-1 bg-[#eebc3e]" />
-                </div>
                 <div className="p-6 flex flex-col flex-1">
                   <div className="text-3xl mb-3">{tool.icon}</div>
                   <h3 className="font-black text-[#2D2D2D] text-base mb-2 group-hover:text-[#f6614f] transition-colors">

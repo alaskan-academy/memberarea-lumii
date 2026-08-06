@@ -73,12 +73,6 @@ export default async function VerificarPage({
         </div>
       </header>
 
-      {/* Faixa tricolor */}
-      <div className="flex h-1">
-        <div className="flex-1 bg-[#f6614f]" />
-        <div className="flex-1 bg-[#71c69a]" />
-        <div className="flex-1 bg-[#eebc3e]" />
-      </div>
 
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-lg space-y-6">
