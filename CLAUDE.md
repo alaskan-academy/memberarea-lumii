@@ -3,6 +3,12 @@
 PRD e arquitetura completa em: `../CLAUDE.md`
 Plano de execução em: `../PLAN.md`
 
+## Identidade Visual (Lumii) — obrigatório
+
+**Antes de criar ou alterar qualquer peça visual (telas, componentes, e-mails, PDFs), consultar [`docs/brand/IDV-Lumii.md`](docs/brand/IDV-Lumii.md).**
+
+Regra não-negociável: cores (`#71c69a`, `#eebc3e`, `#f6614f`, `#212d42`), fonte (Poppins) e tom de voz da IDV nunca podem ser alterados ou ignorados sem atualização oficial do documento de marca.
+
 ## Comandos
 
 ```bash
