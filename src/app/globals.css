@@ -6,87 +6,88 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   HANDIFY™ — Design Tokens
-   Paleta oficial: nunca aproxime, use hex exatos
+   LUMII — Design Tokens
+   Paleta oficial (docs/brand/IDV-Lumii.md): nunca aproxime, use hex exatos
    ============================================================ */
 :root {
   /* Brand primárias */
-  --handify-blue:       #6699F3;  /* Azul Handify — CTA, links, destaques */
-  --handify-green:      #72CF92;  /* Verde Orgânico — sucesso, accent */
-  --handify-yellow:     #FEC649;  /* Amarelo Artesanal — detalhe, faixa */
+  --lumii-coral:        #f6614f;  /* Coral Lumii — CTA, links, destaques */
+  --lumii-green:        #71c69a;  /* Verde Lumii — sucesso, accent */
+  --lumii-yellow:       #eebc3e;  /* Amarelo Lumii — detalhe, faixa, promo */
+  --lumii-navy:         #212d42;  /* Navy Lumii — fundo institucional, texto */
 
   /* Brand neutras */
-  --handify-black:      #0F0F0F;
-  --handify-gray-dark:  #2D2D2D;  /* Texto principal */
-  --handify-off-white:  #F5F5F0;  /* Fundo editorial */
+  --lumii-black:        #0F0F0F;
+  --lumii-gray-dark:    #2D2D2D;  /* Texto secundário */
+  --lumii-off-white:    #F5F5F0;  /* Fundo editorial */
 
-  /* ── Shadcn/UI theme mapeado para Handify ── */
-  --background:             oklch(1 0 0);                   /* branco */
-  --foreground:             oklch(0.22 0 0);                /* #2D2D2D */
-  --card:                   oklch(1 0 0);
-  --card-foreground:        oklch(0.22 0 0);
-  --popover:                oklch(1 0 0);
-  --popover-foreground:     oklch(0.22 0 0);
-  --primary:                oklch(0.637 0.178 269.5);       /* #6699F3 */
-  --primary-foreground:     oklch(1 0 0);                   /* branco */
-  --secondary:              oklch(0.968 0.003 100);         /* #F5F5F0 */
-  --secondary-foreground:   oklch(0.22 0 0);
-  --muted:                  oklch(0.968 0.003 100);         /* #F5F5F0 */
-  --muted-foreground:       oklch(0.50 0 0);
-  --accent:                 oklch(0.762 0.118 152.7);       /* #72CF92 */
-  --accent-foreground:      oklch(0.09 0 0);                /* #0F0F0F */
-  --destructive:            oklch(0.577 0.245 27.325);
+  /* ── Shadcn/UI theme mapeado para Lumii ── */
+  --background:             #ffffff;
+  --foreground:              #212d42;                       /* navy */
+  --card:                   #ffffff;
+  --card-foreground:        #212d42;
+  --popover:                #ffffff;
+  --popover-foreground:     #212d42;
+  --primary:                #f6614f;                        /* coral */
+  --primary-foreground:     #ffffff;
+  --secondary:              #F5F5F0;
+  --secondary-foreground:   #212d42;
+  --muted:                  #F5F5F0;
+  --muted-foreground:       #6b7280;
+  --accent:                 #71c69a;                        /* verde */
+  --accent-foreground:      #212d42;
+  --destructive:            #e11d48;                        /* rose — deliberadamente distinto do coral primário */
   --border:                 oklch(0.90 0.003 100);
   --input:                  oklch(0.90 0.003 100);
-  --ring:                   oklch(0.637 0.178 269.5);       /* #6699F3 */
+  --ring:                   #f6614f;                        /* coral */
   --radius:                 0.5rem;                         /* 8px */
 
-  /* Charts — paleta Handify */
-  --chart-1: oklch(0.637 0.178 269.5);   /* blue */
-  --chart-2: oklch(0.762 0.118 152.7);   /* green */
-  --chart-3: oklch(0.831 0.162 83.5);    /* yellow */
-  --chart-4: oklch(0.50 0.14 269.5);
-  --chart-5: oklch(0.40 0.10 269.5);
+  /* Charts — paleta Lumii */
+  --chart-1: #f6614f;   /* coral */
+  --chart-2: #71c69a;   /* verde */
+  --chart-3: #eebc3e;   /* amarelo */
+  --chart-4: #212d42;   /* navy */
+  --chart-5: #4a5a78;   /* navy claro */
 
   /* Sidebar */
-  --sidebar:                    oklch(0.968 0.003 100);
-  --sidebar-foreground:         oklch(0.22 0 0);
-  --sidebar-primary:            oklch(0.637 0.178 269.5);
-  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar:                    #F5F5F0;
+  --sidebar-foreground:         #212d42;
+  --sidebar-primary:            #f6614f;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent:             oklch(0.94 0.003 100);
-  --sidebar-accent-foreground:  oklch(0.22 0 0);
+  --sidebar-accent-foreground:  #212d42;
   --sidebar-border:             oklch(0.90 0.003 100);
-  --sidebar-ring:               oklch(0.637 0.178 269.5);
+  --sidebar-ring:               #f6614f;
 }
 
-/* Dark mode — mantém identidade Handify */
+/* Dark mode — mantém identidade Lumii (infraestrutura pronta, sem toggle ativo hoje) */
 .dark {
-  --background:             oklch(0.09 0 0);                /* #0F0F0F */
-  --foreground:             oklch(0.93 0 0);
-  --card:                   oklch(0.14 0 0);
-  --card-foreground:        oklch(0.93 0 0);
-  --popover:                oklch(0.14 0 0);
-  --popover-foreground:     oklch(0.93 0 0);
-  --primary:                oklch(0.637 0.178 269.5);       /* #6699F3 mantido */
-  --primary-foreground:     oklch(1 0 0);
-  --secondary:              oklch(0.20 0 0);
-  --secondary-foreground:   oklch(0.93 0 0);
-  --muted:                  oklch(0.20 0 0);
-  --muted-foreground:       oklch(0.60 0 0);
-  --accent:                 oklch(0.762 0.118 152.7);
-  --accent-foreground:      oklch(0.09 0 0);
-  --destructive:            oklch(0.704 0.191 22.216);
+  --background:             #212d42;                        /* navy */
+  --foreground:             #F5F5F0;
+  --card:                   #2a374f;
+  --card-foreground:        #F5F5F0;
+  --popover:                #2a374f;
+  --popover-foreground:     #F5F5F0;
+  --primary:                #f6614f;                        /* coral mantido */
+  --primary-foreground:     #ffffff;
+  --secondary:              #364360;
+  --secondary-foreground:   #F5F5F0;
+  --muted:                  #364360;
+  --muted-foreground:       #a3adc2;
+  --accent:                 #71c69a;
+  --accent-foreground:      #212d42;
+  --destructive:            #fb7185;
   --border:                 oklch(1 0 0 / 10%);
   --input:                  oklch(1 0 0 / 12%);
-  --ring:                   oklch(0.637 0.178 269.5);
-  --sidebar:                oklch(0.14 0 0);
-  --sidebar-foreground:     oklch(0.93 0 0);
-  --sidebar-primary:        oklch(0.637 0.178 269.5);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent:         oklch(0.20 0 0);
-  --sidebar-accent-foreground: oklch(0.93 0 0);
+  --ring:                   #f6614f;
+  --sidebar:                #1a2436;
+  --sidebar-foreground:     #F5F5F0;
+  --sidebar-primary:        #f6614f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent:         #364360;
+  --sidebar-accent-foreground: #F5F5F0;
   --sidebar-border:         oklch(1 0 0 / 10%);
-  --sidebar-ring:           oklch(0.637 0.178 269.5);
+  --sidebar-ring:           #f6614f;
 }
 
 @theme inline {
@@ -122,17 +123,18 @@
   --color-sidebar-border:           var(--sidebar-border);
   --color-sidebar-ring:             var(--sidebar-ring);
 
-  /* Cores Handify acessíveis via Tailwind: bg-handify-blue, text-handify-green, etc. */
-  --color-handify-blue:   #6699F3;
-  --color-handify-green:  #72CF92;
-  --color-handify-yellow: #FEC649;
-  --color-handify-black:  #0F0F0F;
-  --color-handify-gray:   #2D2D2D;
-  --color-handify-muted:  #F5F5F0;
+  /* Cores Lumii acessíveis via Tailwind: bg-lumii-coral, text-lumii-green, etc. */
+  --color-lumii-coral:   #f6614f;
+  --color-lumii-green:   #71c69a;
+  --color-lumii-yellow:  #eebc3e;
+  --color-lumii-navy:    #212d42;
+  --color-lumii-black:   #0F0F0F;
+  --color-lumii-gray:    #2D2D2D;
+  --color-lumii-muted:   #F5F5F0;
 
-  --font-sans:    'Montserrat', 'Montserrat Fallback', Arial, Helvetica, sans-serif;
+  --font-sans:    'Poppins', 'Poppins Fallback', Arial, Helvetica, sans-serif;
   --font-mono:    'Geist Mono', 'Geist Mono Fallback', monospace;
-  --font-heading: 'Montserrat', 'Montserrat Fallback', Arial, Helvetica, sans-serif;
+  --font-heading: 'Poppins', 'Poppins Fallback', Arial, Helvetica, sans-serif;
 
   --radius-sm:  calc(var(--radius) * 0.6);
   --radius-md:  calc(var(--radius) * 0.8);
@@ -149,7 +151,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Montserrat', 'Montserrat Fallback', Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', 'Poppins Fallback', Arial, Helvetica, sans-serif;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
@@ -158,27 +160,28 @@
     scrollbar-gutter: stable; /* evita layout shift quando scrollbar aparece */
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', 'Montserrat Fallback', Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', 'Poppins Fallback', Arial, Helvetica, sans-serif;
     font-weight: 700;
     line-height: 1.2;
   }
 }
 
 /* ============================================================
-   Componentes Handify globais
+   Componentes Lumii globais
    ============================================================ */
 
-/* Faixa decorativa tricolor (topo de página, rodapé, cards) */
+/* Faixa decorativa tricolor (topo de página, rodapé, cards) — segue o
+   gradiente do wordmark: verde → amarelo → coral */
 .brand-stripe {
   display: flex;
   height: 4px;
   width: 100%;
 }
-.brand-stripe span:nth-child(1) { flex: 1; background: var(--handify-blue); }
-.brand-stripe span:nth-child(2) { flex: 1; background: var(--handify-green); }
-.brand-stripe span:nth-child(3) { flex: 1; background: var(--handify-yellow); }
+.brand-stripe span:nth-child(1) { flex: 1; background: var(--lumii-green); }
+.brand-stripe span:nth-child(2) { flex: 1; background: var(--lumii-yellow); }
+.brand-stripe span:nth-child(3) { flex: 1; background: var(--lumii-coral); }
 
-/* Card padrão Handify */
+/* Card padrão Lumii */
 .handify-card {
   background: #fff;
   border-radius: 12px;
@@ -187,15 +190,15 @@
   transition: box-shadow 200ms ease-out;
 }
 .handify-card:hover {
-  box-shadow: 0 4px 12px rgba(102, 153, 243, 0.12);
+  box-shadow: 0 4px 12px rgba(246, 97, 79, 0.12);
 }
 
-/* Palavra em destaque azul dentro de título */
+/* Palavra em destaque coral dentro de título */
 .accent-word {
-  color: var(--handify-blue);
+  color: var(--lumii-coral);
 }
 
-/* Transições padrão Handify: 200-300ms ease-out */
+/* Transições padrão Lumii: 200-300ms ease-out */
 .handify-transition {
   transition: all 250ms ease-out;
 }

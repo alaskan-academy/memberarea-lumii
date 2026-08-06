@@ -6,7 +6,7 @@ export default function OfflinePage() {
   return (
     <div
       className="min-h-svh bg-[#F5F5F0] flex flex-col"
-      style={{ fontFamily: "var(--font-montserrat), Montserrat, Arial, sans-serif" }}
+      style={{ fontFamily: "var(--font-poppins), Poppins, Arial, sans-serif" }}
     >
       {/* Faixa tricolor topo */}
       <div className="flex h-1.5 w-full shrink-0">
