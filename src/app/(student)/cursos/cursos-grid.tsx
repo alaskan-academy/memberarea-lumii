@@ -341,12 +341,6 @@ function HorizontalRow({
     return (
       <section className="mb-12 -mx-4 sm:-mx-6 lg:-mx-8">
         <div className="bg-white border-y border-border/40 shadow-sm overflow-hidden">
-          {/* Faixa tricolor */}
-          <div className="flex h-[3px]">
-            <span className="flex-1 bg-[#f6614f]" />
-            <span className="flex-1 bg-[#71c69a]" />
-            <span className="flex-1 bg-[#eebc3e]" />
-          </div>
           <div className="px-4 sm:px-6 lg:px-8 pt-5 pb-4">
             {header}
             {scrollRow}

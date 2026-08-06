@@ -211,13 +211,6 @@ export default function AdminNav({
           collapsed ? "w-16" : "w-60"
         )}
       >
-        {/* Brand stripe */}
-        <div className="flex h-1 shrink-0">
-          <span className="flex-1 bg-[#f6614f]" />
-          <span className="flex-1 bg-[#71c69a]" />
-          <span className="flex-1 bg-[#eebc3e]" />
-        </div>
-
         {/* Logo */}
         <div
           className={cn(
@@ -277,11 +270,6 @@ export default function AdminNav({
 
       {/* ── Mobile header ──────────────────────────────── */}
       <header className="md:hidden bg-lumii-navy text-white sticky top-0 z-40">
-        <div className="flex h-1 shrink-0">
-          <span className="flex-1 bg-[#f6614f]" />
-          <span className="flex-1 bg-[#71c69a]" />
-          <span className="flex-1 bg-[#eebc3e]" />
-        </div>
         <div className="flex items-center gap-3 px-4 py-3">
           <button
             onClick={() => setDrawerOpen(true)}
@@ -316,11 +304,6 @@ export default function AdminNav({
             onClick={() => setDrawerOpen(false)}
           />
           <div className="md:hidden fixed inset-y-0 left-0 z-50 w-72 bg-lumii-navy shadow-2xl flex flex-col">
-            <div className="flex h-1 shrink-0">
-              <span className="flex-1 bg-[#f6614f]" />
-              <span className="flex-1 bg-[#71c69a]" />
-              <span className="flex-1 bg-[#eebc3e]" />
-            </div>
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] shrink-0">
               <div>
                 <p className="text-white font-bold text-sm">Lumii</p>

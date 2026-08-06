@@ -8,13 +8,6 @@ export default function OfflinePage() {
       className="min-h-svh bg-lumii-bg flex flex-col"
       style={{ fontFamily: "var(--font-poppins), Poppins, Arial, sans-serif" }}
     >
-      {/* Faixa tricolor topo */}
-      <div className="flex h-1.5 w-full shrink-0">
-        <span className="flex-1 bg-[#f6614f]" />
-        <span className="flex-1 bg-[#71c69a]" />
-        <span className="flex-1 bg-[#eebc3e]" />
-      </div>
-
       {/* Conteúdo central */}
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <Logo size={64} />
@@ -41,13 +34,6 @@ export default function OfflinePage() {
       {/* Rodapé */}
       <div className="py-6 border-t border-lumii-muted/10 text-center text-xs text-lumii-muted/40 tracking-wide uppercase">
         Lumii · Cuidar de quem cuida da infância.
-      </div>
-
-      {/* Faixa tricolor rodapé */}
-      <div className="flex h-1.5 w-full shrink-0">
-        <span className="flex-1 bg-[#f6614f]" />
-        <span className="flex-1 bg-[#71c69a]" />
-        <span className="flex-1 bg-[#eebc3e]" />
       </div>
     </div>
   );

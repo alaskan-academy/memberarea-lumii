@@ -148,16 +148,13 @@
    Componentes Lumii globais
    ============================================================ */
 
-/* Faixa decorativa (topo de página, rodapé, cards) — gradiente contínuo
-   verde → amarelo → coral, o mesmo do wordmark. Substitui o bloco tricolor
-   sólido (assinatura visual do Handify) por um traço exclusivo da Lumii. */
+/* Faixa tricolor removida da identidade da Lumii (era assinatura visual
+   do Handify — decisão de 2026-08-06, ver docs/brand/IDV-Lumii.md).
+   Classe mantida só para não quebrar o markup existente; não renderiza
+   nada. Não reintroduzir cor/gradiente aqui sem antes atualizar a IDV. */
 .brand-stripe {
-  display: flex;
-  height: 4px;
-  width: 100%;
-  background: linear-gradient(90deg, var(--lumii-green), var(--lumii-yellow), var(--lumii-coral));
+  display: none;
 }
-.brand-stripe span { flex: 1; }
 
 /* Card padrão Lumii */
 .handify-card {
