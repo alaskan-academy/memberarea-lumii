@@ -158,11 +158,11 @@ export default async function AdminHomePage() {
 
       {/* Saudação */}
       <div>
-        <h1 className="text-2xl font-bold text-[#2D2D2D]">
+        <h1 className="text-2xl font-bold text-foreground">
           {greeting},{" "}
           <span className="text-[#f6614f]">{firstName}!</span>
         </h1>
-        <p className="text-sm text-[#2D2D2D]/50 mt-1">
+        <p className="text-sm text-muted-foreground mt-1">
           {new Date().toLocaleDateString("pt-BR", {
             weekday: "long",
             day: "numeric",
@@ -178,7 +178,7 @@ export default async function AdminHomePage() {
           {(pendingReports ?? 0) > 0 && (
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/15 border border-[#eebc3e]/40">
               <AlertTriangle className="w-5 h-5 text-[#b07d00] shrink-0" />
-              <p className="text-sm font-medium text-[#2D2D2D] flex-1">
+              <p className="text-sm font-medium text-foreground flex-1">
                 <span className="font-bold">{pendingReports}</span>{" "}
                 {pendingReports === 1 ? "denúncia aguarda" : "denúncias aguardam"} revisão
               </p>
@@ -196,11 +196,11 @@ export default async function AdminHomePage() {
               className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f6614f]/10 border border-[#f6614f]/30 hover:bg-[#f6614f]/15 transition-colors"
             >
               <Flag className="w-5 h-5 text-[#f6614f] shrink-0" />
-              <p className="text-sm font-medium text-[#2D2D2D] flex-1">
+              <p className="text-sm font-medium text-foreground flex-1">
                 <span className="font-bold text-[#f6614f]">{pendingForumPosts}</span>{" "}
                 {pendingForumPosts === 1 ? "post aguarda aprovação" : "posts aguardam aprovação"}
                 {" · "}
-                <span className="text-[#2D2D2D]/50">{totalForumPosts ?? 0} no total</span>
+                <span className="text-foreground/50">{totalForumPosts ?? 0} no total</span>
               </p>
               <ArrowRight className="w-4 h-4 text-[#f6614f] shrink-0" />
             </Link>
@@ -211,7 +211,7 @@ export default async function AdminHomePage() {
               className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#71c69a]/10 border border-[#71c69a]/30 hover:bg-[#71c69a]/15 transition-colors"
             >
               <MessageCircle className="w-5 h-5 text-[#3a9e60] shrink-0" />
-              <p className="text-sm font-medium text-[#2D2D2D] flex-1">
+              <p className="text-sm font-medium text-foreground flex-1">
                 <span className="font-bold text-[#3a9e60]">{pendingReviews}</span>{" "}
                 {pendingReviews === 1 ? "comentário de fornecedor aguarda" : "comentários de fornecedores aguardam"} aprovação
               </p>
@@ -224,7 +224,7 @@ export default async function AdminHomePage() {
               className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/10 border border-[#eebc3e]/40 hover:bg-[#eebc3e]/15 transition-colors"
             >
               <Lightbulb className="w-5 h-5 text-[#b07d00] shrink-0" />
-              <p className="text-sm font-medium text-[#2D2D2D] flex-1">
+              <p className="text-sm font-medium text-foreground flex-1">
                 <span className="font-bold text-[#b07d00]">{pendingSuggestions}</span>{" "}
                 {pendingSuggestions === 1 ? "sugestão de fornecedor aguarda" : "sugestões de fornecedores aguardam"} revisão
               </p>
@@ -237,7 +237,7 @@ export default async function AdminHomePage() {
               className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f6614f]/10 border border-[#f6614f]/30 hover:bg-[#f6614f]/15 transition-colors"
             >
               <Sparkles className="w-5 h-5 text-[#f6614f] shrink-0" />
-              <p className="text-sm font-medium text-[#2D2D2D] flex-1">
+              <p className="text-sm font-medium text-foreground flex-1">
                 <span className="font-bold text-[#f6614f]">{pendingInspComments}</span>{" "}
                 {pendingInspComments === 1 ? "comentário de inspiração aguarda" : "comentários de inspirações aguardam"} aprovação
               </p>
@@ -257,15 +257,15 @@ export default async function AdminHomePage() {
             >
               <Icon className="w-4 h-4" style={{ color }} />
             </div>
-            <p className="text-2xl font-bold text-[#2D2D2D]">{value}</p>
-            <p className="text-xs text-[#2D2D2D]/50 mt-1 font-medium">{label}</p>
+            <p className="text-2xl font-bold text-foreground">{value}</p>
+            <p className="text-xs text-foreground/50 mt-1 font-medium">{label}</p>
           </Link>
         ))}
       </div>
 
       {/* Atalhos rápidos — grid 3 colunas full-width */}
       <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-[#2D2D2D]/50 uppercase tracking-wider">
+        <h2 className="text-sm font-semibold text-foreground/50 uppercase tracking-wider">
           Acesso rápido
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -282,10 +282,10 @@ export default async function AdminHomePage() {
                 <Icon className="w-5 h-5 shrink-0" style={{ color }} />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-[#2D2D2D]">{label}</p>
-                <p className="text-xs text-[#2D2D2D]/50 mt-0.5 truncate">{desc}</p>
+                <p className="text-sm font-semibold text-foreground">{label}</p>
+                <p className="text-xs text-foreground/50 mt-0.5 truncate">{desc}</p>
               </div>
-              <ArrowRight className="w-4 h-4 text-[#2D2D2D]/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
+              <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
             </Link>
           ))}
         </div>
@@ -297,7 +297,7 @@ export default async function AdminHomePage() {
         {/* Webhooks recentes */}
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#2D2D2D]/50 uppercase tracking-wider">
+            <h2 className="text-sm font-semibold text-foreground/50 uppercase tracking-wider">
               Últimos pagamentos
             </h2>
             <Link href="/admin/metricas" className="text-xs text-[#f6614f] hover:underline font-medium">
@@ -306,16 +306,16 @@ export default async function AdminHomePage() {
           </div>
           <div className="handify-card divide-y divide-border/50">
             {(webhooks ?? []).length === 0 ? (
-              <p className="p-4 text-sm text-[#2D2D2D]/40">Nenhum webhook ainda.</p>
+              <p className="p-4 text-sm text-foreground/40">Nenhum webhook ainda.</p>
             ) : (
               (webhooks ?? []).map((w) => (
                 <div key={w.id} className="flex items-start gap-3 p-3">
                   <WebhookDot processed={w.processed} error={w.error} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-medium text-[#2D2D2D] truncate">
+                    <p className="text-xs font-medium text-foreground truncate">
                       {w.buyer_email ?? "—"}
                     </p>
-                    <p className="text-[11px] text-[#2D2D2D]/40 mt-0.5">
+                    <p className="text-[11px] text-foreground/40 mt-0.5">
                       <code className="bg-[#2D2D2D]/6 px-1 rounded">{w.event_type}</code>
                       {" · "}
                       {new Date(w.created_at).toLocaleDateString("pt-BR", {
@@ -334,7 +334,7 @@ export default async function AdminHomePage() {
 
         {/* Sidebar direita — Métricas + Cursos publicados */}
         <div className="space-y-3">
-          <h2 className="text-sm font-semibold text-[#2D2D2D]/50 uppercase tracking-wider">
+          <h2 className="text-sm font-semibold text-foreground/50 uppercase tracking-wider">
             Visão geral
           </h2>
           <div className="handify-card p-4 flex items-center gap-3">
@@ -342,8 +342,8 @@ export default async function AdminHomePage() {
               <Webhook className="w-4 h-4 text-[#71c69a]" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[11px] text-[#2D2D2D]/40 font-medium uppercase tracking-wide">Cursos publicados</p>
-              <p className="text-xl font-bold text-[#2D2D2D]">{cursosPublicados ?? 0}</p>
+              <p className="text-[11px] text-foreground/40 font-medium uppercase tracking-wide">Cursos publicados</p>
+              <p className="text-xl font-bold text-foreground">{cursosPublicados ?? 0}</p>
             </div>
             <Link href="/admin/cursos" className="text-xs font-semibold text-[#f6614f] hover:underline flex items-center gap-1 shrink-0">
               Ver <ArrowRight className="w-3 h-3" />
@@ -357,10 +357,10 @@ export default async function AdminHomePage() {
               <BarChart3 className="w-4 h-4 text-[#f6614f]" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-[#2D2D2D]">Métricas completas</p>
-              <p className="text-xs text-[#2D2D2D]/50">Top cursos, funil, vídeos</p>
+              <p className="text-sm font-semibold text-foreground">Métricas completas</p>
+              <p className="text-xs text-foreground/50">Top cursos, funil, vídeos</p>
             </div>
-            <ArrowRight className="w-4 h-4 text-[#2D2D2D]/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
+            <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
           </Link>
         </div>
       </div>

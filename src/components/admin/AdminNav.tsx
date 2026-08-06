@@ -183,7 +183,7 @@ export default function AdminNav({
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  useModalBackGuard(drawerOpen, () => setDrawerOpen(false));
+  const markDrawerNavigating = useModalBackGuard(drawerOpen, () => setDrawerOpen(false));
 
   // Restaura preferência do utilizador
   useEffect(() => {
@@ -322,7 +322,7 @@ export default function AdminNav({
               <NavLinks
                 pathname={pathname}
                 collapsed={false}
-                onNavigate={() => setDrawerOpen(false)}
+                onNavigate={() => { markDrawerNavigating(); setDrawerOpen(false); }}
                 pendingForumCount={pendingForumCount}
                 pendingReviewCount={pendingReviewCount}
                 pendingSuggestionsCount={pendingSuggestionsCount}
