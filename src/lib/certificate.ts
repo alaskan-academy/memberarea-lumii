@@ -104,11 +104,11 @@ export async function generateCertificatePdf(
   // Linha divisória sutil
   page.drawRectangle({ x: 18, y: logoY - 8, width: panelW - 36, height: 1, color: PANEL_SEP });
 
-  page.drawText("Plataforma de Cursos", {
+  page.drawText("Educação Infantil", {
     x: 18, y: logoY - 22, size: 8, font: regular, color: LIGHT_GRAY,
   });
-  page.drawText("de Artesanato", {
-    x: 18, y: logoY - 33, size: 8, font: regular, color: LIGHT_GRAY,
+  page.drawText("para Pais e Professores", {
+    x: 18, y: logoY - 33, size: 7, font: regular, color: LIGHT_GRAY,
   });
 
   // ── QR Code centralizado no painel ─────────────────────────────────────────
@@ -211,7 +211,7 @@ export async function generateCertificatePdf(
   // Linha de assinatura abaixo do texto cursivo
   page.drawRectangle({ x: cx, y: sigY + 28, width: 170, height: 1, color: DARK_GRAY });
 
-  page.drawText("Plataforma de Cursos de Artesanato", {
+  page.drawText("Cuidar de quem cuida da infância.", {
     x: cx, y: sigY + 14, size: 7.5, font: regular, color: LIGHT_GRAY,
   });
 
