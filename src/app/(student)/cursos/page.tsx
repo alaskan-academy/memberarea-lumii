@@ -260,11 +260,10 @@ export default async function CursosPage({
       <div className="bg-white border-b border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
           <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-3">
-            Plataforma de Cursos de Artesanato
+            Plataforma de Educação Infantil para Pais e Professores
           </p>
           <h1 className="text-3xl sm:text-4xl font-black text-[#0F0F0F]">
-            Aprenda o que suas{" "}
-            <span className="accent-word">mãos</span> podem criar
+            Cursos que <span className="accent-word">iluminam</span> sua jornada com a infância
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Cuidar de quem cuida da infância.
