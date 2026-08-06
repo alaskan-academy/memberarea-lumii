@@ -30,7 +30,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ]);
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] overflow-x-hidden">
+    <div className="min-h-screen bg-lumii-bg overflow-x-hidden">
       <ScrollToTop />
       <AdminNav
         pendingForumCount={pendingForumCount ?? 0}

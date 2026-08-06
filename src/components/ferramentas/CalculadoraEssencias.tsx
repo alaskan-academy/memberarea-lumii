@@ -116,7 +116,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
     'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#f6614f] focus:ring-2 focus:ring-[#f6614f]/20 bg-white'
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-lumii-bg">
       {/* Header */}
       <div className="bg-[#0F0F0F] text-white">
         <div className="flex h-[3px]">

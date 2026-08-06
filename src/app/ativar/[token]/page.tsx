@@ -12,7 +12,7 @@ export default async function AtivarPage({
 
   if (error || !email) {
     return (
-      <div className="min-h-screen bg-[#F5F5F0] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-lumii-bg flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-sm border border-border p-8 w-full max-w-md text-center space-y-4">
           <div className="flex justify-center">
             <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center">

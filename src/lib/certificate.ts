@@ -13,16 +13,16 @@ interface CertificateData {
   verifyHash: string;
 }
 
-const BLUE        = rgb(102 / 255, 153 / 255, 243 / 255);
-const GREEN       = rgb(114 / 255, 207 / 255, 146 / 255);
-const YELLOW      = rgb(254 / 255, 198 / 255, 73 / 255);
-const BRAND_BLACK = rgb(15 / 255, 15 / 255, 15 / 255);
+const CORAL       = rgb(0xf6 / 255, 0x61 / 255, 0x4f / 255);
+const GREEN       = rgb(0x71 / 255, 0xc6 / 255, 0x9a / 255);
+const YELLOW      = rgb(0xee / 255, 0xbc / 255, 0x3e / 255);
+const BRAND_BLACK = rgb(0x21 / 255, 0x2d / 255, 0x42 / 255);
 const DARK_GRAY   = rgb(45 / 255, 45 / 255, 45 / 255);
 const MID_GRAY    = rgb(120 / 255, 120 / 255, 120 / 255);
 const LIGHT_GRAY  = rgb(165 / 255, 165 / 255, 165 / 255);
-const PANEL_SEP   = rgb(40 / 255, 40 / 255, 40 / 255);
+const PANEL_SEP   = rgb(60 / 255, 74 / 255, 100 / 255);
 const WHITE       = rgb(1, 1, 1);
-const SOFT_BLUE   = rgb(230 / 255, 238 / 255, 255 / 255);
+const SOFT_BLUE   = rgb(255 / 255, 236 / 255, 231 / 255);
 
 export async function generateCertificatePdf(
   data: CertificateData
@@ -64,12 +64,12 @@ export async function generateCertificatePdf(
   page.drawRectangle({ x: 0, y: 0, width: panelW, height: H, color: BRAND_BLACK });
 
   // Detalhe: linha azul na borda direita do painel
-  page.drawRectangle({ x: panelW - 3, y: 0, width: 3, height: H, color: BLUE });
+  page.drawRectangle({ x: panelW - 3, y: 0, width: 3, height: H, color: CORAL });
 
   // ── Faixas tricolores (topo e base) ────────────────────────────────────────
   const stripeH = 8;
   for (const y of [H - stripeH, 0]) {
-    page.drawRectangle({ x: 0,           y, width: W / 3,     height: stripeH, color: BLUE });
+    page.drawRectangle({ x: 0,           y, width: W / 3,     height: stripeH, color: CORAL });
     page.drawRectangle({ x: W / 3,       y, width: W / 3,     height: stripeH, color: GREEN });
     page.drawRectangle({ x: (W / 3) * 2, y, width: W / 3 + 2, height: stripeH, color: YELLOW });
   }
@@ -92,12 +92,12 @@ export async function generateCertificatePdf(
     const icon = await pdfDoc.embedPng(iconBytes);
     const iconSize = 32;
     page.drawImage(icon, { x: 18, y: logoY - 2, width: iconSize, height: iconSize });
-    page.drawText("Handify™", {
-      x: 56, y: logoY + 10, size: 19, font: bold, color: BLUE,
+    page.drawText("Lumii", {
+      x: 56, y: logoY + 10, size: 19, font: bold, color: CORAL,
     });
   } catch {
-    page.drawText("Handify™", {
-      x: 18, y: logoY + 10, size: 22, font: bold, color: BLUE,
+    page.drawText("Lumii", {
+      x: 18, y: logoY + 10, size: 22, font: bold, color: CORAL,
     });
   }
 
@@ -135,10 +135,10 @@ export async function generateCertificatePdf(
 
   // Título do certificado
   page.drawText("CERTIFICADO DE CONCLUSÃO", {
-    x: cx, y: H - 44, size: 13.5, font: bold, color: BLUE,
+    x: cx, y: H - 44, size: 13.5, font: bold, color: CORAL,
   });
   // Sublinhado azul
-  page.drawRectangle({ x: cx, y: H - 53, width: 248, height: 2, color: BLUE });
+  page.drawRectangle({ x: cx, y: H - 53, width: 248, height: 2, color: CORAL });
   // Linha cinza complementar
   page.drawRectangle({ x: cx + 250, y: H - 54, width: cw - 250, height: 0.5, color: rgb(0.85, 0.85, 0.85) });
 
@@ -168,7 +168,7 @@ export async function generateCertificatePdf(
   }
 
   // Pequeno divisor antes de "concluiu"
-  page.drawRectangle({ x: cx, y: contentY + 8, width: 36, height: 2, color: BLUE });
+  page.drawRectangle({ x: cx, y: contentY + 8, width: 36, height: 2, color: CORAL });
   contentY -= 10;
 
   page.drawText("concluiu com êxito o curso", {
@@ -204,12 +204,8 @@ export async function generateCertificatePdf(
   const sigY = stripeH + 44;
 
   // Texto cursivo ACIMA da linha
-  page.drawText("Handify", {
+  page.drawText("Lumii", {
     x: cx + 2, y: sigY + 38, size: 26, font: cursive, color: DARK_GRAY,
-  });
-  // "™" em fonte regular ao lado do cursivo
-  page.drawText("™", {
-    x: cx + 88, y: sigY + 52, size: 9, font: bold, color: DARK_GRAY,
   });
 
   // Linha de assinatura abaixo do texto cursivo

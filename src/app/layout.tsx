@@ -21,16 +21,13 @@ export const metadata: Metadata = {
   description: "Aprenda e crie com a Lumii.",
   manifest: "/manifest.json",
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico" },
-    ],
+    icon: "/favicon.ico",
     apple: "/icons/icon-192x192.png",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6614f",
+  themeColor: "#243149",
   width: "device-width",
   initialScale: 1,
 };
