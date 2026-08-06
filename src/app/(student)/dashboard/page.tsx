@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import Image from "next/image";
 import { CourseProgressCard, type CourseCardData } from "@/components/student/CourseProgressCard";
 import type { CourseMenuModule } from "@/components/student/CourseMenuModal";
 
@@ -192,7 +192,7 @@ export default async function MinhaJornadaPage() {
 
       {cards.length === 0 ? (
         <div className="handify-card p-12 text-center space-y-4">
-          <BookOpen className="w-12 h-12 text-muted-foreground mx-auto" />
+          <Image src="/icons/brand/ursinho.png" alt="" width={72} height={66} className="mx-auto" unoptimized />
           <div>
             <p className="font-semibold text-lg">Você ainda não tem cursos</p>
             <p className="text-sm text-muted-foreground mt-1">

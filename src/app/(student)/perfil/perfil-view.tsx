@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Award,
   BookOpen,
@@ -462,7 +463,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
 
       {!courses.length ? (
         <div className="handify-card p-8 text-center space-y-2">
-          <BookOpen className="w-10 h-10 text-muted-foreground mx-auto" />
+          <Image src="/icons/brand/blocos-abc.png" alt="" width={56} height={54} className="mx-auto" unoptimized />
           <p className="font-semibold">Nenhum curso ainda</p>
           <p className="text-sm text-muted-foreground">
             Explore o catálogo e comece sua jornada.
