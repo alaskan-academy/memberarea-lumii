@@ -75,7 +75,7 @@ export default async function AdminLessonPage({
         <h1 className="text-2xl font-bold">{lesson.title}</h1>
         <div className="flex items-center gap-3 mt-1.5">
           {lesson.is_preview && (
-            <span className="text-xs text-[#72CF92] bg-[#72CF92]/10 px-2 py-0.5 rounded-full font-medium">
+            <span className="text-xs text-[#71c69a] bg-[#71c69a]/10 px-2 py-0.5 rounded-full font-medium">
               Prévia gratuita
             </span>
           )}

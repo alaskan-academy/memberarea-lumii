@@ -7,7 +7,7 @@ const TERMOS_HTML = `<h1>Termo de Uso</h1>
 <p><em>Versão vigente a partir de: 14 de maio de 2026</em></p>
 
 <h2>Preâmbulo</h2>
-<p>Este Termo de Uso ("Termo") regula, de forma integral e vinculante, as condições de acesso e utilização dos conteúdos disponibilizados na Plataforma Handify™, gerenciada e operada pela empresa detentora dos direitos sobre os cursos e materiais digitais aqui referenciados ("Empresa" ou "Plataforma").</p>
+<p>Este Termo de Uso ("Termo") regula, de forma integral e vinculante, as condições de acesso e utilização dos conteúdos disponibilizados na Plataforma Lumii, gerenciada e operada pela empresa detentora dos direitos sobre os cursos e materiais digitais aqui referenciados ("Empresa" ou "Plataforma").</p>
 <p>Ao realizar a aquisição e/ou ao acessar qualquer conteúdo vinculado à Plataforma, o usuário ("Aluno") declara ter lido, compreendido e aceito, integralmente e sem ressalvas, todas as cláusulas e condições deste Termo, bem como a Política de Privacidade da Plataforma.</p>
 <p>Caso o Aluno não concorde com qualquer disposição deste Termo, deverá abster-se de utilizar os serviços e, caso já os tenha adquirido, deverá solicitar o cancelamento dentro dos prazos legais previstos.</p>
 

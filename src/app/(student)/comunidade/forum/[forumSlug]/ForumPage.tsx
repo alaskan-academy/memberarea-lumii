@@ -67,7 +67,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
 
     if (result.error) { setError(result.error); return; }
     closeForm();
-    alert("Post enviado! Aguarde a aprovação da equipe Handify para aparecer no fórum.");
+    alert("Post enviado! Aguarde a aprovação da equipe Lumii para aparecer no fórum.");
   }
 
   function closeForm() {
@@ -95,8 +95,8 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
 
       <div className="flex items-start justify-between gap-3 mb-6 flex-wrap">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-            <MessageSquare className="w-5 h-5 text-[#6699F3]" />
+          <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+            <MessageSquare className="w-5 h-5 text-[#f6614f]" />
           </div>
           <div className="min-w-0">
             <h1 className="font-black text-xl text-foreground line-clamp-1">{forum.title}</h1>
@@ -107,7 +107,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
         </div>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-lg bg-[#6699F3] text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0"
+          className="flex items-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-lg bg-[#f6614f] text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0"
         >
           {showForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
           {showForm ? "Cancelar" : "Novo post"}
@@ -115,7 +115,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
       </div>
 
       {showForm && (
-        <form onSubmit={handleCreatePost} className="bg-white rounded-xl border border-[#6699F3]/30 shadow-sm p-5 mb-6 space-y-4">
+        <form onSubmit={handleCreatePost} className="bg-white rounded-xl border border-[#f6614f]/30 shadow-sm p-5 mb-6 space-y-4">
           <h2 className="font-bold text-sm">Criar novo post</h2>
           {error && <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
@@ -123,14 +123,14 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
             <label className="block text-xs font-medium text-foreground/70 mb-1">Título *</label>
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
               placeholder="Sobre o que é seu post?" required maxLength={200}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30" />
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
           </div>
 
           <div>
             <label className="block text-xs font-medium text-foreground/70 mb-1">Descrição *</label>
             <textarea value={body} onChange={(e) => setBody(e.target.value)}
               placeholder="Compartilhe sua dúvida, projeto ou ideia…" required rows={4} maxLength={5000}
-              className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30" />
+              className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
           </div>
 
           <div>
@@ -146,7 +146,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
               </div>
             ) : (
               <button type="button" onClick={() => imageInputRef.current?.click()} disabled={uploading}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-border text-sm text-muted-foreground hover:border-[#6699F3]/50 hover:text-[#6699F3] transition-colors">
+                className="flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-border text-sm text-muted-foreground hover:border-[#f6614f]/50 hover:text-[#f6614f] transition-colors">
                 {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
                 Adicionar imagem
               </button>
@@ -158,7 +158,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
             <input ref={fileInputRef} type="file" onChange={(e) => handleUpload(e, "file")} className="hidden" />
             {attachmentUrl ? (
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-muted/40 text-sm">
-                <Paperclip className="w-4 h-4 text-[#6699F3] shrink-0" />
+                <Paperclip className="w-4 h-4 text-[#f6614f] shrink-0" />
                 <span className="flex-1 truncate text-foreground/80">{attachmentName}</span>
                 <button type="button" onClick={() => { setAttachmentUrl(""); setAttachmentName(""); }}
                   className="text-muted-foreground hover:text-red-500 transition-colors">
@@ -167,7 +167,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
               </div>
             ) : (
               <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-border text-sm text-muted-foreground hover:border-[#6699F3]/50 hover:text-[#6699F3] transition-colors">
+                className="flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-border text-sm text-muted-foreground hover:border-[#f6614f]/50 hover:text-[#f6614f] transition-colors">
                 {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Paperclip className="w-4 h-4" />}
                 Anexar arquivo
               </button>
@@ -181,7 +181,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
               Cancelar
             </button>
             <button type="submit" disabled={submitting || uploading || !title.trim() || !body.trim()}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#6699F3] text-white text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity">
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f6614f] text-white text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity">
               {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
               Enviar para aprovação
             </button>

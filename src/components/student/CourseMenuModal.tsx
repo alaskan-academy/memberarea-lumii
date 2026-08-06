@@ -82,7 +82,7 @@ export function CourseMenuModal({
               <div className="mt-2 space-y-1">
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>{progress.completed}/{progress.total} aulas</span>
-                  <span className={cn("font-semibold", isComplete ? "text-[#72CF92]" : "text-[#6699F3]")}>
+                  <span className={cn("font-semibold", isComplete ? "text-[#71c69a]" : "text-[#f6614f]")}>
                     {progress.percentage}%
                   </span>
                 </div>
@@ -91,7 +91,7 @@ export function CourseMenuModal({
                     className="h-full rounded-full transition-all"
                     style={{
                       width: `${progress.percentage}%`,
-                      background: isComplete ? "#72CF92" : "#6699F3",
+                      background: isComplete ? "#71c69a" : "#f6614f",
                     }}
                   />
                 </div>
@@ -132,7 +132,7 @@ export function CourseMenuModal({
                           className={cn(
                             "flex items-center gap-2.5 px-3 py-2.5 text-xs transition-colors min-h-[44px]",
                             isNext
-                              ? "bg-[#6699F3]/5 hover:bg-[#6699F3]/10"
+                              ? "bg-[#f6614f]/5 hover:bg-[#f6614f]/10"
                               : isLast
                               ? "bg-muted/50 hover:bg-muted/70"
                               : "hover:bg-muted/60",
@@ -140,22 +140,22 @@ export function CourseMenuModal({
                           )}
                         >
                           {done ? (
-                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#72CF92]" />
+                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#71c69a]" />
                           ) : (
                             <span className={cn(
                               "w-3.5 h-3.5 shrink-0 rounded-full border",
-                              isNext ? "border-[#6699F3]" : "border-muted-foreground/40"
+                              isNext ? "border-[#f6614f]" : "border-muted-foreground/40"
                             )} />
                           )}
                           <span className="line-clamp-2 leading-snug flex-1">{l.title}</span>
                           {isNext && (
-                            <span className="text-[10px] bg-[#6699F3] text-white px-1.5 py-0.5 rounded-full shrink-0 font-semibold">próxima</span>
+                            <span className="text-[10px] bg-[#f6614f] text-white px-1.5 py-0.5 rounded-full shrink-0 font-semibold">próxima</span>
                           )}
                           {isLast && !isNext && (
                             <span className="text-[10px] text-muted-foreground shrink-0">última</span>
                           )}
                           {l.is_preview && !done && !isNext && !isLast && (
-                            <span className="text-[10px] text-[#72CF92] shrink-0">(grátis)</span>
+                            <span className="text-[10px] text-[#71c69a] shrink-0">(grátis)</span>
                           )}
                         </Link>
                       </li>
@@ -175,8 +175,8 @@ export function CourseMenuModal({
             className={cn(
               "flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold transition-colors min-h-[44px]",
               isComplete
-                ? "bg-[#72CF92]/15 text-[#72CF92] hover:bg-[#72CF92]/25"
-                : "bg-[#6699F3] text-white hover:bg-[#5580d4]"
+                ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
+                : "bg-[#f6614f] text-white hover:bg-[#5580d4]"
             )}
           >
             {isComplete ? (

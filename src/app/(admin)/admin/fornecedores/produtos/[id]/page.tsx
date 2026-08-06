@@ -5,7 +5,7 @@ import { adminGetProducts, adminGetSuppliers } from '@/lib/fornecedores/actions'
 import { ProdutoForm } from '@/components/ferramentas/fornecedores/ProdutoForm'
 import { Package } from 'lucide-react'
 
-export const metadata = { title: 'Admin — Editar Produto | Handify' }
+export const metadata = { title: 'Admin — Editar Produto | Lumii' }
 
 export default async function EditarProdutoPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
@@ -30,7 +30,7 @@ export default async function EditarProdutoPage({ params }: { params: Promise<{ 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center gap-2">
-        <Package className="w-5 h-5 text-[#6699F3]" />
+        <Package className="w-5 h-5 text-[#f6614f]" />
         <h1 className="text-xl font-bold">Editar produto</h1>
       </div>
 

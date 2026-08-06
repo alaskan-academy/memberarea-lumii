@@ -6,7 +6,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { getInspiracoesFeed } from '@/lib/inspiracoes/actions'
 import { InspiracaoFeed } from '@/components/inspiracoes/InspiracaoFeed'
 
-export const metadata = { title: 'Inspirações — Handify' }
+export const metadata = { title: 'Inspirações — Lumii' }
 
 export default async function InspiracoesPage() {
   const supabase = await createClient()
@@ -35,18 +35,18 @@ export default async function InspiracoesPage() {
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
-          <p className="text-sm font-medium text-[#6699F3] uppercase tracking-wide mb-3">
+          <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-3">
             Comunidade
           </p>
           <h1 className="text-3xl sm:text-4xl font-black text-[#0F0F0F]">
-            <span className="text-[#6699F3]">Inspirações</span> Handify
+            <span className="text-[#f6614f]">Inspirações</span> Lumii
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Receitas, fotos, dicas e destaques do universo do artesanato.
           </p>
           <Link
             href="/inspiracoes/salvos"
-            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-[#6699F3] border border-[#6699F3]/30 rounded-xl hover:bg-[#6699F3]/5 transition-colors"
+            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-[#f6614f] border border-[#f6614f]/30 rounded-xl hover:bg-[#f6614f]/5 transition-colors"
           >
             <Bookmark className="w-4 h-4" />
             Ver salvos

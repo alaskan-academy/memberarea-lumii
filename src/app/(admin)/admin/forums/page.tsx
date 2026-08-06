@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import ForumsAdminClient from "./ForumsAdminClient";
 
-export const metadata = { title: "Fóruns — Admin Handify" };
+export const metadata = { title: "Fóruns — Admin Lumii" };
 
 export default async function AdminForumsPage() {
   const supabase = await createClient();

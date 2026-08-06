@@ -56,15 +56,15 @@ a { text-decoration: none; }
 
         <!-- Faixa tricolor topo -->
         <tr>
-          <td width="200" height="6" bgcolor="#6699F3" style="background-color:#6699F3;height:6px;line-height:6px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
-          <td width="200" height="6" bgcolor="#72CF92" style="background-color:#72CF92;height:6px;line-height:6px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
-          <td width="200" height="6" bgcolor="#FEC649" style="background-color:#FEC649;height:6px;line-height:6px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
+          <td width="200" height="6" bgcolor="#f6614f" style="background-color:#f6614f;height:6px;line-height:6px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
+          <td width="200" height="6" bgcolor="#71c69a" style="background-color:#71c69a;height:6px;line-height:6px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
+          <td width="200" height="6" bgcolor="#eebc3e" style="background-color:#eebc3e;height:6px;line-height:6px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
         </tr>
 
         <!-- Header -->
         <tr>
           <td colspan="3" class="header-td" bgcolor="#0F0F0F" style="padding:28px 48px;background-color:#0F0F0F;font-family:Arial,Helvetica,sans-serif;">
-            <span style="color:#6699F3;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1;mso-line-height-rule:exactly;">Handify&#8482;</span>
+            <span style="color:#f6614f;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1;mso-line-height-rule:exactly;">Handify&#8482;</span>
           </td>
         </tr>
 
@@ -87,9 +87,9 @@ a { text-decoration: none; }
 
         <!-- Faixa tricolor rodapé -->
         <tr>
-          <td width="200" height="4" bgcolor="#6699F3" style="background-color:#6699F3;height:4px;line-height:4px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
-          <td width="200" height="4" bgcolor="#72CF92" style="background-color:#72CF92;height:4px;line-height:4px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
-          <td width="200" height="4" bgcolor="#FEC649" style="background-color:#FEC649;height:4px;line-height:4px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
+          <td width="200" height="4" bgcolor="#f6614f" style="background-color:#f6614f;height:4px;line-height:4px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
+          <td width="200" height="4" bgcolor="#71c69a" style="background-color:#71c69a;height:4px;line-height:4px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
+          <td width="200" height="4" bgcolor="#eebc3e" style="background-color:#eebc3e;height:4px;line-height:4px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</td>
         </tr>
 
       </table>
@@ -106,9 +106,9 @@ function supportBlock() {
   return `<div style="border-top:1px solid #eeeeee;margin-top:28px;padding-top:18px;">
   <p style="color:#888888;font-size:13px;margin:0;line-height:1.7;font-family:Arial,Helvetica,sans-serif;">
     Precisa de ajuda? Fale com a gente:<br>
-    <a href="mailto:contato@handify.com.br" style="color:#6699F3;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">contato@handify.com.br</a>
+    <a href="mailto:contato@handify.com.br" style="color:#f6614f;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">contato@handify.com.br</a>
     &nbsp;|&nbsp;
-    <a href="https://wa.me/554284296823" style="color:#6699F3;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">WhatsApp (42) 8429-6823</a>
+    <a href="https://wa.me/554284296823" style="color:#f6614f;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">WhatsApp (42) 8429-6823</a>
   </p>
 </div>`;
 }
@@ -118,8 +118,8 @@ function supportBlock() {
 function ctaButton(href: string, label: string) {
   return `<table cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;margin-bottom:28px;">
   <tr>
-    <td class="btn-td" bgcolor="#6699F3" style="background-color:#6699F3;border-radius:8px;text-align:center;mso-padding-alt:14px 32px;">
-      <a href="${href}" style="display:inline-block;background-color:#6699F3;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
+    <td class="btn-td" bgcolor="#f6614f" style="background-color:#f6614f;border-radius:8px;text-align:center;mso-padding-alt:14px 32px;">
+      <a href="${href}" style="display:inline-block;background-color:#f6614f;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
         ${label}
       </a>
     </td>
@@ -134,7 +134,7 @@ function progressBar(pct: number) {
   return `<div style="background-color:#F5F5F0;border-radius:8px;padding:12px 16px;margin-bottom:28px;">
   <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;">
     <tr>
-      <td width="${filled}%" height="8" bgcolor="#6699F3" style="background-color:#6699F3;height:8px;line-height:8px;font-size:0;mso-line-height-rule:exactly;border-radius:4px 0 0 4px;">&#8203;</td>
+      <td width="${filled}%" height="8" bgcolor="#f6614f" style="background-color:#f6614f;height:8px;line-height:8px;font-size:0;mso-line-height-rule:exactly;border-radius:4px 0 0 4px;">&#8203;</td>
       <td width="${empty}%" height="8" bgcolor="#e0e0da" style="background-color:#e0e0da;height:8px;line-height:8px;font-size:0;mso-line-height-rule:exactly;border-radius:0 4px 4px 0;">&#8203;</td>
     </tr>
   </table>
@@ -157,7 +157,7 @@ export async function sendWelcomeEmail({
     from: FROM,
     replyTo: REPLY_TO,
     to,
-    subject: "Bem-vinda à Handify! Um espaço feito para aprender e criar.",
+    subject: "Bem-vinda à Handify! Cuidar de quem cuida da infância.",
     html: emailWrapper(`
       <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">Bem-vinda, ${firstName}! 👋</h1>
       <p style="color:#2D2D2D;font-size:16px;line-height:1.65;margin:0 0 14px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
@@ -441,7 +441,7 @@ export async function sendNewsPostEmail({
       ${ctaButton(postUrl, "Ver novidade")}
       <p style="color:#bbbbbb;font-size:12px;margin:4px 0 0;font-family:Arial,Helvetica,sans-serif;line-height:1.6;mso-line-height-rule:exactly;">
         Para não receber e-mails de novidades, ajuste suas preferências na
-        <a href="${appUrl()}/perfil" style="color:#6699F3;text-decoration:underline;">área de perfil</a>.
+        <a href="${appUrl()}/perfil" style="color:#f6614f;text-decoration:underline;">área de perfil</a>.
       </p>
       ${supportBlock()}
     `),

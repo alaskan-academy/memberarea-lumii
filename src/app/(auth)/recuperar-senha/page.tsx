@@ -100,7 +100,7 @@ export default function RecuperarSenhaPage() {
           )}
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-4 bg-white border-t-0 rounded-b-xl">
+        <CardFooter className="flex flex-col gap-4 border-t-0 rounded-b-xl">
           {!success && (
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending ? "Enviando…" : "Enviar instruções"}
@@ -109,7 +109,7 @@ export default function RecuperarSenhaPage() {
 
           <Link
             href="/login"
-            className="text-sm text-[#888] underline-offset-4 hover:underline hover:text-[#2D2D2D] text-center w-full"
+            className="text-sm text-muted-foreground underline-offset-4 hover:underline hover:text-foreground text-center w-full"
           >
             Voltar para o login
           </Link>

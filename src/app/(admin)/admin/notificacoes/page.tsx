@@ -16,9 +16,9 @@ async function assertAdmin() {
 
 const STATUS_META: Record<string, { label: string; color: string; icon: React.ElementType }> = {
   draft:     { label: "Rascunho",  color: "#2D2D2D", icon: Bell },
-  scheduled: { label: "Agendada",  color: "#FEC649", icon: Clock },
-  sending:   { label: "Enviando",  color: "#6699F3", icon: Loader2 },
-  sent:      { label: "Enviada",   color: "#72CF92", icon: CheckCircle2 },
+  scheduled: { label: "Agendada",  color: "#eebc3e", icon: Clock },
+  sending:   { label: "Enviando",  color: "#f6614f", icon: Loader2 },
+  sent:      { label: "Enviada",   color: "#71c69a", icon: CheckCircle2 },
   cancelled: { label: "Cancelada", color: "#9ca3af", icon: XCircle },
 };
 
@@ -56,10 +56,10 @@ export default async function NotificacoesAdminPage() {
 
       {/* Cards de resumo */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <SummaryCard label="Campanhas enviadas" value={totalEnviadas} icon={CheckCircle2} color="#72CF92" />
-        <SummaryCard label="Agendadas" value={totalAgendadas} icon={Clock} color="#FEC649" />
-        <SummaryCard label="Total campanhas" value={campaigns.length} icon={Bell} color="#6699F3" />
-        <SummaryCard label="Notificações criadas" value={totalEnviados} icon={Send} color="#6699F3" />
+        <SummaryCard label="Campanhas enviadas" value={totalEnviadas} icon={CheckCircle2} color="#71c69a" />
+        <SummaryCard label="Agendadas" value={totalAgendadas} icon={Clock} color="#eebc3e" />
+        <SummaryCard label="Total campanhas" value={campaigns.length} icon={Bell} color="#f6614f" />
+        <SummaryCard label="Notificações criadas" value={totalEnviados} icon={Send} color="#f6614f" />
       </div>
 
       {/* Lista de campanhas */}

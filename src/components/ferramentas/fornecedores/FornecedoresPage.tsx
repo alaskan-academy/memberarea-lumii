@@ -173,7 +173,7 @@ export function FornecedoresPage({
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Store className="w-5 h-5 text-[#6699F3]" />
+            <Store className="w-5 h-5 text-[#f6614f]" />
             <h2 className="text-lg font-bold text-foreground">Fornecedores</h2>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -182,7 +182,7 @@ export function FornecedoresPage({
         </div>
         <button
           onClick={() => setSugestaoOpen(true)}
-          className="self-start sm:shrink-0 flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-[#6699F3]/40 text-[#6699F3] rounded-lg hover:bg-[#6699F3]/5 transition-colors"
+          className="self-start sm:shrink-0 flex items-center gap-1.5 px-3 py-2 text-xs font-medium border border-[#f6614f]/40 text-[#f6614f] rounded-lg hover:bg-[#f6614f]/5 transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />
           Sugerir fornecedor
@@ -196,9 +196,9 @@ export function FornecedoresPage({
           <div className="relative flex-1" ref={nicheDropdownRef}>
             <button
               onClick={() => { setNicheDropdownOpen(o => !o); setCourseDropdownOpen(false) }}
-              className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-border/60 rounded-xl text-sm font-medium hover:border-[#6699F3]/40 transition-colors"
+              className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-border/60 rounded-xl text-sm font-medium hover:border-[#f6614f]/40 transition-colors"
             >
-              <span className={selectedNiche ? 'text-[#6699F3] font-semibold' : 'text-muted-foreground'}>
+              <span className={selectedNiche ? 'text-[#f6614f] font-semibold' : 'text-muted-foreground'}>
                 {selectedNiche ? selectedNicheName : 'Todos os artesanatos'}
               </span>
               <div className="flex items-center gap-1.5 shrink-0">
@@ -221,7 +221,7 @@ export function FornecedoresPage({
                 <button
                   onClick={() => selectNiche('')}
                   className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors ${
-                    !selectedNiche ? 'bg-[#6699F3]/8 text-[#6699F3] font-semibold' : 'text-foreground hover:bg-gray-50'
+                    !selectedNiche ? 'bg-[#f6614f]/8 text-[#f6614f] font-semibold' : 'text-foreground hover:bg-gray-50'
                   }`}
                 >
                   Todos os artesanatos
@@ -232,7 +232,7 @@ export function FornecedoresPage({
                     key={n.id}
                     onClick={() => selectNiche(n.id)}
                     className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors border-t border-border/30 ${
-                      selectedNiche === n.id ? 'bg-[#6699F3]/8 text-[#6699F3] font-semibold' : 'text-foreground hover:bg-gray-50'
+                      selectedNiche === n.id ? 'bg-[#f6614f]/8 text-[#f6614f] font-semibold' : 'text-foreground hover:bg-gray-50'
                     }`}
                   >
                     {n.name}
@@ -249,11 +249,11 @@ export function FornecedoresPage({
           <div className="relative flex-1" ref={courseDropdownRef}>
             <button
               onClick={() => { setCourseDropdownOpen(o => !o); setNicheDropdownOpen(false) }}
-              className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-border/60 rounded-xl text-sm font-medium hover:border-[#6699F3]/40 transition-colors"
+              className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-border/60 rounded-xl text-sm font-medium hover:border-[#f6614f]/40 transition-colors"
             >
               <div className="flex items-center gap-2 min-w-0">
                 <BookOpen className="w-4 h-4 shrink-0 text-muted-foreground" />
-                <span className={`truncate ${selectedCourse ? 'text-[#6699F3] font-semibold' : 'text-muted-foreground'}`}>
+                <span className={`truncate ${selectedCourse ? 'text-[#f6614f] font-semibold' : 'text-muted-foreground'}`}>
                   {selectedCourse ? selectedCourse.title : 'Todos os cursos'}
                 </span>
               </div>
@@ -277,7 +277,7 @@ export function FornecedoresPage({
                 <button
                   onClick={() => selectCourse('')}
                   className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors ${
-                    !selectedCourseId ? 'bg-[#6699F3]/8 text-[#6699F3] font-semibold' : 'text-foreground hover:bg-gray-50'
+                    !selectedCourseId ? 'bg-[#f6614f]/8 text-[#f6614f] font-semibold' : 'text-foreground hover:bg-gray-50'
                   }`}
                 >
                   Todos os cursos
@@ -288,7 +288,7 @@ export function FornecedoresPage({
                     key={c.id}
                     onClick={() => selectCourse(c.id)}
                     className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors border-t border-border/30 ${
-                      selectedCourseId === c.id ? 'bg-[#6699F3]/8 text-[#6699F3] font-semibold' : 'text-foreground hover:bg-gray-50'
+                      selectedCourseId === c.id ? 'bg-[#f6614f]/8 text-[#f6614f] font-semibold' : 'text-foreground hover:bg-gray-50'
                     }`}
                   >
                     <span className="truncate pr-2">{c.title}</span>
@@ -305,11 +305,11 @@ export function FornecedoresPage({
           <div className="relative flex-1" ref={tagDropdownRef}>
             <button
               onClick={() => { setTagDropdownOpen(o => !o); setNicheDropdownOpen(false) }}
-              className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-border/60 rounded-xl text-sm font-medium hover:border-[#6699F3]/40 transition-colors"
+              className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-border/60 rounded-xl text-sm font-medium hover:border-[#f6614f]/40 transition-colors"
             >
               <div className="flex items-center gap-2 min-w-0">
                 <Tag className="w-4 h-4 shrink-0 text-muted-foreground" />
-                <span className={`truncate ${selectedTag ? 'text-[#6699F3] font-semibold' : 'text-muted-foreground'}`}>
+                <span className={`truncate ${selectedTag ? 'text-[#f6614f] font-semibold' : 'text-muted-foreground'}`}>
                   {selectedTag ? selectedTagLabel : 'O que vendem'}
                 </span>
               </div>
@@ -333,7 +333,7 @@ export function FornecedoresPage({
                 <button
                   onClick={() => selectTag('')}
                   className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors ${
-                    !selectedTag ? 'bg-[#6699F3]/8 text-[#6699F3] font-semibold' : 'text-foreground hover:bg-gray-50'
+                    !selectedTag ? 'bg-[#f6614f]/8 text-[#f6614f] font-semibold' : 'text-foreground hover:bg-gray-50'
                   }`}
                 >
                   O que vendem
@@ -344,7 +344,7 @@ export function FornecedoresPage({
                     key={t.slug}
                     onClick={() => selectTag(t.slug)}
                     className={`w-full flex items-center justify-between px-4 py-3 text-sm text-left transition-colors border-t border-border/30 ${
-                      selectedTag === t.slug ? 'bg-[#6699F3]/8 text-[#6699F3] font-semibold' : 'text-foreground hover:bg-gray-50'
+                      selectedTag === t.slug ? 'bg-[#f6614f]/8 text-[#f6614f] font-semibold' : 'text-foreground hover:bg-gray-50'
                     }`}
                   >
                     {t.label}
@@ -363,7 +363,7 @@ export function FornecedoresPage({
           onClick={() => setTab('materiais')}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
             tab === 'materiais'
-              ? 'bg-white text-[#6699F3] shadow-sm'
+              ? 'bg-white text-[#f6614f] shadow-sm'
               : 'text-muted-foreground hover:text-foreground'
           }`}
         >
@@ -374,7 +374,7 @@ export function FornecedoresPage({
           onClick={() => setTab('lojas')}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-colors ${
             tab === 'lojas'
-              ? 'bg-white text-[#6699F3] shadow-sm'
+              ? 'bg-white text-[#f6614f] shadow-sm'
               : 'text-muted-foreground hover:text-foreground'
           }`}
         >
@@ -389,7 +389,7 @@ export function FornecedoresPage({
         value={busca}
         onChange={e => setBusca(e.target.value)}
         placeholder={tab === 'materiais' ? 'Buscar material…' : 'Buscar loja ou marca…'}
-        className="w-full px-4 py-3 rounded-xl border border-border/60 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#6699F3]/30 focus:border-[#6699F3]/50 transition-colors"
+        className="w-full px-4 py-3 rounded-xl border border-border/60 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f]/50 transition-colors"
       />
 
       {/* ── Aba Materiais ── */}

@@ -47,7 +47,7 @@ export function ComentariosPanel({ postId, userId }: Props) {
   return (
     <div>
       <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-        <MessageCircle className="w-4 h-4 text-[#6699F3]" />
+        <MessageCircle className="w-4 h-4 text-[#f6614f]" />
         Comentários
         {!isLoading && comments.length > 0 && (
           <span className="text-xs font-normal text-muted-foreground">({comments.length})</span>
@@ -56,7 +56,7 @@ export function ComentariosPanel({ postId, userId }: Props) {
 
       {isLoading ? (
         <div className="flex justify-center py-4">
-          <Loader2 className="w-4 h-4 text-[#6699F3] animate-spin" />
+          <Loader2 className="w-4 h-4 text-[#f6614f] animate-spin" />
         </div>
       ) : comments.length === 0 ? (
         <p className="text-xs text-muted-foreground mb-4">Seja a primeira a comentar!</p>
@@ -64,7 +64,7 @@ export function ComentariosPanel({ postId, userId }: Props) {
         <div className="space-y-3 mb-4">
           {comments.map(c => (
             <div key={c.id} className="flex gap-2.5">
-              <div className="w-7 h-7 rounded-full bg-[#6699F3]/10 flex items-center justify-center shrink-0 text-[10px] font-bold text-[#6699F3] uppercase">
+              <div className="w-7 h-7 rounded-full bg-[#f6614f]/10 flex items-center justify-center shrink-0 text-[10px] font-bold text-[#f6614f] uppercase">
                 {(c.profiles?.full_name ?? 'A').charAt(0)}
               </div>
               <div className="flex-1 min-w-0">
@@ -80,8 +80,8 @@ export function ComentariosPanel({ postId, userId }: Props) {
       )}
 
       {sent && (
-        <div className="rounded-xl bg-[#6699F3]/8 border border-[#6699F3]/20 px-3 py-2.5 mb-3">
-          <p className="text-xs text-[#6699F3] font-medium">
+        <div className="rounded-xl bg-[#f6614f]/8 border border-[#f6614f]/20 px-3 py-2.5 mb-3">
+          <p className="text-xs text-[#f6614f] font-medium">
             Comentário enviado! Aguarda aprovação da equipe.
           </p>
         </div>
@@ -95,13 +95,13 @@ export function ComentariosPanel({ postId, userId }: Props) {
           onChange={e => { setBody(e.target.value); setSent(false) }}
           placeholder="Escreva um comentário..."
           maxLength={2000}
-          className="flex-1 text-xs px-3 py-2.5 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 transition-shadow min-h-[44px]"
+          className="flex-1 text-xs px-3 py-2.5 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 transition-shadow min-h-[44px]"
         />
         <button
           type="submit"
           disabled={!body.trim() || isSubmitting}
           aria-label="Enviar comentário"
-          className="shrink-0 w-11 h-11 flex items-center justify-center rounded-lg bg-[#6699F3] text-white disabled:opacity-40 hover:bg-[#5588e8] transition-colors"
+          className="shrink-0 w-11 h-11 flex items-center justify-center rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:bg-[#5588e8] transition-colors"
         >
           {isSubmitting
             ? <Loader2 className="w-3.5 h-3.5 animate-spin" />

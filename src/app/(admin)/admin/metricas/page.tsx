@@ -97,23 +97,23 @@ export default async function MetricasPage() {
 
       {/* Cards de totais */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Users} label="Alunas ativas" value={totalAlunas ?? 0} color="#6699F3"
+        <StatCard icon={Users} label="Alunas ativas" value={totalAlunas ?? 0} color="#f6614f"
           tooltip="Alunas com conta ativa e não banidas na plataforma."
           href="/admin/alunos?tab=cadastradas" />
-        <StatCard icon={BookOpen} label="Matrículas ativas" value={totalMatriculas ?? 0} color="#72CF92"
+        <StatCard icon={BookOpen} label="Matrículas ativas" value={totalMatriculas ?? 0} color="#71c69a"
           tooltip="Matrículas com acesso vigente — vitalícias ou dentro do prazo de validade."
           href="/admin/metricas/alunas" />
-        <StatCard icon={Award} label="Certificados emitidos" value={totalCertificados ?? 0} color="#FEC649"
+        <StatCard icon={Award} label="Certificados emitidos" value={totalCertificados ?? 0} color="#eebc3e"
           tooltip="Total de certificados de conclusão gerados na plataforma."
           href="/admin/metricas/certificados" />
-        <StatCard icon={TrendingUp} label="Taxa de conclusão" value={`${taxaConclusao}%`} color="#6699F3"
+        <StatCard icon={TrendingUp} label="Taxa de conclusão" value={`${taxaConclusao}%`} color="#f6614f"
           tooltip="Proporção de certificados em relação às matrículas ativas (certificados ÷ matrículas × 100)."
           href="/admin/metricas/conclusao" />
       </div>
 
       {/* Push */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Bell} label="Push ativas" value={pushAlunas} color="#72CF92"
+        <StatCard icon={Bell} label="Push ativas" value={pushAlunas} color="#71c69a"
           tooltip="Alunas com notificações push habilitadas em pelo menos um dispositivo." />
       </div>
 
@@ -121,7 +121,7 @@ export default async function MetricasPage() {
         {/* Top cursos */}
         <div className="lg:col-span-2 handify-card p-6">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#6699F3]" />
+            <BookOpen className="w-4 h-4 text-[#f6614f]" />
             Top cursos por matrículas
           </h2>
           {topCursosOrdenados.length === 0 ? (
@@ -132,10 +132,10 @@ export default async function MetricasPage() {
                 <Link key={curso.slug} href={`/admin/cursos/${curso.id}`} className="flex items-center gap-3 group">
                   <span className="text-xs font-bold text-muted-foreground w-5 text-right">{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate group-hover:text-[#6699F3] transition-colors">{curso.title}</p>
+                    <p className="text-sm font-medium truncate group-hover:text-[#f6614f] transition-colors">{curso.title}</p>
                     <div className="mt-1 h-1.5 rounded-full bg-muted overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-[#6699F3]"
+                        className="h-full rounded-full bg-[#f6614f]"
                         style={{ width: `${Math.round((curso.count / (topCursosOrdenados[0]?.count || 1)) * 100)}%` }}
                       />
                     </div>
@@ -151,7 +151,7 @@ export default async function MetricasPage() {
         <div className="space-y-4">
           <div className="handify-card p-6">
             <h2 className="font-semibold mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-[#72CF92]" />
+              <TrendingUp className="w-4 h-4 text-[#71c69a]" />
               Origem das matrículas
             </h2>
             <div className="space-y-2">
@@ -170,7 +170,7 @@ export default async function MetricasPage() {
 
           <div className="handify-card p-6">
             <h2 className="font-semibold mb-1 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-[#FEC649]" />
+              <BookOpen className="w-4 h-4 text-[#eebc3e]" />
               Cursos publicados
             </h2>
             <p className="text-3xl font-bold mt-2">{cursosPublicados ?? 0}</p>
@@ -181,7 +181,7 @@ export default async function MetricasPage() {
       {/* Webhooks recentes */}
       <div className="handify-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
-          <Webhook className="w-4 h-4 text-[#6699F3]" />
+          <Webhook className="w-4 h-4 text-[#f6614f]" />
           Webhooks Payt recentes
         </h2>
         {(webhooksRecentes ?? []).length === 0 ? (
@@ -246,7 +246,7 @@ function StatCard({ icon: Icon, label, value, color, tooltip, href }: {
 
   if (href) {
     return (
-      <Link href={href} className="handify-card p-5 block hover:border-[#6699F3]/40 hover:shadow-md transition-all group">
+      <Link href={href} className="handify-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all group">
         {inner}
       </Link>
     );
@@ -262,12 +262,12 @@ function WebhookStatus({ processed, error }: { processed: boolean | null; error:
     </span>
   );
   if (processed) return (
-    <span className="inline-flex items-center gap-1 text-xs text-[#72CF92] font-medium">
+    <span className="inline-flex items-center gap-1 text-xs text-[#71c69a] font-medium">
       <CheckCircle2 className="w-3.5 h-3.5" /> Processado
     </span>
   );
   return (
-    <span className="inline-flex items-center gap-1 text-xs text-[#FEC649] font-medium">
+    <span className="inline-flex items-center gap-1 text-xs text-[#eebc3e] font-medium">
       <Clock className="w-3.5 h-3.5" /> Pendente
     </span>
   );

@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logoutAction } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/brand/Logo";
 import type { Role } from "@/types";
 
 interface CatalogHeaderProps {
@@ -31,7 +31,7 @@ export default function CatalogHeader({
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-border/60 shadow-sm">
+    <header className="sticky top-0 z-40 bg-lumii-bg-sidebar border-b border-border/60 shadow-sm">
       <div className="brand-stripe">
         <span />
         <span />
@@ -45,20 +45,7 @@ export default function CatalogHeader({
             href={isLoggedIn ? "/dashboard" : "/cursos"}
             className="flex items-center gap-2 shrink-0"
           >
-            <Image
-              src="/logo-vertical-azul.png"
-              alt="Handify™"
-              width={28}
-              height={28}
-              unoptimized
-              className="object-contain"
-            />
-            <span
-              className="font-black text-base tracking-tight hidden sm:block"
-              style={{ color: "#6699F3" }}
-            >
-              Handify<sup className="text-xs ml-px">™</sup>
-            </span>
+            <Logo size={26} />
           </Link>
 
           {/* Nav desktop */}
@@ -72,7 +59,7 @@ export default function CatalogHeader({
                     className={cn(
                       "px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
                       pathname === item.href
-                        ? "text-[#6699F3] bg-[#6699F3]/10"
+                        ? "text-primary bg-primary/10"
                         : "text-foreground/70 hover:text-foreground hover:bg-muted"
                     )}
                   >
@@ -82,7 +69,7 @@ export default function CatalogHeader({
                 {role === "admin" && (
                   <Link
                     href="/admin"
-                    className="px-3 py-1.5 rounded-md text-sm font-medium text-[#FEC649] hover:bg-[#FEC649]/10 transition-colors"
+                    className="px-3 py-1.5 rounded-md text-sm font-medium text-lumii-navy hover:bg-lumii-navy/10 transition-colors"
                   >
                     Admin
                   </Link>
@@ -96,8 +83,7 @@ export default function CatalogHeader({
             {isLoggedIn ? (
               <div className="hidden md:flex items-center gap-2">
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-                  style={{ background: "#6699F3" }}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0 bg-primary"
                   aria-hidden
                 >
                   {initial}
@@ -126,8 +112,7 @@ export default function CatalogHeader({
                 </Link>
                 <Link
                   href="/cadastro"
-                  className="px-4 py-1.5 rounded-lg text-sm font-semibold text-white transition-colors hover:opacity-90"
-                  style={{ background: "#6699F3" }}
+                  className="px-4 py-1.5 rounded-lg text-sm font-semibold text-white transition-colors hover:opacity-90 bg-primary"
                 >
                   Criar conta
                 </Link>
@@ -159,7 +144,7 @@ export default function CatalogHeader({
                     className={cn(
                       "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                       pathname === item.href
-                        ? "text-[#6699F3] bg-[#6699F3]/10"
+                        ? "text-primary bg-primary/10"
                         : "text-foreground/70 hover:text-foreground hover:bg-muted"
                     )}
                   >
@@ -170,7 +155,7 @@ export default function CatalogHeader({
                   <Link
                     href="/admin"
                     onClick={() => setOpen(false)}
-                    className="block px-3 py-2 rounded-md text-sm font-medium text-[#FEC649] hover:bg-[#FEC649]/10"
+                    className="block px-3 py-2 rounded-md text-sm font-medium text-lumii-navy hover:bg-lumii-navy/10"
                   >
                     Admin
                   </Link>
@@ -178,8 +163,7 @@ export default function CatalogHeader({
                 <div className="pt-3 border-t border-border/40 flex items-center justify-between px-3">
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
-                      style={{ background: "#6699F3" }}
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white bg-primary"
                     >
                       {initial}
                     </div>
@@ -207,8 +191,7 @@ export default function CatalogHeader({
                   <Link
                     href="/cadastro"
                     onClick={() => setOpen(false)}
-                    className="block w-full text-center py-2 rounded-lg text-sm font-semibold text-white"
-                    style={{ background: "#6699F3" }}
+                    className="block w-full text-center py-2 rounded-lg text-sm font-semibold text-white bg-primary"
                   >
                     Criar conta
                   </Link>

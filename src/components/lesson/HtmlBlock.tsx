@@ -23,8 +23,8 @@ function HtmlSnippet({ html }: { html: string }) {
       ref={ref}
       className="prose prose-sm max-w-none text-foreground
         prose-headings:font-semibold prose-headings:text-foreground
-        prose-a:text-[#6699F3] prose-a:no-underline hover:prose-a:underline
-        prose-blockquote:border-l-[#6699F3] prose-blockquote:text-muted-foreground
+        prose-a:text-[#f6614f] prose-a:no-underline hover:prose-a:underline
+        prose-blockquote:border-l-[#f6614f] prose-blockquote:text-muted-foreground
         prose-code:bg-muted prose-code:px-1 prose-code:rounded prose-code:text-sm
         prose-img:rounded-lg"
       dangerouslySetInnerHTML={{ __html: sanitizeHtml(html) }}

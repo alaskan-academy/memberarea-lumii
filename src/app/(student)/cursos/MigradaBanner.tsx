@@ -11,7 +11,7 @@ export default function MigradaBanner() {
   if (!visible) return null;
 
   return (
-    <div className="bg-[#6699F3] text-white px-4 py-3">
+    <div className="bg-[#f6614f] text-white px-4 py-3">
       <div className="max-w-7xl mx-auto flex items-center gap-3">
         <Bookmark className="w-5 h-5 shrink-0 opacity-80" />
         <p className="flex-1 text-sm font-medium leading-snug">

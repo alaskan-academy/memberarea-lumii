@@ -89,12 +89,12 @@ export default function InstallPrompt() {
 
         <div className="p-5">
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-              <Smartphone className="w-5 h-5 text-[#6699F3]" />
+            <div className="w-10 h-10 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+              <Smartphone className="w-5 h-5 text-[#f6614f]" />
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="font-bold text-sm text-foreground">Instale o app Handify™</p>
+              <p className="font-bold text-sm text-foreground">Instale o app Lumii</p>
               <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
                 Acesse seus cursos direto da tela inicial, sem abrir o navegador.
               </p>
@@ -114,7 +114,7 @@ export default function InstallPrompt() {
             <div className="flex gap-2">
               <button
                 onClick={handleInstall}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#6699F3] text-white text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#f6614f] text-white text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
               >
                 <Download className="w-4 h-4" />
                 Instalar aplicativo
@@ -135,15 +135,15 @@ export default function InstallPrompt() {
                 <p className="text-xs font-semibold text-foreground/80">Como instalar no iPhone / iPad:</p>
                 <ol className="text-xs text-muted-foreground space-y-1.5">
                   <li className="flex items-start gap-1.5">
-                    <span className="font-bold text-[#6699F3] shrink-0">1.</span>
+                    <span className="font-bold text-[#f6614f] shrink-0">1.</span>
                     Toque no botão <strong>Compartilhar</strong> <span className="inline-block">⬆</span> na barra do Safari
                   </li>
                   <li className="flex items-start gap-1.5">
-                    <span className="font-bold text-[#6699F3] shrink-0">2.</span>
+                    <span className="font-bold text-[#f6614f] shrink-0">2.</span>
                     Role e toque em <strong>"Adicionar à Tela de Início"</strong>
                   </li>
                   <li className="flex items-start gap-1.5">
-                    <span className="font-bold text-[#6699F3] shrink-0">3.</span>
+                    <span className="font-bold text-[#f6614f] shrink-0">3.</span>
                     Toque em <strong>Adicionar</strong> no canto superior direito
                   </li>
                 </ol>

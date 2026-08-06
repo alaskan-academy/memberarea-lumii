@@ -30,7 +30,7 @@ export function CancelButton({ id }: { id: string }) {
         if (!confirm("Cancelar o agendamento desta campanha?")) return;
         startTransition(() => cancelCampaign(id));
       }}
-      className="p-1.5 rounded-lg text-muted-foreground hover:text-[#FEC649] hover:bg-[#FEC649]/10 transition-colors disabled:opacity-40"
+      className="p-1.5 rounded-lg text-muted-foreground hover:text-[#eebc3e] hover:bg-[#eebc3e]/10 transition-colors disabled:opacity-40"
       aria-label="Cancelar agendamento"
     >
       <XCircle className="w-4 h-4" />
@@ -48,7 +48,7 @@ export function SendNowButton({ id }: { id: string }) {
         startTransition(() => dispatchCampaign(id));
       }}
       className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-white transition-colors disabled:opacity-60"
-      style={{ background: "#72CF92" }}
+      style={{ background: "#71c69a" }}
       aria-label="Enviar agora"
     >
       <Send className="w-3 h-3" />

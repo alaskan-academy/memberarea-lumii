@@ -26,38 +26,38 @@ const QUICK_ACTION_GROUPS = [
   {
     label: "Catálogo",
     items: [
-      { href: "/admin/cursos",  icon: BookOpen, label: "Cursos",  desc: "Gerenciar catálogo e aulas",  color: "#6699F3" },
-      { href: "/admin/alunos",  icon: Users,    label: "Alunas",  desc: "Matrículas e progresso",       color: "#72CF92" },
+      { href: "/admin/cursos",  icon: BookOpen, label: "Cursos",  desc: "Gerenciar catálogo e aulas",  color: "#f6614f" },
+      { href: "/admin/alunos",  icon: Users,    label: "Alunas",  desc: "Matrículas e progresso",       color: "#71c69a" },
     ],
   },
   {
     label: "Marketing",
     items: [
-      { href: "/admin/banners",      icon: ImageIcon, label: "Banners",       desc: "Promoções e destaques",       color: "#FEC649" },
-      { href: "/admin/notificacoes", icon: Bell,      label: "Notificações",  desc: "Enviar avisos para alunas",   color: "#6699F3" },
+      { href: "/admin/banners",      icon: ImageIcon, label: "Banners",       desc: "Promoções e destaques",       color: "#eebc3e" },
+      { href: "/admin/notificacoes", icon: Bell,      label: "Notificações",  desc: "Enviar avisos para alunas",   color: "#f6614f" },
     ],
   },
   {
     label: "Comunidade",
     items: [
-      { href: "/admin/comunidade/feed",  icon: Newspaper, label: "Avisos",             desc: "Publicar avisos e novidades", color: "#72CF92" },
-      { href: "/admin/comunidade/forum", icon: Flag,      label: "Moderação do Fórum", desc: "Aprovar e moderar posts",     color: "#6699F3" },
+      { href: "/admin/comunidade/feed",  icon: Newspaper, label: "Avisos",             desc: "Publicar avisos e novidades", color: "#71c69a" },
+      { href: "/admin/comunidade/forum", icon: Flag,      label: "Moderação do Fórum", desc: "Aprovar e moderar posts",     color: "#f6614f" },
     ],
   },
   {
     label: "Inspirações",
     items: [
-      { href: "/admin/inspiracoes",             icon: Sparkles,      label: "Posts",        desc: "Gerenciar feed de inspirações",  color: "#6699F3" },
-      { href: "/admin/inspiracoes/novo",        icon: PlusCircle,    label: "Novo post",    desc: "Criar foto, vídeo, receita...", color: "#72CF92" },
-      { href: "/admin/inspiracoes/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Aprovar comentários das alunas", color: "#FEC649" },
+      { href: "/admin/inspiracoes",             icon: Sparkles,      label: "Posts",        desc: "Gerenciar feed de inspirações",  color: "#f6614f" },
+      { href: "/admin/inspiracoes/novo",        icon: PlusCircle,    label: "Novo post",    desc: "Criar foto, vídeo, receita...", color: "#71c69a" },
+      { href: "/admin/inspiracoes/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Aprovar comentários das alunas", color: "#eebc3e" },
     ],
   },
   {
     label: "Ferramentas",
     items: [
-      { href: "/admin/fornecedores",             icon: Store,         label: "Fornecedores", desc: "Gerenciar lista de fornecedores", color: "#6699F3" },
-      { href: "/admin/fornecedores/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Moderar avaliações das alunas",  color: "#72CF92" },
-      { href: "/admin/fornecedores/sugestoes",   icon: Lightbulb,     label: "Sugestões",    desc: "Sugestões enviadas pelas alunas", color: "#FEC649" },
+      { href: "/admin/fornecedores",             icon: Store,         label: "Fornecedores", desc: "Gerenciar lista de fornecedores", color: "#f6614f" },
+      { href: "/admin/fornecedores/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Moderar avaliações das alunas",  color: "#71c69a" },
+      { href: "/admin/fornecedores/sugestoes",   icon: Lightbulb,     label: "Sugestões",    desc: "Sugestões enviadas pelas alunas", color: "#eebc3e" },
     ],
   },
 ];
@@ -147,10 +147,10 @@ export default async function AdminHomePage() {
       : 0;
 
   const KPI_CARDS = [
-    { icon: Users,      label: "Alunas ativas",     value: totalAlunas ?? 0,      color: "#6699F3", href: "/admin/alunos?tab=cadastradas" },
-    { icon: BookOpen,   label: "Matrículas ativas",  value: totalMatriculas ?? 0,   color: "#72CF92", href: "/admin/metricas/alunas" },
-    { icon: Award,      label: "Certificados",        value: totalCertificados ?? 0, color: "#FEC649", href: "/admin/metricas/certificados" },
-    { icon: TrendingUp, label: "Taxa de conclusão",   value: `${taxaConclusao}%`,   color: "#6699F3", href: "/admin/metricas/conclusao" },
+    { icon: Users,      label: "Alunas ativas",     value: totalAlunas ?? 0,      color: "#f6614f", href: "/admin/alunos?tab=cadastradas" },
+    { icon: BookOpen,   label: "Matrículas ativas",  value: totalMatriculas ?? 0,   color: "#71c69a", href: "/admin/metricas/alunas" },
+    { icon: Award,      label: "Certificados",        value: totalCertificados ?? 0, color: "#eebc3e", href: "/admin/metricas/certificados" },
+    { icon: TrendingUp, label: "Taxa de conclusão",   value: `${taxaConclusao}%`,   color: "#f6614f", href: "/admin/metricas/conclusao" },
   ];
 
   return (
@@ -160,7 +160,7 @@ export default async function AdminHomePage() {
       <div>
         <h1 className="text-2xl font-bold text-[#2D2D2D]">
           {greeting},{" "}
-          <span className="text-[#6699F3]">{firstName}!</span>
+          <span className="text-[#f6614f]">{firstName}!</span>
         </h1>
         <p className="text-sm text-[#2D2D2D]/50 mt-1">
           {new Date().toLocaleDateString("pt-BR", {
@@ -176,7 +176,7 @@ export default async function AdminHomePage() {
       {((pendingReports ?? 0) > 0 || (pendingForumPosts ?? 0) > 0 || (pendingReviews ?? 0) > 0 || (pendingSuggestions ?? 0) > 0 || (pendingInspComments ?? 0) > 0) && (
         <div className="space-y-2">
           {(pendingReports ?? 0) > 0 && (
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#FEC649]/15 border border-[#FEC649]/40">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/15 border border-[#eebc3e]/40">
               <AlertTriangle className="w-5 h-5 text-[#b07d00] shrink-0" />
               <p className="text-sm font-medium text-[#2D2D2D] flex-1">
                 <span className="font-bold">{pendingReports}</span>{" "}
@@ -184,7 +184,7 @@ export default async function AdminHomePage() {
               </p>
               <Link
                 href="/admin/comunidade/forum"
-                className="text-xs font-semibold text-[#6699F3] hover:underline flex items-center gap-1 shrink-0"
+                className="text-xs font-semibold text-[#f6614f] hover:underline flex items-center gap-1 shrink-0"
               >
                 Revisar <ArrowRight className="w-3 h-3" />
               </Link>
@@ -193,22 +193,22 @@ export default async function AdminHomePage() {
           {(pendingForumPosts ?? 0) > 0 && (
             <Link
               href="/admin/comunidade/forum"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#6699F3]/10 border border-[#6699F3]/30 hover:bg-[#6699F3]/15 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f6614f]/10 border border-[#f6614f]/30 hover:bg-[#f6614f]/15 transition-colors"
             >
-              <Flag className="w-5 h-5 text-[#6699F3] shrink-0" />
+              <Flag className="w-5 h-5 text-[#f6614f] shrink-0" />
               <p className="text-sm font-medium text-[#2D2D2D] flex-1">
-                <span className="font-bold text-[#6699F3]">{pendingForumPosts}</span>{" "}
+                <span className="font-bold text-[#f6614f]">{pendingForumPosts}</span>{" "}
                 {pendingForumPosts === 1 ? "post aguarda aprovação" : "posts aguardam aprovação"}
                 {" · "}
                 <span className="text-[#2D2D2D]/50">{totalForumPosts ?? 0} no total</span>
               </p>
-              <ArrowRight className="w-4 h-4 text-[#6699F3] shrink-0" />
+              <ArrowRight className="w-4 h-4 text-[#f6614f] shrink-0" />
             </Link>
           )}
           {(pendingReviews ?? 0) > 0 && (
             <Link
               href="/admin/fornecedores/comentarios"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#72CF92]/10 border border-[#72CF92]/30 hover:bg-[#72CF92]/15 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#71c69a]/10 border border-[#71c69a]/30 hover:bg-[#71c69a]/15 transition-colors"
             >
               <MessageCircle className="w-5 h-5 text-[#3a9e60] shrink-0" />
               <p className="text-sm font-medium text-[#2D2D2D] flex-1">
@@ -221,7 +221,7 @@ export default async function AdminHomePage() {
           {(pendingSuggestions ?? 0) > 0 && (
             <Link
               href="/admin/fornecedores/sugestoes"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#FEC649]/10 border border-[#FEC649]/40 hover:bg-[#FEC649]/15 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/10 border border-[#eebc3e]/40 hover:bg-[#eebc3e]/15 transition-colors"
             >
               <Lightbulb className="w-5 h-5 text-[#b07d00] shrink-0" />
               <p className="text-sm font-medium text-[#2D2D2D] flex-1">
@@ -234,14 +234,14 @@ export default async function AdminHomePage() {
           {(pendingInspComments ?? 0) > 0 && (
             <Link
               href="/admin/inspiracoes/comentarios"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#6699F3]/10 border border-[#6699F3]/30 hover:bg-[#6699F3]/15 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f6614f]/10 border border-[#f6614f]/30 hover:bg-[#f6614f]/15 transition-colors"
             >
-              <Sparkles className="w-5 h-5 text-[#6699F3] shrink-0" />
+              <Sparkles className="w-5 h-5 text-[#f6614f] shrink-0" />
               <p className="text-sm font-medium text-[#2D2D2D] flex-1">
-                <span className="font-bold text-[#6699F3]">{pendingInspComments}</span>{" "}
+                <span className="font-bold text-[#f6614f]">{pendingInspComments}</span>{" "}
                 {pendingInspComments === 1 ? "comentário de inspiração aguarda" : "comentários de inspirações aguardam"} aprovação
               </p>
-              <ArrowRight className="w-4 h-4 text-[#6699F3] shrink-0" />
+              <ArrowRight className="w-4 h-4 text-[#f6614f] shrink-0" />
             </Link>
           )}
         </div>
@@ -250,7 +250,7 @@ export default async function AdminHomePage() {
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {KPI_CARDS.map(({ icon: Icon, label, value, color, href }) => (
-          <Link key={label} href={href} className="handify-card p-5 block hover:border-[#6699F3]/40 hover:shadow-md transition-all">
+          <Link key={label} href={href} className="handify-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
               style={{ background: color + "20" }}
@@ -285,7 +285,7 @@ export default async function AdminHomePage() {
                 <p className="text-sm font-semibold text-[#2D2D2D]">{label}</p>
                 <p className="text-xs text-[#2D2D2D]/50 mt-0.5 truncate">{desc}</p>
               </div>
-              <ArrowRight className="w-4 h-4 text-[#2D2D2D]/20 group-hover:text-[#6699F3] transition-colors shrink-0" />
+              <ArrowRight className="w-4 h-4 text-[#2D2D2D]/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
             </Link>
           ))}
         </div>
@@ -300,7 +300,7 @@ export default async function AdminHomePage() {
             <h2 className="text-sm font-semibold text-[#2D2D2D]/50 uppercase tracking-wider">
               Últimos pagamentos
             </h2>
-            <Link href="/admin/metricas" className="text-xs text-[#6699F3] hover:underline font-medium">
+            <Link href="/admin/metricas" className="text-xs text-[#f6614f] hover:underline font-medium">
               Ver todos
             </Link>
           </div>
@@ -338,14 +338,14 @@ export default async function AdminHomePage() {
             Visão geral
           </h2>
           <div className="handify-card p-4 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#72CF92]/20 flex items-center justify-center shrink-0">
-              <Webhook className="w-4 h-4 text-[#72CF92]" />
+            <div className="w-9 h-9 rounded-xl bg-[#71c69a]/20 flex items-center justify-center shrink-0">
+              <Webhook className="w-4 h-4 text-[#71c69a]" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[11px] text-[#2D2D2D]/40 font-medium uppercase tracking-wide">Cursos publicados</p>
               <p className="text-xl font-bold text-[#2D2D2D]">{cursosPublicados ?? 0}</p>
             </div>
-            <Link href="/admin/cursos" className="text-xs font-semibold text-[#6699F3] hover:underline flex items-center gap-1 shrink-0">
+            <Link href="/admin/cursos" className="text-xs font-semibold text-[#f6614f] hover:underline flex items-center gap-1 shrink-0">
               Ver <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -353,14 +353,14 @@ export default async function AdminHomePage() {
             href="/admin/metricas"
             className="handify-card p-4 flex items-center gap-3 hover:shadow-md transition-shadow group"
           >
-            <div className="w-9 h-9 rounded-xl bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-              <BarChart3 className="w-4 h-4 text-[#6699F3]" />
+            <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+              <BarChart3 className="w-4 h-4 text-[#f6614f]" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-[#2D2D2D]">Métricas completas</p>
               <p className="text-xs text-[#2D2D2D]/50">Top cursos, funil, vídeos</p>
             </div>
-            <ArrowRight className="w-4 h-4 text-[#2D2D2D]/20 group-hover:text-[#6699F3] transition-colors shrink-0" />
+            <ArrowRight className="w-4 h-4 text-[#2D2D2D]/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
           </Link>
         </div>
       </div>
@@ -379,6 +379,6 @@ function WebhookDot({
   if (error)
     return <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />;
   if (processed)
-    return <CheckCircle2 className="w-4 h-4 text-[#72CF92] shrink-0 mt-0.5" />;
-  return <Clock className="w-4 h-4 text-[#FEC649] shrink-0 mt-0.5" />;
+    return <CheckCircle2 className="w-4 h-4 text-[#71c69a] shrink-0 mt-0.5" />;
+  return <Clock className="w-4 h-4 text-[#eebc3e] shrink-0 mt-0.5" />;
 }

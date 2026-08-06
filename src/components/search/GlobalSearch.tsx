@@ -9,9 +9,9 @@ import { searchPlatform, type SearchResult, type SearchResults } from "@/lib/sea
 const EMPTY: SearchResults = { courses: [], lessons: [], news: [], total: 0 };
 
 const TYPE_META = {
-  course: { label: "Cursos", icon: BookOpen, color: "#6699F3" },
-  lesson: { label: "Aulas", icon: Play, color: "#72CF92" },
-  news: { label: "Feed de notícias", icon: Newspaper, color: "#FEC649" },
+  course: { label: "Cursos", icon: BookOpen, color: "#f6614f" },
+  lesson: { label: "Aulas", icon: Play, color: "#71c69a" },
+  news: { label: "Feed de notícias", icon: Newspaper, color: "#eebc3e" },
 } as const;
 
 export default function GlobalSearch() {
@@ -180,7 +180,7 @@ export default function GlobalSearch() {
                           onClick={() => navigate(item.href)}
                           onMouseEnter={() => setActiveIndex(globalIdx)}
                           className={`w-full flex items-start gap-3 px-4 py-2.5 text-left transition-colors ${
-                            isActive ? "bg-[#6699F3]/10" : "hover:bg-muted/60"
+                            isActive ? "bg-[#f6614f]/10" : "hover:bg-muted/60"
                           }`}
                         >
                           <div

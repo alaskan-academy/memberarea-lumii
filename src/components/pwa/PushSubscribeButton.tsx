@@ -139,16 +139,16 @@ export default function PushSubscribeButton({ initialEndpoints }: Props) {
         disabled={isPending || isBlocked}
         className={`flex items-center gap-2.5 w-full px-4 py-3 rounded-lg border text-sm font-medium transition-colors min-h-[44px]
           ${isActive
-            ? "border-[#72CF92] bg-[#72CF92]/8 text-[#2D2D2D] hover:bg-[#72CF92]/15"
+            ? "border-[#71c69a] bg-[#71c69a]/8 text-[#2D2D2D] hover:bg-[#71c69a]/15"
             : isBlocked
               ? "border-border bg-muted text-muted-foreground cursor-not-allowed"
-              : "border-[#6699F3] bg-[#6699F3]/8 text-[#6699F3] hover:bg-[#6699F3]/15"
+              : "border-[#f6614f] bg-[#f6614f]/8 text-[#f6614f] hover:bg-[#f6614f]/15"
           }`}
       >
         {isPending ? (
           <Loader2 className="w-4 h-4 animate-spin shrink-0" />
         ) : isActive ? (
-          <BellOff className="w-4 h-4 shrink-0 text-[#72CF92]" />
+          <BellOff className="w-4 h-4 shrink-0 text-[#71c69a]" />
         ) : (
           <Bell className="w-4 h-4 shrink-0" />
         )}
@@ -162,7 +162,7 @@ export default function PushSubscribeButton({ initialEndpoints }: Props) {
                 : "Ativar notificações push"}
         </span>
         {isActive && (
-          <span className="ml-auto w-2 h-2 rounded-full bg-[#72CF92] shrink-0" />
+          <span className="ml-auto w-2 h-2 rounded-full bg-[#71c69a] shrink-0" />
         )}
       </button>
 

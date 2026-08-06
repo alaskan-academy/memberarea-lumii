@@ -141,7 +141,7 @@ export default async function CourseDetailPage({
 
           {isEnrolled ? (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-[#72CF92] text-sm font-medium">
+              <div className="flex items-center gap-2 text-[#71c69a] text-sm font-medium">
                 <CheckCircle className="w-4 h-4" />
                 Você já tem acesso
               </div>
@@ -151,7 +151,7 @@ export default async function CourseDetailPage({
                 <div className="space-y-1">
                   <div className="flex justify-between items-center text-[11px] text-muted-foreground">
                     <span>{completedCount}/{totalLessons} aulas</span>
-                    <span className={cn("font-semibold", progressPct === 100 ? "text-[#72CF92]" : "text-[#6699F3]")}>
+                    <span className={cn("font-semibold", progressPct === 100 ? "text-[#71c69a]" : "text-[#f6614f]")}>
                       {progressPct}%
                     </span>
                   </div>
@@ -160,7 +160,7 @@ export default async function CourseDetailPage({
                       className="h-full rounded-full transition-all duration-500"
                       style={{
                         width: `${progressPct}%`,
-                        background: progressPct === 100 ? "#72CF92" : "#6699F3",
+                        background: progressPct === 100 ? "#71c69a" : "#f6614f",
                       }}
                     />
                   </div>
@@ -174,9 +174,9 @@ export default async function CourseDetailPage({
                   className={cn(
                     "w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-semibold transition-colors",
                     progressPct === 100
-                      ? "bg-[#72CF92]/15 text-[#72CF92] hover:bg-[#72CF92]/25"
+                      ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
                       : lastWatchedLessonId
-                      ? "bg-[#6699F3] text-white hover:bg-[#5580d4]"
+                      ? "bg-[#f6614f] text-white hover:bg-[#5580d4]"
                       : "bg-muted text-foreground hover:bg-muted/80"
                   )}
                 >
@@ -193,7 +193,7 @@ export default async function CourseDetailPage({
               {forumSlug && (
                 <Link
                   href={`/comunidade/forum/${forumSlug}`}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border border-border text-foreground/70 hover:text-[#6699F3] hover:border-[#6699F3]/40 hover:bg-[#6699F3]/5 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border border-border text-foreground/70 hover:text-[#f6614f] hover:border-[#f6614f]/40 hover:bg-[#f6614f]/5 transition-colors"
                 >
                   <MessageSquare className="w-4 h-4" />
                   Comunidade do curso
@@ -208,7 +208,7 @@ export default async function CourseDetailPage({
                 rel={(course as unknown as { checkout_url: string | null }).checkout_url ? "noopener noreferrer" : undefined}
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "w-full bg-[#6699F3] hover:bg-[#5580d4] text-white font-semibold justify-center"
+                  "w-full bg-[#f6614f] hover:bg-[#5580d4] text-white font-semibold justify-center"
                 )}
               >
                 Comprar curso
@@ -223,7 +223,7 @@ export default async function CourseDetailPage({
         {/* Info principal — aparece primeiro no mobile */}
         <div className="lg:col-span-2 space-y-4 order-first lg:order-first">
           {category && (
-            <span className="text-sm font-medium uppercase tracking-wide text-[#6699F3]">
+            <span className="text-sm font-medium uppercase tracking-wide text-[#f6614f]">
               {category.name}
             </span>
           )}
@@ -273,7 +273,7 @@ export default async function CourseDetailPage({
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           {canAccess ? (
-                            <Play className="w-4 h-4 text-[#6699F3] shrink-0" />
+                            <Play className="w-4 h-4 text-[#f6614f] shrink-0" />
                           ) : (
                             <Lock className="w-4 h-4 text-muted-foreground shrink-0" />
                           )}
@@ -281,7 +281,7 @@ export default async function CourseDetailPage({
                             {canAccess ? (
                               <Link
                                 href={`/aulas/${lesson.id}`}
-                                className="text-sm font-medium hover:text-[#6699F3] transition-colors line-clamp-1"
+                                className="text-sm font-medium hover:text-[#f6614f] transition-colors line-clamp-1"
                               >
                                 {lesson.title}
                               </Link>
@@ -291,7 +291,7 @@ export default async function CourseDetailPage({
                               </span>
                             )}
                             {lesson.is_preview && (
-                              <span className="text-xs text-[#72CF92] font-medium">
+                              <span className="text-xs text-[#71c69a] font-medium">
                                 Prévia gratuita
                               </span>
                             )}

@@ -39,11 +39,11 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
         {hasMaterials && (
           <button
             onClick={() => openSheet("materiais")}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border bg-white text-sm font-medium hover:border-[#6699F3] hover:text-[#6699F3] transition-colors min-h-[44px]"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border bg-white text-sm font-medium hover:border-[#f6614f] hover:text-[#f6614f] transition-colors min-h-[44px]"
           >
             <Download className="w-4 h-4 shrink-0" />
             <span>Materiais</span>
-            <span className="ml-0.5 text-xs bg-[#6699F3]/10 text-[#6699F3] rounded-full px-1.5 py-0.5 font-bold">
+            <span className="ml-0.5 text-xs bg-[#f6614f]/10 text-[#f6614f] rounded-full px-1.5 py-0.5 font-bold">
               {materials.length}
             </span>
           </button>
@@ -51,7 +51,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
         {hasModules && (
           <button
             onClick={() => openSheet("menu")}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border bg-white text-sm font-medium hover:border-[#6699F3] hover:text-[#6699F3] transition-colors min-h-[44px]"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border bg-white text-sm font-medium hover:border-[#f6614f] hover:text-[#f6614f] transition-colors min-h-[44px]"
           >
             <BookOpen className="w-4 h-4 shrink-0" />
             <span>Menu do curso</span>
@@ -85,7 +85,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                   className={cn(
                     "pb-3 pt-2 px-2 text-sm font-medium border-b-2 -mb-px transition-colors",
                     tab === "materiais"
-                      ? "border-[#6699F3] text-[#6699F3]"
+                      ? "border-[#f6614f] text-[#f6614f]"
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -98,7 +98,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                   className={cn(
                     "pb-3 pt-2 px-2 text-sm font-medium border-b-2 -mb-px transition-colors",
                     tab === "menu"
-                      ? "border-[#6699F3] text-[#6699F3]"
+                      ? "border-[#f6614f] text-[#f6614f]"
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -126,13 +126,13 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                     materials.map((m) => (
                       <div
                         key={m.id}
-                        className="flex items-center gap-3 p-3 rounded-xl border-2 border-[#6699F3]/25 bg-[#6699F3]/5"
+                        className="flex items-center gap-3 p-3 rounded-xl border-2 border-[#f6614f]/25 bg-[#f6614f]/5"
                       >
-                        <div className="w-10 h-10 rounded-lg bg-[#6699F3]/15 flex items-center justify-center shrink-0">
-                          <FileText className="w-5 h-5 text-[#6699F3]" />
+                        <div className="w-10 h-10 rounded-lg bg-[#f6614f]/15 flex items-center justify-center shrink-0">
+                          <FileText className="w-5 h-5 text-[#f6614f]" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold text-[#6699F3] uppercase tracking-wider mb-0.5">
+                          <p className="text-[10px] font-bold text-[#f6614f] uppercase tracking-wider mb-0.5">
                             Material da aula
                           </p>
                           <p className="text-sm font-medium truncate">{m.name}</p>
@@ -141,7 +141,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                           <a
                             href={m.signed_url}
                             download
-                            className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-white bg-[#6699F3] hover:bg-[#5580d4] px-3 py-2 rounded-lg min-h-[40px] transition-colors"
+                            className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] px-3 py-2 rounded-lg min-h-[40px] transition-colors"
                           >
                             <Download className="w-3.5 h-3.5" />
                             Baixar
@@ -174,22 +174,22 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                                 className={cn(
                                   "flex items-center gap-2.5 px-3 py-2.5 text-xs transition-colors min-h-[44px]",
                                   isCurrent
-                                    ? "bg-[#6699F3]/10 text-[#6699F3] font-semibold"
+                                    ? "bg-[#f6614f]/10 text-[#f6614f] font-semibold"
                                     : "hover:bg-muted/60 text-foreground/80"
                                 )}
                               >
                                 {done ? (
-                                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#72CF92]" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#71c69a]" />
                                 ) : (
                                   <span className={cn(
                                     "w-3.5 h-3.5 shrink-0 rounded-full border",
-                                    isCurrent ? "border-[#6699F3]" : "border-muted-foreground/40"
+                                    isCurrent ? "border-[#f6614f]" : "border-muted-foreground/40"
                                   )} />
                                 )}
                                 <span className="line-clamp-2 leading-snug flex-1">
                                   {l.title}
                                   {l.is_preview && (
-                                    <span className="ml-1 text-[10px] text-[#72CF92]">(grátis)</span>
+                                    <span className="ml-1 text-[10px] text-[#71c69a]">(grátis)</span>
                                   )}
                                 </span>
                               </Link>

@@ -49,7 +49,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
             placeholder="Buscar curso..."
-            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 transition-shadow"
+            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 transition-shadow"
           />
         </div>
         {categories.length > 0 && (
@@ -60,14 +60,14 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
             className={cn(
               "shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-sm font-medium transition-colors",
               filtersOpen || activeCategory
-                ? "border-[#6699F3] text-[#6699F3] bg-[#6699F3]/5"
-                : "border-border text-foreground/60 hover:border-[#6699F3]/50 hover:text-[#6699F3]"
+                ? "border-[#f6614f] text-[#f6614f] bg-[#f6614f]/5"
+                : "border-border text-foreground/60 hover:border-[#f6614f]/50 hover:text-[#f6614f]"
             )}
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span className="hidden sm:inline text-xs">Categoria</span>
             {activeCategory && (
-              <span className="w-4 h-4 rounded-full bg-[#6699F3] text-white text-[10px] font-bold flex items-center justify-center leading-none">
+              <span className="w-4 h-4 rounded-full bg-[#f6614f] text-white text-[10px] font-bold flex items-center justify-center leading-none">
                 1
               </span>
             )}
@@ -87,8 +87,8 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
               className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                 !activeCategory
-                  ? "bg-[#6699F3] text-white shadow-sm"
-                  : "bg-muted/60 text-foreground/70 hover:bg-[#6699F3]/10 hover:text-[#6699F3]"
+                  ? "bg-[#f6614f] text-white shadow-sm"
+                  : "bg-muted/60 text-foreground/70 hover:bg-[#f6614f]/10 hover:text-[#f6614f]"
               )}
             >
               Todos
@@ -100,8 +100,8 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
                 className={cn(
                   "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                   activeCategory === cat.slug
-                    ? "bg-[#6699F3] text-white shadow-sm"
-                    : "bg-muted/60 text-foreground/70 hover:bg-[#6699F3]/10 hover:text-[#6699F3]"
+                    ? "bg-[#f6614f] text-white shadow-sm"
+                    : "bg-muted/60 text-foreground/70 hover:bg-[#f6614f]/10 hover:text-[#f6614f]"
                 )}
               >
                 {cat.name}
@@ -127,7 +127,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
     const gridItems = tipo === "curso" ? exploreCourses : exploreMaterials;
     const gridTitle = tipo === "curso" ? "Todos os Cursos" : "Todos os Materiais Didáticos";
     const gridIcon = tipo === "curso"
-      ? <Play className="w-5 h-5 text-[#6699F3]" />
+      ? <Play className="w-5 h-5 text-[#f6614f]" />
       : <BookOpen className="w-5 h-5 text-amber-600" />;
 
     return (
@@ -145,7 +145,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
 
         {/* Cabeçalho da grade */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-7 rounded-full bg-[#6699F3]" aria-hidden />
+          <div className="w-1 h-7 rounded-full bg-[#f6614f]" aria-hidden />
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
             {gridIcon}
             {gridTitle}
@@ -192,7 +192,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
       {/* Meus cursos */}
       <HorizontalRow
         title="Meus cursos"
-        icon={<CheckCircle className="w-4 h-4 text-[#6699F3]" />}
+        icon={<CheckCircle className="w-4 h-4 text-[#f6614f]" />}
         courses={enrolled}
         onSelect={setSelected}
       />
@@ -203,7 +203,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
       {/* Cursos — seção com destaque */}
       <HorizontalRow
         title="Cursos"
-        icon={<Play className="w-4 h-4 text-[#6699F3]" />}
+        icon={<Play className="w-4 h-4 text-[#f6614f]" />}
         courses={exploreCourses}
         onSelect={setSelected}
         featured
@@ -274,7 +274,7 @@ function HorizontalRow({
   const header = (
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-3">
-        {featured && !elevated && <div className="w-1 h-6 rounded-full bg-[#6699F3]" aria-hidden />}
+        {featured && !elevated && <div className="w-1 h-6 rounded-full bg-[#f6614f]" aria-hidden />}
         <div>
           <h2 className={cn(
             "flex items-center gap-2",
@@ -297,7 +297,7 @@ function HorizontalRow({
         {verMaisHref && (
           <Link
             href={verMaisHref}
-            className="flex items-center gap-0.5 text-xs font-medium text-[#6699F3] hover:underline shrink-0"
+            className="flex items-center gap-0.5 text-xs font-medium text-[#f6614f] hover:underline shrink-0"
           >
             Ver mais
             <ChevronRight className="w-3 h-3" />
@@ -306,14 +306,14 @@ function HorizontalRow({
         <div className="hidden sm:flex gap-1">
           <button
             onClick={() => scroll("left")}
-            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-[#6699F3] hover:text-[#6699F3] transition-colors"
+            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
             aria-label="Rolar para esquerda"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => scroll("right")}
-            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-[#6699F3] hover:text-[#6699F3] transition-colors"
+            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
             aria-label="Rolar para direita"
           >
             <ChevronRight className="w-4 h-4" />
@@ -343,9 +343,9 @@ function HorizontalRow({
         <div className="bg-white border-y border-border/40 shadow-sm overflow-hidden">
           {/* Faixa tricolor */}
           <div className="flex h-[3px]">
-            <span className="flex-1 bg-[#6699F3]" />
-            <span className="flex-1 bg-[#72CF92]" />
-            <span className="flex-1 bg-[#FEC649]" />
+            <span className="flex-1 bg-[#f6614f]" />
+            <span className="flex-1 bg-[#71c69a]" />
+            <span className="flex-1 bg-[#eebc3e]" />
           </div>
           <div className="px-4 sm:px-6 lg:px-8 pt-5 pb-4">
             {header}
@@ -381,11 +381,11 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
       : null
     : null;
 
-  const cardClassName = "block group handify-card overflow-hidden text-left w-full hover:shadow-md transition-shadow duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6699F3]";
+  const cardClassName = "block group handify-card overflow-hidden text-left w-full hover:shadow-md transition-shadow duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]";
 
   const cardContent = (<>
       {/* Thumbnail */}
-      <div className="aspect-video relative overflow-hidden bg-[#6699F3]/10">
+      <div className="aspect-video relative overflow-hidden bg-[#f6614f]/10">
         {course.thumbnail_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -406,8 +406,8 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
             {isLocked
-              ? <Lock className="w-4 h-4 text-[#6699F3]" />
-              : <Play className="w-4 h-4 text-[#6699F3] fill-[#6699F3] ml-0.5" />
+              ? <Lock className="w-4 h-4 text-[#f6614f]" />
+              : <Play className="w-4 h-4 text-[#f6614f] fill-[#f6614f] ml-0.5" />
             }
           </div>
         </div>
@@ -421,12 +421,12 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
 
         {/* Badge status */}
         {course.isEnrolled ? (
-          <span className="absolute top-1.5 left-1.5 bg-[#6699F3] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
+          <span className="absolute top-1.5 left-1.5 bg-[#f6614f] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
             <CheckCircle className="w-2.5 h-2.5" />
             {isComplete ? "Concluído" : "Matriculada"}
           </span>
         ) : course.hasPreview ? (
-          <span className="absolute top-1.5 left-1.5 bg-[#72CF92] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+          <span className="absolute top-1.5 left-1.5 bg-[#71c69a] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
             Prévia grátis
           </span>
         ) : null}
@@ -434,7 +434,7 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
         {/* Badge tipo */}
         <span className={cn(
           "absolute bottom-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-full",
-          isMaterial ? "bg-[#FEC649] text-[#0F0F0F]" : "bg-white/90 text-[#6699F3]"
+          isMaterial ? "bg-[#eebc3e] text-[#0F0F0F]" : "bg-white/90 text-[#f6614f]"
         )}>
           {isMaterial ? "Material" : "Curso"}
         </span>
@@ -445,11 +445,11 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
         {/* Topo: categoria + título — ocupa espaço disponível, nunca transborda */}
         <div className="flex-1 min-h-0 overflow-hidden">
           {course.categoryName && (
-            <p className="text-[10px] font-medium text-[#6699F3] uppercase tracking-wide line-clamp-1 mb-1">
+            <p className="text-[10px] font-medium text-[#f6614f] uppercase tracking-wide line-clamp-1 mb-1">
               {course.categoryName}
             </p>
           )}
-          <h3 className="font-bold text-sm leading-snug line-clamp-2 group-hover:text-[#6699F3] transition-colors">
+          <h3 className="font-bold text-sm leading-snug line-clamp-2 group-hover:text-[#f6614f] transition-colors">
             {course.title}
           </h3>
         </div>
@@ -459,7 +459,7 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
           <div className="shrink-0 space-y-1">
             <div className="flex justify-between items-center text-[10px] text-muted-foreground">
               <span>{course.progress.completed}/{course.progress.total} aulas</span>
-              <span className="font-semibold" style={{ color: isComplete ? "#72CF92" : "#6699F3" }}>
+              <span className="font-semibold" style={{ color: isComplete ? "#71c69a" : "#f6614f" }}>
                 {course.progress.percentage}%
               </span>
             </div>
@@ -468,11 +468,11 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${course.progress.percentage}%`,
-                  background: isComplete ? "#72CF92" : "#6699F3",
+                  background: isComplete ? "#71c69a" : "#f6614f",
                 }}
               />
             </div>
-            <p className="text-[10px] font-medium" style={{ color: isComplete ? "#72CF92" : "#6699F3" }}>
+            <p className="text-[10px] font-medium" style={{ color: isComplete ? "#71c69a" : "#f6614f" }}>
               {isComplete ? "Rever" : hasStarted ? "Continuar" : "Começar"}
             </p>
           </div>
@@ -565,13 +565,13 @@ function CourseModal({
         <div className="flex items-center justify-between px-6 pt-5 pb-3">
           <div className="flex items-center gap-2">
             {course.categoryName && (
-              <span className="text-xs font-medium text-[#6699F3] uppercase tracking-wide">
+              <span className="text-xs font-medium text-[#f6614f] uppercase tracking-wide">
                 {course.categoryName}
               </span>
             )}
             <span className={cn(
               "text-[10px] font-bold px-2 py-0.5 rounded-full",
-              isMaterial ? "bg-[#FEC649] text-[#0F0F0F]" : "bg-[#6699F3]/15 text-[#6699F3]"
+              isMaterial ? "bg-[#eebc3e] text-[#0F0F0F]" : "bg-[#f6614f]/15 text-[#f6614f]"
             )}>
               {isMaterial ? "Material Didático" : "Curso"}
             </span>
@@ -623,7 +623,7 @@ function CourseModal({
               {course.totalLessons} aulas
             </span>
             {course.hasPreview && (
-              <span className="flex items-center gap-1.5 text-[#72CF92] font-medium">
+              <span className="flex items-center gap-1.5 text-[#71c69a] font-medium">
                 <Play className="w-4 h-4" />
                 Prévia grátis disponível
               </span>
@@ -656,12 +656,12 @@ function CourseModal({
                           <div key={lesson.id} className="flex items-center justify-between px-3 py-2 text-xs">
                             <span className="flex items-center gap-2 text-muted-foreground min-w-0">
                               {lesson.is_preview
-                                ? <Play className="w-3 h-3 text-[#72CF92] shrink-0" />
+                                ? <Play className="w-3 h-3 text-[#71c69a] shrink-0" />
                                 : <Lock className="w-3 h-3 shrink-0" />
                               }
                               <span className="truncate">{lesson.title}</span>
                               {lesson.is_preview && (
-                                <span className="text-[#72CF92] font-medium shrink-0">Prévia</span>
+                                <span className="text-[#71c69a] font-medium shrink-0">Prévia</span>
                               )}
                             </span>
                             {lesson.duration_seconds > 0 && (
@@ -687,14 +687,14 @@ function CourseModal({
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs text-muted-foreground">
                       <span>{course.progress.completed}/{course.progress.total} aulas</span>
-                      <span className="font-semibold" style={{ color: isComplete ? "#72CF92" : "#6699F3" }}>
+                      <span className="font-semibold" style={{ color: isComplete ? "#71c69a" : "#f6614f" }}>
                         {course.progress.percentage}%
                       </span>
                     </div>
                     <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full"
-                        style={{ width: `${course.progress.percentage}%`, background: isComplete ? "#72CF92" : "#6699F3" }}
+                        style={{ width: `${course.progress.percentage}%`, background: isComplete ? "#71c69a" : "#f6614f" }}
                       />
                     </div>
                   </div>
@@ -704,7 +704,7 @@ function CourseModal({
                   onClick={onClose}
                   className={cn(
                     "w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors",
-                    isComplete ? "bg-[#72CF92] hover:bg-[#5bb577]" : "bg-[#6699F3] hover:bg-[#5580d4]"
+                    isComplete ? "bg-[#71c69a] hover:bg-[#5bb577]" : "bg-[#f6614f] hover:bg-[#5580d4]"
                   )}
                 >
                   {isComplete
@@ -728,7 +728,7 @@ function CourseModal({
                     <Link
                       href="/cadastro"
                       onClick={onClose}
-                      className="text-sm font-medium text-[#6699F3] hover:underline px-3 py-2 text-center"
+                      className="text-sm font-medium text-[#f6614f] hover:underline px-3 py-2 text-center"
                     >
                       Criar conta
                     </Link>
@@ -737,7 +737,7 @@ function CourseModal({
                     href={ctaHref}
                     target={course.checkout_url ? "_blank" : undefined}
                     rel={course.checkout_url ? "noopener noreferrer" : undefined}
-                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#6699F3] hover:bg-[#5580d4] transition-colors"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors"
                   >
                     Comprar agora
                   </a>

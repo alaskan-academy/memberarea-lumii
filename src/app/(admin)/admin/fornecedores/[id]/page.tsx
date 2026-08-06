@@ -4,7 +4,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { getTagTypes, getNiches } from '@/lib/fornecedores/actions'
 import { SupplierForm } from '@/components/ferramentas/fornecedores/SupplierForm'
 
-export const metadata = { title: 'Admin — Editar Fornecedor | Handify' }
+export const metadata = { title: 'Admin — Editar Fornecedor | Lumii' }
 
 export default async function EditarFornecedorPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

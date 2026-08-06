@@ -33,10 +33,10 @@ function typeIcon(type: string) {
 }
 
 function typeColor(type: string) {
-  if (type === "admin_broadcast") return "#6699F3";
-  if (type === "course_completed" || type === "certificate_ready") return "#72CF92";
-  if (type === "news_post") return "#FEC649";
-  return "#6699F3";
+  if (type === "admin_broadcast") return "#f6614f";
+  if (type === "course_completed" || type === "certificate_ready") return "#71c69a";
+  if (type === "news_post") return "#eebc3e";
+  return "#f6614f";
 }
 
 function fmtTime(iso: string) {
@@ -144,7 +144,7 @@ export default function NotificationBell({
         <Bell className="w-5 h-5" />
         {unread > 0 && (
           <span className="absolute top-1 right-1 w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
-            style={{ background: "#6699F3" }}>
+            style={{ background: "#f6614f" }}>
             {unread > 9 ? "9+" : unread}
           </span>
         )}
@@ -159,7 +159,7 @@ export default function NotificationBell({
             <div className="flex items-center gap-2">
               {unread > 0 && (
                 <button onClick={handleReadAll}
-                  className="flex items-center gap-1 text-xs text-[#6699F3] hover:text-[#4d7de0] transition-colors"
+                  className="flex items-center gap-1 text-xs text-[#f6614f] hover:text-[#4d7de0] transition-colors"
                   aria-label="Marcar todas como lidas">
                   <CheckCheck className="w-3.5 h-3.5" />
                   Lidas
@@ -185,7 +185,7 @@ export default function NotificationBell({
                 const color = typeColor(n.type);
                 const content = (
                   <div
-                    className={`flex gap-3 px-4 py-3 border-b border-border/40 transition-colors cursor-pointer hover:bg-muted/50 ${!n.read ? "bg-[#6699F3]/5" : ""}`}
+                    className={`flex gap-3 px-4 py-3 border-b border-border/40 transition-colors cursor-pointer hover:bg-muted/50 ${!n.read ? "bg-[#f6614f]/5" : ""}`}
                     onClick={() => { if (!n.read) handleRead(n.id); }}
                   >
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
@@ -202,7 +202,7 @@ export default function NotificationBell({
                       <p className="text-[10px] text-muted-foreground/60 mt-1">{fmtTime(n.created_at)}</p>
                     </div>
                     {!n.read && (
-                      <div className="w-2 h-2 rounded-full shrink-0 mt-2" style={{ background: "#6699F3" }} />
+                      <div className="w-2 h-2 rounded-full shrink-0 mt-2" style={{ background: "#f6614f" }} />
                     )}
                   </div>
                 );

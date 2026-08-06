@@ -50,7 +50,7 @@ export function FunnelTableClient({ rows }: { rows: FunnelRowData[] }) {
                 <td className="py-3 pr-4 font-medium max-w-[200px]">
                   <Link
                     href={`/admin/cursos/${f.courseId}`}
-                    className="truncate block hover:text-[#6699F3] transition-colors"
+                    className="truncate block hover:text-[#f6614f] transition-colors"
                     title={f.title}
                   >
                     {f.title}
@@ -61,35 +61,35 @@ export function FunnelTableClient({ rows }: { rows: FunnelRowData[] }) {
                   pct={pct(f.enrolledCount)}
                   students={f.enrolledStudents}
                   label={`Matrículas — ${f.title}`}
-                  color="#6699F3"
+                  color="#f6614f"
                 />
                 <ClickableCell
                   count={f.startedCount}
                   pct={pct(f.startedCount)}
                   students={f.startedStudents}
                   label={`Iniciaram — ${f.title}`}
-                  color="#6699F3"
+                  color="#f6614f"
                 />
                 <ClickableCell
                   count={f.q50Count}
                   pct={pct(f.q50Count)}
                   students={f.q50Students}
                   label={`50%+ concluído — ${f.title}`}
-                  color="#72CF92"
+                  color="#71c69a"
                 />
                 <ClickableCell
                   count={f.q75Count}
                   pct={pct(f.q75Count)}
                   students={f.q75Students}
                   label={`75%+ concluído — ${f.title}`}
-                  color="#FEC649"
+                  color="#eebc3e"
                 />
                 <ClickableCell
                   count={f.certifiedCount}
                   pct={pct(f.certifiedCount)}
                   students={f.certifiedStudents}
                   label={`Certificadas — ${f.title}`}
-                  color="#72CF92"
+                  color="#71c69a"
                   highlight
                 />
                 <td className="py-3 text-right tabular-nums text-muted-foreground text-xs">

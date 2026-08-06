@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getNotifications } from "@/lib/notifications/actions";
 import NotificacoesClient from "./NotificacoesClient";
 
-export const metadata = { title: "Notificações — Handify" };
+export const metadata = { title: "Notificações — Lumii" };
 
 export default async function NotificacoesPage() {
   const supabase = await createClient();

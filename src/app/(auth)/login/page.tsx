@@ -58,7 +58,7 @@ function LoginContent() {
           {msgBanner && (
             <div
               role="status"
-              className="rounded-md bg-[#72CF92]/15 border border-[#72CF92]/30 px-4 py-3 text-sm text-[#2D2D2D]"
+              className="rounded-md bg-lumii-green/15 border border-lumii-green/30 px-4 py-3 text-sm text-foreground"
             >
               {msgBanner}
             </div>
@@ -93,7 +93,7 @@ function LoginContent() {
               <Label htmlFor="password">Senha</Label>
               <Link
                 href="/recuperar-senha"
-                className="text-xs text-[#888] hover:text-[#2D2D2D] underline-offset-4 hover:underline"
+                className="text-xs text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
               >
                 Esqueci minha senha
               </Link>
@@ -109,28 +109,28 @@ function LoginContent() {
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-4 bg-white border-t-0 rounded-b-xl">
+        <CardFooter className="flex flex-col gap-4 border-t-0 rounded-b-xl">
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? "Entrando…" : "Entrar"}
           </Button>
 
-          <p className="text-sm text-center text-[#888]">
+          <p className="text-sm text-center text-muted-foreground">
             Não tem conta?{" "}
             <Link
               href="/cadastro"
-              className="text-[#2D2D2D] font-medium underline-offset-4 hover:underline"
+              className="text-foreground font-medium underline-offset-4 hover:underline"
             >
               Criar conta
             </Link>
           </p>
 
-          <p className="text-xs text-center text-[#aaa]">
+          <p className="text-xs text-center text-muted-foreground/70">
             Problemas com o acesso?{" "}
             <a
               href="https://wa.me/message/ZVYBKLSWPO7OM1"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#6699F3] underline-offset-4 hover:underline"
+              className="text-lumii-coral underline-offset-4 hover:underline"
             >
               Falar com suporte
             </a>

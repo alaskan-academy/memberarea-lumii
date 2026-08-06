@@ -86,7 +86,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
           required
           defaultValue={banner?.title}
           placeholder="Ex: Banner — Curso de Macramê"
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         />
       </div>
 
@@ -119,7 +119,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
         ) : (
           <label
             htmlFor="image_file_input"
-            className="flex flex-col items-center justify-center gap-3 w-full h-36 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-[#6699F3] hover:bg-[#6699F3]/5 transition-colors mb-3"
+            className="flex flex-col items-center justify-center gap-3 w-full h-36 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-[#f6614f] hover:bg-[#f6614f]/5 transition-colors mb-3"
           >
             <Upload className="w-7 h-7 text-muted-foreground" />
             <div className="text-center">
@@ -146,7 +146,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
           <button
             type="button"
             onClick={() => document.getElementById("image_file_input")?.click()}
-            className="text-xs text-[#6699F3] hover:underline"
+            className="text-xs text-[#f6614f] hover:underline"
           >
             Trocar imagem
           </button>
@@ -166,7 +166,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
           required
           defaultValue={banner?.link_url}
           placeholder="https://..."
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         />
       </div>
 
@@ -178,7 +178,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
           required
           defaultValue={banner?.position_slot ?? "header"}
           onChange={(e) => setSlot(e.target.value)}
-          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+          className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
         >
           {Object.entries(SLOT_LABELS).map(([value, label]) => (
             <option key={value} value={value}>{label}</option>
@@ -207,7 +207,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
                   name="product_codes"
                   value={c.product_code!}
                   defaultChecked={banner?.product_codes.includes(c.product_code!)}
-                  className="accent-[#6699F3] w-4 h-4 shrink-0"
+                  className="accent-[#f6614f] w-4 h-4 shrink-0"
                 />
                 <span className="flex-1 truncate">{c.title}</span>
                 <code className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded shrink-0">
@@ -227,7 +227,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
             name="starts_at"
             type="date"
             defaultValue={toDateInput(banner?.starts_at)}
-            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
           />
         </div>
         <div>
@@ -236,7 +236,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
             name="ends_at"
             type="date"
             defaultValue={toDateInput(banner?.ends_at)}
-            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
           />
         </div>
       </div>
@@ -248,7 +248,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
           name="active"
           value="true"
           defaultChecked={banner?.active ?? true}
-          className="accent-[#6699F3] w-4 h-4"
+          className="accent-[#f6614f] w-4 h-4"
         />
         <span className="text-sm font-medium">Banner ativo</span>
       </label>
@@ -256,7 +256,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
       <button
         type="submit"
         disabled={pending}
-        className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-[#6699F3] hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+        className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors disabled:opacity-50"
       >
         {pending ? "Salvando…" : submitLabel}
       </button>

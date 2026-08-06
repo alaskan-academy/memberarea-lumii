@@ -74,7 +74,7 @@ export function InspiracaoCard({ post, userId, onClick }: Props) {
   return (
     <article
       onClick={onClick}
-      className="group bg-white rounded-xl border border-border/60 overflow-hidden cursor-pointer hover:border-[#6699F3]/40 hover:shadow-md transition-all duration-200"
+      className="group bg-white rounded-xl border border-border/60 overflow-hidden cursor-pointer hover:border-[#f6614f]/40 hover:shadow-md transition-all duration-200"
     >
       <div className="relative">
         <CardThumbnail post={post} />
@@ -83,7 +83,7 @@ export function InspiracaoCard({ post, userId, onClick }: Props) {
           {label}
         </span>
         {post.pinned && (
-          <span className="absolute top-2 right-2 text-[10px] bg-[#FEC649] text-[#0F0F0F] px-1.5 py-0.5 rounded-full font-bold leading-none">
+          <span className="absolute top-2 right-2 text-[10px] bg-[#eebc3e] text-[#0F0F0F] px-1.5 py-0.5 rounded-full font-bold leading-none">
             📌
           </span>
         )}

@@ -275,28 +275,28 @@ export default async function FunilPage() {
           icon={Users}
           label="Total de matrículas"
           value={totalEnrollments}
-          color="#6699F3"
+          color="#f6614f"
           tooltip="Matrículas ativas com acesso vigente (vitalício ou dentro do prazo)."
         />
         <StatCard
           icon={Zap}
           label="Taxa de ativação"
           value={`${taxaAtivacao}%`}
-          color="#72CF92"
+          color="#71c69a"
           tooltip="Percentual de alunas matriculadas que assistiram pelo menos uma aula."
         />
         <StatCard
           icon={Award}
           label="Taxa de conclusão"
           value={`${taxaConclusao}%`}
-          color="#FEC649"
+          color="#eebc3e"
           tooltip="Percentual de matrículas que resultaram em certificado."
         />
         <StatCard
           icon={Clock}
           label="Dias até 1ª aula"
           value={avgActivDays !== null ? `${avgActivDays}d` : "—"}
-          color="#6699F3"
+          color="#f6614f"
           tooltip="Média de dias entre a data da matrícula e a primeira aula assistida."
         />
       </div>
@@ -304,7 +304,7 @@ export default async function FunilPage() {
       {/* Funil por curso */}
       <div className="handify-card p-6">
         <h2 className="font-semibold mb-1 flex items-center gap-2">
-          <TrendingDown className="w-4 h-4 text-[#6699F3]" />
+          <TrendingDown className="w-4 h-4 text-[#f6614f]" />
           Funil de conclusão por curso
         </h2>
         <p className="text-xs text-muted-foreground mb-5">
@@ -316,7 +316,7 @@ export default async function FunilPage() {
       {/* Segmentos */}
       <div>
         <h2 className="font-semibold mb-1 flex items-center gap-2">
-          <Users className="w-4 h-4 text-[#6699F3]" />
+          <Users className="w-4 h-4 text-[#f6614f]" />
           Segmentos acionáveis para pós-venda
         </h2>
         <p className="text-xs text-muted-foreground mb-4">
@@ -335,7 +335,7 @@ export default async function FunilPage() {
           <SegmentCard
             icon={TrendingDown}
             label="Travadas"
-            color="#FEC649"
+            color="#eebc3e"
             count={stalled.length}
             items={stalled.slice(0, 5)}
             tooltip="Iniciaram o curso mas ficaram inativas por 7+ dias e ainda não concluíram. Candidatas a e-mail de reengajamento."
@@ -344,7 +344,7 @@ export default async function FunilPage() {
           <SegmentCard
             icon={Target}
             label="Quase lá"
-            color="#6699F3"
+            color="#f6614f"
             count={nearCompletion.length}
             items={nearCompletion.slice(0, 5)}
             tooltip="Completaram 75%+ das aulas mas ainda não têm certificado. Um empurrãozinho pode fechar a conclusão."
@@ -353,7 +353,7 @@ export default async function FunilPage() {
           <SegmentCard
             icon={Star}
             label="Prontas p/ upsell"
-            color="#72CF92"
+            color="#71c69a"
             count={upsellReady.length}
             items={upsellReady.slice(0, 5)}
             tooltip="Já concluíram pelo menos um curso com certificado. Fãs da plataforma — alvo ideal para oferecer novos cursos."
@@ -366,7 +366,7 @@ export default async function FunilPage() {
       {topStalledLessons.length > 0 && (
         <div className="handify-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
-            <TrendingDown className="w-4 h-4 text-[#FEC649]" />
+            <TrendingDown className="w-4 h-4 text-[#eebc3e]" />
             Aulas onde mais alunas travaram
             <InfoTooltip text="Aulas com progresso registrado mas ainda não concluídas — indicam pontos de abandono ou dificuldade no conteúdo." />
           </h2>
@@ -382,7 +382,7 @@ export default async function FunilPage() {
                   <p className="text-xs text-muted-foreground truncate">{lesson.courseTitle}</p>
                 </div>
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full shrink-0"
-                  style={{ background: "#FEC64920", color: "#b8880a" }}>
+                  style={{ background: "#eebc3e20", color: "#b8880a" }}>
                   {lesson.count} travada{lesson.count !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -480,7 +480,7 @@ function SegmentCard({
               subtitle={`${count} aluna${count !== 1 ? "s" : ""} neste segmento`}
               students={allStudents}
             >
-              <p className="text-[10px] text-muted-foreground pt-1 cursor-pointer hover:text-[#6699F3] transition-colors">
+              <p className="text-[10px] text-muted-foreground pt-1 cursor-pointer hover:text-[#f6614f] transition-colors">
                 +{count - items.length} outras — ver todas
               </p>
             </StudentListModal>

@@ -51,7 +51,7 @@ function Carrossel({ images }: { images: { url: string; alt?: string }[] }) {
                 onClick={() => setIdx(i)}
                 className={cn(
                   'w-1.5 h-1.5 rounded-full transition-colors',
-                  i === idx ? 'bg-[#6699F3]' : 'bg-foreground/20'
+                  i === idx ? 'bg-[#f6614f]' : 'bg-foreground/20'
                 )}
                 aria-label={`Imagem ${i + 1}`}
               />
@@ -109,7 +109,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
               <h2 className="font-bold text-base leading-snug">{post.title}</h2>
               {post.author && (
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  por {post.author.full_name ?? 'Handify'}
+                  por {post.author.full_name ?? 'Lumii'}
                 </p>
               )}
             </div>
@@ -154,7 +154,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                 href={post.video_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-[#6699F3] hover:underline"
+                className="inline-flex items-center gap-2 text-sm text-[#f6614f] hover:underline"
               >
                 <ExternalLink className="w-4 h-4" />
                 Abrir vídeo
@@ -239,7 +239,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                     <ol className="space-y-2.5">
                       {post.recipe_data.passos.map((passo, i) => (
                         <li key={i} className="flex gap-3 text-xs text-foreground/80 leading-relaxed">
-                          <span className="shrink-0 w-5 h-5 rounded-full bg-[#6699F3]/10 text-[#6699F3] font-bold flex items-center justify-center text-[10px]">
+                          <span className="shrink-0 w-5 h-5 rounded-full bg-[#f6614f]/10 text-[#f6614f] font-bold flex items-center justify-center text-[10px]">
                             {i + 1}
                           </span>
                           {passo}
@@ -251,7 +251,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
 
                 {/* Dicas */}
                 {post.recipe_data.dicas && (
-                  <div className="bg-[#72CF92]/10 rounded-xl p-3 border border-[#72CF92]/20">
+                  <div className="bg-[#71c69a]/10 rounded-xl p-3 border border-[#71c69a]/20">
                     <p className="text-xs font-semibold text-[#2a9d5a] mb-1">💡 Dicas</p>
                     <p className="text-xs text-foreground/75 leading-relaxed">{post.recipe_data.dicas}</p>
                   </div>
@@ -269,7 +269,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                     {post.recipe_data.preco_venda && (
                       <div className="text-xs">
                         <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Preço de venda</p>
-                        <p className="font-bold mt-0.5 text-[#6699F3]">{post.recipe_data.preco_venda}</p>
+                        <p className="font-bold mt-0.5 text-[#f6614f]">{post.recipe_data.preco_venda}</p>
                       </div>
                     )}
                   </div>
@@ -310,11 +310,11 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                       <img
                         src={post.featured_student.avatar_url}
                         alt={post.featured_student.full_name ?? ''}
-                        className="w-20 h-20 rounded-full object-cover border-2 border-[#6699F3]/30"
+                        className="w-20 h-20 rounded-full object-cover border-2 border-[#f6614f]/30"
                       />
                     ) : (
-                      <div className="w-20 h-20 rounded-full bg-[#6699F3]/10 flex items-center justify-center">
-                        <User className="w-10 h-10 text-[#6699F3]/40" />
+                      <div className="w-20 h-20 rounded-full bg-[#f6614f]/10 flex items-center justify-center">
+                        <User className="w-10 h-10 text-[#f6614f]/40" />
                       </div>
                     )}
                     <div>
@@ -350,7 +350,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                 {post.tags.map(tag => (
                   <span
                     key={tag}
-                    className="text-xs px-2 py-0.5 rounded-full bg-[#6699F3]/8 text-[#6699F3] border border-[#6699F3]/20 font-medium"
+                    className="text-xs px-2 py-0.5 rounded-full bg-[#f6614f]/8 text-[#f6614f] border border-[#f6614f]/20 font-medium"
                   >
                     #{tag}
                   </span>

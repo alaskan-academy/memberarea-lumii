@@ -4,7 +4,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { getSuppliers, getNiches, getProducts, getTagTypes } from '@/lib/fornecedores/actions'
 import { FornecedoresPage } from '@/components/ferramentas/fornecedores/FornecedoresPage'
 
-export const metadata = { title: 'Fornecedores | Handify' }
+export const metadata = { title: 'Fornecedores | Lumii' }
 
 const PRODUTO_TO_NICHE_SLUG: Record<string, string> = {
   sabonetes: 'saboaria-artesanal',

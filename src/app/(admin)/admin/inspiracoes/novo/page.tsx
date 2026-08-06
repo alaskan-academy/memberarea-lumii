@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { InspiracaoForm } from '@/components/admin/inspiracoes/InspiracaoForm'
 
-export const metadata = { title: 'Admin — Novo Post de Inspiração | Handify' }
+export const metadata = { title: 'Admin — Novo Post de Inspiração | Lumii' }
 
 export default async function NovoInspiracaoPage() {
   const supabase = await createClient()

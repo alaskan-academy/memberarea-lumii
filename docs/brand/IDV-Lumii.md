@@ -16,10 +16,13 @@
 |-----|-----|-----|
 | Verde | `#71c69a` | Cor primária do gradiente do logo |
 | Amarelo | `#eebc3e` | Cor intermediária do gradiente do logo |
-| Vermelho/coral | `#f6614f` | Cor final do gradiente do logo |
-| Azul-marinho (dark) | `#212d42` | Fundo escuro / cor institucional de contraste |
+| Vermelho/coral | `#f6614f` | Cor final do gradiente do logo; cor primária de ação (botões, links, CTAs) |
+| Azul-marinho (dark, PDF) | `#212d42` | Fundo escuro / cor institucional de contraste (valor original do PDF da marca) |
+| **Azul Lumii (fundo do produto)** | **`#243149`** | **Fundo padrão de todo o produto (site/app) — definido em 2026-08-06. Substitui fundo claro/branco em toda a aplicação.** |
 
-O logotipo "Lumii" usa gradiente diagonal verde → amarelo → coral. Fundo de marca padrão: `#212d42` (azul-marinho escuro), com o logo em gradiente sobre ele.
+O logotipo "Lumii" usa gradiente diagonal verde → amarelo → coral. Fundo de marca padrão: `#212d42` (azul-marinho escuro, conforme PDF), com o logo em gradiente sobre ele.
+
+**Fundo do produto (site/app):** `#243149` é o azul oficial de fundo de toda a aplicação (área da aluna e admin) — telas não usam mais fundo claro/branco como superfície padrão. Textos e superfícies internas (cards, inputs) devem usar tons claros/off-white para contraste sobre esse azul.
 
 ## Tipografia
 
@@ -30,6 +33,7 @@ O logotipo "Lumii" usa gradiente diagonal verde → amarelo → coral. Fundo de 
 - Wordmark "Lumii" em gradiente (verde → amarelo → coral) sobre fundo azul-marinho `#212d42`.
 - Ícone de app: mesmo wordmark centralizado em fundo `#212d42` com cantos arredondados (squircle).
 - Versão sobre fundo claro: manter o gradiente do texto; não achatar em cor sólida.
+- **Arte oficial (arquivo real, não recriar em texto/CSS):** [`logo-lumii.png`](./logo-lumii.png) — PNG recortado e com fundo transparente, extraído do material enviado em 2026-08-06. Usado em `public/logo-lumii.png` via o componente [`src/components/brand/Logo.tsx`](../../src/components/brand/Logo.tsx). **Nunca recriar o wordmark com texto/SVG aproximado** — usar sempre este arquivo (ou uma exportação vetorial oficial futura, se enviada).
 
 ## Iconografia de apoio
 

@@ -15,11 +15,11 @@ export default async function NovaSenhaPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F5F0] px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-lumii-bg px-4 py-12">
       <div className="w-full max-w-md">
         <div className="flex justify-center mb-8">
-          <span className="text-2xl font-bold tracking-tight text-[#6699F3]">
-            Handify™
+          <span className="text-2xl font-bold tracking-tight text-[#f6614f]">
+            Lumii
           </span>
         </div>
         <NovaSenhaForm email={user.email ?? ""} />

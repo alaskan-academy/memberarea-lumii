@@ -98,7 +98,7 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
               value={busca}
               onChange={e => setBusca(e.target.value)}
               placeholder="Buscar inspirações..."
-              className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 transition-shadow"
+              className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 transition-shadow"
             />
           </div>
           <button
@@ -108,14 +108,14 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
             className={cn(
               'shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-sm font-medium transition-colors',
               filtersOpen || activeFilterCount > 0
-                ? 'border-[#6699F3] text-[#6699F3] bg-[#6699F3]/5'
-                : 'border-border text-foreground/60 hover:border-[#6699F3]/50 hover:text-[#6699F3]'
+                ? 'border-[#f6614f] text-[#f6614f] bg-[#f6614f]/5'
+                : 'border-border text-foreground/60 hover:border-[#f6614f]/50 hover:text-[#f6614f]'
             )}
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span className="hidden sm:inline text-xs">Filtros</span>
             {activeFilterCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-[#6699F3] text-white text-[10px] font-bold flex items-center justify-center leading-none">
+              <span className="w-4 h-4 rounded-full bg-[#f6614f] text-white text-[10px] font-bold flex items-center justify-center leading-none">
                 {activeFilterCount}
               </span>
             )}
@@ -137,8 +137,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                       tipo === t.value
-                        ? 'bg-[#6699F3] text-white shadow-sm'
-                        : 'bg-muted/60 text-foreground/70 hover:bg-[#6699F3]/10 hover:text-[#6699F3]'
+                        ? 'bg-[#f6614f] text-white shadow-sm'
+                        : 'bg-muted/60 text-foreground/70 hover:bg-[#f6614f]/10 hover:text-[#f6614f]'
                     )}
                   >
                     {t.label}
@@ -157,8 +157,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                       nicho === ''
-                        ? 'bg-[#72CF92] text-white shadow-sm'
-                        : 'bg-muted/60 text-foreground/70 hover:bg-[#72CF92]/15 hover:text-[#2a9d5a]'
+                        ? 'bg-[#71c69a] text-white shadow-sm'
+                        : 'bg-muted/60 text-foreground/70 hover:bg-[#71c69a]/15 hover:text-[#2a9d5a]'
                     )}
                   >
                     Todos
@@ -170,8 +170,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                       className={cn(
                         'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                         nicho === c.slug
-                          ? 'bg-[#72CF92] text-white shadow-sm'
-                          : 'bg-muted/60 text-foreground/70 hover:bg-[#72CF92]/15 hover:text-[#2a9d5a]'
+                          ? 'bg-[#71c69a] text-white shadow-sm'
+                          : 'bg-muted/60 text-foreground/70 hover:bg-[#71c69a]/15 hover:text-[#2a9d5a]'
                       )}
                     >
                       {c.name}
@@ -191,8 +191,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                       courseId === ''
-                        ? 'bg-[#FEC649] text-[#6b4f00] shadow-sm'
-                        : 'bg-muted/60 text-foreground/70 hover:bg-[#FEC649]/20 hover:text-[#6b4f00]'
+                        ? 'bg-[#eebc3e] text-[#6b4f00] shadow-sm'
+                        : 'bg-muted/60 text-foreground/70 hover:bg-[#eebc3e]/20 hover:text-[#6b4f00]'
                     )}
                   >
                     Todos
@@ -204,8 +204,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                       className={cn(
                         'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                         courseId === c.id
-                          ? 'bg-[#FEC649] text-[#6b4f00] shadow-sm'
-                          : 'bg-muted/60 text-foreground/70 hover:bg-[#FEC649]/20 hover:text-[#6b4f00]'
+                          ? 'bg-[#eebc3e] text-[#6b4f00] shadow-sm'
+                          : 'bg-muted/60 text-foreground/70 hover:bg-[#eebc3e]/20 hover:text-[#6b4f00]'
                       )}
                     >
                       {c.title}
@@ -232,7 +232,7 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
       {/* Grid */}
       {isFetching ? (
         <div className="flex justify-center py-16">
-          <Loader2 className="w-6 h-6 text-[#6699F3] animate-spin" />
+          <Loader2 className="w-6 h-6 text-[#f6614f] animate-spin" />
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
@@ -257,7 +257,7 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
               <button
                 onClick={loadMore}
                 disabled={isLoadingMore}
-                className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-[#6699F3] border border-[#6699F3]/40 rounded-xl hover:bg-[#6699F3]/5 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-[#f6614f] border border-[#f6614f]/40 rounded-xl hover:bg-[#f6614f]/5 transition-colors disabled:opacity-50"
               >
                 {isLoadingMore ? (
                   <><Loader2 className="w-4 h-4 animate-spin" />Carregando...</>

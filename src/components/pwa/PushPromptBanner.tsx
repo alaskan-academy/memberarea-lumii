@@ -130,12 +130,12 @@ export default function PushPromptBanner() {
       </button>
 
       <div className="flex items-start gap-3">
-        <div className="w-9 h-9 rounded-xl bg-[#6699F3]/10 flex items-center justify-center shrink-0">
-          <Bell className="w-4 h-4 text-[#6699F3]" />
+        <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
+          <Bell className="w-4 h-4 text-[#f6614f]" />
         </div>
         <div className="flex-1 min-w-0 pr-4">
           {done ? (
-            <p className="text-sm font-semibold text-[#72CF92]">
+            <p className="text-sm font-semibold text-[#71c69a]">
               Notificações ativadas!
             </p>
           ) : (
@@ -144,7 +144,7 @@ export default function PushPromptBanner() {
                 Ativar notificações?
               </p>
               <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                Receba avisos sobre novos conteúdos e novidades da Handify.
+                Receba avisos sobre novos conteúdos e novidades da Lumii.
               </p>
               {saveError && (
                 <p className="text-xs text-red-600 mt-2">{saveError}</p>
@@ -153,7 +153,7 @@ export default function PushPromptBanner() {
                 <button
                   onClick={handleEnable}
                   disabled={isPending}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#6699F3] hover:bg-[#5580d4] transition-colors disabled:opacity-60"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors disabled:opacity-60"
                 >
                   {isPending ? (
                     <Loader2 className="w-3 h-3 animate-spin" />

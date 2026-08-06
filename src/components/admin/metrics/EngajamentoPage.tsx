@@ -82,7 +82,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <Users className="w-3.5 h-3.5 text-[#6699F3]" />
+            <Users className="w-3.5 h-3.5 text-[#f6614f]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Ativas
             </p>
@@ -91,7 +91,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
         </div>
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <MessageSquare className="w-3.5 h-3.5 text-[#6699F3]" />
+            <MessageSquare className="w-3.5 h-3.5 text-[#f6614f]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Posts
             </p>
@@ -100,7 +100,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
         </div>
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <MessageCircle className="w-3.5 h-3.5 text-[#72CF92]" />
+            <MessageCircle className="w-3.5 h-3.5 text-[#71c69a]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Coment.
             </p>
@@ -109,7 +109,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
         </div>
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <Store className="w-3.5 h-3.5 text-[#FEC649]" />
+            <Store className="w-3.5 h-3.5 text-[#eebc3e]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Sugestões
             </p>
@@ -118,7 +118,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
         </div>
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#72CF92]" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#71c69a]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Aulas
             </p>
@@ -136,7 +136,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
         </div>
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <Bookmark className="w-3.5 h-3.5 text-[#6699F3]" />
+            <Bookmark className="w-3.5 h-3.5 text-[#f6614f]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Salvos
             </p>
@@ -145,7 +145,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
         </div>
         <div className="handify-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
-            <Sparkles className="w-3.5 h-3.5 text-[#FEC649]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#eebc3e]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
               Em Insp.
             </p>
@@ -157,7 +157,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
       {/* Ranking table */}
       <div className="handify-card overflow-hidden">
         <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
-          <Trophy className="w-4 h-4 text-[#FEC649]" />
+          <Trophy className="w-4 h-4 text-[#eebc3e]" />
           <h3 className="font-semibold">Top 20 — Mais Engajadas</h3>
           <span className="ml-auto text-xs text-muted-foreground hidden sm:block">
             post×3 · coment×2 · sugestão×3 · aula×1 · curtida×1 · salvo×2 · coment.insp×3
@@ -191,7 +191,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
                     className={cn(
                       "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0",
                       idx === 0
-                        ? "bg-[#FEC649]/20 text-yellow-700"
+                        ? "bg-[#eebc3e]/20 text-yellow-700"
                         : idx === 1
                         ? "bg-muted text-muted-foreground"
                         : idx === 2
@@ -211,7 +211,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
                       className="w-9 h-9 rounded-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-9 h-9 rounded-full bg-[#6699F3]/15 flex items-center justify-center text-sm font-bold text-[#6699F3] shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-[#f6614f]/15 flex items-center justify-center text-sm font-bold text-[#f6614f] shrink-0">
                       {initial}
                     </div>
                   )}
@@ -228,18 +228,18 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
                         }}
                         className="inline"
                       >
-                        <span className="text-sm font-semibold hover:text-[#6699F3] transition-colors truncate cursor-pointer">
+                        <span className="text-sm font-semibold hover:text-[#f6614f] transition-colors truncate cursor-pointer">
                           {displayName}
                         </span>
                       </StudentMiniModal>
-                      <span className="text-sm font-bold text-[#6699F3] shrink-0">
+                      <span className="text-sm font-bold text-[#f6614f] shrink-0">
                         {entry.score} pts
                       </span>
                     </div>
                     {/* Score bar */}
                     <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-[#6699F3] transition-all"
+                        className="h-full rounded-full bg-[#f6614f] transition-all"
                         style={{ width: `${pct}%` }}
                       />
                     </div>

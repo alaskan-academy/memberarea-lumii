@@ -66,8 +66,8 @@ export default function AnnualPromoModal({ promo, onClose }: Props) {
         </button>
 
         {/* Hero section */}
-        <div className="flex-shrink-0 bg-gradient-to-br from-[#6699F3]/10 via-white to-[#72CF92]/10 px-6 pt-8 pb-6 text-center">
-          <div className="inline-flex items-center gap-1.5 bg-[#FEC649]/20 text-[#FEC649] text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+        <div className="flex-shrink-0 bg-gradient-to-br from-[#f6614f]/10 via-white to-[#71c69a]/10 px-6 pt-8 pb-6 text-center">
+          <div className="inline-flex items-center gap-1.5 bg-[#eebc3e]/20 text-[#eebc3e] text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
             <Star className="w-3.5 h-3.5 fill-current" />
             {promo.badge_text}
           </div>
@@ -86,7 +86,7 @@ export default function AnnualPromoModal({ promo, onClose }: Props) {
                   const text = line.replace(/^[✓\-•]\s*/, "");
                   return (
                     <div key={i} className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-[#72CF92] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#71c69a] shrink-0 mt-0.5" />
                       <p className="text-sm text-foreground/80">{text}</p>
                     </div>
                   );
@@ -110,7 +110,7 @@ export default function AnnualPromoModal({ promo, onClose }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[#6699F3] text-white font-bold text-sm hover:opacity-90 active:scale-95 transition-all"
+            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[#f6614f] text-white font-bold text-sm hover:opacity-90 active:scale-95 transition-all"
           >
             {promo.button_text || "Assinar agora"}
             <ArrowRight className="w-4 h-4" />

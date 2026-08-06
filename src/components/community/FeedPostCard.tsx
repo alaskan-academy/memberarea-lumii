@@ -30,7 +30,7 @@ function Avatar({ name, url, size = 8 }: { name: string; url?: string | null; si
   const px = size * 4;
   const cls = "rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0";
   if (url) return <Image src={url} alt={name} width={px} height={px} className={`${cls} object-cover`} style={{ width: px, height: px }} />;
-  return <div className={cls} style={{ width: px, height: px, background: "#6699F3", fontSize: size < 8 ? "0.6rem" : undefined }}>{initial}</div>;
+  return <div className={cls} style={{ width: px, height: px, background: "#f6614f", fontSize: size < 8 ? "0.6rem" : undefined }}>{initial}</div>;
 }
 
 export default function FeedPostCard({ post, userId: _userId, initialLiked }: Props) {
@@ -50,7 +50,7 @@ export default function FeedPostCard({ post, userId: _userId, initialLiked }: Pr
     });
   }
 
-  const authorName = post.author?.full_name || "Handify";
+  const authorName = post.author?.full_name || "Lumii";
   const timeAgo = formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ptBR });
 
   return (
@@ -63,7 +63,7 @@ export default function FeedPostCard({ post, userId: _userId, initialLiked }: Pr
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-semibold text-sm text-foreground">{authorName}</span>
               {post.pinned && (
-                <span className="flex items-center gap-1 text-[10px] font-semibold text-[#6699F3] bg-[#6699F3]/10 px-2 py-0.5 rounded-full">
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-[#f6614f] bg-[#f6614f]/10 px-2 py-0.5 rounded-full">
                   <Pin className="w-2.5 h-2.5" /> Fixado
                 </span>
               )}
@@ -88,7 +88,7 @@ export default function FeedPostCard({ post, userId: _userId, initialLiked }: Pr
         {post.body.length > 300 && (
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="text-xs font-medium text-[#6699F3] hover:underline mt-1"
+            className="text-xs font-medium text-[#f6614f] hover:underline mt-1"
           >
             {expanded ? "Ver menos" : "Ver mais"}
           </button>

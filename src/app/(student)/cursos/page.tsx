@@ -259,7 +259,7 @@ export default async function CursosPage({
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
-          <p className="text-sm font-medium text-[#6699F3] uppercase tracking-wide mb-3">
+          <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-3">
             Plataforma de Cursos de Artesanato
           </p>
           <h1 className="text-3xl sm:text-4xl font-black text-[#0F0F0F]">
@@ -267,7 +267,7 @@ export default async function CursosPage({
             <span className="accent-word">mãos</span> podem criar
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            Um espaço feito para aprender e criar.
+            Cuidar de quem cuida da infância.
           </p>
         </div>
       </div>

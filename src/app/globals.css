@@ -21,73 +21,48 @@
   --lumii-gray-dark:    #2D2D2D;  /* Texto secundário */
   --lumii-off-white:    #F5F5F0;  /* Fundo editorial */
 
-  /* ── Shadcn/UI theme mapeado para Lumii ── */
-  --background:             #ffffff;
-  --foreground:              #212d42;                       /* navy */
-  --card:                   #ffffff;
-  --card-foreground:        #212d42;
-  --popover:                #ffffff;
-  --popover-foreground:     #212d42;
+  /* Azul Lumii — fundo padrão de todo o produto (docs/brand/IDV-Lumii.md, 2026-08-06) */
+  --lumii-bg:           #243149;
+  --lumii-bg-surface:   #2b3a56;  /* cards/superfícies elevadas sobre o fundo */
+  --lumii-bg-sidebar:   #1c2740;  /* sidebar/header — levemente mais escuro */
+
+  /* ── Shadcn/UI theme mapeado para Lumii (fundo navy em todo o produto) ── */
+  --background:             #243149;
+  --foreground:             #F5F5F0;
+  --card:                   #2b3a56;
+  --card-foreground:        #F5F5F0;
+  --popover:                #2b3a56;
+  --popover-foreground:     #F5F5F0;
   --primary:                #f6614f;                        /* coral */
   --primary-foreground:     #ffffff;
-  --secondary:              #F5F5F0;
-  --secondary-foreground:   #212d42;
-  --muted:                  #F5F5F0;
-  --muted-foreground:       #6b7280;
+  --secondary:              #34445f;
+  --secondary-foreground:   #F5F5F0;
+  --muted:                  #34445f;
+  --muted-foreground:       #a8b3c7;
   --accent:                 #71c69a;                        /* verde */
-  --accent-foreground:      #212d42;
-  --destructive:            #e11d48;                        /* rose — deliberadamente distinto do coral primário */
-  --border:                 oklch(0.90 0.003 100);
-  --input:                  oklch(0.90 0.003 100);
+  --accent-foreground:      #1a2436;
+  --destructive:            #fb7185;                        /* rose claro — legível sobre navy, distinto do coral primário */
+  --border:                 oklch(1 0 0 / 12%);
+  --input:                  oklch(1 0 0 / 14%);
   --ring:                   #f6614f;                        /* coral */
   --radius:                 0.5rem;                         /* 8px */
 
-  /* Charts — paleta Lumii */
+  /* Charts — paleta Lumii (tons claros para contraste sobre fundo navy) */
   --chart-1: #f6614f;   /* coral */
   --chart-2: #71c69a;   /* verde */
   --chart-3: #eebc3e;   /* amarelo */
-  --chart-4: #212d42;   /* navy */
-  --chart-5: #4a5a78;   /* navy claro */
+  --chart-4: #F5F5F0;   /* off-white */
+  --chart-5: #8ea3c9;   /* azul claro */
 
   /* Sidebar */
-  --sidebar:                    #F5F5F0;
-  --sidebar-foreground:         #212d42;
+  --sidebar:                    #1c2740;
+  --sidebar-foreground:         #F5F5F0;
   --sidebar-primary:            #f6614f;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent:             oklch(0.94 0.003 100);
-  --sidebar-accent-foreground:  #212d42;
-  --sidebar-border:             oklch(0.90 0.003 100);
+  --sidebar-accent:             #34445f;
+  --sidebar-accent-foreground:  #F5F5F0;
+  --sidebar-border:             oklch(1 0 0 / 10%);
   --sidebar-ring:               #f6614f;
-}
-
-/* Dark mode — mantém identidade Lumii (infraestrutura pronta, sem toggle ativo hoje) */
-.dark {
-  --background:             #212d42;                        /* navy */
-  --foreground:             #F5F5F0;
-  --card:                   #2a374f;
-  --card-foreground:        #F5F5F0;
-  --popover:                #2a374f;
-  --popover-foreground:     #F5F5F0;
-  --primary:                #f6614f;                        /* coral mantido */
-  --primary-foreground:     #ffffff;
-  --secondary:              #364360;
-  --secondary-foreground:   #F5F5F0;
-  --muted:                  #364360;
-  --muted-foreground:       #a3adc2;
-  --accent:                 #71c69a;
-  --accent-foreground:      #212d42;
-  --destructive:            #fb7185;
-  --border:                 oklch(1 0 0 / 10%);
-  --input:                  oklch(1 0 0 / 12%);
-  --ring:                   #f6614f;
-  --sidebar:                #1a2436;
-  --sidebar-foreground:     #F5F5F0;
-  --sidebar-primary:        #f6614f;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent:         #364360;
-  --sidebar-accent-foreground: #F5F5F0;
-  --sidebar-border:         oklch(1 0 0 / 10%);
-  --sidebar-ring:           #f6614f;
 }
 
 @theme inline {
@@ -128,6 +103,9 @@
   --color-lumii-green:   #71c69a;
   --color-lumii-yellow:  #eebc3e;
   --color-lumii-navy:    #212d42;
+  --color-lumii-bg:            #243149;
+  --color-lumii-bg-surface:    #2b3a56;
+  --color-lumii-bg-sidebar:    #1c2740;
   --color-lumii-black:   #0F0F0F;
   --color-lumii-gray:    #2D2D2D;
   --color-lumii-muted:   #F5F5F0;
@@ -170,16 +148,16 @@
    Componentes Lumii globais
    ============================================================ */
 
-/* Faixa decorativa tricolor (topo de página, rodapé, cards) — segue o
-   gradiente do wordmark: verde → amarelo → coral */
+/* Faixa decorativa (topo de página, rodapé, cards) — gradiente contínuo
+   verde → amarelo → coral, o mesmo do wordmark. Substitui o bloco tricolor
+   sólido (assinatura visual do Handify) por um traço exclusivo da Lumii. */
 .brand-stripe {
   display: flex;
   height: 4px;
   width: 100%;
+  background: linear-gradient(90deg, var(--lumii-green), var(--lumii-yellow), var(--lumii-coral));
 }
-.brand-stripe span:nth-child(1) { flex: 1; background: var(--lumii-green); }
-.brand-stripe span:nth-child(2) { flex: 1; background: var(--lumii-yellow); }
-.brand-stripe span:nth-child(3) { flex: 1; background: var(--lumii-coral); }
+.brand-stripe span { flex: 1; }
 
 /* Card padrão Lumii */
 .handify-card {
@@ -188,9 +166,27 @@
   border: 1px solid oklch(0.90 0.003 100);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: box-shadow 200ms ease-out;
+  /* Superfície branca "crua": redefine localmente os tokens de texto,
+     já que --foreground/--muted-foreground agora são claros (tema navy
+     do fundo do produto). Como são custom properties, o valor cascateia
+     para qualquer descendente que use text-foreground/text-muted-foreground. */
+  --foreground: #212d42;
+  --muted-foreground: #6b7280;
+  --card-foreground: #212d42;
+  --popover-foreground: #212d42;
 }
 .handify-card:hover {
   box-shadow: 0 4px 12px rgba(246, 97, 79, 0.12);
+}
+
+/* Mesma correção de contraste para qualquer superfície branca "crua"
+   (bg-white / bg-[#F5F5F0]) que não passe pelo token --card. */
+.bg-white,
+.bg-\[\#F5F5F0\] {
+  --foreground: #212d42;
+  --muted-foreground: #6b7280;
+  --card-foreground: #212d42;
+  --popover-foreground: #212d42;
 }
 
 /* Palavra em destaque coral dentro de título */

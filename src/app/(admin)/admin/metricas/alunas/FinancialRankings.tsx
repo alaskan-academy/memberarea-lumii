@@ -39,7 +39,7 @@ function Avatar({ name, url, size = 36 }: { name: string; url: string | null; si
   return (
     <div
       className="rounded-full flex items-center justify-center shrink-0 text-white font-semibold"
-      style={{ width: size, height: size, background: "#6699F3", fontSize: size * 0.35 }}
+      style={{ width: size, height: size, background: "#f6614f", fontSize: size * 0.35 }}
     >
       {initials || "?"}
     </div>
@@ -60,8 +60,8 @@ function sourceLabel(source: string) {
 }
 
 function sourceColor(source: string) {
-  if (source === "payt") return "#6699F3";
-  if (source === "subscription") return "#72CF92";
+  if (source === "payt") return "#f6614f";
+  if (source === "subscription") return "#71c69a";
   return "#2D2D2D";
 }
 
@@ -87,7 +87,7 @@ export function FinancialRankings({
           title="Maior gasto total"
           subtitle="por valor pago em cursos (Payt)"
           icon={DollarSign}
-          color="#72CF92"
+          color="#71c69a"
           items={topBySpent}
           medals={medals}
           valueLabel={(s) => fmtBRL(s.totalSpent)}
@@ -99,7 +99,7 @@ export function FinancialRankings({
           title="Mais compras"
           subtitle="por quantidade de cursos adquiridos via Payt"
           icon={ShoppingBag}
-          color="#6699F3"
+          color="#f6614f"
           items={topByBuys}
           medals={medals}
           valueLabel={(s) => `${s.buyCount} curso${s.buyCount !== 1 ? "s" : ""}`}
@@ -127,7 +127,7 @@ export function FinancialRankings({
               </div>
               <div className="text-right shrink-0 mr-2">
                 <p className="text-xs text-muted-foreground">Total gasto</p>
-                <p className="font-bold text-[#72CF92]">{fmtBRL(selected.totalSpent)}</p>
+                <p className="font-bold text-[#71c69a]">{fmtBRL(selected.totalSpent)}</p>
               </div>
               <button
                 onClick={() => setSelected(null)}
@@ -163,7 +163,7 @@ export function FinancialRankings({
                         </div>
                         <div className="text-right shrink-0">
                           {e.price && e.source === "payt" ? (
-                            <p className="text-sm font-semibold" style={{ color: "#72CF92" }}>
+                            <p className="text-sm font-semibold" style={{ color: "#71c69a" }}>
                               {fmtBRL(e.price)}
                             </p>
                           ) : null}

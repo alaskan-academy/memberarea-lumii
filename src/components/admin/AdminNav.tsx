@@ -135,14 +135,14 @@ function NavLinks({
                       ? "justify-center p-2.5 relative"
                       : "gap-3 px-3 py-2",
                     active
-                      ? "text-[#6699F3] bg-[#6699F3]/15"
+                      ? "text-[#f6614f] bg-[#f6614f]/15"
                       : "text-white/60 hover:text-white hover:bg-white/[0.08]"
                   )}
                 >
                   <span className="relative shrink-0">
                     <item.icon className="w-4 h-4" />
                     {badge > 0 && collapsed && (
-                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#6699F3] text-white text-[8px] font-bold flex items-center justify-center leading-none">
+                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#f6614f] text-white text-[8px] font-bold flex items-center justify-center leading-none">
                         {badge > 9 ? "9+" : badge}
                       </span>
                     )}
@@ -151,7 +151,7 @@ function NavLinks({
                     <>
                       <span className="flex-1">{item.label}</span>
                       {badge > 0 && (
-                        <span className="ml-auto shrink-0 min-w-[18px] h-[18px] rounded-full bg-[#6699F3] text-white text-[10px] font-bold flex items-center justify-center px-1 leading-none">
+                        <span className="ml-auto shrink-0 min-w-[18px] h-[18px] rounded-full bg-[#f6614f] text-white text-[10px] font-bold flex items-center justify-center px-1 leading-none">
                           {badge > 99 ? "99+" : badge}
                         </span>
                       )}
@@ -206,16 +206,16 @@ export default function AdminNav({
       {/* ── Desktop sidebar ────────────────────────────── */}
       <aside
         className={cn(
-          "hidden md:flex fixed inset-y-0 left-0 flex-col bg-[#0F0F0F] z-40 border-r border-white/[0.06]",
+          "hidden md:flex fixed inset-y-0 left-0 flex-col bg-lumii-navy z-40 border-r border-white/[0.06]",
           "transition-[width] duration-200 ease-in-out",
           collapsed ? "w-16" : "w-60"
         )}
       >
         {/* Brand stripe */}
         <div className="flex h-1 shrink-0">
-          <span className="flex-1 bg-[#6699F3]" />
-          <span className="flex-1 bg-[#72CF92]" />
-          <span className="flex-1 bg-[#FEC649]" />
+          <span className="flex-1 bg-[#f6614f]" />
+          <span className="flex-1 bg-[#71c69a]" />
+          <span className="flex-1 bg-[#eebc3e]" />
         </div>
 
         {/* Logo */}
@@ -226,12 +226,12 @@ export default function AdminNav({
           )}
         >
           {collapsed ? (
-            <div className="w-7 h-7 rounded-lg bg-[#6699F3]/20 flex items-center justify-center">
-              <span className="text-[#6699F3] font-black text-sm">H</span>
+            <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
+              <span className="text-primary font-black text-sm">L</span>
             </div>
           ) : (
             <div>
-              <p className="text-white font-bold text-sm tracking-wide">Handify</p>
+              <p className="text-white font-bold text-sm tracking-wide">Lumii</p>
               <p className="text-white/30 text-[10px] font-semibold uppercase tracking-widest mt-0.5">
                 Painel Admin
               </p>
@@ -276,11 +276,11 @@ export default function AdminNav({
       </aside>
 
       {/* ── Mobile header ──────────────────────────────── */}
-      <header className="md:hidden bg-[#0F0F0F] text-white sticky top-0 z-40">
+      <header className="md:hidden bg-lumii-navy text-white sticky top-0 z-40">
         <div className="flex h-1 shrink-0">
-          <span className="flex-1 bg-[#6699F3]" />
-          <span className="flex-1 bg-[#72CF92]" />
-          <span className="flex-1 bg-[#FEC649]" />
+          <span className="flex-1 bg-[#f6614f]" />
+          <span className="flex-1 bg-[#71c69a]" />
+          <span className="flex-1 bg-[#eebc3e]" />
         </div>
         <div className="flex items-center gap-3 px-4 py-3">
           <button
@@ -291,7 +291,7 @@ export default function AdminNav({
             <MenuIcon className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            <span className="font-bold text-sm">Handify Admin</span>
+            <span className="font-bold text-sm">Lumii Admin</span>
             {currentLabel && currentLabel !== "Início" && (
               <>
                 <span className="text-white/30 text-sm">/</span>
@@ -315,15 +315,15 @@ export default function AdminNav({
             className="md:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
             onClick={() => setDrawerOpen(false)}
           />
-          <div className="md:hidden fixed inset-y-0 left-0 z-50 w-72 bg-[#0F0F0F] shadow-2xl flex flex-col">
+          <div className="md:hidden fixed inset-y-0 left-0 z-50 w-72 bg-lumii-navy shadow-2xl flex flex-col">
             <div className="flex h-1 shrink-0">
-              <span className="flex-1 bg-[#6699F3]" />
-              <span className="flex-1 bg-[#72CF92]" />
-              <span className="flex-1 bg-[#FEC649]" />
+              <span className="flex-1 bg-[#f6614f]" />
+              <span className="flex-1 bg-[#71c69a]" />
+              <span className="flex-1 bg-[#eebc3e]" />
             </div>
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] shrink-0">
               <div>
-                <p className="text-white font-bold text-sm">Handify</p>
+                <p className="text-white font-bold text-sm">Lumii</p>
                 <p className="text-white/30 text-[10px] font-semibold uppercase tracking-widest mt-0.5">
                   Painel Admin
                 </p>

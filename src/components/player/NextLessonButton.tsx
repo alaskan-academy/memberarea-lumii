@@ -27,7 +27,7 @@ export default function NextLessonButton({
   return (
     <button
       onClick={handleClick}
-      className="flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-[#6699F3] hover:bg-[#5580d4] active:bg-[#4a70c0] transition-colors px-3 py-2.5 min-h-[44px] rounded-lg"
+      className="flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-[#f6614f] hover:bg-[#5580d4] active:bg-[#4a70c0] transition-colors px-3 py-2.5 min-h-[44px] rounded-lg"
     >
       Próxima
       <ChevronRight className="w-4 h-4 shrink-0" />

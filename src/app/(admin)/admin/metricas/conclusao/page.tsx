@@ -87,7 +87,7 @@ export default async function TaxaConclusaoPage() {
         </Link>
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-[#6699F3]" />
+            <TrendingUp className="w-5 h-5 text-[#f6614f]" />
             Taxa de conclusão
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -100,25 +100,25 @@ export default async function TaxaConclusaoPage() {
       <div className="handify-card p-6">
         <div className="flex items-end justify-between mb-3">
           <div>
-            <p className="text-4xl font-bold text-[#6699F3]">{taxa}%</p>
+            <p className="text-4xl font-bold text-[#f6614f]">{taxa}%</p>
             <p className="text-sm text-muted-foreground mt-1">
               {concluded.length} de {totalMatriculas} alunas concluíram pelo menos um curso
             </p>
           </div>
           <div className="text-right text-sm text-muted-foreground space-y-1">
             <p className="flex items-center gap-1.5 justify-end">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#72CF92]" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#71c69a]" />
               {concluded.length} concluíram
             </p>
             <p className="flex items-center gap-1.5 justify-end">
-              <Clock className="w-3.5 h-3.5 text-[#FEC649]" />
+              <Clock className="w-3.5 h-3.5 text-[#eebc3e]" />
               {inProgress.length} em andamento
             </p>
           </div>
         </div>
         <div className="h-3 rounded-full bg-muted overflow-hidden">
           <div
-            className="h-full rounded-full bg-[#6699F3] transition-all"
+            className="h-full rounded-full bg-[#f6614f] transition-all"
             style={{ width: `${taxa}%` }}
           />
         </div>
@@ -129,9 +129,9 @@ export default async function TaxaConclusaoPage() {
         {/* Concluíram */}
         <div className="handify-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-            <Award className="w-4 h-4 text-[#72CF92]" />
+            <Award className="w-4 h-4 text-[#71c69a]" />
             <span className="font-semibold text-sm">Concluíram</span>
-            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-[#72CF92]/15 text-[#3d9e5a]">
+            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-[#71c69a]/15 text-[#3d9e5a]">
               {concluded.length}
             </span>
           </div>
@@ -149,7 +149,7 @@ export default async function TaxaConclusaoPage() {
                     <p className="text-xs text-muted-foreground truncate">{profile!.email}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xs font-semibold text-[#72CF92]">
+                    <p className="text-xs font-semibold text-[#71c69a]">
                       {userCerts.length} cert.
                     </p>
                     <p className="text-[11px] text-muted-foreground">
@@ -167,9 +167,9 @@ export default async function TaxaConclusaoPage() {
         {/* Em andamento */}
         <div className="handify-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#FEC649]" />
+            <BookOpen className="w-4 h-4 text-[#eebc3e]" />
             <span className="font-semibold text-sm">Em andamento</span>
-            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-[#FEC649]/15 text-amber-700">
+            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-[#eebc3e]/15 text-amber-700">
               {inProgress.length}
             </span>
           </div>
@@ -187,7 +187,7 @@ export default async function TaxaConclusaoPage() {
                     <p className="text-xs text-muted-foreground truncate">{profile!.email}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xs font-semibold text-[#FEC649]">
+                    <p className="text-xs font-semibold text-[#eebc3e]">
                       {enrollCount} curso{enrollCount !== 1 ? "s" : ""}
                     </p>
                     <p className="text-[11px] text-muted-foreground">sem cert.</p>
@@ -219,7 +219,7 @@ function StudentAvatar({ name, url, size = 36 }: { name: string; url: string | n
   return (
     <div
       className="rounded-full flex items-center justify-center shrink-0 font-semibold"
-      style={{ width: size, height: size, background: "#6699F3", fontSize: size * 0.35, color: "#fff" }}
+      style={{ width: size, height: size, background: "#f6614f", fontSize: size * 0.35, color: "#fff" }}
     >
       {initials || "?"}
     </div>

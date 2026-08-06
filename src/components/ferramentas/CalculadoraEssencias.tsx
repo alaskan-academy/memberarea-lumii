@@ -35,7 +35,7 @@ const GOTAS_POR_ML = 20
 function StepBadge({ n, label }: { n: number; label: string }) {
   return (
     <div className="flex items-center gap-2 mb-4">
-      <span className="w-7 h-7 rounded-full bg-[#6699F3] text-white text-xs font-black flex items-center justify-center shrink-0">
+      <span className="w-7 h-7 rounded-full bg-[#f6614f] text-white text-xs font-black flex items-center justify-center shrink-0">
         {n}
       </span>
       <span className="font-black text-[#2D2D2D] text-base">{label}</span>
@@ -113,21 +113,21 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
   const showResult = totalLote > 0 && tipoEssencia !== null && percentual > 0
 
   const inputCls =
-    'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6699F3] focus:ring-2 focus:ring-[#6699F3]/20 bg-white'
+    'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#f6614f] focus:ring-2 focus:ring-[#f6614f]/20 bg-white'
 
   return (
     <div className="min-h-screen bg-[#F5F5F0]">
       {/* Header */}
       <div className="bg-[#0F0F0F] text-white">
         <div className="flex h-[3px]">
-          <span className="flex-1 bg-[#6699F3]" /><span className="flex-1 bg-[#72CF92]" /><span className="flex-1 bg-[#FEC649]" />
+          <span className="flex-1 bg-[#f6614f]" /><span className="flex-1 bg-[#71c69a]" /><span className="flex-1 bg-[#eebc3e]" />
         </div>
         <div className="max-w-2xl mx-auto px-4 py-8 text-center">
           <Link href="/ferramentas" className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-white mb-4 transition-colors">
             <ChevronLeft className="w-3 h-3" />Ferramentas
           </Link>
           <div className="text-3xl mb-2">{config.icon}</div>
-          <h1 className="text-2xl font-black">Calculadora de <span className="text-[#72CF92]">Essências</span></h1>
+          <h1 className="text-2xl font-black">Calculadora de <span className="text-[#71c69a]">Essências</span></h1>
           <p className="text-sm text-gray-400 mt-2">
             {config.nome} — preencha os 3 passos e veja o resultado instantaneamente.
           </p>
@@ -176,7 +176,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
           {totalLote > 0 && (
             <div className="mt-4 flex items-center justify-between bg-[#EEF3FD] rounded-xl px-4 py-3">
               <span className="text-sm font-medium text-[#2D2D2D]">Peso total do lote</span>
-              <span className="text-sm font-black text-[#6699F3]">{totalLote.toLocaleString('pt-BR')} g</span>
+              <span className="text-sm font-black text-[#f6614f]">{totalLote.toLocaleString('pt-BR')} g</span>
             </div>
           )}
         </div>
@@ -210,8 +210,8 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
               onClick={() => setTipoEssencia('essencia')}
               className={`rounded-xl border-2 p-4 text-left transition-all ${
                 tipoEssencia === 'essencia'
-                  ? 'border-[#6699F3] bg-[#EEF3FD]'
-                  : 'border-gray-200 bg-gray-50 hover:border-[#6699F3]/50 hover:bg-[#EEF3FD]/40'
+                  ? 'border-[#f6614f] bg-[#EEF3FD]'
+                  : 'border-gray-200 bg-gray-50 hover:border-[#f6614f]/50 hover:bg-[#EEF3FD]/40'
               }`}
             >
               <div className="text-2xl mb-2">🌸</div>
@@ -220,7 +220,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
                 Aroma sintético, econômico e muito concentrado. A escolha mais comum para quem está começando.
               </p>
               {tipoEssencia === 'essencia' && (
-                <div className="mt-3 inline-block text-[11px] font-bold text-white bg-[#6699F3] px-2.5 py-1 rounded-full">
+                <div className="mt-3 inline-block text-[11px] font-bold text-white bg-[#f6614f] px-2.5 py-1 rounded-full">
                   ✓ Selecionada
                 </div>
               )}
@@ -231,8 +231,8 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
               onClick={() => setTipoEssencia('oleo')}
               className={`rounded-xl border-2 p-4 text-left transition-all ${
                 tipoEssencia === 'oleo'
-                  ? 'border-[#6699F3] bg-[#EEF3FD]'
-                  : 'border-gray-200 bg-gray-50 hover:border-[#6699F3]/50 hover:bg-[#EEF3FD]/40'
+                  ? 'border-[#f6614f] bg-[#EEF3FD]'
+                  : 'border-gray-200 bg-gray-50 hover:border-[#f6614f]/50 hover:bg-[#EEF3FD]/40'
               }`}
             >
               <div className="text-2xl mb-2">🌿</div>
@@ -241,7 +241,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
                 Extrato 100% natural da planta. Mais delicado e caro — requer dosagem menor.
               </p>
               {tipoEssencia === 'oleo' && (
-                <div className="mt-3 inline-block text-[11px] font-bold text-white bg-[#6699F3] px-2.5 py-1 rounded-full">
+                <div className="mt-3 inline-block text-[11px] font-bold text-white bg-[#f6614f] px-2.5 py-1 rounded-full">
                   ✓ Selecionado
                 </div>
               )}
@@ -277,7 +277,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
                 disabled={!tipoEssencia}
                 className={`rounded-xl border-2 p-3 text-center transition-all ${
                   intensidade === opt.key
-                    ? 'border-[#6699F3] bg-[#EEF3FD]'
+                    ? 'border-[#f6614f] bg-[#EEF3FD]'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -285,7 +285,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
                 <div className="text-xs font-black text-[#2D2D2D]">{opt.label}</div>
                 <div className="text-[10px] text-gray-400 mt-0.5">{opt.desc}</div>
                 {intensidade === opt.key && tipoEssencia && opt.key !== 'custom' && (
-                  <div className="mt-1.5 text-[11px] font-bold text-[#6699F3]">
+                  <div className="mt-1.5 text-[11px] font-bold text-[#f6614f]">
                     {config.rates[tipoEssencia][opt.key]}%
                   </div>
                 )}
@@ -322,7 +322,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
         {showResult ? (
           <div className="bg-[#0F0F0F] rounded-2xl overflow-hidden">
             <div className="flex h-[3px]">
-              <span className="flex-1 bg-[#6699F3]" /><span className="flex-1 bg-[#72CF92]" /><span className="flex-1 bg-[#FEC649]" />
+              <span className="flex-1 bg-[#f6614f]" /><span className="flex-1 bg-[#71c69a]" /><span className="flex-1 bg-[#eebc3e]" />
             </div>
             <div className="p-6">
               <div className="font-bold text-white text-base mb-1">
@@ -343,7 +343,7 @@ export default function CalculadoraEssencias({ config }: { config: EssenciasConf
                   </div>
                   <div className="text-[10px] sm:text-xs text-gray-400 mt-1">mililitros</div>
                 </div>
-                <div className="bg-[#6699F3] rounded-xl p-2 sm:p-4 text-center">
+                <div className="bg-[#f6614f] rounded-xl p-2 sm:p-4 text-center">
                   <div className="text-xl sm:text-2xl mb-1">⚖️</div>
                   <div className="text-lg sm:text-2xl font-black text-white leading-tight">
                     {gramas.toFixed(1).replace('.', ',')}

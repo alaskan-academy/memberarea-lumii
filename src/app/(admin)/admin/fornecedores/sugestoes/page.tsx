@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { adminGetSuggestions, adminUpdateSuggestionStatus } from '@/lib/fornecedores/actions'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 
-export const metadata = { title: 'Admin — Sugestões de Fornecedores | Handify' }
+export const metadata = { title: 'Admin — Sugestões de Fornecedores | Lumii' }
 
 const STATUS_LABEL = {
   pending:  { label: 'Pendente',  cls: 'bg-yellow-50 text-yellow-700' },
@@ -58,7 +58,7 @@ export default async function AdminSugestoesPage() {
                     </div>
                     {s.url && (
                       <a href={s.url} target="_blank" rel="noopener noreferrer"
-                        className="text-xs text-[#6699F3] hover:underline flex items-center gap-1 mb-1.5">
+                        className="text-xs text-[#f6614f] hover:underline flex items-center gap-1 mb-1.5">
                         {s.url} <ExternalLink className="w-3 h-3" />
                       </a>
                     )}

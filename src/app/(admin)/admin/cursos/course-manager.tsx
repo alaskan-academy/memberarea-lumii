@@ -94,7 +94,7 @@ function CategorySelect({
       <select
         name="category_id"
         defaultValue={defaultValue ?? ""}
-        className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+        className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
       >
         <option value="">— Nenhuma —</option>
         {categories.map((c) => (
@@ -124,13 +124,13 @@ function CategorySelect({
                         if (e.key === "Escape") setEditingId(null);
                       }}
                       autoFocus
-                      className="flex-1 text-sm border border-[#6699F3] rounded-lg px-2.5 py-1 focus:outline-none bg-background"
+                      className="flex-1 text-sm border border-[#f6614f] rounded-lg px-2.5 py-1 focus:outline-none bg-background"
                     />
                     <button
                       type="button"
                       onClick={() => handleUpdate(cat.id)}
                       disabled={isPending}
-                      className="p-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                      className="p-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" />
                     </button>
@@ -176,13 +176,13 @@ function CategorySelect({
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Nova categoria..."
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleCreate())}
-              className="flex-1 text-sm border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+              className="flex-1 text-sm border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
             />
             <button
               type="button"
               onClick={handleCreate}
               disabled={isPending || !newName.trim()}
-              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
+              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
             >
               {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
               Criar
@@ -260,7 +260,7 @@ function NicheSelect({
       <select
         name="niche_id"
         defaultValue={defaultValue ?? ""}
-        className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+        className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
       >
         <option value="">— Nenhum —</option>
         {niches.map((n) => (
@@ -292,13 +292,13 @@ function NicheSelect({
                         if (e.key === "Escape") setEditingId(null);
                       }}
                       autoFocus
-                      className="flex-1 text-sm border border-[#6699F3] rounded-lg px-2.5 py-1 focus:outline-none bg-background"
+                      className="flex-1 text-sm border border-[#f6614f] rounded-lg px-2.5 py-1 focus:outline-none bg-background"
                     />
                     <button
                       type="button"
                       onClick={() => handleUpdate(niche.id)}
                       disabled={isPending}
-                      className="p-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                      className="p-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" />
                     </button>
@@ -343,13 +343,13 @@ function NicheSelect({
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Novo nicho..."
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleCreate())}
-              className="flex-1 text-sm border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+              className="flex-1 text-sm border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
             />
             <button
               type="button"
               onClick={handleCreate}
               disabled={isPending || !newName.trim()}
-              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
+              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
             >
               {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
               Criar
@@ -374,14 +374,14 @@ function ForumSelect({
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
         <label className="text-xs font-medium text-muted-foreground">Fórum vinculado</label>
-        <a href="/admin/forums" target="_blank" className="text-xs text-[#6699F3] hover:underline">
+        <a href="/admin/forums" target="_blank" className="text-xs text-[#f6614f] hover:underline">
           Gerenciar fóruns →
         </a>
       </div>
       <select
         name="forum_id"
         defaultValue={defaultValue ?? ""}
-        className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40"
+        className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
       >
         <option value="">— Nenhum —</option>
         {forums.map((f) => (
@@ -437,7 +437,7 @@ function ThumbnailUpload({ defaultUrl }: { defaultUrl?: string | null }) {
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}
-        className="relative cursor-pointer rounded-xl border-2 border-dashed border-border hover:border-[#6699F3] transition-colors overflow-hidden bg-muted/30"
+        className="relative cursor-pointer rounded-xl border-2 border-dashed border-border hover:border-[#f6614f] transition-colors overflow-hidden bg-muted/30"
         style={{ aspectRatio: "16/9", maxHeight: 180 }}
       >
         {preview ? (
@@ -505,19 +505,19 @@ function ProductCodesInput({ defaultCodes }: { defaultCodes?: string[] }) {
       {/* hidden: envia os códigos como CSV para o formData */}
       <input type="hidden" name="product_codes" value={codes.join(",")} />
       <div
-        className="flex flex-wrap gap-1.5 min-h-[38px] w-full text-sm border border-border rounded-lg px-2.5 py-2 focus-within:ring-2 focus-within:ring-[#6699F3]/40 bg-background cursor-text"
+        className="flex flex-wrap gap-1.5 min-h-[38px] w-full text-sm border border-border rounded-lg px-2.5 py-2 focus-within:ring-2 focus-within:ring-[#f6614f]/40 bg-background cursor-text"
         onClick={(e) => (e.currentTarget.querySelector("input") as HTMLInputElement | null)?.focus()}
       >
         {codes.map((code) => (
           <span
             key={code}
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#6699F3]/10 text-[#6699F3] text-xs font-mono font-medium"
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f6614f]/10 text-[#f6614f] text-xs font-mono font-medium"
           >
             {code}
             <button
               type="button"
               onClick={() => setCodes((prev) => prev.filter((c) => c !== code))}
-              className="text-[#6699F3]/60 hover:text-[#6699F3] transition-colors leading-none"
+              className="text-[#f6614f]/60 hover:text-[#f6614f] transition-colors leading-none"
               aria-label={`Remover ${code}`}
             >
               ×
@@ -637,11 +637,11 @@ function CourseForm({
         <label className="text-xs font-medium text-muted-foreground">Tipo de conteúdo</label>
         <div className="flex gap-3">
           {(["course", "material"] as const).map((t) => (
-            <label key={t} className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border border-border hover:border-[#6699F3]/50 transition-colors has-[:checked]:border-[#6699F3] has-[:checked]:bg-[#6699F3]/5">
+            <label key={t} className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border border-border hover:border-[#f6614f]/50 transition-colors has-[:checked]:border-[#f6614f] has-[:checked]:bg-[#f6614f]/5">
               <input
                 type="radio" name="course_type" value={t}
                 defaultChecked={(initial?.course_type ?? "course") === t}
-                className="accent-[#6699F3]"
+                className="accent-[#f6614f]"
               />
               <span className="text-sm font-medium">
                 {t === "course" ? "Curso" : "Material Didático"}
@@ -666,7 +666,7 @@ function CourseForm({
                 if (slugInput) slugInput.value = slugify(e.target.value);
               }
             }}
-            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           />
         </div>
         <div className="space-y-1">
@@ -674,7 +674,7 @@ function CourseForm({
           <input
             name="slug" required defaultValue={initial?.slug ?? ""}
             placeholder="croche-basico-ao-avancado"
-            className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+            className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           />
         </div>
       </div>
@@ -684,7 +684,7 @@ function CourseForm({
         <textarea
           name="description" rows={3} defaultValue={initial?.description ?? ""}
           placeholder="Descrição do curso..."
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
         />
       </div>
 
@@ -696,14 +696,14 @@ function CourseForm({
           <label className="text-xs font-medium text-muted-foreground">Preço (R$)</label>
           <input
             name="price" type="number" min="0" step="0.01" defaultValue={initial?.price ?? 0}
-            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           />
         </div>
         <div className="space-y-1">
           <label className="text-xs font-medium text-muted-foreground">Carga horária (h)</label>
           <input
             name="workload_hours" type="number" min="0" defaultValue={initial?.workload_hours ?? 0}
-            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+            className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           />
         </div>
       </div>
@@ -719,7 +719,7 @@ function CourseForm({
           name="checkout_url" type="url"
           defaultValue={initial?.checkout_url ?? ""}
           placeholder="https://pay.payt.com.br/..."
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
         />
       </div>
 
@@ -731,7 +731,7 @@ function CourseForm({
               type="checkbox"
               checked={inVitrine}
               onChange={(e) => setInVitrine(e.target.checked)}
-              className="accent-[#6699F3] rounded"
+              className="accent-[#f6614f] rounded"
             />
             <span className="text-sm font-medium">Exibir na vitrine</span>
             <span className="text-[11px] text-muted-foreground">(visível para quem ainda não comprou)</span>
@@ -747,7 +747,7 @@ function CourseForm({
                 value={salesVideo}
                 onChange={(e) => setSalesVideo(e.target.value)}
                 placeholder="UUID ou URL do vídeo de apresentação"
-                className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+                className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
               />
               <p className="text-[11px] text-muted-foreground">
                 Vídeo exibido no modal da vitrine — diferente do vídeo da aula.
@@ -771,12 +771,12 @@ function CourseForm({
         {checkboxes.map(({ name, label, desc, checked }) => (
           <label
             key={name}
-            className="flex items-start gap-3 p-3 rounded-xl border border-border/70 cursor-pointer hover:border-[#6699F3]/40 hover:bg-[#6699F3]/3 transition-colors has-[:checked]:border-[#6699F3]/50 has-[:checked]:bg-[#6699F3]/5"
+            className="flex items-start gap-3 p-3 rounded-xl border border-border/70 cursor-pointer hover:border-[#f6614f]/40 hover:bg-[#f6614f]/3 transition-colors has-[:checked]:border-[#f6614f]/50 has-[:checked]:bg-[#f6614f]/5"
           >
             <input
               name={name} type="checkbox" value="true"
               defaultChecked={checked}
-              className="mt-0.5 accent-[#6699F3] shrink-0"
+              className="mt-0.5 accent-[#f6614f] shrink-0"
             />
             <div>
               <p className="text-sm font-medium leading-tight">{label}</p>
@@ -790,7 +790,7 @@ function CourseForm({
       <div className="flex gap-2 pt-2 border-t border-border/50">
         <button
           type="submit" disabled={isPending}
-          className="flex items-center gap-1.5 text-sm px-5 py-2.5 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium"
+          className="flex items-center gap-1.5 text-sm px-5 py-2.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium"
         >
           <Save className="w-4 h-4" />
           {isPending ? "Salvando..." : courseId ? "Salvar alterações" : "Criar curso"}
@@ -920,7 +920,7 @@ export default function CourseManager({
         onDragEnd={cleanup}
         className={`handify-card overflow-hidden transition-all ${
           isDraggingThis ? "opacity-40 scale-[0.99]" : ""
-        } ${isDropTarget ? "border-[#6699F3] shadow-md" : ""}`}
+        } ${isDropTarget ? "border-[#f6614f] shadow-md" : ""}`}
       >
         {editingId === course.id ? (
           <div className="p-5">
@@ -964,7 +964,7 @@ export default function CourseManager({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="font-medium text-sm">{course.title}</p>
-                <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium shrink-0 ${course.published ? "bg-[#72CF92]/20 text-[#72CF92]" : "bg-muted text-muted-foreground"}`}>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium shrink-0 ${course.published ? "bg-[#71c69a]/20 text-[#71c69a]" : "bg-muted text-muted-foreground"}`}>
                   {course.published ? "Publicado" : "Rascunho"}
                 </span>
               </div>
@@ -972,7 +972,7 @@ export default function CourseManager({
                 {course.category?.name && <span>{course.category.name} · </span>}
                 {formatPrice(course.price ?? 0)} · {course.workload_hours ?? 0}h
                 {course.product_codes?.length > 0 && <span> · cod: {course.product_codes.join(", ")}</span>}
-                {course.forum?.title && <span className="text-[#6699F3]"> · fórum: {course.forum.title}</span>}
+                {course.forum?.title && <span className="text-[#f6614f]"> · fórum: {course.forum.title}</span>}
               </p>
             </div>
 
@@ -985,7 +985,7 @@ export default function CourseManager({
               >
                 {course.published
                   ? <EyeOff className="w-4 h-4 text-muted-foreground" />
-                  : <Eye className="w-4 h-4 text-[#6699F3]" />}
+                  : <Eye className="w-4 h-4 text-[#f6614f]" />}
               </button>
               <button
                 onClick={() => { setEditingId(course.id); setShowCreate(false); }}
@@ -993,7 +993,7 @@ export default function CourseManager({
               >
                 <Pencil className="w-4 h-4 text-muted-foreground" />
               </button>
-              <a href={`/admin/cursos/${course.id}`} className="text-xs text-[#6699F3] hover:underline px-2 hidden sm:block">
+              <a href={`/admin/cursos/${course.id}`} className="text-xs text-[#f6614f] hover:underline px-2 hidden sm:block">
                 Módulos →
               </a>
               <button
@@ -1026,14 +1026,14 @@ export default function CourseManager({
         </div>
         <button
           onClick={() => { setShowCreate(true); setEditingId(null); }}
-          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#6699F3] text-white hover:bg-[#5580d4] transition-colors font-medium"
+          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors font-medium"
         >
           <Plus className="w-4 h-4" /> Novo curso
         </button>
       </div>
 
       {showCreate && (
-        <div className="handify-card p-5 border-[#6699F3]/30">
+        <div className="handify-card p-5 border-[#f6614f]/30">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold">Novo curso</h2>
             <button onClick={() => setShowCreate(false)} className="p-1 rounded hover:bg-muted transition-colors">
@@ -1060,7 +1060,7 @@ export default function CourseManager({
           {courseItems.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-[#6699F3]" />
+                <BookOpen className="w-4 h-4 text-[#f6614f]" />
                 <h2 className="text-sm font-semibold text-foreground">
                   Cursos
                   <span className="ml-1.5 text-muted-foreground font-normal">({courseItems.length})</span>
