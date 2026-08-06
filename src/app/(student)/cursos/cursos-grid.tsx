@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Clock, Play, X, Lock, RotateCcw, ChevronDown, CheckCircle,
   BookOpen, ChevronLeft, ChevronRight, Search, SlidersHorizontal,
@@ -222,7 +223,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
 
       {!hasAny && (
         <div className="text-center py-24 space-y-3">
-          <p className="text-2xl">🎨</p>
+          <Image src="/icons/brand/cavalo-balanco.png" alt="" width={72} height={70} className="mx-auto" unoptimized />
           <p className="font-semibold text-lg">Nenhum curso nesta categoria</p>
           <p className="text-muted-foreground">Novos cursos chegando em breve!</p>
         </div>

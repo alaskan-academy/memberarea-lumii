@@ -37,7 +37,15 @@ O logotipo "Lumii" usa gradiente diagonal verde → amarelo → coral. Fundo de 
 
 ## Iconografia de apoio
 
-Ícones de linha (outline) nas cores da marca — ex.: ursinho de pelúcia (verde), cavalo de balanço (amarelo), blocos ABC/123 (coral) — remetendo ao universo infantil.
+Ícones de linha (outline) oficiais da marca, um em cada cor do gradiente — remetem ao universo infantil e devem ser usados (não recriados com outros ícones genéricos) sempre que fizer sentido: empty states, telas de boas-vindas, materiais de marketing, seções decorativas.
+
+| Ícone | Cor | Arquivo |
+|-------|-----|---------|
+| Ursinho de pelúcia | Verde `#71c69a` | [`ursinho.png`](./ursinho.png) — também em `public/icons/brand/ursinho.png` |
+| Cavalo de balanço | Amarelo `#eebc3e` | [`cavalo-balanco.png`](./cavalo-balanco.png) — também em `public/icons/brand/cavalo-balanco.png` |
+| Blocos ABC/123 | Coral `#f6614f` | [`blocos-abc.png`](./blocos-abc.png) — também em `public/icons/brand/blocos-abc.png` |
+
+Todos em PNG com fundo transparente, prontos para uso direto (`<Image src="/icons/brand/ursinho.png" .../>`). Extraídos do material oficial enviado em 2026-08-06.
 
 ## Regra não-negociável
 
