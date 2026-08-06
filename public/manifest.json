@@ -1,7 +1,7 @@
 {
-  "name": "Handify — Área de Membros",
-  "short_name": "Handify",
-  "description": "Cursos de artesanato online da Handify",
+  "name": "Lumii — Área de Membros",
+  "short_name": "Lumii",
+  "description": "Cursos online da Lumii",
   "start_url": "/cursos",
   "display": "standalone",
   "background_color": "#ffffff",
