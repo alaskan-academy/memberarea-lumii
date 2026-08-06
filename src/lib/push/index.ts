@@ -8,7 +8,7 @@ function ensureVapid() {
   const priv = process.env.VAPID_PRIVATE_KEY;
   if (!pub || !priv) throw new Error("VAPID keys not configured");
   webpush.setVapidDetails(
-    `mailto:${process.env.VAPID_EMAIL ?? "admin@handify.com.br"}`,
+    `mailto:${process.env.VAPID_EMAIL ?? "contato@lumiieduca.com.br"}`,
     pub,
     priv
   );
