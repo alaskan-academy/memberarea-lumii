@@ -1,8 +1,11 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 import QRCode from "qrcode";
 import fs from "fs";
 import path from "path";
 import { DANCING_SCRIPT_BOLD } from "@/lib/fonts/dancing-script-bold";
+import { POPPINS_REGULAR } from "@/lib/fonts/poppins-regular";
+import { POPPINS_BOLD } from "@/lib/fonts/poppins-bold";
 
 interface CertificateData {
   studentName: string;
@@ -38,12 +41,21 @@ export async function generateCertificatePdf(
   });
 
   const pdfDoc = await PDFDocument.create();
+  pdfDoc.registerFontkit(fontkit);
   const W = 841.89;
   const H = 595.28;
   const page = pdfDoc.addPage([W, H]);
 
-  const bold    = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  const regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  // Poppins — fonte oficial da IDV Lumii (ver docs/brand/IDV-Lumii.md)
+  let bold, regular;
+  try {
+    bold = await pdfDoc.embedFont(Buffer.from(POPPINS_BOLD, "base64"));
+    regular = await pdfDoc.embedFont(Buffer.from(POPPINS_REGULAR, "base64"));
+  } catch (fontErr) {
+    console.error("[cert] embedFont Poppins failed:", fontErr);
+    bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  }
 
   // Fonte cursiva para assinatura — Amsterdam One embutida como base64
   let cursive;
