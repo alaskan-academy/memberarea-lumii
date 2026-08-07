@@ -70,7 +70,7 @@ export default async function ForumLandingPage() {
             <span className="text-[#f6614f]">Comunidade</span>
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            Tire dúvidas, compartilhe projetos e troque experiências com outras artesãs.
+            Tire dúvidas, compartilhe experiências e troque ideias com outras mães e professoras.
           </p>
         </div>
       </div>
