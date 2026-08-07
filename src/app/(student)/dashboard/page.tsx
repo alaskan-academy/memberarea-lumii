@@ -196,7 +196,7 @@ export default async function MinhaJornadaPage() {
           <div>
             <p className="font-semibold text-lg">Você ainda não tem cursos</p>
             <p className="text-sm text-muted-foreground mt-1">
-              Explore o catálogo e comece sua jornada artesanal.
+              Explore o catálogo e comece sua jornada com a Lumii.
             </p>
           </div>
           <Link
