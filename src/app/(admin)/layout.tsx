@@ -19,13 +19,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const service = createServiceClient();
   const [
     { count: pendingForumCount },
-    { count: pendingReviewCount },
-    { count: pendingSuggestionsCount },
     { count: pendingInspCommentsCount },
   ] = await Promise.all([
     service.from("forum_posts").select("*", { count: "exact", head: true }).eq("approved", false),
-    service.from("supplier_reviews").select("*", { count: "exact", head: true }).eq("approved", false),
-    service.from("supplier_suggestions").select("*", { count: "exact", head: true }).eq("status", "pending"),
     service.from("inspiration_comments").select("*", { count: "exact", head: true }).eq("approved", false),
   ]);
 
@@ -34,8 +30,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <ScrollToTop />
       <AdminNav
         pendingForumCount={pendingForumCount ?? 0}
-        pendingReviewCount={pendingReviewCount ?? 0}
-        pendingSuggestionsCount={pendingSuggestionsCount ?? 0}
         pendingInspCommentsCount={pendingInspCommentsCount ?? 0}
       >
         <main className="px-4 sm:px-6 md:px-8 py-6 md:py-8 min-w-0">

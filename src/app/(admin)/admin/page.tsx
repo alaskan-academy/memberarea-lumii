@@ -6,7 +6,7 @@ import {
   Users, BookOpen, Award, TrendingUp,
   ShoppingBag, Image as ImageIcon, Bell, Newspaper,
   BarChart3, CheckCircle2, Clock, XCircle, Webhook,
-  ArrowRight, AlertTriangle, Flag, Store, MessageCircle, Lightbulb, Sparkles, PlusCircle,
+  ArrowRight, AlertTriangle, Flag, MessageCircle, Sparkles, PlusCircle,
 } from "lucide-react";
 
 async function assertAdmin() {
@@ -52,14 +52,6 @@ const QUICK_ACTION_GROUPS = [
       { href: "/admin/inspiracoes/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Aprovar comentários das alunas", color: "#eebc3e" },
     ],
   },
-  {
-    label: "Ferramentas",
-    items: [
-      { href: "/admin/fornecedores",             icon: Store,         label: "Fornecedores", desc: "Gerenciar lista de fornecedores", color: "#f6614f" },
-      { href: "/admin/fornecedores/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Moderar avaliações das alunas",  color: "#71c69a" },
-      { href: "/admin/fornecedores/sugestoes",   icon: Lightbulb,     label: "Sugestões",    desc: "Sugestões enviadas pelas alunas", color: "#eebc3e" },
-    ],
-  },
 ];
 
 export default async function AdminHomePage() {
@@ -81,8 +73,6 @@ export default async function AdminHomePage() {
     { count: pendingReports },
     { count: pendingForumPosts },
     { count: totalForumPosts },
-    { count: pendingReviews },
-    { count: pendingSuggestions },
     { count: pendingInspComments },
   ] = await Promise.all([
     service
@@ -126,16 +116,6 @@ export default async function AdminHomePage() {
       .select("*", { count: "exact", head: true }),
 
     service
-      .from("supplier_reviews")
-      .select("*", { count: "exact", head: true })
-      .eq("approved", false),
-
-    service
-      .from("supplier_suggestions")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "pending"),
-
-    service
       .from("inspiration_comments")
       .select("*", { count: "exact", head: true })
       .eq("approved", false),
@@ -173,7 +153,7 @@ export default async function AdminHomePage() {
       </div>
 
       {/* Alertas de moderação */}
-      {((pendingReports ?? 0) > 0 || (pendingForumPosts ?? 0) > 0 || (pendingReviews ?? 0) > 0 || (pendingSuggestions ?? 0) > 0 || (pendingInspComments ?? 0) > 0) && (
+      {((pendingReports ?? 0) > 0 || (pendingForumPosts ?? 0) > 0 || (pendingInspComments ?? 0) > 0) && (
         <div className="space-y-2">
           {(pendingReports ?? 0) > 0 && (
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/15 border border-[#eebc3e]/40">
@@ -203,32 +183,6 @@ export default async function AdminHomePage() {
                 <span className="text-foreground/50">{totalForumPosts ?? 0} no total</span>
               </p>
               <ArrowRight className="w-4 h-4 text-[#f6614f] shrink-0" />
-            </Link>
-          )}
-          {(pendingReviews ?? 0) > 0 && (
-            <Link
-              href="/admin/fornecedores/comentarios"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#71c69a]/10 border border-[#71c69a]/30 hover:bg-[#71c69a]/15 transition-colors"
-            >
-              <MessageCircle className="w-5 h-5 text-[#3a9e60] shrink-0" />
-              <p className="text-sm font-medium text-foreground flex-1">
-                <span className="font-bold text-[#3a9e60]">{pendingReviews}</span>{" "}
-                {pendingReviews === 1 ? "comentário de fornecedor aguarda" : "comentários de fornecedores aguardam"} aprovação
-              </p>
-              <ArrowRight className="w-4 h-4 text-[#3a9e60] shrink-0" />
-            </Link>
-          )}
-          {(pendingSuggestions ?? 0) > 0 && (
-            <Link
-              href="/admin/fornecedores/sugestoes"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/10 border border-[#eebc3e]/40 hover:bg-[#eebc3e]/15 transition-colors"
-            >
-              <Lightbulb className="w-5 h-5 text-[#b07d00] shrink-0" />
-              <p className="text-sm font-medium text-foreground flex-1">
-                <span className="font-bold text-[#b07d00]">{pendingSuggestions}</span>{" "}
-                {pendingSuggestions === 1 ? "sugestão de fornecedor aguarda" : "sugestões de fornecedores aguardam"} revisão
-              </p>
-              <ArrowRight className="w-4 h-4 text-[#b07d00] shrink-0" />
             </Link>
           )}
           {(pendingInspComments ?? 0) > 0 && (
