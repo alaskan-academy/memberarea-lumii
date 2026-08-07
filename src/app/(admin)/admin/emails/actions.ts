@@ -27,7 +27,7 @@ export async function sendTestEmail(
 ): Promise<{ error?: string; success?: string }> {
   await assertAdmin();
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.handify.com.br";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.lumiieduca.com.br";
 
   try {
     switch (type) {

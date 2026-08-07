@@ -359,7 +359,7 @@ async function issueCertificateIfComplete(
 
   // Envia e-mail de parabéns
   const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.handify.com.br";
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.lumiieduca.com.br";
   await sendCertificateEmail({
     to: profile.email,
     studentName: profile.full_name ?? "Aluna",
