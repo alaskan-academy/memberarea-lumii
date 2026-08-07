@@ -99,63 +99,6 @@ export async function deleteCategory(
   return {};
 }
 
-// ─── Nichos ───────────────────────────────────────────────────────────────────
-
-export async function createNiche(
-  name: string
-): Promise<{ id?: string; name?: string; error?: string }> {
-  const supabase = await assertAdmin();
-  if (!name.trim()) return { error: "Nome obrigatorio" };
-  const slug = name.trim().toLowerCase()
-    .normalize("NFD").replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-  const service = createServiceClient();
-  const { data: maxPos } = await service
-    .from("niches").select("position").order("position", { ascending: false }).limit(1).single();
-  const position = (maxPos?.position ?? 0) + 1;
-
-  const { data, error } = await supabase
-    .from("niches")
-    .insert({ name: name.trim(), slug, active: true, position })
-    .select("id, name")
-    .single();
-
-  if (error) return { error: "Erro ao criar nicho: " + error.message };
-  revalidatePath("/admin/cursos");
-  return { id: data.id, name: data.name };
-}
-
-export async function updateNiche(
-  id: string,
-  name: string
-): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
-  if (!name.trim()) return { error: "Nome obrigatorio" };
-  const slug = name.trim().toLowerCase()
-    .normalize("NFD").replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-  const { error } = await supabase
-    .from("niches")
-    .update({ name: name.trim(), slug })
-    .eq("id", id);
-
-  if (error) return { error: "Erro ao atualizar: " + error.message };
-  revalidatePath("/admin/cursos");
-  return {};
-}
-
-export async function deleteNiche(
-  id: string
-): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
-  const { error } = await supabase.from("niches").delete().eq("id", id);
-  if (error) return { error: "Erro ao excluir: " + error.message };
-  revalidatePath("/admin/cursos");
-  return {};
-}
-
 // ─── Cursos ───────────────────────────────────────────────────────────────────
 
 const CourseSchema = z.object({
@@ -171,7 +114,6 @@ const CourseSchema = z.object({
   published: z.boolean().default(false),
   category_id: z.string().uuid().nullable().optional(),
   forum_id: z.string().uuid().nullable().optional(),
-  niche_id: z.string().uuid().nullable().optional(),
   thumbnail_url: z.string().optional().nullable(),
   checkout_url: z.string().url().nullable().optional(),
 });
@@ -195,7 +137,6 @@ export async function createCourse(
     published: false,
     category_id: (formData.get("category_id") as string) || null,
     forum_id: (formData.get("forum_id") as string) || null,
-    niche_id: (formData.get("niche_id") as string) || null,
     thumbnail_url: (formData.get("thumbnail_url") as string) || null,
     checkout_url: (formData.get("checkout_url") as string)?.trim() || null,
   };
@@ -231,7 +172,6 @@ export async function updateCourse(
     published: formData.get("published") === "true",
     category_id: (formData.get("category_id") as string) || null,
     forum_id: (formData.get("forum_id") as string) || null,
-    niche_id: (formData.get("niche_id") as string) || null,
     thumbnail_url: (formData.get("thumbnail_url") as string) || null,
     checkout_url: (formData.get("checkout_url") as string)?.trim() || null,
   };
