@@ -14,8 +14,6 @@ interface CertificateData {
 }
 
 const CORAL       = rgb(0xf6 / 255, 0x61 / 255, 0x4f / 255);
-const GREEN       = rgb(0x71 / 255, 0xc6 / 255, 0x9a / 255);
-const YELLOW      = rgb(0xee / 255, 0xbc / 255, 0x3e / 255);
 const BRAND_BLACK = rgb(0x21 / 255, 0x2d / 255, 0x42 / 255);
 const DARK_GRAY   = rgb(45 / 255, 45 / 255, 45 / 255);
 const MID_GRAY    = rgb(120 / 255, 120 / 255, 120 / 255);
@@ -66,13 +64,8 @@ export async function generateCertificatePdf(
   // Detalhe: linha azul na borda direita do painel
   page.drawRectangle({ x: panelW - 3, y: 0, width: 3, height: H, color: CORAL });
 
-  // ── Faixas tricolores (topo e base) ────────────────────────────────────────
+  // Faixa tricolor removida da identidade da Lumii — não reintroduzir (ver docs/brand/IDV-Lumii.md).
   const stripeH = 8;
-  for (const y of [H - stripeH, 0]) {
-    page.drawRectangle({ x: 0,           y, width: W / 3,     height: stripeH, color: CORAL });
-    page.drawRectangle({ x: W / 3,       y, width: W / 3,     height: stripeH, color: GREEN });
-    page.drawRectangle({ x: (W / 3) * 2, y, width: W / 3 + 2, height: stripeH, color: YELLOW });
-  }
 
   // ── Watermark decorativo (círculo suave no painel direito) ─────────────────
   const circX = W - 110;
