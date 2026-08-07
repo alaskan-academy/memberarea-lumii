@@ -28,7 +28,7 @@ export async function generateCertificatePdf(
   data: CertificateData
 ): Promise<Uint8Array> {
   const { studentName, cpf, courseTitle, workloadHours, issuedAt, verifyHash } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.handify.com.br";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.lumiieduca.com.br";
   const verifyUrl = `${appUrl}/verificar/${verifyHash}`;
 
   // QR code com fundo branco e cor escura

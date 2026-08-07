@@ -114,7 +114,7 @@ Configurado em **Authentication → Email Templates → Reset Password**. Usar `
 
 **Por que não bloqueou o lançamento:**
 - Rotas de auth (`/login`, `/cadastro`, `/recuperar-senha`) → Supabase Auth já tem rate limiting próprio no servidor deles
-- Webhook Payt (`/api/webhooks/payt`) → validação HMAC-SHA256 rejeita qualquer payload sem assinatura válida antes de qualquer processamento; risco real de sobrecarga é baixo para o porte atual
+- Webhook Payt (`/api/webhooks/payt`) → Payt não assina o payload (sem header HMAC); a autenticação é por `integration_key` comparado via `timingSafeEqual` contra `PAYT_WEBHOOK_SECRET` (ver `src/lib/payments/payt.ts`), o que já rejeita qualquer payload sem a chave correta antes de qualquer processamento; risco real de sobrecarga é baixo para o porte atual
 
 **Como implementar quando necessário:**
 1. Criar conta gratuita no [Upstash](https://upstash.com) (plano free: 10.000 req/dia, sem cartão)

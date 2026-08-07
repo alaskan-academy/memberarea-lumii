@@ -3,7 +3,6 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { formatPrice, formatDuration } from "@/lib/format";
 import CursosGrid from "./cursos-grid";
 import BannerDisplay from "@/components/banner/BannerDisplay";
-import MigradaBanner from "./MigradaBanner";
 
 export const revalidate = 60;
 
@@ -51,9 +50,9 @@ export type CatalogCategory = { id: string; name: string; slug: string };
 export default async function CursosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tipo?: string; migrada?: string }>;
+  searchParams: Promise<{ tipo?: string }>;
 }) {
-  const { tipo, migrada } = await searchParams;
+  const { tipo } = await searchParams;
   const supabase = await createClient();
   const service = createServiceClient();
 
@@ -255,7 +254,6 @@ export default async function CursosPage({
 
   return (
     <div className="min-h-screen bg-lumii-bg">
-      {migrada === "1" && <MigradaBanner />}
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">

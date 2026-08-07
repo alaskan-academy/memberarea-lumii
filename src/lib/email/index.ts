@@ -9,7 +9,7 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-const appUrl = () => process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.handify.com.br";
+const appUrl = () => process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.lumiieduca.com.br";
 
 // ─── Template base ────────────────────────────────────────────────────────────
 // Otimizado para Gmail, Outlook 2007-2021, Apple Mail, Yahoo e mobile.
