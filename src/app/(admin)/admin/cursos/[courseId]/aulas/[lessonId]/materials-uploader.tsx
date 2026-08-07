@@ -107,7 +107,7 @@ export default function AdminMaterialsUploader({
       )}
 
       {/* Upload form */}
-      <form onSubmit={handleUpload} className="handify-card p-4 space-y-3">
+      <form onSubmit={handleUpload} className="lumii-card p-4 space-y-3">
         <p className="text-sm font-medium text-muted-foreground">Novo material</p>
         <input
           ref={nameRef}
@@ -140,7 +140,7 @@ export default function AdminMaterialsUploader({
 
       {/* Vincular material de outra aula */}
       {allMaterials.length > 0 && (
-        <div className="handify-card overflow-hidden">
+        <div className="lumii-card overflow-hidden">
           <button
             onClick={() => setLinkOpen((o) => !o)}
             className="w-full flex items-center justify-between gap-2 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -212,7 +212,7 @@ export default function AdminMaterialsUploader({
           {materials.map((m) => (
             <div
               key={m.id}
-              className="handify-card p-3 flex items-center justify-between gap-3"
+              className="lumii-card p-3 flex items-center justify-between gap-3"
             >
               <div className="min-w-0">
                 <p className="text-sm font-medium truncate">{m.name}</p>

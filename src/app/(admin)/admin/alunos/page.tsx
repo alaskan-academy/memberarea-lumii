@@ -276,7 +276,7 @@ export default async function AlunosPage({
 
       {/* Card de conversão */}
       {totalBuyers > 0 && (
-        <div className="handify-card p-5">
+        <div className="lumii-card p-5">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-4 h-4 text-[#f6614f]" />
             <h2 className="text-sm font-semibold">
@@ -400,7 +400,7 @@ export default async function AlunosPage({
             </p>
           )}
 
-          <div className="handify-card overflow-hidden overflow-x-auto">
+          <div className="lumii-card overflow-hidden overflow-x-auto">
             {profiles.length === 0 ? (
               <div className="py-16 text-center text-muted-foreground">
                 <UserCircle className="w-10 h-10 mx-auto mb-3 opacity-30" />

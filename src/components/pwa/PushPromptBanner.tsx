@@ -119,7 +119,7 @@ export default function PushPromptBanner() {
     <div
       role="dialog"
       aria-label="Ativar notificações push"
-      className="fixed bottom-20 md:bottom-6 right-4 z-40 w-[min(320px,calc(100vw-2rem))] handify-card p-4 shadow-lg border border-border/60 animate-in slide-in-from-bottom-4 fade-in duration-300"
+      className="fixed bottom-20 md:bottom-6 right-4 z-40 w-[min(320px,calc(100vw-2rem))] lumii-card p-4 shadow-lg border border-border/60 animate-in slide-in-from-bottom-4 fade-in duration-300"
     >
       <button
         onClick={dismiss}

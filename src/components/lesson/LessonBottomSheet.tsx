@@ -158,7 +158,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
               {tab === "menu" && (
                 <div className="space-y-2">
                   {courseModules.map((m) => (
-                    <div key={m.id} className="handify-card overflow-hidden">
+                    <div key={m.id} className="lumii-card overflow-hidden">
                       <div className="px-3 py-2.5 bg-muted/50 border-b border-border">
                         <p className="text-xs font-semibold text-foreground/80 line-clamp-2">{m.title}</p>
                       </div>

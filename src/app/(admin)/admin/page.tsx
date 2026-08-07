@@ -204,7 +204,7 @@ export default async function AdminHomePage() {
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {KPI_CARDS.map(({ icon: Icon, label, value, color, href }) => (
-          <Link key={label} href={href} className="handify-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all">
+          <Link key={label} href={href} className="lumii-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
               style={{ background: color + "20" }}
@@ -227,7 +227,7 @@ export default async function AdminHomePage() {
             <Link
               key={href}
               href={href}
-              className="handify-card p-4 flex items-center gap-4 hover:shadow-md transition-shadow group"
+              className="lumii-card p-4 flex items-center gap-4 hover:shadow-md transition-shadow group"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
@@ -258,7 +258,7 @@ export default async function AdminHomePage() {
               Ver todos
             </Link>
           </div>
-          <div className="handify-card divide-y divide-border/50">
+          <div className="lumii-card divide-y divide-border/50">
             {(webhooks ?? []).length === 0 ? (
               <p className="p-4 text-sm text-foreground/40">Nenhum webhook ainda.</p>
             ) : (
@@ -291,7 +291,7 @@ export default async function AdminHomePage() {
           <h2 className="text-sm font-semibold text-foreground/50 uppercase tracking-wider">
             Visão geral
           </h2>
-          <div className="handify-card p-4 flex items-center gap-3">
+          <div className="lumii-card p-4 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-[#71c69a]/20 flex items-center justify-center shrink-0">
               <Webhook className="w-4 h-4 text-[#71c69a]" />
             </div>
@@ -305,7 +305,7 @@ export default async function AdminHomePage() {
           </div>
           <Link
             href="/admin/metricas"
-            className="handify-card p-4 flex items-center gap-3 hover:shadow-md transition-shadow group"
+            className="lumii-card p-4 flex items-center gap-3 hover:shadow-md transition-shadow group"
           >
             <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
               <BarChart3 className="w-4 h-4 text-[#f6614f]" />

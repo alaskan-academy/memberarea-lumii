@@ -216,7 +216,7 @@ export default function PerfilView() {
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-12">
       {/* Banner certificado */}
       {newCert && (
-        <div className="handify-card p-4 border-[#71c69a]/40 bg-[#71c69a]/10 flex items-center gap-3">
+        <div className="lumii-card p-4 border-[#71c69a]/40 bg-[#71c69a]/10 flex items-center gap-3">
           <PartyPopper className="w-5 h-5 text-[#71c69a] shrink-0" />
           <p className="text-sm font-medium text-[#71c69a]">
             Parabéns! Seu certificado foi gerado e está disponível abaixo. 🎉
@@ -239,7 +239,7 @@ export default function PerfilView() {
       />
 
       {/* App + Notificações — card único */}
-      <div className="handify-card p-6 space-y-6">
+      <div className="lumii-card p-6 space-y-6">
         {/* Instalar PWA */}
         <div className="space-y-3">
           <div>
@@ -326,7 +326,7 @@ function ProfileSection({
   };
 
   return (
-    <section className="handify-card p-6 space-y-5">
+    <section className="lumii-card p-6 space-y-5">
       <div className="flex items-start gap-4">
         {/* Avatar com upload */}
         <div className="relative shrink-0">
@@ -462,7 +462,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
       </h2>
 
       {!courses.length ? (
-        <div className="handify-card p-8 text-center space-y-2">
+        <div className="lumii-card p-8 text-center space-y-2">
           <Image src="/icons/brand/blocos-abc.png" alt="" width={56} height={54} className="mx-auto" unoptimized />
           <p className="font-semibold">Nenhum curso ainda</p>
           <p className="text-sm text-muted-foreground">
@@ -485,7 +485,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
               : `/cursos/${course.slug}`;
 
             return (
-              <div key={course.id} className="handify-card p-4 flex items-center gap-4">
+              <div key={course.id} className="lumii-card p-4 flex items-center gap-4">
                 {/* Thumbnail */}
                 <Link href={href} className="shrink-0">
                   <div className="w-14 h-14 rounded-lg overflow-hidden bg-[#f6614f]/10">
@@ -589,7 +589,7 @@ function CertificatesSection({ certificates }: { certificates: Certificate[] }) 
       </h2>
 
       {!certificates.length ? (
-        <div className="handify-card p-8 text-center space-y-2">
+        <div className="lumii-card p-8 text-center space-y-2">
           <Award className="w-10 h-10 text-muted-foreground mx-auto" />
           <p className="font-semibold">Nenhum certificado ainda</p>
           <p className="text-sm text-muted-foreground">
@@ -636,7 +636,7 @@ function CertificateCard({ cert }: { cert: Certificate }) {
       : `/verificar/${cert.verify_hash}`;
 
   return (
-    <div className="handify-card p-4">
+    <div className="lumii-card p-4">
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-lg bg-[#f6614f]/15 flex items-center justify-center shrink-0">
           <Award className="w-5 h-5 text-[#f6614f]" />
@@ -746,7 +746,7 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
         </span>
       </div>
 
-      <div className="handify-card divide-y divide-border/60">
+      <div className="lumii-card divide-y divide-border/60">
         {PREF_LABELS.map(({ key, label, description }) => (
           <div key={key} className="flex items-center justify-between px-4 py-3 gap-4 min-h-[56px]">
             <div className="min-w-0">

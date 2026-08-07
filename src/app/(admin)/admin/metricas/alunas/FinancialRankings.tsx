@@ -115,7 +115,7 @@ export function FinancialRankings({
           onClick={() => setSelected(null)}
         >
           <div
-            className="handify-card w-full max-w-lg max-h-[80vh] flex flex-col overflow-hidden"
+            className="lumii-card w-full max-w-lg max-h-[80vh] flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -202,7 +202,7 @@ function RankCard({
   onSelect: (s: StudentRow) => void;
 }) {
   return (
-    <div className="handify-card p-6">
+    <div className="lumii-card p-6">
       <h2 className="font-semibold mb-0.5 flex items-center gap-2">
         <Icon className="w-4 h-4" style={{ color }} />
         {title}

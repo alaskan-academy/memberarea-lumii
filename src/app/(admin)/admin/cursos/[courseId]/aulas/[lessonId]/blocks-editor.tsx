@@ -329,7 +329,7 @@ export default function AdminBlocksEditor({
 
       {/* Form: novo bloco */}
       {addingType && (
-        <div className="handify-card p-4 space-y-3 border-[#f6614f]/40 bg-[#f6614f]/[0.03]">
+        <div className="lumii-card p-4 space-y-3 border-[#f6614f]/40 bg-[#f6614f]/[0.03]">
           <p className="text-sm font-semibold">
             Novo bloco: {BLOCK_LABELS[addingType]}
           </p>
@@ -365,7 +365,7 @@ export default function AdminBlocksEditor({
       ) : (
         <div className="space-y-2">
           {blocks.map((block, index) => (
-            <div key={block.id} className="handify-card p-4 space-y-3">
+            <div key={block.id} className="lumii-card p-4 space-y-3">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-muted text-muted-foreground">

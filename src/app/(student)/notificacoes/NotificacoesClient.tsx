@@ -144,7 +144,7 @@ export default function NotificacoesClient({
 
       {/* Lista */}
       {visible.length === 0 ? (
-        <div className="handify-card p-12 flex flex-col items-center gap-3 text-center">
+        <div className="lumii-card p-12 flex flex-col items-center gap-3 text-center">
           <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
             <Bell className="w-5 h-5 text-muted-foreground" />
           </div>
@@ -153,7 +153,7 @@ export default function NotificacoesClient({
           </p>
         </div>
       ) : (
-        <div className="handify-card overflow-hidden divide-y divide-border/50">
+        <div className="lumii-card overflow-hidden divide-y divide-border/50">
           {visible.map((n) => {
             const Icon = typeIcon(n.type);
             const color = typeColor(n.type);

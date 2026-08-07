@@ -302,7 +302,7 @@ export default async function FunilPage() {
       </div>
 
       {/* Funil por curso */}
-      <div className="handify-card p-6">
+      <div className="lumii-card p-6">
         <h2 className="font-semibold mb-1 flex items-center gap-2">
           <TrendingDown className="w-4 h-4 text-[#f6614f]" />
           Funil de conclusão por curso
@@ -364,7 +364,7 @@ export default async function FunilPage() {
 
       {/* Aulas onde mais alunas travaram */}
       {topStalledLessons.length > 0 && (
-        <div className="handify-card p-6">
+        <div className="lumii-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
             <TrendingDown className="w-4 h-4 text-[#eebc3e]" />
             Aulas onde mais alunas travaram
@@ -404,7 +404,7 @@ function StatCard({ icon: Icon, label, value, color, tooltip }: {
   tooltip?: string;
 }) {
   return (
-    <div className="handify-card p-5">
+    <div className="lumii-card p-5">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: color + "20" }}>
           <Icon className="w-4 h-4" style={{ color }} />
@@ -429,7 +429,7 @@ function SegmentCard({
   allStudents: StudentBasic[];
 }) {
   return (
-    <div className="handify-card p-5 flex flex-col gap-3">
+    <div className="lumii-card p-5 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"

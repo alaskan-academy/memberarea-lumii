@@ -48,7 +48,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ background: "rgba(0,0,0,0.45)" }}
       onClick={() => setOpen(false)}>
-      <div className="handify-card w-full max-w-lg flex flex-col overflow-hidden"
+      <div className="lumii-card w-full max-w-lg flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">

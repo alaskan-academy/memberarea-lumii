@@ -141,7 +141,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
   return (
     <div className="space-y-6">
       {/* Perfil header */}
-      <div className="handify-card p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+      <div className="lumii-card p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
         <div
           className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold text-white shrink-0"
           style={{ background: "#f6614f" }}
@@ -203,14 +203,14 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
       </div>
 
       {activeTab === "atividade" && (
-        <div className="handify-card p-5">
+        <div className="lumii-card p-5">
           <ActivityTab items={activity} />
         </div>
       )}
 
       {activeTab === "perfil" && <>
       {/* Dados cadastrais */}
-      <div className="handify-card p-5">
+      <div className="lumii-card p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-2">
             <UserCircle className="w-4 h-4" />
@@ -283,7 +283,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
       </div>
 
       {/* Anotações admin */}
-      <div className="handify-card p-5">
+      <div className="lumii-card p-5">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-2">
             <NotebookPen className="w-4 h-4" />
@@ -311,7 +311,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Coluna principal — cursos */}
         <div className="lg:col-span-2">
-          <section className="handify-card overflow-hidden">
+          <section className="lumii-card overflow-hidden">
             {/* Header */}
             <div className="px-5 py-4 border-b border-border/60 space-y-3">
               <div className="flex items-center gap-2">
@@ -398,7 +398,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
         {/* Coluna lateral */}
         <div className="space-y-6">
           {/* Certificados */}
-          <section className="handify-card overflow-hidden">
+          <section className="lumii-card overflow-hidden">
             <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
               <Award className="w-4 h-4 text-[#eebc3e]" />
               <h2 className="font-semibold">
@@ -439,7 +439,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
           </section>
 
           {/* Compras via Payt — uma linha por curso (inclui order bumps e upsells) */}
-          <section className="handify-card overflow-hidden">
+          <section className="lumii-card overflow-hidden">
             <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
               <ShoppingBag className="w-4 h-4 text-[#f6614f]" />
               <h2 className="font-semibold">
@@ -488,7 +488,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
 
           {/* Auditoria */}
           {auditLog.length > 0 && (
-            <section className="handify-card overflow-hidden">
+            <section className="lumii-card overflow-hidden">
               <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
                 <ClipboardList className="w-4 h-4 text-muted-foreground" />
                 <h2 className="font-semibold text-sm">Histórico de ações</h2>
@@ -532,7 +532,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
           onClick={() => setEditingProfile(false)}
         >
           <div
-            className="handify-card w-full max-w-lg flex flex-col overflow-hidden"
+            className="lumii-card w-full max-w-lg flex flex-col overflow-hidden"
             style={{ maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -720,7 +720,7 @@ function BulkGrantSection({
   }
 
   return (
-    <section className="handify-card overflow-hidden">
+    <section className="lumii-card overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full px-5 py-4 flex items-center gap-2 hover:bg-muted/30 transition-colors text-left"

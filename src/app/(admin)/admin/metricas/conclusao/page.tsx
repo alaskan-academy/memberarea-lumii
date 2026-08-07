@@ -97,7 +97,7 @@ export default async function TaxaConclusaoPage() {
       </div>
 
       {/* Barra de progresso geral */}
-      <div className="handify-card p-6">
+      <div className="lumii-card p-6">
         <div className="flex items-end justify-between mb-3">
           <div>
             <p className="text-4xl font-bold text-[#f6614f]">{taxa}%</p>
@@ -127,7 +127,7 @@ export default async function TaxaConclusaoPage() {
       {/* Split em duas colunas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Concluíram */}
-        <div className="handify-card overflow-hidden">
+        <div className="lumii-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
             <Award className="w-4 h-4 text-[#71c69a]" />
             <span className="font-semibold text-sm">Concluíram</span>
@@ -165,7 +165,7 @@ export default async function TaxaConclusaoPage() {
         </div>
 
         {/* Em andamento */}
-        <div className="handify-card overflow-hidden">
+        <div className="lumii-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-[#eebc3e]" />
             <span className="font-semibold text-sm">Em andamento</span>

@@ -60,7 +60,7 @@ export default async function CertificadosPage() {
       </div>
 
       {/* Tabela */}
-      <div className="handify-card overflow-hidden overflow-x-auto">
+      <div className="lumii-card overflow-hidden overflow-x-auto">
         {rows.length === 0 ? (
           <div className="py-16 text-center text-muted-foreground">
             <Award className="w-10 h-10 mx-auto mb-3 opacity-30" />

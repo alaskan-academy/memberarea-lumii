@@ -124,7 +124,7 @@ export default async function CourseDetailPage({
       {/* Hero */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Card de compra — aparece depois no mobile, primeiro na sidebar desktop */}
-        <div className="handify-card p-6 space-y-4 self-start order-last lg:order-last lg:sticky lg:top-24">
+        <div className="lumii-card p-6 space-y-4 self-start order-last lg:order-last lg:sticky lg:top-24">
           {course.thumbnail_url && (
             <div className="aspect-video relative rounded-lg overflow-hidden bg-muted">
               <Image
@@ -247,13 +247,13 @@ export default async function CourseDetailPage({
         <h2 className="text-xl font-bold mb-4">Conteúdo do curso</h2>
 
         {!modules.length ? (
-          <div className="handify-card p-8 text-center text-muted-foreground">
+          <div className="lumii-card p-8 text-center text-muted-foreground">
             <p>Módulos em breve.</p>
           </div>
         ) : (
           <div className="space-y-3">
             {modules.map((mod, mIdx) => (
-              <div key={mod.id} className="handify-card overflow-hidden">
+              <div key={mod.id} className="lumii-card overflow-hidden">
                 <div className="px-4 py-3 bg-muted/60 flex items-center justify-between gap-3">
                   <span className="font-semibold text-sm min-w-0 truncate">
                     Módulo {mIdx + 1} — {mod.title}

@@ -44,7 +44,7 @@ export default function VitrineManager({ courses }: { courses: Course[] }) {
           Cursos na vitrine ({vitrineCourses.length})
         </h2>
         {vitrineCourses.length === 0 && (
-          <div className="handify-card p-6 text-center text-muted-foreground text-sm">
+          <div className="lumii-card p-6 text-center text-muted-foreground text-sm">
             Nenhum curso na vitrine. Adicione abaixo.
           </div>
         )}
@@ -58,7 +58,7 @@ export default function VitrineManager({ courses }: { courses: Course[] }) {
           Materiais Didáticos na vitrine ({vitrineMaterials.length})
         </h2>
         {vitrineMaterials.length === 0 && (
-          <div className="handify-card p-6 text-center text-muted-foreground text-sm">
+          <div className="lumii-card p-6 text-center text-muted-foreground text-sm">
             Nenhum material didático na vitrine. Adicione abaixo.
           </div>
         )}

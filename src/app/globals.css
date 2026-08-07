@@ -157,7 +157,7 @@
 }
 
 /* Card padrão Lumii */
-.handify-card {
+.lumii-card {
   background: #fff;
   border-radius: 12px;
   border: 1px solid oklch(0.90 0.003 100);
@@ -182,7 +182,7 @@
   --muted: #F5F5F0;
   color: #212d42;
 }
-.handify-card:hover {
+.lumii-card:hover {
   box-shadow: 0 4px 12px rgba(246, 97, 79, 0.12);
 }
 

@@ -119,7 +119,7 @@ export default async function MetricasPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Top cursos */}
-        <div className="lg:col-span-2 handify-card p-6">
+        <div className="lg:col-span-2 lumii-card p-6">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-[#f6614f]" />
             Top cursos por matrículas
@@ -149,7 +149,7 @@ export default async function MetricasPage() {
 
         {/* Matrículas por fonte + cursos publicados */}
         <div className="space-y-4">
-          <div className="handify-card p-6">
+          <div className="lumii-card p-6">
             <h2 className="font-semibold mb-4 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-[#71c69a]" />
               Origem das matrículas
@@ -168,7 +168,7 @@ export default async function MetricasPage() {
             </div>
           </div>
 
-          <div className="handify-card p-6">
+          <div className="lumii-card p-6">
             <h2 className="font-semibold mb-1 flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-[#eebc3e]" />
               Cursos publicados
@@ -179,7 +179,7 @@ export default async function MetricasPage() {
       </div>
 
       {/* Webhooks recentes */}
-      <div className="handify-card p-6">
+      <div className="lumii-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
           <Webhook className="w-4 h-4 text-[#f6614f]" />
           Webhooks Payt recentes
@@ -246,13 +246,13 @@ function StatCard({ icon: Icon, label, value, color, tooltip, href }: {
 
   if (href) {
     return (
-      <Link href={href} className="handify-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all group">
+      <Link href={href} className="lumii-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all group">
         {inner}
       </Link>
     );
   }
 
-  return <div className="handify-card p-5">{inner}</div>;
+  return <div className="lumii-card p-5">{inner}</div>;
 }
 
 function WebhookStatus({ processed, error }: { processed: boolean | null; error: string | null }) {

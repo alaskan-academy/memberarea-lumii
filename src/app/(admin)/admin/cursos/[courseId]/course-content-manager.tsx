@@ -388,7 +388,7 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
 
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }}
-      className="handify-card overflow-hidden">
+      className="lumii-card overflow-hidden">
       {/* Cabeçalho */}
       <div className={`px-4 py-3 bg-muted/50 border-b border-border ${archived ? "opacity-60" : ""}`}>
         {editingModuleId === mod.id ? (
@@ -537,7 +537,7 @@ export default function CourseContentManager({ courseId, initialModules }: {
       </div>
 
       {addingModule && (
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <ModuleForm
             courseId={courseId} nextPosition={nextModulePosition}
             onSave={(mod) => {
