@@ -123,7 +123,6 @@ export async function createNiche(
 
   if (error) return { error: "Erro ao criar nicho: " + error.message };
   revalidatePath("/admin/cursos");
-  revalidatePath("/ferramentas/fornecedores");
   return { id: data.id, name: data.name };
 }
 
@@ -144,7 +143,6 @@ export async function updateNiche(
 
   if (error) return { error: "Erro ao atualizar: " + error.message };
   revalidatePath("/admin/cursos");
-  revalidatePath("/ferramentas/fornecedores");
   return {};
 }
 
@@ -155,7 +153,6 @@ export async function deleteNiche(
   const { error } = await supabase.from("niches").delete().eq("id", id);
   if (error) return { error: "Erro ao excluir: " + error.message };
   revalidatePath("/admin/cursos");
-  revalidatePath("/ferramentas/fornecedores");
   return {};
 }
 

@@ -7,8 +7,8 @@ import {
   Home, BookOpen, Users, Star,
   Image as ImageIcon, Bell, Mail, Newspaper,
   MessageSquare, Flag, BarChart3, Menu as MenuIcon, X, FileText,
-  ChevronRight, ChevronLeft, PanelLeftClose, PanelLeftOpen, Store,
-  MessageCircle, Lightbulb, Sparkles, PlusCircle, type LucideIcon,
+  ChevronRight, ChevronLeft, PanelLeftClose, PanelLeftOpen,
+  MessageCircle, Sparkles, PlusCircle, type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
@@ -60,14 +60,6 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    label: "Ferramentas",
-    items: [
-      { href: "/admin/fornecedores",             icon: Store,         label: "Fornecedores" },
-      { href: "/admin/fornecedores/comentarios", icon: MessageCircle, label: "Coment. Fornecedores",  badgeKey: "reviews" },
-      { href: "/admin/fornecedores/sugestoes",   icon: Lightbulb,     label: "Sugest. Fornecedores",  badgeKey: "suggestions" },
-    ],
-  },
-  {
     label: "Sistema",
     items: [
       { href: "/admin/menu",     icon: MenuIcon,  label: "Menu do Site" },
@@ -88,22 +80,16 @@ function NavLinks({
   collapsed,
   onNavigate,
   pendingForumCount = 0,
-  pendingReviewCount = 0,
-  pendingSuggestionsCount = 0,
   pendingInspCommentsCount = 0,
 }: {
   pathname: string;
   collapsed: boolean;
   onNavigate?: () => void;
   pendingForumCount?: number;
-  pendingReviewCount?: number;
-  pendingSuggestionsCount?: number;
   pendingInspCommentsCount?: number;
 }) {
   const badgeCounts: Record<string, number> = {
     forum: pendingForumCount,
-    reviews: pendingReviewCount,
-    suggestions: pendingSuggestionsCount,
     inspComments: pendingInspCommentsCount,
   };
 
@@ -170,14 +156,10 @@ function NavLinks({
 export default function AdminNav({
   children,
   pendingForumCount = 0,
-  pendingReviewCount = 0,
-  pendingSuggestionsCount = 0,
   pendingInspCommentsCount = 0,
 }: {
   children: React.ReactNode;
   pendingForumCount?: number;
-  pendingReviewCount?: number;
-  pendingSuggestionsCount?: number;
   pendingInspCommentsCount?: number;
 }) {
   const pathname = usePathname();
@@ -234,7 +216,7 @@ export default function AdminNav({
 
         {/* Nav */}
         <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <NavLinks pathname={pathname} collapsed={collapsed} pendingForumCount={pendingForumCount} pendingReviewCount={pendingReviewCount} pendingSuggestionsCount={pendingSuggestionsCount} pendingInspCommentsCount={pendingInspCommentsCount} />
+          <NavLinks pathname={pathname} collapsed={collapsed} pendingForumCount={pendingForumCount} pendingInspCommentsCount={pendingInspCommentsCount} />
         </div>
 
         {/* Footer */}
@@ -324,8 +306,6 @@ export default function AdminNav({
                 collapsed={false}
                 onNavigate={() => { markDrawerNavigating(); setDrawerOpen(false); }}
                 pendingForumCount={pendingForumCount}
-                pendingReviewCount={pendingReviewCount}
-                pendingSuggestionsCount={pendingSuggestionsCount}
                 pendingInspCommentsCount={pendingInspCommentsCount}
               />
             </div>
