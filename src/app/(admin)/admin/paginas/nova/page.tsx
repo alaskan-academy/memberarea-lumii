@@ -25,7 +25,7 @@ export default async function NovaPaginaPage() {
           <ChevronLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-[#2D2D2D]">Nova Página</h1>
+          <h1 className="text-xl font-bold text-foreground">Nova Página</h1>
           <p className="text-sm text-foreground/50">Crie uma página estática de conteúdo</p>
         </div>
       </div>

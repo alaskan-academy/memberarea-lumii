@@ -25,7 +25,7 @@ export default async function PaginasAdminPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#2D2D2D]">Páginas Estáticas</h1>
+          <h1 className="text-2xl font-bold text-foreground">Páginas Estáticas</h1>
           <p className="text-sm text-foreground/50 mt-1">
             Termos de uso, privacidade e outras páginas de conteúdo
           </p>
