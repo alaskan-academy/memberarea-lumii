@@ -40,7 +40,7 @@ export default async function PaginasAdminPage() {
       </div>
 
       {(!pages || pages.length === 0) ? (
-        <div className="handify-card p-12 flex flex-col items-center gap-3 text-center">
+        <div className="lumii-card p-12 flex flex-col items-center gap-3 text-center">
           <div className="w-12 h-12 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
             <FileText className="w-6 h-6 text-[#f6614f]" />
           </div>
@@ -56,7 +56,7 @@ export default async function PaginasAdminPage() {
           </Link>
         </div>
       ) : (
-        <div className="handify-card divide-y divide-border/50">
+        <div className="lumii-card divide-y divide-border/50">
           {pages.map((page) => (
             <div key={page.id} className="flex items-center gap-4 px-5 py-4">
               <div

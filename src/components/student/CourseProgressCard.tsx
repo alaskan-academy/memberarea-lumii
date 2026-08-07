@@ -53,7 +53,7 @@ export function CourseProgressCard({ card }: { card: CourseCardData }) {
         tabIndex={0}
         onClick={() => setModalOpen(true)}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setModalOpen(true); } }}
-        className="handify-card overflow-hidden flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]"
+        className="lumii-card overflow-hidden flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]"
       >
         {/* Thumbnail */}
         <div className="aspect-video bg-muted relative overflow-hidden group/thumb">

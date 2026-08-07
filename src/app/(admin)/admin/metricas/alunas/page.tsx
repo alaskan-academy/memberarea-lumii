@@ -282,7 +282,7 @@ export default async function AlunaRankingPage() {
       </div>
 
       {/* Novatas */}
-      <div className="handify-card p-6">
+      <div className="lumii-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
           <UserCheck className="w-4 h-4 text-[#71c69a]" />
           Novatas recentes
@@ -349,7 +349,7 @@ function RankingCard({
 }) {
   const medals = ["🥇", "🥈", "🥉"];
   return (
-    <div className="handify-card p-6">
+    <div className="lumii-card p-6">
       <h2 className="font-semibold mb-0.5 flex items-center gap-2">
         <Icon className="w-4 h-4" style={{ color }} />
         {title}
@@ -389,7 +389,7 @@ function StatCard({ icon: Icon, label, value, color, tooltip }: {
   icon: React.ElementType; label: string; value: number | string; color: string; tooltip?: string;
 }) {
   return (
-    <div className="handify-card p-5">
+    <div className="lumii-card p-5">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: color + "20" }}>
           <Icon className="w-4 h-4" style={{ color }} />

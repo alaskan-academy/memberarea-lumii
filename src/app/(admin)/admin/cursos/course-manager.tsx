@@ -745,7 +745,7 @@ export default function CourseManager({
         onDragOver={(e) => handleDragOver(e, idx, group)}
         onDrop={(e) => handleDrop(e, idx, group)}
         onDragEnd={cleanup}
-        className={`handify-card overflow-hidden transition-all ${
+        className={`lumii-card overflow-hidden transition-all ${
           isDraggingThis ? "opacity-40 scale-[0.99]" : ""
         } ${isDropTarget ? "border-[#f6614f] shadow-md" : ""}`}
       >
@@ -859,7 +859,7 @@ export default function CourseManager({
       </div>
 
       {showCreate && (
-        <div className="handify-card p-5 border-[#f6614f]/30">
+        <div className="lumii-card p-5 border-[#f6614f]/30">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold">Novo curso</h2>
             <button onClick={() => setShowCreate(false)} className="p-1 rounded hover:bg-muted transition-colors">
@@ -876,7 +876,7 @@ export default function CourseManager({
       )}
 
       {isEmpty && !showCreate ? (
-        <div className="handify-card p-10 text-center text-muted-foreground text-sm">
+        <div className="lumii-card p-10 text-center text-muted-foreground text-sm">
           Nenhum curso. Clique em "Novo curso" para começar.
         </div>
       ) : (

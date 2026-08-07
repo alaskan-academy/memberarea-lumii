@@ -66,7 +66,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
   }
 
   return (
-    <form action={formAction} className="handify-card p-6 space-y-5" encType="multipart/form-data">
+    <form action={formAction} className="lumii-card p-6 space-y-5" encType="multipart/form-data">
       {state.error && (
         <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
           {state.error}

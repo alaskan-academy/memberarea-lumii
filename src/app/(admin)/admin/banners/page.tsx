@@ -62,7 +62,7 @@ export default async function BannersPage() {
 
       {/* Lista */}
       {!banners?.length ? (
-        <div className="handify-card py-16 flex flex-col items-center justify-center text-center text-muted-foreground">
+        <div className="lumii-card py-16 flex flex-col items-center justify-center text-center text-muted-foreground">
           <Image className="w-10 h-10 mb-3 opacity-30" />
           <p className="font-medium">Nenhum banner criado</p>
           <p className="text-sm mt-1">Crie seu primeiro banner para começar.</p>
@@ -72,7 +72,7 @@ export default async function BannersPage() {
           {banners.map((b) => {
             const status = validity(b);
             return (
-              <div key={b.id} className="handify-card p-4 flex gap-4 items-center">
+              <div key={b.id} className="lumii-card p-4 flex gap-4 items-center">
                 {/* Thumbnail */}
                 <div className="w-24 h-14 rounded-lg overflow-hidden bg-muted shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

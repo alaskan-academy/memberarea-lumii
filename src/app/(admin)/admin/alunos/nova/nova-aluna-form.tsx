@@ -7,7 +7,7 @@ export default function NovaAlunaForm() {
   const [state, action, pending] = useActionState(createStudentAction, {});
 
   return (
-    <form action={action} className="handify-card p-6 space-y-4">
+    <form action={action} className="lumii-card p-6 space-y-4">
       {state.error && (
         <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
           {state.error}

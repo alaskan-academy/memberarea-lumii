@@ -191,7 +191,7 @@ export default async function MinhaJornadaPage() {
       </div>
 
       {cards.length === 0 ? (
-        <div className="handify-card p-12 text-center space-y-4">
+        <div className="lumii-card p-12 text-center space-y-4">
           <Image src="/icons/brand/ursinho.png" alt="" width={72} height={66} className="mx-auto" unoptimized />
           <div>
             <p className="font-semibold text-lg">Você ainda não tem cursos</p>

@@ -80,7 +80,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <Users className="w-3.5 h-3.5 text-[#f6614f]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -89,7 +89,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.activeStudents}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <MessageSquare className="w-3.5 h-3.5 text-[#f6614f]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -98,7 +98,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.posts}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <MessageCircle className="w-3.5 h-3.5 text-[#71c69a]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -107,7 +107,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.comments}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <Store className="w-3.5 h-3.5 text-[#eebc3e]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -116,7 +116,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.suggestions}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#71c69a]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -125,7 +125,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.lessonsCompleted}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <Heart className="w-3.5 h-3.5 text-red-400" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -134,7 +134,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.inspLikes}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <Bookmark className="w-3.5 h-3.5 text-[#f6614f]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -143,7 +143,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
           </div>
           <p className="text-2xl font-bold">{totals.inspBookmarks}</p>
         </div>
-        <div className="handify-card p-4">
+        <div className="lumii-card p-4">
           <div className="flex items-center gap-1.5 mb-1">
             <Sparkles className="w-3.5 h-3.5 text-[#eebc3e]" />
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
@@ -155,7 +155,7 @@ export default function EngajamentoPage({ ranking, totals, periodo }: Props) {
       </div>
 
       {/* Ranking table */}
-      <div className="handify-card overflow-hidden">
+      <div className="lumii-card overflow-hidden">
         <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
           <Trophy className="w-4 h-4 text-[#eebc3e]" />
           <h3 className="font-semibold">Top 20 — Mais Engajadas</h3>

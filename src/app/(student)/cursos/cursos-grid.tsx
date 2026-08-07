@@ -376,7 +376,7 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
       : null
     : null;
 
-  const cardClassName = "block group handify-card overflow-hidden text-left w-full hover:shadow-md transition-shadow duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]";
+  const cardClassName = "block group lumii-card overflow-hidden text-left w-full hover:shadow-md transition-shadow duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]";
 
   const cardContent = (<>
       {/* Thumbnail */}

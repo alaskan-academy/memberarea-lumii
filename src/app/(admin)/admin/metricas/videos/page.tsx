@@ -101,7 +101,7 @@ export default async function VideosMetricasPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Mais assistidas */}
-        <div className="handify-card p-6">
+        <div className="lumii-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
             <Eye className="w-4 h-4 text-[#f6614f]" />
             Mais assistidas
@@ -130,7 +130,7 @@ export default async function VideosMetricasPage() {
         </div>
 
         {/* Mais concluídas */}
-        <div className="handify-card p-6">
+        <div className="lumii-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
             <Play className="w-4 h-4 text-[#71c69a]" />
             Mais concluídas
@@ -161,7 +161,7 @@ export default async function VideosMetricasPage() {
 
       {/* Tabela completa — só vídeos vinculados */}
       {linked.length > 0 && (
-        <div className="handify-card p-6">
+        <div className="lumii-card p-6">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
             <Video className="w-4 h-4 text-[#f6614f]" />
             Todas as aulas em vídeo — {linked.length} vídeos
@@ -227,7 +227,7 @@ function SummaryCard({ icon: Icon, label, value, color, tooltip }: {
   icon: React.ElementType; label: string; value: number | string; color: string; tooltip?: string;
 }) {
   return (
-    <div className="handify-card p-5">
+    <div className="lumii-card p-5">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: color + "20" }}>
           <Icon className="w-4 h-4" style={{ color }} />

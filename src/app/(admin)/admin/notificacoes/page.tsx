@@ -63,7 +63,7 @@ export default async function NotificacoesAdminPage() {
       </div>
 
       {/* Lista de campanhas */}
-      <div className="handify-card overflow-hidden">
+      <div className="lumii-card overflow-hidden">
         <div className="px-6 py-4 border-b border-border">
           <h2 className="font-semibold text-sm">Histórico de campanhas</h2>
         </div>
@@ -154,7 +154,7 @@ function SummaryCard({ label, value, icon: Icon, color }: {
   label: string; value: number; icon: React.ElementType; color: string;
 }) {
   return (
-    <div className="handify-card p-5">
+    <div className="lumii-card p-5">
       <div className="flex items-center gap-2 mb-2">
         <div className="w-7 h-7 rounded-lg flex items-center justify-center"
           style={{ background: color + "20" }}>
