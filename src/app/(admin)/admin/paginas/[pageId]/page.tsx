@@ -44,7 +44,7 @@ export default async function EditarPaginaPage({
           <ChevronLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-[#2D2D2D]">Editar Página</h1>
+          <h1 className="text-xl font-bold text-foreground">Editar Página</h1>
           <p className="text-sm font-mono text-foreground/40">/p/{page.slug}</p>
         </div>
       </div>

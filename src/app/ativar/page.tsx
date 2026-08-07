@@ -63,7 +63,7 @@ function AtivarContent() {
             </div>
           )}
 
-          <div className="rounded-md bg-[#f6614f]/8 border border-[#f6614f]/20 px-4 py-3 text-sm text-[#2D2D2D] leading-relaxed">
+          <div className="rounded-md bg-[#f6614f]/8 border border-[#f6614f]/20 px-4 py-3 text-sm text-foreground leading-relaxed">
             <strong className="text-[#f6614f]">Importante:</strong> use o mesmo e-mail que você usou
             quando comprou seu curso. Esse é o e-mail que vai identificar seu acesso.
           </div>
@@ -83,22 +83,22 @@ function AtivarContent() {
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-4 bg-white border-t-0 rounded-b-xl">
+        <CardFooter className="flex flex-col gap-4 border-t-0 rounded-b-xl">
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? "Verificando…" : "Continuar"}
           </Button>
 
-          <p className="text-sm text-center text-[#888]">
+          <p className="text-sm text-center text-muted-foreground">
             Já tem conta na nova área?{" "}
             <a
               href="/login"
-              className="text-[#2D2D2D] font-medium underline-offset-4 hover:underline"
+              className="text-foreground font-medium underline-offset-4 hover:underline"
             >
               Entrar
             </a>
           </p>
 
-          <p className="text-xs text-center text-[#aaa]">
+          <p className="text-xs text-center text-muted-foreground/70">
             Problemas com o acesso?{" "}
             <a
               href="https://wa.me/message/ZVYBKLSWPO7OM1"
