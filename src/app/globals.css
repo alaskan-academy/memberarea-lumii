@@ -173,6 +173,13 @@
   --muted-foreground: #6b7280;
   --card-foreground: #212d42;
   --popover-foreground: #212d42;
+  /* --background/--muted também são globais (navy). Sem redefinir aqui,
+     campos de formulário com bg-background/bg-muted ficam navy dentro
+     do card branco (navy sobre navy = ilegível). Usamos um cinza claro
+     para o preenchimento dos inputs — também fica visualmente melhor
+     que branco-sobre-branco, diferenciando o campo do card. */
+  --background: #F5F5F0;
+  --muted: #F5F5F0;
   color: #212d42;
 }
 .handify-card:hover {
@@ -187,6 +194,8 @@
   --muted-foreground: #6b7280;
   --card-foreground: #212d42;
   --popover-foreground: #212d42;
+  --background: #F5F5F0;
+  --muted: #F5F5F0;
   color: #212d42;
 }
 
