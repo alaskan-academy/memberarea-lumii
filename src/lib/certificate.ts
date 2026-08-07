@@ -87,33 +87,39 @@ export async function generateCertificatePdf(
   page.drawEllipse({ x: circX, y: circY, xScale: 135, yScale: 135, color: SOFT_BLUE, borderColor: SOFT_BLUE, borderWidth: 1 });
   page.drawEllipse({ x: circX, y: circY, xScale: 120, yScale: 120, color: WHITE });
 
-  // ── Logo no painel esquerdo ─────────────────────────────────────────────────
-  const logoY = H - 72;
+  // ── Logo no painel esquerdo (arte oficial, centralizada) ───────────────────
+  const logoWidth = 150;
+  let dividerY: number;
 
-  // Tenta incorporar o ícone PNG do projeto
   try {
-    const iconPath = path.join(process.cwd(), "public", "icon.png");
-    const iconBytes = fs.readFileSync(iconPath);
-    const icon = await pdfDoc.embedPng(iconBytes);
-    const iconSize = 32;
-    page.drawImage(icon, { x: 18, y: logoY - 2, width: iconSize, height: iconSize });
-    page.drawText("Lumii", {
-      x: 56, y: logoY + 10, size: 19, font: bold, color: CORAL,
-    });
+    const logoPath = path.join(process.cwd(), "public", "logo-lumii.png");
+    const logoBytes = fs.readFileSync(logoPath);
+    const logoImg = await pdfDoc.embedPng(logoBytes);
+    const logoHeight = logoWidth * (logoImg.height / logoImg.width);
+    const logoX = (panelW - logoWidth) / 2;
+    const logoTopY = H - 30;
+    page.drawImage(logoImg, { x: logoX, y: logoTopY - logoHeight, width: logoWidth, height: logoHeight });
+    dividerY = logoTopY - logoHeight - 12;
   } catch {
     page.drawText("Lumii", {
-      x: 18, y: logoY + 10, size: 22, font: bold, color: CORAL,
+      x: 18, y: H - 60, size: 22, font: bold, color: CORAL,
     });
+    dividerY = H - 80;
   }
 
   // Linha divisória sutil
-  page.drawRectangle({ x: 18, y: logoY - 8, width: panelW - 36, height: 1, color: PANEL_SEP });
+  page.drawRectangle({ x: 18, y: dividerY, width: panelW - 36, height: 1, color: PANEL_SEP });
 
-  page.drawText("Educação Infantil", {
-    x: 18, y: logoY - 22, size: 8, font: regular, color: LIGHT_GRAY,
+  // Tagline — centralizada no painel
+  const taglineLine1 = "Educação Infantil";
+  const taglineLine2 = "para Pais e Professores";
+  const t1Width = regular.widthOfTextAtSize(taglineLine1, 8);
+  const t2Width = regular.widthOfTextAtSize(taglineLine2, 7);
+  page.drawText(taglineLine1, {
+    x: (panelW - t1Width) / 2, y: dividerY - 16, size: 8, font: regular, color: LIGHT_GRAY,
   });
-  page.drawText("para Pais e Professores", {
-    x: 18, y: logoY - 33, size: 7, font: regular, color: LIGHT_GRAY,
+  page.drawText(taglineLine2, {
+    x: (panelW - t2Width) / 2, y: dividerY - 27, size: 7, font: regular, color: LIGHT_GRAY,
   });
 
   // ── QR Code centralizado no painel ─────────────────────────────────────────
@@ -208,13 +214,18 @@ export async function generateCertificatePdf(
   // ── Assinatura ─────────────────────────────────────────────────────────────
   const sigY = stripeH + 44;
 
-  // Texto cursivo ACIMA da linha
-  page.drawText("Lumii", {
-    x: cx + 2, y: sigY + 38, size: 26, font: cursive, color: DARK_GRAY,
+  // Texto cursivo ACIMA da linha — linha dimensionada e centralizada sob o texto
+  const sigText = "Lumii";
+  const sigFontSize = 34;
+  const sigTextWidth = cursive.widthOfTextAtSize(sigText, sigFontSize);
+  const sigLineWidth = sigTextWidth + 24;
+
+  page.drawText(sigText, {
+    x: cx + (sigLineWidth - sigTextWidth) / 2, y: sigY + 38, size: sigFontSize, font: cursive, color: DARK_GRAY,
   });
 
   // Linha de assinatura abaixo do texto cursivo
-  page.drawRectangle({ x: cx, y: sigY + 28, width: 170, height: 1, color: DARK_GRAY });
+  page.drawRectangle({ x: cx, y: sigY + 28, width: sigLineWidth, height: 1, color: DARK_GRAY });
 
   page.drawText("Cuidar de quem cuida da infância.", {
     x: cx, y: sigY + 14, size: 7.5, font: regular, color: LIGHT_GRAY,
