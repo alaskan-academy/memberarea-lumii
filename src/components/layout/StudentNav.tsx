@@ -102,7 +102,7 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
                   "flex items-center rounded-lg text-sm font-medium transition-colors mb-0.5",
                   collapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5",
                   isAdmin
-                    ? "text-lumii-navy hover:bg-lumii-navy/10"
+                    ? "text-lumii-yellow hover:bg-lumii-yellow/10"
                     : isActive
                     ? "text-primary bg-primary/10"
                     : "text-foreground/70 hover:text-foreground hover:bg-muted"
@@ -220,7 +220,7 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
                     className={cn(
                       "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mb-0.5",
                       isAdmin
-                        ? "text-lumii-navy hover:bg-lumii-navy/10"
+                        ? "text-lumii-yellow hover:bg-lumii-yellow/10"
                         : isActive
                         ? "text-primary bg-primary/10"
                         : "text-foreground/75 hover:text-foreground hover:bg-muted"

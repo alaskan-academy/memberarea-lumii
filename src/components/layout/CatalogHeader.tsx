@@ -69,7 +69,7 @@ export default function CatalogHeader({
                 {role === "admin" && (
                   <Link
                     href="/admin"
-                    className="px-3 py-1.5 rounded-md text-sm font-medium text-lumii-navy hover:bg-lumii-navy/10 transition-colors"
+                    className="px-3 py-1.5 rounded-md text-sm font-medium text-lumii-yellow hover:bg-lumii-yellow/10 transition-colors"
                   >
                     Admin
                   </Link>
@@ -155,7 +155,7 @@ export default function CatalogHeader({
                   <Link
                     href="/admin"
                     onClick={() => setOpen(false)}
-                    className="block px-3 py-2 rounded-md text-sm font-medium text-lumii-navy hover:bg-lumii-navy/10"
+                    className="block px-3 py-2 rounded-md text-sm font-medium text-lumii-yellow hover:bg-lumii-yellow/10"
                   >
                     Admin
                   </Link>
