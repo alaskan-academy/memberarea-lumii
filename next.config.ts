@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   turbopack: {},
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "ozsbyscxcpijyvnjlkpw.supabase.co" },
+      { protocol: "https", hostname: "ucpzyuonrebusjdvattt.supabase.co" },
     ],
   },
   async headers() {
