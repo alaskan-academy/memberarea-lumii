@@ -60,6 +60,11 @@ export default async function CursosPage({
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Admin tem acesso irrestrito a todos os cursos (inclusive rascunhos), consistente com Minha Jornada
+  const isAdmin = user
+    ? (await supabase.from("profiles").select("role").eq("id", user.id).single()).data?.role === "admin"
+    : false;
+
   // Usa service client para cursos/módulos/aulas — sem video_panda_id,
   // apenas metadados. Necessário para que não-matriculadas vejam a estrutura completa.
   // Busca showcase, categorias e matrículas em paralelo para filtrar cursos logo após.
@@ -84,23 +89,25 @@ export default async function CursosPage({
   const enrolledIdsList = ((enrollmentResult?.data ?? []) as { course_id: string }[]).map((e) => e.course_id);
   const allRelevantIds = [...new Set([...showcaseIds, ...enrolledIdsList])];
 
-  const { data: coursesRaw } = allRelevantIds.length > 0
-    ? await service
-        .from("courses")
-        .select(
-          `
-          id, slug, title, description, thumbnail_url,
-          price, workload_hours, checkout_url, course_type,
-          category:categories(id, name, slug),
-          modules(
-            id, title, position, archived,
-            lessons(id, title, duration_seconds, is_preview, position, archived)
-          )
-        `
-        )
-        .eq("published", true)
-        .in("id", allRelevantIds)
-        .order("position")
+  const baseQuery = service
+    .from("courses")
+    .select(
+      `
+      id, slug, title, description, thumbnail_url,
+      price, workload_hours, checkout_url, course_type,
+      category:categories(id, name, slug),
+      modules(
+        id, title, position, archived,
+        lessons(id, title, duration_seconds, is_preview, position, archived)
+      )
+    `
+    )
+    .order("position");
+
+  const { data: coursesRaw } = isAdmin
+    ? await baseQuery
+    : allRelevantIds.length > 0
+    ? await baseQuery.eq("published", true).in("id", allRelevantIds)
     : { data: [] };
 
   type RawLesson = {
@@ -179,7 +186,8 @@ export default async function CursosPage({
 
   // Dados de matrícula e progresso (somente se logada)
   if (user) {
-    const enrolledIds = new Set(enrolledIdsList);
+    // Admin vê todos os cursos como liberados, mesmo sem matrícula real
+    const enrolledIds = isAdmin ? new Set(courses.map((c) => c.id)) : new Set(enrolledIdsList);
 
     if (enrolledIds.size > 0) {
       const enrolledCourses = courses.filter((c) => enrolledIds.has(c.id));
