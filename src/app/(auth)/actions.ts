@@ -66,7 +66,8 @@ export async function loginAction(
     if (error.message.includes("Email not confirmed")) {
       return { error: "Confirme seu e-mail antes de entrar." };
     }
-    return { error: "Erro ao entrar. Tente novamente." };
+    console.error("[login] signInWithPassword:", error.message, error.status);
+    return { error: `Erro ao entrar: ${error.message}` };
   }
 
   redirect("/cursos");
@@ -184,12 +185,27 @@ export async function cadastroAction(
     );
   }
 
-  // Auto-login após criação da conta
+  // Auto-login após criação da conta — tenta de novo uma vez se falhar
+  // (evita deixar a aluna com conta criada mas sem sessão, caindo de volta no login)
   const authClient = await createClient();
-  await authClient.auth.signInWithPassword({
+  let { error: signInError } = await authClient.auth.signInWithPassword({
     email: emailLower,
     password: parsed.data.password,
   });
+
+  if (signInError) {
+    console.error("[cadastro] auto-login falhou, tentando de novo:", signInError.message, signInError.status);
+    ({ error: signInError } = await authClient.auth.signInWithPassword({
+      email: emailLower,
+      password: parsed.data.password,
+    }));
+  }
+
+  if (signInError) {
+    console.error("[cadastro] auto-login falhou na 2ª tentativa:", signInError.message, signInError.status);
+    redirect(`/login?msg=cadastro-ok&email=${encodeURIComponent(emailLower)}`);
+  }
+
   redirect("/cursos");
 }
 
