@@ -444,7 +444,7 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
       {/* Aulas — visíveis apenas quando expandido */}
       {!collapsed && (
         <>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleLessonDragEnd}>
+          <DndContext id={`lessons-${mod.id}`} sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleLessonDragEnd}>
             <SortableContext items={lessons.map((l) => l.id)} strategy={verticalListSortingStrategy}>
               {lessons.map((lesson) => (
                 <SortableLesson
@@ -555,7 +555,7 @@ export default function CourseContentManager({ courseId, initialModules }: {
         </p>
       )}
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleModuleDragEnd}>
+      <DndContext id={`modules-${courseId}`} sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleModuleDragEnd}>
         <SortableContext items={modules.map((m) => m.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-3">
             {modules.map((mod) => (
