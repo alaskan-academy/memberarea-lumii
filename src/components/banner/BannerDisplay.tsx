@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Image from "next/image";
 
 type Slot = "header" | "lateral" | "pos-aula";
 
@@ -74,16 +75,15 @@ export default async function BannerDisplay({ slot }: Props) {
       className="block group"
       aria-label="Ver oferta"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={banner.image_url}
-        alt=""
-        className={[
-          "w-full rounded-xl object-cover transition-opacity group-hover:opacity-90",
-          isLateral ? "max-h-64" : "max-h-40",
-        ].join(" ")}
-        loading="lazy"
-      />
+      <div className={["relative w-full rounded-xl overflow-hidden", isLateral ? "h-64" : "h-40"].join(" ")}>
+        <Image
+          src={banner.image_url}
+          alt=""
+          fill
+          sizes={isLateral ? "280px" : "600px"}
+          className="object-cover transition-opacity group-hover:opacity-90"
+        />
+      </div>
     </a>
   );
 }
