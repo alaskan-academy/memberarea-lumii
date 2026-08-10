@@ -12,6 +12,11 @@ import { sendWelcomeEmail } from "@/lib/email";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
 import { createServiceClient } from "@/lib/supabase/service";
 
+/** Mensagem de erro curta e sem detalhes técnicos para exibir à usuária; o erro completo já foi logado no servidor. */
+function friendlyAuthError(prefix: string): string {
+  return `${prefix} Tente novamente em alguns instantes. Se persistir, contate o suporte.`;
+}
+
 async function grantPendingEnrollments(email: string, userId: string) {
   const service = createServiceClient();
   // Sem filtro de expires_at: se a aluna comprou e criou conta com o mesmo e-mail,
@@ -67,7 +72,7 @@ export async function loginAction(
       return { error: "Confirme seu e-mail antes de entrar." };
     }
     console.error("[login] signInWithPassword:", error.message, error.status);
-    return { error: `Erro ao entrar: ${error.message}` };
+    return { error: friendlyAuthError("Erro ao entrar.") };
   }
 
   redirect("/cursos");
