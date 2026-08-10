@@ -23,6 +23,7 @@ const initialState = { error: undefined, success: undefined };
 const MSG_BANNERS: Record<string, string> = {
   "acesso-liberado": "Seu acesso foi liberado! Faça login para entrar nos seus cursos.",
   "ja-tem-conta": "Você já tem uma conta. Faça login normalmente.",
+  "cadastro-ok": "Conta criada com sucesso! Faça login para acessar seus cursos.",
 };
 
 export default function LoginPage({
