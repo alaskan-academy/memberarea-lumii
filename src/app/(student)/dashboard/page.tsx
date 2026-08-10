@@ -24,21 +24,33 @@ export default async function MinhaJornadaPage() {
 
   const now = new Date().toISOString();
 
-  const [{ data: profile }, { data: enrollments }] = await Promise.all([
-    supabase.from("profiles").select("full_name").eq("id", user.id).single(),
-    supabase
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, role")
+    .eq("id", user.id)
+    .single();
+
+  const firstName = profile?.full_name?.split(" ")[0] || "aluna";
+
+  // Admin tem acesso irrestrito a todos os cursos (inclusive rascunhos), matriculado ou não
+  let courses: EnrolledCourse[];
+  if (profile?.role === "admin") {
+    const { data: allCourses } = await supabase
+      .from("courses")
+      .select("id, slug, title, thumbnail_url, workload_hours")
+      .order("position");
+    courses = (allCourses as EnrolledCourse[] | null) ?? [];
+  } else {
+    const { data: enrollments } = await supabase
       .from("enrollments")
       .select("course:courses(id, slug, title, thumbnail_url, workload_hours), granted_at")
       .eq("user_id", user.id)
       .or(`expires_at.is.null,expires_at.gt.${now}`)
-      .order("granted_at", { ascending: false }),
-  ]);
-
-  const firstName = profile?.full_name?.split(" ")[0] || "aluna";
-
-  const courses = (enrollments ?? [])
-    .map((e) => e.course as unknown as EnrolledCourse | null)
-    .filter(Boolean) as EnrolledCourse[];
+      .order("granted_at", { ascending: false });
+    courses = (enrollments ?? [])
+      .map((e) => e.course as unknown as EnrolledCourse | null)
+      .filter(Boolean) as EnrolledCourse[];
+  }
 
   const cards: CourseCard[] = [];
 
