@@ -19,7 +19,6 @@ async function assertAdmin() {
 
 const LESSON_TYPES = ["video", "document", "html", "link", "mixed"] as const;
 type LessonType = typeof LESSON_TYPES[number];
-export type { LessonType };
 
 export interface LessonMaterial { id: string; name: string; file_path: string }
 export interface LessonData {
