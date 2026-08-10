@@ -46,7 +46,7 @@ export default function RecuperarSenhaPage() {
 
       if (resetError) {
         console.error("[recuperar-senha] resetPasswordForEmail:", resetError.message, resetError.status);
-        setError(`Erro ao enviar e-mail: ${resetError.message}`);
+        setError("Erro ao enviar e-mail. Tente novamente em alguns instantes. Se persistir, contate o suporte.");
         return;
       }
 
