@@ -208,7 +208,6 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
         courses={exploreCourses}
         onSelect={setSelected}
         featured
-        elevated
         verMaisHref="/cursos?tipo=curso"
       />
 
@@ -248,7 +247,6 @@ function HorizontalRow({
   courses,
   onSelect,
   featured = false,
-  elevated = false,
   subtitle,
   verMaisHref,
 }: {
@@ -257,7 +255,6 @@ function HorizontalRow({
   courses: CatalogCourse[];
   onSelect: (c: CatalogCourse) => void;
   featured?: boolean;
-  elevated?: boolean;
   subtitle?: string;
   verMaisHref?: string;
 }) {
@@ -275,7 +272,7 @@ function HorizontalRow({
   const header = (
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-3">
-        {featured && !elevated && <div className="w-1 h-6 rounded-full bg-[#f6614f]" aria-hidden />}
+        {featured && <div className="w-1 h-6 rounded-full bg-[#f6614f]" aria-hidden />}
         <div>
           <h2 className={cn(
             "flex items-center gap-2",
@@ -337,19 +334,6 @@ function HorizontalRow({
       <div className="shrink-0 w-2" aria-hidden />
     </div>
   );
-
-  if (elevated) {
-    return (
-      <section className="mb-12 -mx-4 sm:-mx-6 lg:-mx-8">
-        <div className="bg-white border-y border-border/40 shadow-sm overflow-hidden">
-          <div className="px-4 sm:px-6 lg:px-8 pt-5 pb-4">
-            {header}
-            {scrollRow}
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="mb-12">
