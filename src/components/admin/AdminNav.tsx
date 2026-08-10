@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
+import Logo from "@/components/brand/Logo";
 
 type NavItem = { href: string; icon: LucideIcon; label: string; exact?: boolean; badgeKey?: string };
 type NavGroup = { label?: string; items: NavItem[] };
@@ -206,8 +207,8 @@ export default function AdminNav({
             </div>
           ) : (
             <div>
-              <p className="text-white font-bold text-sm tracking-wide">Lumii</p>
-              <p className="text-white/30 text-[10px] font-semibold uppercase tracking-widest mt-0.5">
+              <Logo size={22} />
+              <p className="text-white/30 text-[10px] font-semibold uppercase tracking-widest mt-1.5">
                 Painel Admin
               </p>
             </div>
@@ -288,8 +289,8 @@ export default function AdminNav({
           <div className="md:hidden fixed inset-y-0 left-0 z-50 w-72 bg-lumii-navy shadow-2xl flex flex-col">
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] shrink-0">
               <div>
-                <p className="text-white font-bold text-sm">Lumii</p>
-                <p className="text-white/30 text-[10px] font-semibold uppercase tracking-widest mt-0.5">
+                <Logo size={22} />
+                <p className="text-white/30 text-[10px] font-semibold uppercase tracking-widest mt-1.5">
                   Painel Admin
                 </p>
               </div>

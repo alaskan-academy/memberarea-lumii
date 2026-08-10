@@ -31,6 +31,14 @@ export async function getLessonAccess(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { hasAccess: false, videoId: null };
 
+  // Admin tem acesso irrestrito a todo o conteúdo, matriculada ou não
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+  if (profile?.role === "admin") return { hasAccess: true, videoId };
+
   const mod = lesson.module as unknown as { course_id: string } | null;
   const courseId = mod?.course_id;
   if (!courseId) return { hasAccess: false, videoId: null };
