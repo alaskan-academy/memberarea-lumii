@@ -215,7 +215,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
 
       {/* Cursos — seção com destaque */}
       <HorizontalRow
-        title="Cursos"
+        title="Outros Cursos"
         icon={<Play className="w-4 h-4 text-[#f6614f]" />}
         courses={exploreCourses}
         onSelect={setSelected}
@@ -225,7 +225,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
 
       {/* Materiais Didáticos */}
       <HorizontalRow
-        title="Materiais Didáticos"
+        title="Outros Materiais Didáticos"
         icon={<BookOpen className="w-4 h-4 text-amber-600" />}
         courses={exploreMaterials}
         onSelect={setSelected}
@@ -271,12 +271,61 @@ function HorizontalRow({
   verMaisHref?: string;
 }) {
   const rowRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef({ active: false, startX: 0, scrollLeft: 0, moved: false });
 
   function scroll(dir: "left" | "right") {
     const el = rowRef.current;
     if (!el) return;
     const amount = el.clientWidth * 0.75;
     el.scrollBy({ left: dir === "right" ? amount : -amount, behavior: "smooth" });
+  }
+
+  // Scroll por roda do mouse — onWheel sintético do React não permite preventDefault,
+  // por isso usa listener nativo não-passivo
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el) return;
+    function onWheel(e: WheelEvent) {
+      if (!el) return;
+      const canScroll = el.scrollWidth > el.clientWidth;
+      if (!canScroll) return;
+      e.preventDefault();
+      el.scrollLeft += (e.deltaY !== 0 ? e.deltaY : e.deltaX) * 5;
+    }
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    const el = rowRef.current;
+    if (!el) return;
+    dragRef.current = { active: true, startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft, moved: false };
+    el.style.cursor = "grabbing";
+    el.style.userSelect = "none";
+  }
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = rowRef.current;
+    if (!el || !dragRef.current.active) return;
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - dragRef.current.startX) * 1.2;
+    if (Math.abs(walk) > 4) dragRef.current.moved = true;
+    el.scrollLeft = dragRef.current.scrollLeft - walk;
+  }
+
+  function onMouseUp() {
+    const el = rowRef.current;
+    dragRef.current.active = false;
+    if (el) { el.style.cursor = ""; el.style.userSelect = ""; }
+  }
+
+  // Suprime o click nos cards filhos quando houve drag real (evita abrir modal por engano)
+  function onClickCapture(e: React.MouseEvent) {
+    if (dragRef.current.moved) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragRef.current.moved = false;
+    }
   }
 
   if (!courses.length) return null;
@@ -336,7 +385,13 @@ function HorizontalRow({
   const scrollRow = (
     <div
       ref={rowRef}
-      className="flex gap-4 overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
+      className="flex gap-4 overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth cursor-grab active:cursor-grabbing"
+      style={{ touchAction: "pan-x" }}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseUp}
+      onClickCapture={onClickCapture}
     >
       {courses.map((course) => (
         <div key={course.id} className="shrink-0 w-[260px] sm:w-[320px]">
