@@ -62,7 +62,7 @@ export async function loginAction(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword(parsed.data);
+  const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
     if (error.message.includes("Invalid login credentials")) {
@@ -73,6 +73,12 @@ export async function loginAction(
     }
     console.error("[login] signInWithPassword:", error.message, error.status);
     return { error: friendlyAuthError("Erro ao entrar.") };
+  }
+
+  // Concede matrículas de compras feitas com este e-mail antes do cadastro/login
+  // (ex: comprou um pacote, mas só ativou o token de alguns cursos até agora)
+  if (data.user?.id) {
+    await grantPendingEnrollments(parsed.data.email.toLowerCase(), data.user.id);
   }
 
   redirect("/cursos");
@@ -177,10 +183,12 @@ export async function cadastroAction(
       await service.from("profiles").update(profileUpdate).eq("id", userId);
     }
 
-    // Concede matrículas pendentes de compras feitas antes do cadastro
-    grantPendingEnrollments(emailLower, userId).catch(
-      (e) => console.error("[cadastro] pending enrollments:", e)
-    );
+    // Concede matrículas pendentes de compras feitas antes do cadastro.
+    // Precisa de await: Server Actions são congeladas assim que redirect()
+    // lança seu controle de fluxo, matando qualquer promise em segundo plano
+    // ainda pendente — fire-and-forget aqui deixava alunas com pacotes
+    // (múltiplos cursos) com só 1-2 matrículas concedidas antes do freeze.
+    await grantPendingEnrollments(emailLower, userId);
   }
 
   // Envia boas-vindas apenas para quem não tinha compra prévia
