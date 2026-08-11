@@ -68,3 +68,8 @@ export const TAMBEM_APRESENTA_CHIPS: string[] = [
 
 export const NOTA_SUGESTAO_COORDENACAO =
   "Se essa dificuldade for muito intensa, persistente ou impactar bastante o dia a dia do aluno, vale conversar com a coordenação pedagógica ou orientação escolar.";
+
+// Fixo, sempre visível em todo plano — diferente de NOTA_SUGESTAO_COORDENACAO,
+// que é opcional (checkbox) e específica daquele plano.
+export const DISCLAIMER_SUPPORT_PLAN =
+  "Este plano é uma sugestão pedagógica geral — não é um diagnóstico nem substitui avaliação profissional. Ajuste sempre com base no que você conhece do aluno.";

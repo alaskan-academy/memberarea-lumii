@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronLeft, Plus, CheckCircle2 } from "lucide-react";
 import type { PlanoGerado } from "@/lib/ferramentas/support-plan/types";
 import { closeSupportPlan } from "@/lib/ferramentas/support-plan/actions";
-import PlanSummary from "./PlanSummary";
+import PlanCard from "./PlanCard";
 import CheckinModal from "./CheckinModal";
 
 export interface CheckinRow {
@@ -99,7 +99,11 @@ export default function StudentDetailClient({
           </div>
 
           <div className="lumii-card p-5 sm:p-6">
-            <PlanSummary plano={activePlan.plano_gerado} />
+            <PlanCard
+              planId={activePlan.id}
+              planoGerado={activePlan.plano_gerado}
+              planLabel={DIFICULDADE_LABELS[activePlan.dificuldade_principal] ?? activePlan.dificuldade_principal}
+            />
           </div>
 
           {error && <p className="text-xs text-red-500">{error}</p>}
@@ -163,7 +167,11 @@ export default function StudentDetailClient({
                 <span className="text-xs text-muted-foreground font-normal">{formatDate(p.created_at)}</span>
               </summary>
               <div className="mt-4 pt-4 border-t border-border/60">
-                <PlanSummary plano={p.plano_gerado} />
+                <PlanCard
+                  planId={p.id}
+                  planoGerado={p.plano_gerado}
+                  planLabel={DIFICULDADE_LABELS[p.dificuldade_principal] ?? p.dificuldade_principal}
+                />
               </div>
             </details>
           ))}

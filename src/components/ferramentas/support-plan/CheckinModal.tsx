@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
 import { createCheckin } from "@/lib/ferramentas/support-plan/actions";
+import AutoGrowTextarea from "./AutoGrowTextarea";
 
 type CheckinStatus = "melhorou" | "igual" | "piorou";
 
@@ -92,12 +93,11 @@ export default function CheckinModal({
           ))}
         </div>
 
-        <textarea
+        <AutoGrowTextarea
           value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          rows={2}
+          onChange={setNotes}
           placeholder="Nota opcional..."
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 resize-none mb-4"
+          className="mb-4"
         />
 
         {error && <p className="text-xs text-red-500 mb-3">{error}</p>}

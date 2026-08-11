@@ -5,8 +5,36 @@ import type { SupportPlanTemplate } from "./types";
  * seguindo o checklist de PLAN-ferramentas.md (seção 6.3): nenhuma linguagem de
  * diagnóstico clínico, nenhum tom acusatório em relação ao aluno, estratégias
  * pedagógicas/comportamentais aplicáveis por um professor sem formação clínica,
- * específicas e práticas. Precisa de revisão humana antes de considerar este
- * conteúdo definitivo/publicado.
+ * específicas e práticas. Precisa de revisão humana (pedagogo/psicopedagogo)
+ * antes de considerar este conteúdo definitivo/publicado.
+ *
+ * Base conceitual de cada bloco do template (documentado aqui para quem for
+ * revisar — não é referência a citar para o professor dentro do produto):
+ * - `antes_da_atividade` / `durante`: estrutura antecedente→comportamento
+ *   (modificar o antecedente para prevenir a dificuldade), de Análise do
+ *   Comportamento Aplicada / Suporte Comportamental Positivo (PBS) — a mesma
+ *   lógica usada em programas de gestão de sala de aula no Brasil.
+ * - Oferecer escolha em `se_houver_recusa`: autonomia como redutor de
+ *   resistência (Teoria da Autodeterminação — Deci & Ryan), não "prêmio ou
+ *   castigo".
+ * - Dividir tarefa em etapas/checkpoints: reduz carga cognitiva (Cognitive
+ *   Load Theory — Sweller) e apoia autorregulação da aprendizagem.
+ * - Nomear o sentimento em voz baixa (`controlar_frustracao`): "nomear para
+ *   regular" — conecta com o que a neurociência do desenvolvimento infantil
+ *   mostra sobre colocar em palavras ajudar a acalmar a resposta de estresse
+ *   (ex: O Cérebro da Criança, Siegel & Bryson).
+ * - Aviso prévio de mudança de rotina + apoio visual: prática já consolidada
+ *   em inclusão escolar, mas útil para qualquer criança com dificuldade de
+ *   flexibilidade.
+ * - As 8 categorias de dificuldade se aproximam dos domínios de função
+ *   executiva usados em instrumentos como o BRIEF (iniciar, memória de
+ *   trabalho/atenção, flexibilidade, controle emocional, organização) —
+ *   não é coincidência, é o vocabulário que a literatura de função executiva
+ *   em contexto escolar já usa.
+ * - Nenhuma estratégia pressupõe recursos que a escola brasileira típica não
+ *   tem (sala extra, auxiliar 1:1) — tudo é aplicável por um único professor
+ *   numa turma cheia. "Coordenação pedagógica" e "orientação escolar" são os
+ *   termos usados nas escolas brasileiras (não "counselor" ou termos de fora).
  */
 export const SUPPORT_PLAN_TEMPLATES: SupportPlanTemplate[] = [
   {

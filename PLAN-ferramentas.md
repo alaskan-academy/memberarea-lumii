@@ -331,6 +331,10 @@ interface SupportPlanTemplate {
 
 **Nota fixa de coordenação** (usada quando `sugerir_coordenacao = true`, mesmo texto sempre): *"Se essa dificuldade for muito intensa, persistente ou impactar bastante o dia a dia do aluno, vale conversar com a coordenação pedagógica ou orientação escolar."*
 
+**Disclaimer fixo** (`DISCLAIMER_SUPPORT_PLAN`, exibido em todo plano — diferente da nota acima, que é opcional/condicional): *"Este plano é uma sugestão pedagógica geral — não é um diagnóstico nem substitui avaliação profissional. Ajuste sempre com base no que você conhece do aluno."*
+
+**Base conceitual dos templates** (documentada no cabeçalho de `content.ts`, não exibida ao professor): cada bloco do template mapeia pra uma prática com respaldo estabelecido — estrutura antecedente→comportamento (Suporte Comportamental Positivo/ABA), oferecer escolha para reduzir resistência (Teoria da Autodeterminação), dividir tarefa em etapas (Cognitive Load Theory), nomear o sentimento em voz baixa (neurociência do desenvolvimento infantil, "nomear para regular"), aviso prévio de mudança de rotina (prática consolidada em inclusão escolar). As 8 categorias de dificuldade se aproximam dos domínios de função executiva do BRIEF. Termos como "coordenação pedagógica"/"orientação escolar" são os nomes usados nas escolas brasileiras, e nenhuma estratégia pressupõe recursos que a escola típica brasileira não tem (sala extra, auxiliar 1:1).
+
 ### 6.4 Formato de output (UI)
 
 ```
@@ -415,11 +419,14 @@ Sem rotas de API — tudo Server Actions, seguindo o padrão do projeto (Zod val
 | `toggleParentScriptFavorite(scriptKey)` | `lib/ferramentas/parent-scripts/actions.ts` | Insere/remove favorito |
 | `logParentScriptView(scriptKey)` | idem | Grava analytics de visualização (fire-and-forget) |
 | `createTeacherStudent(input)` | `lib/ferramentas/support-plan/actions.ts` | Cadastra aluno do professor logado |
-| `buildSupportPlanDraft(input)` | idem | Lookup no template estático (seção 8) — retorna rascunho, **não salva** |
 | `saveSupportPlan(studentId, input, planoEditado)` | idem | Grava em `support_plans` |
+| `updateSupportPlan(planId, planoEditado)` | idem | Edita o `plano_gerado` de um plano existente (ativo ou encerrado) |
+| `deleteSupportPlan(planId)` | idem | Exclui o plano (cascade apaga os check-ins) — UI pede confirmação antes |
 | `createCheckin(planId, status, notes)` | idem | Grava em `support_plan_checkins` |
 | `closeSupportPlan(planId)` | idem | `status = 'encerrado'` |
 | `updateToolsProfile({is_parent, is_teacher})` | `lib/ferramentas/actions.ts` | Grava preferência de perfil (seção 7) |
+
+`buildSupportPlanDraft(input)` **não é** Server Action — é uma função síncrona pura em `lib/ferramentas/support-plan/draft.ts` (lookup no template estático da seção 8, sem chamada de rede). Vira Server Action só quando a Fase 2 trocar por IA.
 
 Leituras (lista de alunos, detalhe do aluno com histórico) acontecem direto em Server Components (`page.tsx`), sem Server Action dedicada.
 
@@ -432,6 +439,8 @@ Leituras (lista de alunos, detalhe do aluno com histórico) acontecem direto em 
 - Seleção por botões/chips em vez de texto livre sempre que possível.
 - Resultado gerado sempre em blocos visualmente escaneáveis (títulos curtos + frase em destaque), nunca parágrafo corrido — replicar o padrão já usado em `DownloadBlock` (cards com ícone + label).
 - Fonte Poppins, tom acolhedor — nunca "corporativo"/frio, público é pai/mãe e professor em momento de dificuldade.
+- Textareas editáveis (planos de apoio) nunca têm scroll interno — usar `AutoGrowTextarea` (`components/ferramentas/support-plan/AutoGrowTextarea.tsx`), que cresce pra caber o conteúdo. Nunca voltar a `rows` fixo com `resize-none` sem auto-grow — corta texto e obriga a rolar dentro do campo, ruim em mobile.
+- Todo plano de apoio salvo (ativo ou no histórico) é editável e excluível pelo professor (`PlanCard.tsx`) — excluir sempre passa por `window.confirm()` antes, mesmo padrão usado em exclusões do admin (`course-content-manager.tsx`).
 
 ---
 
