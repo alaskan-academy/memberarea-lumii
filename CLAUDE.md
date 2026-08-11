@@ -41,6 +41,8 @@ Labels de status, aria-labels e UI strings genéricas podem ser constantes no c�
 **Pendente de implementar (itens hardcoded identificados):**
 - `src/app/(student)/cursos/page.tsx` — texto do Hero hardcoded; deveria vir de `static_pages` ou `site_config`
 
+**Exceção deliberada:** conteúdo das Ferramentas (`lib/ferramentas/parent-scripts/content.ts`, `lib/ferramentas/support-plan/content.ts`) fica em código, não em tabela — decisão consciente para garantir revisão humana pré-publicação (sem admin editando texto sensível sem revisão). Ver `CLAUDE-ferramentas.md`.
+
 ## Sidebar desktop — regra não-negociável
 
 **`position: fixed` — NUNCA usar `sticky` no sidebar desktop.**
