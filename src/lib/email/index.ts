@@ -250,43 +250,119 @@ export async function sendCertificateEmail({
   }
 }
 
-// ─── Lembrete de reengajamento (7 dias sem acesso) ────────────────────────────
+// ─── Lembrete de como acessar a conta ─────────────────────────────────────────
 
-export async function sendReengagementEmail({
+export async function sendLoginReminderEmail({
   to,
   studentName,
-  courseTitle,
-  courseSlug,
-  progressPercent,
 }: {
   to: string;
   studentName: string;
-  courseTitle: string;
-  courseSlug: string;
-  progressPercent: number;
 }): Promise<void> {
   const firstName = studentName.split(" ")[0];
-  const courseUrl = `${appUrl()}/cursos/${courseSlug}`;
-  const pct = Math.round(progressPercent);
+  const loginUrl = `${appUrl()}/login`;
+  const recoverUrl = `${appUrl()}/recuperar-senha`;
 
   const { error } = await getResend().emails.send({
     from: FROM,
     replyTo: REPLY_TO,
     to,
-    subject: `${firstName}, seu curso te espera! Você já está ${pct}% lá 🌟`,
+    subject: "Como acessar sua conta na Lumii",
+    html: emailWrapper(`
+      <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
+        Olá, ${firstName}! 👋
+      </h1>
+      <p style="color:#2D2D2D;font-size:16px;line-height:1.65;margin:0 0 14px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
+        Você já tem uma conta ativa na Lumii. Veja como acessar em poucos passos:
+      </p>
+      <p style="color:#555555;font-size:15px;line-height:1.9;margin:0 0 28px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
+        1. Clique no botão abaixo para ir até a tela de login<br>
+        2. Digite o e-mail <strong>${to}</strong> e sua senha<br>
+        3. Esqueceu a senha? Use "Esqueci minha senha" na própria tela de login para criar uma nova
+      </p>
+      ${ctaButton(loginUrl, "Acessar agora")}
+      <p style="color:#999999;font-size:13px;margin:0 0 28px;line-height:1.6;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
+        Se preferir, redefina sua senha diretamente por aqui: <a href="${recoverUrl}" style="color:#f6614f;">${recoverUrl}</a>
+      </p>
+      ${supportBlock()}
+    `),
+  });
+
+  if (error) {
+    console.error("[email] login reminder error:", error);
+  }
+}
+
+// ─── Lembrete de reengajamento (7 dias sem acesso) ────────────────────────────
+// Uma aluna pode ter vários cursos parados — envia sempre um único e-mail,
+// listando todos os cursos elegíveis, nunca um e-mail por curso.
+
+export type ReengagementCourse = {
+  title: string;
+  slug: string;
+  progressPercent: number;
+};
+
+function reengagementCourseBlock(course: ReengagementCourse) {
+  const pct = Math.round(course.progressPercent);
+  const courseUrl = `${appUrl()}/cursos/${course.slug}`;
+  return `<div style="border:1px solid #eeeeee;border-radius:10px;padding:16px 18px;margin-bottom:16px;">
+    <p style="color:#2D2D2D;font-size:16px;font-weight:700;margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;line-height:1.4;mso-line-height-rule:exactly;">${course.title}</p>
+    ${progressBar(pct)}
+    <table cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;">
+      <tr>
+        <td bgcolor="#f6614f" style="background-color:#f6614f;border-radius:6px;text-align:center;mso-padding-alt:10px 22px;">
+          <a href="${courseUrl}" style="display:inline-block;background-color:#f6614f;color:#ffffff;text-decoration:none;padding:10px 22px;border-radius:6px;font-size:14px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
+            Continuar
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>`;
+}
+
+export async function sendReengagementEmail({
+  to,
+  studentName,
+  courses,
+}: {
+  to: string;
+  studentName: string;
+  courses: ReengagementCourse[];
+}): Promise<void> {
+  if (!courses.length) return;
+  const firstName = studentName.split(" ")[0];
+  const single = courses.length === 1;
+  const pct = single ? Math.round(courses[0].progressPercent) : 0;
+
+  const subject = single
+    ? `${firstName}, seu curso te espera! Você já está ${pct}% lá 🌟`
+    : `${firstName}, seus cursos estão te esperando! 🌟`;
+
+  const intro = single
+    ? `Faz alguns dias que você não acessa o curso <strong>${courses[0].title}</strong>. Você já completou <strong>${pct}%</strong> — está tão perto!`
+    : `Faz alguns dias que você não acessa estes <strong>${courses.length} cursos</strong> parados. Cada um está esperando você continuar de onde parou:`;
+
+  const body = single
+    ? `${progressBar(pct)}${ctaButton(`${appUrl()}/cursos/${courses[0].slug}`, "Continuar curso")}`
+    : courses.map(reengagementCourseBlock).join("");
+
+  const { error } = await getResend().emails.send({
+    from: FROM,
+    replyTo: REPLY_TO,
+    to,
+    subject,
     html: emailWrapper(`
       <h1 style="color:#2D2D2D;font-size:22px;margin:0 0 16px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.3;mso-line-height-rule:exactly;">
         Olá, ${firstName}! Sentimos sua falta 💛
       </h1>
-      <p style="color:#2D2D2D;font-size:16px;line-height:1.65;margin:0 0 14px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
-        Faz alguns dias que você não acessa o curso <strong>${courseTitle}</strong>.
-        Você já completou <strong>${pct}%</strong> — está tão perto!
+      <p style="color:#2D2D2D;font-size:16px;line-height:1.65;margin:0 0 20px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
+        ${intro}
       </p>
-      <p style="color:#555555;font-size:15px;line-height:1.65;margin:0 0 20px;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
+      ${body}
+      <p style="color:#555555;font-size:15px;line-height:1.65;margin:20px 0 0;mso-line-height-rule:exactly;font-family:Arial,Helvetica,sans-serif;">
         Continue de onde parou e mantenha o ritmo. Cada passo da jornada conta.
       </p>
-      ${progressBar(pct)}
-      ${ctaButton(courseUrl, "Continuar curso")}
       ${supportBlock()}
     `),
   });

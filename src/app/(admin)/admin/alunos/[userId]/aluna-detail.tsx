@@ -25,6 +25,8 @@ import {
   NotebookPen,
   Save,
   Search,
+  Send,
+  Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -33,6 +35,7 @@ import {
   toggleBanAction,
   updateProfileAction,
   grantMultipleAccessAction,
+  resendAccessEmailAction,
 } from "./actions";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
 import ActivityTab, { type ActivityItem } from "@/components/admin/alunos/ActivityTab";
@@ -110,6 +113,8 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
   const [activeTab, setActiveTab] = useState<"perfil" | "atividade">(defaultTab);
   const [banPending, startBanTransition] = useTransition();
   const [banned, setBanned] = useState(profile.banned);
+  const [resendPending, startResendTransition] = useTransition();
+  const [resendFeedback, setResendFeedback] = useState<"sent" | "error" | null>(null);
   const [editingProfile, setEditingProfile] = useState(false);
   const [profileState, profileAction, profilePending] = useActionState(updateProfileAction, {});
   useModalBackGuard(editingProfile, () => setEditingProfile(false));
@@ -138,6 +143,14 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
     });
   }
 
+  function handleResendAccess() {
+    startResendTransition(async () => {
+      const res = await resendAccessEmailAction(profile.id);
+      setResendFeedback(res.error ? "error" : "sent");
+      setTimeout(() => setResendFeedback(null), 4000);
+    });
+  }
+
   return (
     <div className="space-y-6">
       {/* Perfil header */}
@@ -163,6 +176,24 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
               Banida
             </span>
           )}
+          {resendFeedback && (
+            <span className={cn(
+              "flex items-center gap-1 text-xs font-medium whitespace-nowrap",
+              resendFeedback === "sent" ? "text-[#71c69a]" : "text-red-500"
+            )}>
+              {resendFeedback === "sent" ? <Check className="w-3.5 h-3.5" /> : null}
+              {resendFeedback === "sent" ? "E-mail enviado" : "Erro ao enviar"}
+            </span>
+          )}
+          <button
+            onClick={handleResendAccess}
+            disabled={resendPending || !profile.email}
+            title="Reenviar instruções de login por e-mail"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border border-border text-foreground/70 hover:bg-muted transition-colors disabled:opacity-50"
+          >
+            <Send className="w-3.5 h-3.5" />
+            {resendPending ? "Enviando…" : "Reenviar acesso"}
+          </button>
           <button
             onClick={handleToggleBan}
             disabled={banPending}
