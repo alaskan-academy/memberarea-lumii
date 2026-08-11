@@ -8,6 +8,7 @@ import {
   type DificuldadePrincipal,
 } from "@/lib/ferramentas/support-plan/types";
 import type { SupportPlanInput } from "@/lib/ferramentas/support-plan/types";
+import AutoGrowTextarea from "./AutoGrowTextarea";
 
 export default function SupportPlanForm({
   onGenerate,
@@ -100,12 +101,10 @@ export default function SupportPlanForm({
         <label className="text-sm font-semibold mb-1.5 block">
           Ponto forte do aluno <span className="text-muted-foreground font-normal">(opcional)</span>
         </label>
-        <textarea
+        <AutoGrowTextarea
           value={pontoForte}
-          onChange={(e) => setPontoForte(e.target.value)}
-          rows={2}
+          onChange={setPontoForte}
           placeholder="Ex: é muito criativo, ajuda os colegas..."
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 resize-none"
         />
       </div>
 
@@ -113,12 +112,10 @@ export default function SupportPlanForm({
         <label className="text-sm font-semibold mb-1.5 block">
           O que já foi tentado <span className="text-muted-foreground font-normal">(opcional)</span>
         </label>
-        <textarea
+        <AutoGrowTextarea
           value={jaTentei}
-          onChange={(e) => setJaTentei(e.target.value)}
-          rows={2}
+          onChange={setJaTentei}
           placeholder="Ex: conversei com a família, mudei o lugar dele na sala..."
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 resize-none"
         />
       </div>
 

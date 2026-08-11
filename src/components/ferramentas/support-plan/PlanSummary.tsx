@@ -1,5 +1,5 @@
 import { Target, PlayCircle, Repeat, Eye, MessageCircle } from "lucide-react";
-import type { PlanoGerado } from "@/lib/ferramentas/support-plan/types";
+import { DISCLAIMER_SUPPORT_PLAN, type PlanoGerado } from "@/lib/ferramentas/support-plan/types";
 
 export default function PlanSummary({ plano }: { plano: PlanoGerado }) {
   return (
@@ -48,6 +48,9 @@ export default function PlanSummary({ plano }: { plano: PlanoGerado }) {
           <p className="text-sm leading-relaxed">{plano.sugestao_coordenacao}</p>
         </div>
       )}
+      <p className="text-xs text-muted-foreground border-t border-border/60 pt-3">
+        {DISCLAIMER_SUPPORT_PLAN}
+      </p>
     </div>
   );
 }

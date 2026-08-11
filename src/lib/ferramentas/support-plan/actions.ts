@@ -126,6 +126,62 @@ export async function saveSupportPlan(
   return { planId: data.id };
 }
 
+const UpdateSupportPlanSchema = z.object({
+  plan_id: z.string().uuid(),
+  plano_gerado: PlanoGeradoSchema,
+});
+
+export async function updateSupportPlan(
+  input: z.infer<typeof UpdateSupportPlanSchema>
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Não autenticado" };
+
+  const parsed = UpdateSupportPlanSchema.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
+
+  const { data: plan } = await supabase
+    .from("support_plans")
+    .select("id, student_id")
+    .eq("id", parsed.data.plan_id)
+    .eq("teacher_id", user.id)
+    .maybeSingle();
+  if (!plan) return { error: "Plano não encontrado" };
+
+  const { error } = await supabase
+    .from("support_plans")
+    .update({ plano_gerado: parsed.data.plano_gerado, updated_at: new Date().toISOString() })
+    .eq("id", parsed.data.plan_id);
+
+  if (error) return { error: error.message };
+  revalidatePath(`/ferramentas/plano-apoio-aluno/${plan.student_id}`);
+  return {};
+}
+
+export async function deleteSupportPlan(planId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Não autenticado" };
+
+  const { data: plan } = await supabase
+    .from("support_plans")
+    .select("id, student_id")
+    .eq("id", planId)
+    .eq("teacher_id", user.id)
+    .maybeSingle();
+  if (!plan) return { error: "Plano não encontrado" };
+
+  const { error } = await supabase.from("support_plans").delete().eq("id", planId);
+  if (error) return { error: error.message };
+  revalidatePath(`/ferramentas/plano-apoio-aluno/${plan.student_id}`);
+  return {};
+}
+
 export async function closeSupportPlan(planId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
   const {

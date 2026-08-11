@@ -2,41 +2,14 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Target, PlayCircle, Repeat, XCircle, Eye, MessageCircle } from "lucide-react";
-import type { PlanoGerado, SupportPlanInput } from "@/lib/ferramentas/support-plan/types";
+import { XCircle } from "lucide-react";
+import {
+  DISCLAIMER_SUPPORT_PLAN,
+  type PlanoGerado,
+  type SupportPlanInput,
+} from "@/lib/ferramentas/support-plan/types";
 import { saveSupportPlan } from "@/lib/ferramentas/support-plan/actions";
-
-function Field({
-  icon: Icon,
-  label,
-  color,
-  value,
-  onChange,
-}: {
-  icon: React.ElementType;
-  label: string;
-  color: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div>
-      <p
-        className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5"
-        style={{ color }}
-      >
-        <Icon className="w-3.5 h-3.5" />
-        {label}
-      </p>
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        rows={2}
-        className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 resize-none"
-      />
-    </div>
-  );
-}
+import EditablePlanFields from "./EditablePlanFields";
 
 export default function PlanResultCard({
   studentId,
@@ -51,10 +24,6 @@ export default function PlanResultCard({
   const [plano, setPlano] = useState<PlanoGerado>(draft);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  function update<K extends keyof PlanoGerado>(key: K, value: PlanoGerado[K]) {
-    setPlano((prev) => ({ ...prev, [key]: value }));
-  }
 
   function handleSave() {
     setError(null);
@@ -83,56 +52,11 @@ export default function PlanResultCard({
         selecionada, mas você conhece o aluno melhor que qualquer modelo pronto.
       </p>
 
-      <Field
-        icon={Target}
-        label="Objetivo das próximas 2 semanas"
-        color="#71c69a"
-        value={plano.objetivo}
-        onChange={(v) => update("objetivo", v)}
-      />
-      <Field
-        icon={PlayCircle}
-        label="Antes da atividade"
-        color="#f6614f"
-        value={plano.antes_da_atividade}
-        onChange={(v) => update("antes_da_atividade", v)}
-      />
-      <Field
-        icon={PlayCircle}
-        label="Durante"
-        color="#f6614f"
-        value={plano.durante}
-        onChange={(v) => update("durante", v)}
-      />
-      <Field
-        icon={Repeat}
-        label="Se houver recusa"
-        color="#eebc3e"
-        value={plano.se_houver_recusa}
-        onChange={(v) => update("se_houver_recusa", v)}
-      />
-      <Field
-        icon={Eye}
-        label="O que observar"
-        color="#6699F3"
-        value={plano.o_que_observar}
-        onChange={(v) => update("o_que_observar", v)}
-      />
+      <EditablePlanFields plano={plano} onChange={setPlano} />
 
-      {plano.sugestao_coordenacao !== null && (
-        <div className="rounded-xl bg-[#6699F3]/5 border border-[#6699F3]/20 p-4">
-          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#6699F3] mb-1.5">
-            <MessageCircle className="w-3.5 h-3.5" />
-            Vale conversar com a coordenação
-          </p>
-          <textarea
-            value={plano.sugestao_coordenacao}
-            onChange={(e) => update("sugestao_coordenacao", e.target.value)}
-            rows={2}
-            className="w-full text-sm bg-white border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 resize-none"
-          />
-        </div>
-      )}
+      <p className="text-xs text-muted-foreground border-t border-border/60 pt-4">
+        {DISCLAIMER_SUPPORT_PLAN}
+      </p>
 
       {error && (
         <p className="flex items-center gap-1.5 text-xs text-red-500">
