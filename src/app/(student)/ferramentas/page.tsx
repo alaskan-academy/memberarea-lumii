@@ -49,7 +49,6 @@ export default async function FerramentasPage() {
           subtitle="Plano de ação por aluno"
           description="Cadastre o aluno, gere um plano de apoio de 2 semanas e acompanhe com check-ins."
           publico="Professores"
-          disabled
         />
       </div>
     </div>
