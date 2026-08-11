@@ -301,13 +301,14 @@ async function issueCertificateIfComplete(
       .single(),
     supabase
       .from("courses")
-      .select("title, workload_hours, has_certificate")
+      .select("title, workload_hours, has_certificate, course_type")
       .eq("id", courseId)
       .single(),
   ]);
 
   if (!profile || !course) return false;
-  if (!course.has_certificate) return false;
+  // Materiais didáticos (ebooks) não emitem certificado, só cursos em vídeo
+  if (!course.has_certificate || course.course_type !== "course") return false;
 
   // Descriptografa CPF se disponível
   let cpfFormatted: string | null = null;

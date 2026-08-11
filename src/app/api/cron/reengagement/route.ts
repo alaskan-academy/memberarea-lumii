@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { sendReengagementEmail } from "@/lib/email";
+import { sendReengagementEmail, type ReengagementCourse } from "@/lib/email";
 
 // Vercel Cron: roda diariamente às 10h BRT (13h UTC)
 // vercel.json crons: [{ "path": "/api/cron/reengagement", "schedule": "0 13 * * *" }]
+//
+// Envia no máximo 1 e-mail por aluna por execução, mesmo que ela tenha
+// vários cursos parados — os cursos elegíveis são acumulados por user_id
+// (Fase 1) antes de qualquer envio, e o e-mail só sai depois de buscar
+// os perfis em lote (Fase 2).
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
@@ -24,20 +29,10 @@ export async function GET(req: NextRequest) {
 
     if (!enrollments?.length) return NextResponse.json({ sent: 0 });
 
-    let sent = 0;
+    // ── Fase 1: acumula cursos elegíveis por aluna ──────────────────────────
+    const byUser = new Map<string, ReengagementCourse[]>();
 
     for (const { user_id, course_id } of enrollments) {
-      // Perfil e preferências
-      const { data: profile } = await service
-        .from("profiles")
-        .select("full_name, email, email_prefs")
-        .eq("id", user_id)
-        .maybeSingle();
-
-      if (!profile?.email) continue;
-      const prefs = profile.email_prefs as Record<string, boolean> | null;
-      if (prefs?.reengagement === false) continue;
-
       // Aulas do curso
       const { data: modules } = await service
         .from("modules")
@@ -82,18 +77,39 @@ export async function GET(req: NextRequest) {
 
       if (!course) continue;
 
+      const list = byUser.get(user_id) ?? [];
+      list.push({ title: course.title, slug: course.slug, progressPercent: pct });
+      byUser.set(user_id, list);
+    }
+
+    if (byUser.size === 0) return NextResponse.json({ sent: 0 });
+
+    // ── Fase 2: busca perfis em lote e envia um único e-mail por aluna ─────
+    const { data: profiles } = await service
+      .from("profiles")
+      .select("id, full_name, email, email_prefs")
+      .in("id", [...byUser.keys()]);
+
+    let sent = 0;
+
+    for (const profile of profiles ?? []) {
+      if (!profile.email) continue;
+      const prefs = profile.email_prefs as Record<string, boolean> | null;
+      if (prefs?.reengagement === false) continue;
+
+      const courses = byUser.get(profile.id);
+      if (!courses?.length) continue;
+
       await sendReengagementEmail({
         to: profile.email,
         studentName: profile.full_name ?? "Aluna",
-        courseTitle: course.title,
-        courseSlug: course.slug,
-        progressPercent: pct,
+        courses,
       });
 
       sent++;
     }
 
-    console.info(`[cron/reengagement] ${sent} e-mails enviados`);
+    console.info(`[cron/reengagement] ${sent} e-mails enviados (${byUser.size} alunas elegíveis)`);
     return NextResponse.json({ sent });
   } catch (e) {
     console.error("[cron/reengagement]", e);
