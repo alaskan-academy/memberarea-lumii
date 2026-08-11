@@ -11,7 +11,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import {
   Plus, Pencil, Trash2, Save, BookOpen, Layers,
-  GripVertical, Upload, Loader2, Archive, ArchiveRestore, ChevronDown,
+  GripVertical, Upload, Loader2, Archive, ArchiveRestore, ChevronDown, Video,
 } from "lucide-react";
 import {
   createModule, updateModule, deleteModule, toggleArchivedModule,
@@ -176,6 +176,25 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
         <p className="text-xs text-muted-foreground bg-muted/40 px-3 py-2.5 rounded-lg">
           Todo o conteúdo (vídeo, texto, HTML, embeds, downloads) é adicionado no editor de blocos — disponível após criar a aula.
         </p>
+      )}
+
+      {/* Atalho de vídeo — só antes de criar a aula, evita precisar entrar no editor de blocos */}
+      {!savedLessonId && (
+        <div className="bg-[#6699F3]/5 border border-[#6699F3]/20 rounded-xl p-3 space-y-2">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6699F3]">
+            <Video className="w-3.5 h-3.5" />
+            Vídeo da aula <span className="text-[#6699F3]/60">(opcional)</span>
+          </label>
+          <input
+            type="text"
+            name="video_panda_id"
+            placeholder="ID do Panda Video ou URL do player..."
+            className="w-full text-sm font-mono border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+          />
+          <p className="text-[11px] text-muted-foreground">
+            Salvo automaticamente como primeiro bloco ao criar a aula.
+          </p>
+        </div>
       )}
 
       {/* Materiais complementares */}

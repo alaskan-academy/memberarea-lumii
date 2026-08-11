@@ -159,6 +159,16 @@ export async function createLesson(
 
   if (error) return { error: "Erro ao criar aula: " + error.message };
 
+  const videoId = (formData.get("video_panda_id") as string)?.trim();
+  if (videoId) {
+    await supabase.from("lesson_content_blocks").insert({
+      lesson_id: data.id,
+      type: "video",
+      content: JSON.stringify({ video_panda_id: videoId }),
+      position: 1,
+    });
+  }
+
   revalidatePath(`/admin/cursos/${courseId}`);
   const lesson = await fetchLessonWithMaterials(supabase, data.id);
   return { lesson: lesson ?? undefined };
