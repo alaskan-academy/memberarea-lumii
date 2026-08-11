@@ -8,7 +8,15 @@ export type Situacao =
   | "esta_com_medo"
   | "esta_chorando"
   | "nao_aceita_desligar_celular"
-  | "falou_desrespeitoso";
+  | "falou_desrespeitoso"
+  | "nao_quer_comer"
+  | "nao_quer_tomar_banho"
+  | "nao_quer_fazer_licao_de_casa"
+  | "nao_quer_dividir_brinquedo"
+  | "fez_birra_em_lugar_publico"
+  | "disse_que_odeia_voce"
+  | "teve_ciume_do_irmao"
+  | "demora_para_se_vestir";
 
 export type FaixaEtaria = "2_4" | "5_7" | "8_10" | "11_13" | "14_17";
 
@@ -39,6 +47,14 @@ export const SITUACOES: { value: Situacao; label: string; emoji: string }[] = [
   { value: "esta_chorando", label: "Está chorando muito", emoji: "😢" },
   { value: "nao_aceita_desligar_celular", label: "Não aceita desligar o celular/TV", emoji: "📱" },
   { value: "falou_desrespeitoso", label: "Falou de forma desrespeitosa", emoji: "💢" },
+  { value: "nao_quer_comer", label: "Não quer comer", emoji: "🍽️" },
+  { value: "nao_quer_tomar_banho", label: "Não quer tomar banho", emoji: "🛁" },
+  { value: "nao_quer_fazer_licao_de_casa", label: "Não quer fazer a lição de casa", emoji: "📚" },
+  { value: "nao_quer_dividir_brinquedo", label: "Não quer dividir o brinquedo", emoji: "🧩" },
+  { value: "fez_birra_em_lugar_publico", label: "Fez birra em lugar público", emoji: "🛒" },
+  { value: "disse_que_odeia_voce", label: 'Disse "eu te odeio"', emoji: "💔" },
+  { value: "teve_ciume_do_irmao", label: "Teve ciúme do irmão/irmã", emoji: "👶" },
+  { value: "demora_para_se_vestir", label: "Demora demais pra se vestir", emoji: "👕" },
 ];
 
 export const FAIXAS_ETARIAS: { value: FaixaEtaria; label: string; min: number; max: number }[] = [
