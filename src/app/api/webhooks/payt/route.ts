@@ -126,30 +126,41 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
   const user = profileRow ? { id: profileRow.id } : null;
 
-  // 8. Sem conta ainda — cria token de ativação por curso e envia e-mail
+  // 8. Sem conta ainda — cria um token de ativação por curso (em paralelo) e
+  // envia UM ÚNICO e-mail (referenciando o curso principal) em vez de um por curso
   if (!user) {
     if (action === "grant") {
-      for (const course of courses) {
-        const { data: tokenRow } = await supabase
-          .from("activation_tokens")
-          .insert({
-            email: buyerEmail.toLowerCase(),
-            course_id: course.id,
-            buyer_name: buyerName ?? null,
-            buyer_phone: payload.customer.phone?.trim() ?? null,
-          })
-          .select("token")
-          .single();
+      const tokenRows = await Promise.all(
+        courses.map((course) =>
+          supabase
+            .from("activation_tokens")
+            .insert({
+              email: buyerEmail.toLowerCase(),
+              course_id: course.id,
+              buyer_name: buyerName ?? null,
+              buyer_phone: payload.customer.phone?.trim() ?? null,
+            })
+            .select("token")
+            .single()
+        )
+      );
 
-        if (tokenRow?.token) {
-          await sendAccessConfirmedEmail({
-            to: buyerEmail,
-            studentName: buyerName || buyerEmail,
-            courseTitle: course.title,
-            courseSlug: course.slug,
-            activationToken: tokenRow.token,
-          });
-        }
+      const mainCourse =
+        courses.find((c) => (c.product_codes as string[])?.includes(mainProductCode)) ?? courses[0];
+      const mainCourseIndex = courses.findIndex((c) => c.id === mainCourse.id);
+      const mainToken = tokenRows[mainCourseIndex]?.data?.token;
+
+      if (mainToken) {
+        await sendAccessConfirmedEmail({
+          to: buyerEmail,
+          studentName: buyerName || buyerEmail,
+          courseTitle: mainCourse.title,
+          courseSlug: mainCourse.slug,
+          activationToken: mainToken,
+          totalCourses: courses.length,
+        });
+      } else {
+        console.error(`[payt-webhook] Token do curso principal (${mainCourse.id}) não foi criado — e-mail de ativação não enviado para ${buyerEmail}`);
       }
       console.info(`[payt-webhook] ${courses.length} token(s) de ativação criados para ${buyerEmail}`);
     }
@@ -288,6 +299,7 @@ export async function POST(req: NextRequest) {
         studentName: profile?.full_name ?? payload.customer.name ?? buyerEmail,
         courseTitle: mainCourse.title,
         courseSlug: mainCourse.slug,
+        totalCourses: courses.length,
       });
     })().catch((e) => console.error("[payt-webhook] access email:", e));
   }
