@@ -45,9 +45,9 @@ export default async function FerramentasPage() {
         <FerramentaCard
           href="/ferramentas/plano-apoio-aluno"
           icon={ClipboardList}
-          title="Plano Individual de Apoio ao Aluno"
-          subtitle="Plano de ação por aluno"
-          description="Cadastre o aluno, gere um plano de apoio de 2 semanas e acompanhe com check-ins."
+          title="Plano de Apoio"
+          subtitle="Plano de ação — aluno ou turma"
+          description="Cadastre o aluno ou a turma, gere um plano de apoio de 2 semanas e acompanhe com check-ins."
           publico="Professores"
         />
       </div>

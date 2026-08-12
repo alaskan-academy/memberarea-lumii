@@ -76,7 +76,7 @@ export const DIFICULDADES: { value: DificuldadePrincipal; label: string }[] = [
   { value: "manter_atencao", label: "Manter atenção" },
   { value: "seguir_instrucoes", label: "Seguir instruções" },
   { value: "controlar_frustracao", label: "Controlar frustração" },
-  { value: "interagir_com_colegas", label: "Interagir com colegas" },
+  { value: "interagir_com_colegas", label: "Interação entre colegas" },
   { value: "participar_em_grupo", label: "Participar de atividades em grupo" },
   { value: "concluir_tarefas", label: "Concluir tarefas" },
   { value: "lidar_com_mudancas_rotina", label: "Lidar com mudanças de rotina" },
@@ -91,6 +91,18 @@ export const TAMBEM_APRESENTA_CHIPS: string[] = [
   "Dificuldade de linguagem",
   "Dificuldade motora",
   "Dificuldade de atenção",
+];
+
+// Traço individual não faz sentido pra turma inteira ("a turma tem dificuldade
+// de linguagem" soa estranho) — chips à parte, descrevendo dinâmica coletiva.
+export const TAMBEM_APRESENTA_CHIPS_TURMA: string[] = [
+  "Agitação geral",
+  "Conflitos frequentes entre colegas",
+  "Dispersão coletiva",
+  "Resistência a combinados",
+  "Ansiedade em avaliações",
+  "Rivalidade entre grupos",
+  "Falta de coesão da turma",
 ];
 
 // Fraseado neutro de propósito — vale tanto para plano de aluno quanto de turma,
