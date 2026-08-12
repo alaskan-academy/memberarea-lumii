@@ -6,14 +6,17 @@ import {
   DIFICULDADES,
   TAMBEM_APRESENTA_CHIPS,
   type DificuldadePrincipal,
+  type PlanAlvo,
+  type SupportPlanInput,
 } from "@/lib/ferramentas/support-plan/types";
-import type { SupportPlanInput } from "@/lib/ferramentas/support-plan/types";
 import AutoGrowTextarea from "./AutoGrowTextarea";
 
 export default function SupportPlanForm({
+  alvo,
   onGenerate,
 }: {
-  onGenerate: (input: Omit<SupportPlanInput, "student_id">) => void;
+  alvo: PlanAlvo;
+  onGenerate: (input: SupportPlanInput) => void;
 }) {
   const [dificuldade, setDificuldade] = useState<DificuldadePrincipal | null>(null);
   const [outro, setOutro] = useState("");
@@ -34,6 +37,7 @@ export default function SupportPlanForm({
     e.preventDefault();
     if (!dificuldade || !podeGerar) return;
     onGenerate({
+      alvo,
       dificuldade_principal: dificuldade,
       dificuldade_principal_outro: dificuldade === "outro" ? outro.trim() : undefined,
       tambem_apresenta: tambemApresenta,
@@ -99,12 +103,17 @@ export default function SupportPlanForm({
 
       <div>
         <label className="text-sm font-semibold mb-1.5 block">
-          Ponto forte do aluno <span className="text-muted-foreground font-normal">(opcional)</span>
+          Ponto forte {alvo === "turma" ? "da turma" : "do aluno"}{" "}
+          <span className="text-muted-foreground font-normal">(opcional)</span>
         </label>
         <AutoGrowTextarea
           value={pontoForte}
           onChange={setPontoForte}
-          placeholder="Ex: é muito criativo, ajuda os colegas..."
+          placeholder={
+            alvo === "turma"
+              ? "Ex: colabora bem em atividades práticas, gosta de trabalhos em grupo..."
+              : "Ex: é muito criativo, ajuda os colegas..."
+          }
         />
       </div>
 
@@ -115,7 +124,11 @@ export default function SupportPlanForm({
         <AutoGrowTextarea
           value={jaTentei}
           onChange={setJaTentei}
-          placeholder="Ex: conversei com a família, mudei o lugar dele na sala..."
+          placeholder={
+            alvo === "turma"
+              ? "Ex: mudei a disposição das carteiras, criei um combinado coletivo..."
+              : "Ex: conversei com a família, mudei o lugar dele na sala..."
+          }
         />
       </div>
 

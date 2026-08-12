@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import StudentListClient from "@/components/ferramentas/support-plan/StudentListClient";
+import PlanoApoioHub from "@/components/ferramentas/support-plan/PlanoApoioHub";
 
 export default async function PlanoApoioAlunoPage() {
   const supabase = await createClient();
@@ -9,11 +9,18 @@ export default async function PlanoApoioAlunoPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: students } = await supabase
-    .from("teacher_students")
-    .select("id, name, age, class_label")
-    .eq("teacher_id", user.id)
-    .order("created_at", { ascending: false });
+  const [{ data: students }, { data: classes }] = await Promise.all([
+    supabase
+      .from("teacher_students")
+      .select("id, name, age, class_label")
+      .eq("teacher_id", user.id)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("teacher_classes")
+      .select("id, name")
+      .eq("teacher_id", user.id)
+      .order("created_at", { ascending: false }),
+  ]);
 
-  return <StudentListClient initialStudents={students ?? []} />;
+  return <PlanoApoioHub initialStudents={students ?? []} initialClasses={classes ?? []} />;
 }

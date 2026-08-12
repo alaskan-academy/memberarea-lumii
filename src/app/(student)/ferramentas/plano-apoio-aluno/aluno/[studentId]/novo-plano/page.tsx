@@ -23,5 +23,5 @@ export default async function NovoPlanoPage({
 
   if (!student) notFound();
 
-  return <NewPlanFlow studentId={student.id} studentName={student.name} />;
+  return <NewPlanFlow target={{ kind: "aluno", id: student.id, name: student.name }} />;
 }

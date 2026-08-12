@@ -16,6 +16,12 @@ const DIFICULDADE_VALUES = [
   "outro",
 ] as const;
 
+function targetPath(studentId: string | null, classId: string | null): string {
+  return studentId
+    ? `/ferramentas/plano-apoio-aluno/aluno/${studentId}`
+    : `/ferramentas/plano-apoio-aluno/turma/${classId}`;
+}
+
 // ─── Alunos (cadastro mínimo do professor) ─────────────────────────────────────
 
 const TeacherStudentSchema = z.object({
@@ -59,7 +65,41 @@ export async function createTeacherStudent(
   return { student: data };
 }
 
-// ─── Plano de apoio ─────────────────────────────────────────────────────────────
+// ─── Turmas (cadastro mínimo do professor) ─────────────────────────────────────
+
+const TeacherClassSchema = z.object({
+  name: z.string().trim().min(1, "Nome é obrigatório").max(200),
+});
+
+export type TeacherClassRow = {
+  id: string;
+  name: string;
+};
+
+export async function createTeacherClass(
+  input: z.infer<typeof TeacherClassSchema>
+): Promise<{ error?: string; teacherClass?: TeacherClassRow }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Não autenticado" };
+
+  const parsed = TeacherClassSchema.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
+
+  const { data, error } = await supabase
+    .from("teacher_classes")
+    .insert({ teacher_id: user.id, name: parsed.data.name })
+    .select("id, name")
+    .single();
+
+  if (error) return { error: error.message };
+  revalidatePath("/ferramentas/plano-apoio-aluno");
+  return { teacherClass: data };
+}
+
+// ─── Plano de apoio (aluno OU turma — nunca os dois, nunca nenhum) ─────────────
 
 const PlanoGeradoSchema = z.object({
   objetivo: z.string().trim().min(1, "Objetivo não pode ficar vazio"),
@@ -72,13 +112,18 @@ const PlanoGeradoSchema = z.object({
 
 const SaveSupportPlanSchema = z
   .object({
-    student_id: z.string().uuid(),
+    student_id: z.string().uuid().optional(),
+    class_id: z.string().uuid().optional(),
     dificuldade_principal: z.enum(DIFICULDADE_VALUES),
     dificuldade_principal_outro: z.string().trim().max(200).optional(),
     tambem_apresenta: z.array(z.string().trim().max(50)).max(10),
     ponto_forte: z.string().trim().max(500).optional(),
     ja_tentei: z.string().trim().max(500).optional(),
     plano_gerado: PlanoGeradoSchema,
+  })
+  .refine((v) => !!v.student_id !== !!v.class_id, {
+    message: "Informe um aluno ou uma turma, não os dois",
+    path: ["student_id"],
   })
   .refine((v) => v.dificuldade_principal !== "outro" || !!v.dificuldade_principal_outro, {
     message: "Descreva a dificuldade quando selecionar \"Outro\"",
@@ -97,19 +142,22 @@ export async function saveSupportPlan(
   const parsed = SaveSupportPlanSchema.safeParse(input);
   if (!parsed.success) return { error: parsed.error.issues[0].message };
 
-  // Defesa extra além do RLS: confirma que o aluno é mesmo desse professor
-  const { data: student } = await supabase
-    .from("teacher_students")
+  // Defesa extra além do RLS: confirma que o aluno/turma é mesmo desse professor
+  const targetTable = parsed.data.student_id ? "teacher_students" : "teacher_classes";
+  const targetId = (parsed.data.student_id ?? parsed.data.class_id)!;
+  const { data: target } = await supabase
+    .from(targetTable)
     .select("id")
-    .eq("id", parsed.data.student_id)
+    .eq("id", targetId)
     .eq("teacher_id", user.id)
     .maybeSingle();
-  if (!student) return { error: "Aluno não encontrado" };
+  if (!target) return { error: parsed.data.student_id ? "Aluno não encontrado" : "Turma não encontrada" };
 
   const { data, error } = await supabase
     .from("support_plans")
     .insert({
-      student_id: parsed.data.student_id,
+      student_id: parsed.data.student_id ?? null,
+      class_id: parsed.data.class_id ?? null,
       teacher_id: user.id,
       dificuldade_principal: parsed.data.dificuldade_principal,
       dificuldade_principal_outro: parsed.data.dificuldade_principal_outro || null,
@@ -122,7 +170,7 @@ export async function saveSupportPlan(
     .single();
 
   if (error) return { error: error.message };
-  revalidatePath(`/ferramentas/plano-apoio-aluno/${parsed.data.student_id}`);
+  revalidatePath(targetPath(parsed.data.student_id ?? null, parsed.data.class_id ?? null));
   return { planId: data.id };
 }
 
@@ -145,7 +193,7 @@ export async function updateSupportPlan(
 
   const { data: plan } = await supabase
     .from("support_plans")
-    .select("id, student_id")
+    .select("id, student_id, class_id")
     .eq("id", parsed.data.plan_id)
     .eq("teacher_id", user.id)
     .maybeSingle();
@@ -157,7 +205,7 @@ export async function updateSupportPlan(
     .eq("id", parsed.data.plan_id);
 
   if (error) return { error: error.message };
-  revalidatePath(`/ferramentas/plano-apoio-aluno/${plan.student_id}`);
+  revalidatePath(targetPath(plan.student_id, plan.class_id));
   return {};
 }
 
@@ -170,7 +218,7 @@ export async function deleteSupportPlan(planId: string): Promise<{ error?: strin
 
   const { data: plan } = await supabase
     .from("support_plans")
-    .select("id, student_id")
+    .select("id, student_id, class_id")
     .eq("id", planId)
     .eq("teacher_id", user.id)
     .maybeSingle();
@@ -178,7 +226,7 @@ export async function deleteSupportPlan(planId: string): Promise<{ error?: strin
 
   const { error } = await supabase.from("support_plans").delete().eq("id", planId);
   if (error) return { error: error.message };
-  revalidatePath(`/ferramentas/plano-apoio-aluno/${plan.student_id}`);
+  revalidatePath(targetPath(plan.student_id, plan.class_id));
   return {};
 }
 
@@ -191,7 +239,7 @@ export async function closeSupportPlan(planId: string): Promise<{ error?: string
 
   const { data: plan } = await supabase
     .from("support_plans")
-    .select("id, student_id")
+    .select("id, student_id, class_id")
     .eq("id", planId)
     .eq("teacher_id", user.id)
     .maybeSingle();
@@ -203,7 +251,7 @@ export async function closeSupportPlan(planId: string): Promise<{ error?: string
     .eq("id", planId);
 
   if (error) return { error: error.message };
-  revalidatePath(`/ferramentas/plano-apoio-aluno/${plan.student_id}`);
+  revalidatePath(targetPath(plan.student_id, plan.class_id));
   return {};
 }
 
@@ -229,7 +277,7 @@ export async function createCheckin(
 
   const { data: plan } = await supabase
     .from("support_plans")
-    .select("id, student_id")
+    .select("id, student_id, class_id")
     .eq("id", parsed.data.support_plan_id)
     .eq("teacher_id", user.id)
     .maybeSingle();
@@ -242,6 +290,6 @@ export async function createCheckin(
   });
 
   if (error) return { error: error.message };
-  revalidatePath(`/ferramentas/plano-apoio-aluno/${plan.student_id}`);
+  revalidatePath(targetPath(plan.student_id, plan.class_id));
   return {};
 }

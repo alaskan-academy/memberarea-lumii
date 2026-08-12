@@ -4,26 +4,10 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Plus, CheckCircle2 } from "lucide-react";
-import type { PlanoGerado } from "@/lib/ferramentas/support-plan/types";
+import type { CheckinRow, PlanTarget, SupportPlanRow } from "@/lib/ferramentas/support-plan/types";
 import { closeSupportPlan } from "@/lib/ferramentas/support-plan/actions";
 import PlanCard from "./PlanCard";
 import CheckinModal from "./CheckinModal";
-
-export interface CheckinRow {
-  id: string;
-  status: "melhorou" | "igual" | "piorou";
-  notes: string | null;
-  created_at: string;
-}
-
-export interface SupportPlanRow {
-  id: string;
-  dificuldade_principal: string;
-  status: "ativo" | "encerrado";
-  plano_gerado: PlanoGerado;
-  created_at: string;
-  checkins: CheckinRow[];
-}
 
 const CHECKIN_EMOJI: Record<CheckinRow["status"], string> = {
   melhorou: "🟢",
@@ -47,13 +31,12 @@ function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
 }
 
-export default function StudentDetailClient({
-  studentId,
-  studentName,
+/** Tela de detalhe — a mesma para aluno e turma, só muda de onde vêm o id/nome/links. */
+export default function PlanTargetDetailClient({
+  target,
   plans,
 }: {
-  studentId: string;
-  studentName: string;
+  target: PlanTarget;
   plans: SupportPlanRow[];
 }) {
   const router = useRouter();
@@ -63,6 +46,11 @@ export default function StudentDetailClient({
   const [checkinOpen, setCheckinOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const novoPlanoHref =
+    target.kind === "aluno"
+      ? `/ferramentas/plano-apoio-aluno/aluno/${target.id}/novo-plano`
+      : `/ferramentas/plano-apoio-aluno/turma/${target.id}/novo-plano`;
 
   function handleClosePlan() {
     if (!activePlan) return;
@@ -84,10 +72,10 @@ export default function StudentDetailClient({
         className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ChevronLeft className="w-4 h-4" />
-        Meus alunos
+        {target.kind === "aluno" ? "Meus alunos" : "Minhas turmas"}
       </Link>
 
-      <h1 className="text-2xl font-bold mb-6">{studentName}</h1>
+      <h1 className="text-2xl font-bold mb-6">{target.name}</h1>
 
       {activePlan ? (
         <div className="space-y-4 mb-8">
@@ -149,7 +137,7 @@ export default function StudentDetailClient({
         </div>
       ) : (
         <Link
-          href={`/ferramentas/plano-apoio-aluno/${studentId}/novo-plano`}
+          href={novoPlanoHref}
           className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] transition-colors min-h-[44px] mb-8"
         >
           <Plus className="w-4 h-4" />

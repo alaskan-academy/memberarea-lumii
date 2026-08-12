@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ChevronLeft, UserPlus } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import type { TeacherStudentRow } from "@/lib/ferramentas/support-plan/actions";
 import StudentCard from "./StudentCard";
 import NovoAlunoModal from "./NovoAlunoModal";
 
-export default function StudentListClient({
+export default function StudentListSection({
   initialStudents,
 }: {
   initialStudents: TeacherStudentRow[];
@@ -16,24 +15,7 @@ export default function StudentListClient({
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-      <Link
-        href="/ferramentas"
-        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-      >
-        <ChevronLeft className="w-4 h-4" />
-        Ferramentas
-      </Link>
-
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Plano Individual de Apoio ao Aluno</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {students.length > 0 ? "Selecione um aluno para ver ou criar um plano" : "Cadastre seu primeiro aluno para começar"}
-          </p>
-        </div>
-      </div>
-
+    <div>
       <button
         type="button"
         onClick={() => setModalOpen(true)}

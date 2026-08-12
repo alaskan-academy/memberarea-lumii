@@ -9,8 +9,19 @@ export type DificuldadePrincipal =
   | "lidar_com_mudancas_rotina"
   | "outro";
 
+// O professor escolhe se o plano é para um aluno específico ou pra turma toda —
+// muda qual conjunto de templates é usado (content.ts vs content-turma.ts) e o
+// fraseado (singular "o aluno" vs coletivo "a turma").
+export type PlanAlvo = "aluno" | "turma";
+
+// Identifica o aluno ou a turma sendo visualizado/editado nas telas — a UI é a
+// mesma para os dois casos, só muda de onde vem o id/nome.
+export type PlanTarget =
+  | { kind: "aluno"; id: string; name: string }
+  | { kind: "turma"; id: string; name: string };
+
 export interface SupportPlanInput {
-  student_id: string;
+  alvo: PlanAlvo;
   dificuldade_principal: DificuldadePrincipal;
   dificuldade_principal_outro?: string; // obrigatório se dificuldade_principal === 'outro'
   tambem_apresenta: string[];
@@ -26,6 +37,22 @@ export interface PlanoGerado {
   se_houver_recusa: string;
   o_que_observar: string;
   sugestao_coordenacao: string | null;
+}
+
+export interface CheckinRow {
+  id: string;
+  status: "melhorou" | "igual" | "piorou";
+  notes: string | null;
+  created_at: string;
+}
+
+export interface SupportPlanRow {
+  id: string;
+  dificuldade_principal: string;
+  status: "ativo" | "encerrado";
+  plano_gerado: PlanoGerado;
+  created_at: string;
+  checkins: CheckinRow[];
 }
 
 /**
@@ -66,10 +93,12 @@ export const TAMBEM_APRESENTA_CHIPS: string[] = [
   "Dificuldade de atenção",
 ];
 
+// Fraseado neutro de propósito — vale tanto para plano de aluno quanto de turma,
+// evita ter que passar `alvo` até aqui só por causa de uma palavra.
 export const NOTA_SUGESTAO_COORDENACAO =
-  "Se essa dificuldade for muito intensa, persistente ou impactar bastante o dia a dia do aluno, vale conversar com a coordenação pedagógica ou orientação escolar.";
+  "Se essa dificuldade for muito intensa, persistente ou impactar bastante o dia a dia em sala, vale conversar com a coordenação pedagógica ou orientação escolar.";
 
 // Fixo, sempre visível em todo plano — diferente de NOTA_SUGESTAO_COORDENACAO,
 // que é opcional (checkbox) e específica daquele plano.
 export const DISCLAIMER_SUPPORT_PLAN =
-  "Este plano é uma sugestão pedagógica geral — não é um diagnóstico nem substitui avaliação profissional. Ajuste sempre com base no que você conhece do aluno.";
+  "Este plano é uma sugestão pedagógica geral — não é um diagnóstico nem substitui avaliação profissional. Ajuste sempre com base no que você conhece da situação.";

@@ -386,6 +386,16 @@ Esse shape é deliberadamente idêntico ao que a versão com IA (Fase 2, seção
 - Tela do aluno (plano ativo + histórico)
 - Modal de check-in
 
+### 6.7 Extensão: plano por turma (adicionado 2026-08-12, a pedido do usuário)
+
+O professor escolhe, na tela de listagem, entre **"Por aluno"** (fluxo original) e **"Por turma"** — mesmo mecanismo (cadastrar → gerar plano → salvar → check-in → histórico), aplicado a uma turma inteira em vez de um aluno específico. Decisões:
+
+- **`teacher_classes`** é uma tabela nova e independente (`id`, `teacher_id`, `name`) — não reaproveita o campo `teacher_students.class_label` (que é só um texto livre por aluno, não uma entidade). `support_plans.student_id` virou nullable e ganhou `class_id` (nullable também), com `CHECK` garantindo XOR — nunca os dois preenchidos, nunca nenhum.
+- **Conteúdo próprio para turma** (`lib/ferramentas/support-plan/content-turma.ts`, 8 templates) — não é o mesmo texto da versão aluno com "o aluno" trocado por "a turma" por substituição de string. É reescrito com estratégias que funcionam em escala (sinal coletivo em vez de combinado 1:1, quadro de rotina fixado na sala em vez de apoio individual), mesma base conceitual documentada no cabeçalho de `content.ts`. `buildSupportPlanDraft` escolhe o conjunto certo pelo novo campo `SupportPlanInput.alvo: "aluno" | "turma"`.
+- **Rotas reestruturadas**: `/ferramentas/plano-apoio-aluno/[studentId]` virou `/aluno/[studentId]` e ganhou irmã `/turma/[classId]` — Next.js não permite dois nomes de segmento dinâmico diferentes (`[studentId]` e `[classId]`) no mesmo nível de rota, por isso o namespace explícito.
+- **UI compartilhada, não duplicada**: `PlanCard`, `PlanSummary`, `EditablePlanFields`, `CheckinModal`, `AutoGrowTextarea`, `SupportPlanForm` já eram agnósticos de alvo (operam só em `planId`/`planoGerado`) — nenhuma mudança. `PlanTargetDetailClient` (ex-`StudentDetailClient`) e `NewPlanFlow`/`PlanResultCard` foram generalizados para receber um `PlanTarget = { kind: "aluno" | "turma"; id; name }` em vez de `studentId`/`studentName`. Só a lista (`StudentListSection` vs `ClassListSection`, sob as abas de `PlanoApoioHub`) e o cadastro (`NovoAlunoModal` vs `NovaTurmaModal`) têm componentes próprios — o formulário de cada um é genuinamente diferente (idade/turma vs só nome).
+- `fetchPlansForTarget(supabase, column, targetId)` (`lib/ferramentas/support-plan/queries.ts`) substitui a query de plano+checkins que existia duplicada — usado pelas duas páginas de detalhe.
+
 ---
 
 ## 7. Onboarding leve de perfil (pai/professor)
@@ -419,7 +429,8 @@ Sem rotas de API — tudo Server Actions, seguindo o padrão do projeto (Zod val
 | `toggleParentScriptFavorite(scriptKey)` | `lib/ferramentas/parent-scripts/actions.ts` | Insere/remove favorito |
 | `logParentScriptView(scriptKey)` | idem | Grava analytics de visualização (fire-and-forget) |
 | `createTeacherStudent(input)` | `lib/ferramentas/support-plan/actions.ts` | Cadastra aluno do professor logado |
-| `saveSupportPlan(studentId, input, planoEditado)` | idem | Grava em `support_plans` |
+| `createTeacherClass(input)` | idem | Cadastra turma do professor logado |
+| `saveSupportPlan(input)` | idem | Grava em `support_plans` — aceita `student_id` OU `class_id` (nunca os dois) |
 | `updateSupportPlan(planId, planoEditado)` | idem | Edita o `plano_gerado` de um plano existente (ativo ou encerrado) |
 | `deleteSupportPlan(planId)` | idem | Exclui o plano (cascade apaga os check-ins) — UI pede confirmação antes |
 | `createCheckin(planId, status, notes)` | idem | Grava em `support_plan_checkins` |
