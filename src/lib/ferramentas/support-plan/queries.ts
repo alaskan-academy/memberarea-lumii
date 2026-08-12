@@ -1,35 +1,16 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect, notFound } from "next/navigation";
-import StudentDetailClient, {
-  type SupportPlanRow,
-  type CheckinRow,
-} from "@/components/ferramentas/support-plan/StudentDetailClient";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { CheckinRow, SupportPlanRow } from "./types";
 
-export default async function StudentDetailPage({
-  params,
-}: {
-  params: Promise<{ studentId: string }>;
-}) {
-  const { studentId } = await params;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: student } = await supabase
-    .from("teacher_students")
-    .select("id, name")
-    .eq("id", studentId)
-    .eq("teacher_id", user.id)
-    .maybeSingle();
-
-  if (!student) notFound();
-
+/** Busca planos + check-ins de um aluno ou turma — mesma consulta, só muda a coluna filtrada. */
+export async function fetchPlansForTarget(
+  supabase: SupabaseClient,
+  column: "student_id" | "class_id",
+  targetId: string
+): Promise<SupportPlanRow[]> {
   const { data: plansRaw } = await supabase
     .from("support_plans")
     .select("id, dificuldade_principal, status, plano_gerado, created_at")
-    .eq("student_id", studentId)
+    .eq(column, targetId)
     .order("created_at", { ascending: false });
 
   const planIds = (plansRaw ?? []).map((p) => p.id);
@@ -54,7 +35,7 @@ export default async function StudentDetailPage({
     checkinsByPlan.set(c.support_plan_id, list);
   }
 
-  const plans: SupportPlanRow[] = (plansRaw ?? []).map((p) => ({
+  return (plansRaw ?? []).map((p) => ({
     id: p.id,
     dificuldade_principal: p.dificuldade_principal,
     status: p.status as SupportPlanRow["status"],
@@ -62,6 +43,4 @@ export default async function StudentDetailPage({
     created_at: p.created_at,
     checkins: checkinsByPlan.get(p.id) ?? [],
   }));
-
-  return <StudentDetailClient studentId={student.id} studentName={student.name} plans={plans} />;
 }

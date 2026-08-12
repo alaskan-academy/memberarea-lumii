@@ -1,4 +1,5 @@
 import { SUPPORT_PLAN_TEMPLATES } from "./content";
+import { SUPPORT_PLAN_TEMPLATES_TURMA } from "./content-turma";
 import { NOTA_SUGESTAO_COORDENACAO } from "./types";
 import type { PlanoGerado, SupportPlanInput } from "./types";
 
@@ -11,9 +12,8 @@ import type { PlanoGerado, SupportPlanInput } from "./types";
  * e o formato de retorno (PlanoGerado) não precisam mudar.
  */
 export function buildSupportPlanDraft(input: SupportPlanInput): PlanoGerado {
-  const template = SUPPORT_PLAN_TEMPLATES.find(
-    (t) => t.dificuldade_principal === input.dificuldade_principal
-  );
+  const templates = input.alvo === "turma" ? SUPPORT_PLAN_TEMPLATES_TURMA : SUPPORT_PLAN_TEMPLATES;
+  const template = templates.find((t) => t.dificuldade_principal === input.dificuldade_principal);
   const sugestao_coordenacao = input.sugerir_coordenacao ? NOTA_SUGESTAO_COORDENACAO : null;
 
   if (!template) {

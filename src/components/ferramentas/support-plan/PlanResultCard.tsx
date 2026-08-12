@@ -6,18 +6,19 @@ import { XCircle } from "lucide-react";
 import {
   DISCLAIMER_SUPPORT_PLAN,
   type PlanoGerado,
+  type PlanTarget,
   type SupportPlanInput,
 } from "@/lib/ferramentas/support-plan/types";
 import { saveSupportPlan } from "@/lib/ferramentas/support-plan/actions";
 import EditablePlanFields from "./EditablePlanFields";
 
 export default function PlanResultCard({
-  studentId,
+  target,
   input,
   draft,
 }: {
-  studentId: string;
-  input: Omit<SupportPlanInput, "student_id">;
+  target: PlanTarget;
+  input: SupportPlanInput;
   draft: PlanoGerado;
 }) {
   const router = useRouter();
@@ -29,7 +30,8 @@ export default function PlanResultCard({
     setError(null);
     startTransition(async () => {
       const res = await saveSupportPlan({
-        student_id: studentId,
+        student_id: target.kind === "aluno" ? target.id : undefined,
+        class_id: target.kind === "turma" ? target.id : undefined,
         dificuldade_principal: input.dificuldade_principal,
         dificuldade_principal_outro: input.dificuldade_principal_outro,
         tambem_apresenta: input.tambem_apresenta,
@@ -41,7 +43,11 @@ export default function PlanResultCard({
         setError(res.error);
         return;
       }
-      router.push(`/ferramentas/plano-apoio-aluno/${studentId}`);
+      router.push(
+        target.kind === "aluno"
+          ? `/ferramentas/plano-apoio-aluno/aluno/${target.id}`
+          : `/ferramentas/plano-apoio-aluno/turma/${target.id}`
+      );
     });
   }
 
@@ -49,7 +55,8 @@ export default function PlanResultCard({
     <div className="lumii-card p-5 sm:p-6 space-y-5">
       <p className="text-xs text-muted-foreground bg-muted/40 px-3 py-2 rounded-lg">
         Revise e ajuste o texto abaixo antes de salvar — ele já considera a dificuldade
-        selecionada, mas você conhece o aluno melhor que qualquer modelo pronto.
+        selecionada, mas você conhece {target.kind === "turma" ? "a turma" : "o aluno"} melhor
+        que qualquer modelo pronto.
       </p>
 
       <EditablePlanFields plano={plano} onChange={setPlano} />

@@ -5,7 +5,7 @@ import type { TeacherStudentRow } from "@/lib/ferramentas/support-plan/actions";
 export default function StudentCard({ student }: { student: TeacherStudentRow }) {
   return (
     <Link
-      href={`/ferramentas/plano-apoio-aluno/${student.id}`}
+      href={`/ferramentas/plano-apoio-aluno/aluno/${student.id}`}
       className="lumii-card p-4 flex items-center gap-3 hover:shadow-md transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]"
     >
       <div className="w-10 h-10 rounded-full bg-[#f6614f]/10 flex items-center justify-center shrink-0">
