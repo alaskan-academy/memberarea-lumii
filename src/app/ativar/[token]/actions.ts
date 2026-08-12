@@ -19,6 +19,49 @@ const ActivateSchema = z.object({
 
 export type ActivateResult = { error?: string; success?: boolean };
 
+// Concede matrícula em TODOS os cursos com token pendente para o e-mail — não só
+// no curso do token clicado, já que uma compra pode ter gerado vários tokens
+// (um por curso) e a aluna só precisa clicar em um deles para liberar tudo.
+// Nome diferente do grantPendingEnrollments em (auth)/actions.ts de propósito:
+// aquele não filtra por expires_at (compra vale mesmo com link vencido, no
+// fluxo de login/cadastro); este filtra, porque já estamos dentro do fluxo de
+// um token específico e a validade do link é a regra central desta rota.
+async function grantAllPendingEnrollments(
+  service: ReturnType<typeof createServiceClient>,
+  emailLower: string,
+  userId: string
+): Promise<void> {
+  const { data: pendingTokens } = await service
+    .from("activation_tokens")
+    .select("token, course_id")
+    .eq("email", emailLower)
+    .eq("used", false)
+    .gt("expires_at", new Date().toISOString());
+
+  if (pendingTokens?.length) {
+    await Promise.all(
+      pendingTokens.map((t) =>
+        service.from("enrollments").upsert(
+          {
+            user_id: userId,
+            course_id: t.course_id,
+            source: "payt",
+            granted_at: new Date().toISOString(),
+            expires_at: null,
+          },
+          { onConflict: "user_id,course_id" }
+        )
+      )
+    );
+  }
+
+  await service
+    .from("activation_tokens")
+    .update({ used: true })
+    .eq("email", emailLower)
+    .eq("used", false);
+}
+
 export async function validateToken(
   token: string
 ): Promise<{ email?: string; defaultName?: string; defaultPhone?: string; error?: string }> {
@@ -69,26 +112,19 @@ export async function activateAccount(
   }
 
   const email = tokenRow.email;
-
-  // Verifica se já tem conta (comparação case-insensitive)
-  const { data: existing } = await service.auth.admin.listUsers();
   const emailLower = email.toLowerCase();
-  const alreadyExists = existing?.users?.some(
-    (u) => u.email?.toLowerCase() === emailLower
-  );
 
-  if (alreadyExists) {
-    // Conta já existe — concede a matrícula pendente e marca token como usado
-    const existingUser = existing.users.find(
-      (u) => u.email?.toLowerCase() === emailLower
-    );
-    if (existingUser && tokenRow.course_id) {
-      await service.from("enrollments").upsert(
-        { user_id: existingUser.id, course_id: tokenRow.course_id, source: "payt", granted_at: new Date().toISOString(), expires_at: null },
-        { onConflict: "user_id,course_id" }
-      );
-    }
-    await service.from("activation_tokens").update({ used: true }).eq("token", parsed.data.token);
+  // Verifica se já tem conta — lookup direto em profiles (listUsers() retorna só
+  // 50 usuários por padrão e falha silenciosamente com a base maior)
+  const { data: existingProfile } = await service
+    .from("profiles")
+    .select("id")
+    .ilike("email", emailLower)
+    .maybeSingle();
+
+  if (existingProfile) {
+    // Conta já existe — concede todas as matrículas pendentes e marca os tokens como usados
+    await grantAllPendingEnrollments(service, emailLower, existingProfile.id);
     return { error: "Você já possui uma conta com este e-mail. Faça login para acessar seu curso." };
   }
 
@@ -146,25 +182,9 @@ export async function activateAccount(
 
   await service.from("profiles").update(profileUpdate).eq("id", userId);
 
-  // Concede matrícula pendente
-  if (tokenRow.course_id) {
-    await service.from("enrollments").upsert(
-      {
-        user_id: userId,
-        course_id: tokenRow.course_id,
-        source: "payt",
-        granted_at: new Date().toISOString(),
-        expires_at: null,
-      },
-      { onConflict: "user_id,course_id" }
-    );
-  }
-
-  // Marca token como usado
-  await service
-    .from("activation_tokens")
-    .update({ used: true })
-    .eq("token", parsed.data.token);
+  // Concede todas as matrículas pendentes (não só a do token clicado) e marca
+  // todos os tokens do e-mail como usados
+  await grantAllPendingEnrollments(service, emailLower, userId);
 
   // Boas-vindas
   sendWelcomeEmail({
