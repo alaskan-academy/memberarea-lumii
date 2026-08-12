@@ -1,4 +1,4 @@
-# Plano — Ferramentas MVP (Fase 1): "O que eu digo agora?" + "Plano Individual de Apoio ao Aluno"
+# Plano — Ferramentas MVP (Fase 1): "O que eu digo agora?" + "Plano de Apoio"
 
 > Documento de referência para implementação das duas primeiras Ferramentas da Lumii.
 > Não alterar nenhum arquivo de código sem consultar este plano.
@@ -15,7 +15,7 @@ A seção **Ferramentas** ainda não existe no produto — este é o primeiro ma
 Duas ferramentas neste MVP:
 
 1. **"O que eu digo agora?"** — pais, assistente de conversas difíceis. Conteúdo 100% estático.
-2. **"Plano Individual de Apoio ao Aluno"** — professores, plano de ação recorrente por aluno com histórico. Conteúdo estático no MVP (ver decisão abaixo), IA fica para Fase 2.
+2. **"Plano de Apoio"** — professores, plano de ação recorrente por aluno **ou por turma** com histórico (ver seção 6.7). Conteúdo estático no MVP (ver decisão abaixo), IA fica para Fase 2.
 
 A Ferramenta 2 é a prioridade estratégica de retenção: diferente de um gerador pontual, ela acumula histórico por aluno e faz o professor voltar (check-in, novo plano). Esse mecanismo de retenção **não depende de IA** — depende do ciclo cadastrar → gerar → salvar → voltar para check-in, que funciona igual com conteúdo estático ou gerado.
 
@@ -73,7 +73,7 @@ create table public.parent_script_favorites (
 );
 
 -- ══════════════════════════════════════════════════════════════════
--- FERRAMENTA 2: "Plano Individual de Apoio ao Aluno"
+-- FERRAMENTA 2: "Plano de Apoio"
 -- Conteúdo-base estático em lib/ferramentas/support-plan/content.ts (8 templates,
 -- um por dificuldade_principal). plano_gerado grava o resultado (editado ou não)
 -- em jsonb — schema pensado para não mudar quando a Fase 2 trocar por IA.
@@ -271,7 +271,7 @@ interface ParentScriptEntry {
 
 ---
 
-## 6. Ferramenta 2 — "Plano Individual de Apoio ao Aluno"
+## 6. Ferramenta 2 — "Plano de Apoio" (ex-"Plano Individual de Apoio ao Aluno", renomeado 2026-08-12 ao ganhar o modo turma)
 
 ### 6.1 Fluxo do usuário
 1. Professor abre a ferramenta a partir do hub.

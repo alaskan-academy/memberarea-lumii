@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import {
   DIFICULDADES,
   TAMBEM_APRESENTA_CHIPS,
+  TAMBEM_APRESENTA_CHIPS_TURMA,
   type DificuldadePrincipal,
   type PlanAlvo,
   type SupportPlanInput,
@@ -32,6 +33,7 @@ export default function SupportPlanForm({
   }
 
   const podeGerar = !!dificuldade && (dificuldade !== "outro" || outro.trim().length > 0);
+  const chips = alvo === "turma" ? TAMBEM_APRESENTA_CHIPS_TURMA : TAMBEM_APRESENTA_CHIPS;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -50,7 +52,9 @@ export default function SupportPlanForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="text-sm font-semibold mb-2 block">Qual a dificuldade principal?</label>
+        <label className="text-sm font-semibold mb-2 block">
+          Qual a dificuldade principal {alvo === "turma" ? "da turma" : "do aluno"}?
+        </label>
         <div className="grid grid-cols-2 gap-2">
           {DIFICULDADES.map((d) => (
             <button
@@ -83,7 +87,7 @@ export default function SupportPlanForm({
           Também apresenta <span className="text-muted-foreground font-normal">(opcional)</span>
         </label>
         <div className="flex flex-wrap gap-1.5">
-          {TAMBEM_APRESENTA_CHIPS.map((chip) => (
+          {chips.map((chip) => (
             <button
               key={chip}
               type="button"

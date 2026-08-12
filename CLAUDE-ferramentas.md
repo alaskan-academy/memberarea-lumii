@@ -8,7 +8,7 @@
 Primeiras duas Ferramentas da Lumii — seção nova, não existia nada antes:
 
 - **"O que eu digo agora?"** (`/ferramentas/o-que-eu-digo-agora`) — pais, script de conversa por situação + idade
-- **"Plano Individual de Apoio ao Aluno"** (`/ferramentas/plano-apoio-aluno`) — professores, plano de ação por aluno com histórico e check-ins
+- **"Plano de Apoio"** (`/ferramentas/plano-apoio-aluno`, ex-"Plano Individual de Apoio ao Aluno" — renomeado ao ganhar o modo turma) — professores, plano de ação por aluno **ou por turma**, com histórico e check-ins
 
 ## Regra crítica: nenhuma das duas usa IA no MVP
 
