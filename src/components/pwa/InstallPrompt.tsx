@@ -11,7 +11,11 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+// Permanente (localStorage) — aluna dispensou explicitamente, nunca mais mostrar.
 const DISMISSED_KEY = "pwa-install-dismissed";
+// Por sessão (sessionStorage, some ao fechar a aba/app) — evita mostrar de novo
+// a cada navegação dentro da mesma visita/login, mesmo sem dispensa explícita.
+const SHOWN_SESSION_KEY = "pwa-install-shown-session";
 
 function isRunningAsPWA() {
   if (typeof window === "undefined") return true;
@@ -20,6 +24,21 @@ function isRunningAsPWA() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (navigator as any).standalone === true
   );
+}
+
+// Checagem extra de instalação prévia (Chrome/Android com suporte à API) — não
+// existe equivalente no iOS Safari, que nunca expõe se o app já foi instalado
+// fora do contexto de ter sido aberto pelo ícone (isRunningAsPWA já cobre isso).
+async function isAlreadyInstalledElsewhere(): Promise<boolean> {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const nav = navigator as any;
+    if (typeof nav.getInstalledRelatedApps !== "function") return false;
+    const related = await nav.getInstalledRelatedApps();
+    return Array.isArray(related) && related.length > 0;
+  } catch {
+    return false;
+  }
 }
 
 function detectPlatform(): Platform {
@@ -38,23 +57,40 @@ export default function InstallPrompt() {
   useEffect(() => {
     if (isRunningAsPWA()) return;
     if (localStorage.getItem(DISMISSED_KEY)) return;
+    if (sessionStorage.getItem(SHOWN_SESSION_KEY)) return;
 
-    const detected = detectPlatform();
-    setPlatform(detected);
+    let cancelled = false;
+    let removeListener: (() => void) | undefined;
 
-    function handleBeforeInstall(e: Event) {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    function show() {
+      // Marca como mostrado já ao exibir, não só ao dispensar — se a aluna só
+      // fechar a aba sem clicar em nada, não volta a aparecer na mesma sessão.
+      sessionStorage.setItem(SHOWN_SESSION_KEY, "1");
       setVisible(true);
     }
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+    isAlreadyInstalledElsewhere().then((installed) => {
+      if (installed || cancelled) return;
 
-    if (detected === "ios") {
-      setVisible(true);
-    }
+      const detected = detectPlatform();
+      setPlatform(detected);
 
-    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      function handleBeforeInstall(e: Event) {
+        e.preventDefault();
+        setDeferredPrompt(e as BeforeInstallPromptEvent);
+        show();
+      }
+
+      window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+      removeListener = () => window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+
+      if (detected === "ios") show();
+    });
+
+    return () => {
+      cancelled = true;
+      removeListener?.();
+    };
   }, []);
 
   function dismiss() {
@@ -66,7 +102,10 @@ export default function InstallPrompt() {
     if (!deferredPrompt) return;
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") setVisible(false);
+    if (outcome === "accepted") {
+      localStorage.setItem(DISMISSED_KEY, "1");
+      setVisible(false);
+    }
     setDeferredPrompt(null);
   }
 
