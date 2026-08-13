@@ -244,13 +244,29 @@ export async function getComments(postId: string): Promise<InspiracaoComment[]> 
     .order('created_at', { ascending: true })
 
   if (error) throw error
-  return (data ?? []) as InspiracaoComment[]
+  const all = (data ?? []) as InspiracaoComment[]
+
+  // Aninha respostas (parent_id) sob o comentário de topo — só chegam aqui
+  // aprovadas, já que o filtro approved=true acima cobre as duas camadas.
+  const repliesByParent = new Map<string, InspiracaoComment[]>()
+  for (const c of all) {
+    if (c.parent_id) {
+      const list = repliesByParent.get(c.parent_id) ?? []
+      list.push(c)
+      repliesByParent.set(c.parent_id, list)
+    }
+  }
+
+  return all
+    .filter((c) => !c.parent_id)
+    .map((c) => ({ ...c, replies: repliesByParent.get(c.id) ?? [] }))
 }
 
 export async function submitComment(
   userId: string,
   postId: string,
-  body: string
+  body: string,
+  parentId?: string
 ): Promise<{ error?: string }> {
   const supabase = await createClient()
 
@@ -258,12 +274,21 @@ export async function submitComment(
   if (trimmed.length < 2) return { error: 'Comentário muito curto.' }
   if (trimmed.length > 2000) return { error: 'Comentário muito longo.' }
 
-  const { error } = await supabase.from('inspiration_comments').insert({
+  const record: {
+    post_id: string
+    user_id: string
+    body: string
+    approved: boolean
+    parent_id?: string
+  } = {
     post_id: postId,
     user_id: userId,
     body: trimmed,
     approved: false,
-  })
+  }
+  if (parentId) record.parent_id = parentId
+
+  const { error } = await supabase.from('inspiration_comments').insert(record)
 
   if (error) return { error: error.message }
   return {}
@@ -388,7 +413,35 @@ export async function adminGetPendingCommentsCount(): Promise<number> {
 
 export async function adminApproveComment(id: string, approved: boolean): Promise<void> {
   const supabase = createServiceClient()
+
+  const { data: comment } = await supabase
+    .from('inspiration_comments')
+    .select('parent_id, user_id, body')
+    .eq('id', id)
+    .single()
+
   await supabase.from('inspiration_comments').update({ approved }).eq('id', id)
+
+  // Notifica quem recebeu a resposta — nunca notifica a própria autora
+  if (approved && comment?.parent_id) {
+    const { data: parent } = await supabase
+      .from('inspiration_comments')
+      .select('user_id')
+      .eq('id', comment.parent_id)
+      .single()
+
+    if (parent && parent.user_id !== comment.user_id) {
+      await supabase.from('notifications').insert({
+        user_id: parent.user_id,
+        type: 'comment_reply',
+        title: 'Alguém respondeu ao seu comentário',
+        body: comment.body.slice(0, 80),
+        link: '/inspiracoes',
+        read: false,
+      })
+    }
+  }
+
   revalidatePath('/inspiracoes')
   revalidatePath('/admin/inspiracoes/comentarios')
 }
