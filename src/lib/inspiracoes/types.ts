@@ -85,6 +85,8 @@ export interface InspiracaoComment {
   body: string
   approved: boolean
   created_at: string
+  parent_id?: string | null
+  replies?: InspiracaoComment[]  // populado em getComments, não vem do banco
   profiles?: {
     full_name: string | null
     avatar_url: string | null
