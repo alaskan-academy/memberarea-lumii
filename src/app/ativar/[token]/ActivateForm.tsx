@@ -24,10 +24,12 @@ function useBirthDateMask() {
 }
 
 function PasswordInput({
+  id,
   name,
   placeholder,
   required,
 }: {
+  id?: string;
   name: string;
   placeholder: string;
   required?: boolean;
@@ -36,6 +38,7 @@ function PasswordInput({
   return (
     <div className="relative">
       <input
+        id={id}
         name={name}
         type={show ? "text" : "password"}
         placeholder={placeholder}
@@ -128,10 +131,11 @@ export default function ActivateForm({
 
           {/* Nome completo */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground">
+            <label htmlFor="activate-full-name" className="text-sm font-medium text-foreground">
               Nome completo <span className="text-red-500">*</span>
             </label>
             <input
+              id="activate-full-name"
               name="full_name"
               type="text"
               placeholder="Maria Silva"
@@ -147,9 +151,9 @@ export default function ActivateForm({
 
           {/* E-mail bloqueado */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground">
+            <p className="text-sm font-medium text-foreground">
               E-mail
-            </label>
+            </p>
             <div className="flex items-center gap-2 border border-border rounded-lg px-3 py-2.5 bg-muted/40">
               <Lock className="w-4 h-4 text-muted-foreground shrink-0" />
               <span className="text-sm text-foreground flex-1">{email}</span>
@@ -161,27 +165,28 @@ export default function ActivateForm({
 
           {/* Senha */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground">
+            <label htmlFor="activate-password" className="text-sm font-medium text-foreground">
               Criar senha <span className="text-red-500">*</span>
             </label>
-            <PasswordInput name="password" placeholder="Mínimo 8 caracteres" required />
+            <PasswordInput id="activate-password" name="password" placeholder="Mínimo 8 caracteres" required />
           </div>
 
           {/* Confirmar senha */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground">
+            <label htmlFor="activate-confirm-password" className="text-sm font-medium text-foreground">
               Confirmar senha <span className="text-red-500">*</span>
             </label>
-            <PasswordInput name="confirm_password" placeholder="Repita a senha" required />
+            <PasswordInput id="activate-confirm-password" name="confirm_password" placeholder="Repita a senha" required />
           </div>
 
           {/* Telefone / WhatsApp */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground flex items-center gap-1.5">
+            <label htmlFor="activate-phone" className="text-sm font-medium text-foreground flex items-center gap-1.5">
               <Phone className="w-4 h-4 text-[#f6614f]" />
               WhatsApp
             </label>
             <input
+              id="activate-phone"
               name="phone"
               type="tel"
               placeholder="(11) 99999-9999"
@@ -197,12 +202,13 @@ export default function ActivateForm({
 
           {/* Data de nascimento */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-foreground flex items-center gap-1.5">
+            <label htmlFor="activate-birth-date" className="text-sm font-medium text-foreground flex items-center gap-1.5">
               <Cake className="w-4 h-4 text-[#f6614f]" />
               Data de nascimento
               <span className="text-muted-foreground font-normal text-xs ml-1">(opcional)</span>
             </label>
             <input
+              id="activate-birth-date"
               type="text"
               inputMode="numeric"
               placeholder="DD/MM/AAAA"
@@ -220,7 +226,7 @@ export default function ActivateForm({
 
           {/* Erro */}
           {state?.error && (
-            <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">
+            <p role="alert" className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">
               {state.error}
             </p>
           )}

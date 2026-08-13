@@ -197,6 +197,7 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
               </div>
               <button
                 onClick={() => setDrawerOpen(false)}
+                aria-label="Fechar menu"
                 className="p-1.5 rounded-lg text-foreground/40 hover:text-foreground hover:bg-muted transition-colors"
               >
                 <X className="w-5 h-5" />

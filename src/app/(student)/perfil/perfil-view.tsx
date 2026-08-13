@@ -370,14 +370,18 @@ function ProfileSection({
 
         <div className="flex-1 min-w-0">
           {editing ? (
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Seu nome completo"
-              className="w-full text-xl font-bold bg-transparent border-b border-[#f6614f]/50 focus:border-[#f6614f] outline-none pb-0.5 placeholder:text-muted-foreground/50"
-              autoFocus
-            />
+            <>
+              <label htmlFor="perfil-full-name" className="sr-only">Nome completo</label>
+              <input
+                id="perfil-full-name"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Seu nome completo"
+                className="w-full text-xl font-bold bg-transparent border-b border-[#f6614f]/50 focus:border-[#f6614f] outline-none pb-0.5 placeholder:text-muted-foreground/50"
+                autoFocus
+              />
+            </>
           ) : (
             <h1 className="text-xl font-bold truncate">
               {profile?.full_name ?? "—"}
@@ -401,14 +405,18 @@ function ProfileSection({
 
       {/* Bio */}
       {editing ? (
-        <textarea
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          placeholder="Uma breve descrição sobre você…"
-          rows={3}
-          maxLength={300}
-          className="w-full text-sm text-muted-foreground bg-muted/50 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#f6614f]/50 placeholder:text-muted-foreground/50"
-        />
+        <>
+          <label htmlFor="perfil-bio" className="sr-only">Bio</label>
+          <textarea
+            id="perfil-bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            placeholder="Uma breve descrição sobre você…"
+            rows={3}
+            maxLength={300}
+            className="w-full text-sm text-muted-foreground bg-muted/50 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#f6614f]/50 placeholder:text-muted-foreground/50"
+          />
+        </>
       ) : profile?.bio ? (
         <p className="text-sm text-muted-foreground leading-relaxed">{profile.bio}</p>
       ) : null}
@@ -416,7 +424,7 @@ function ProfileSection({
       {/* Ações de edição */}
       {editing && (
         <div className="space-y-2">
-          {error && <p className="text-xs text-red-500">{error}</p>}
+          {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
           <div className="flex gap-2">
             <button
               onClick={handleSave}
@@ -650,7 +658,7 @@ function CertificateCard({ cert }: { cert: Certificate }) {
             {cert.course?.workload_hours ?? 0}h · Emitido em {formattedDate}
           </p>
           {error && (
-            <p className="text-xs text-red-500 mt-1">Erro ao gerar link. Tente novamente.</p>
+            <p role="alert" className="text-xs text-red-500 mt-1">Erro ao gerar link. Tente novamente.</p>
           )}
         </div>
       </div>
@@ -756,6 +764,7 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
             <button
               role="switch"
               aria-checked={current[key]}
+              aria-label={label}
               onClick={() => toggle(key)}
               className={cn(
                 "relative shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f] focus-visible:ring-offset-2",
@@ -856,14 +865,15 @@ function ChangePasswordSection() {
           ) : (
             <>
               {error && (
-                <p className="text-xs text-red-500">{error}</p>
+                <p role="alert" className="text-xs text-red-500">{error}</p>
               )}
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                <label htmlFor="perfil-senha-atual" className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   Senha atual
                 </label>
                 <input
+                  id="perfil-senha-atual"
                   type="password"
                   value={currentPwd}
                   onChange={(e) => setCurrentPwd(e.target.value)}
@@ -875,10 +885,11 @@ function ChangePasswordSection() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                <label htmlFor="perfil-nova-senha" className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   Nova senha
                 </label>
                 <input
+                  id="perfil-nova-senha"
                   type="password"
                   value={newPwd}
                   onChange={(e) => setNewPwd(e.target.value)}
@@ -890,10 +901,11 @@ function ChangePasswordSection() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                <label htmlFor="perfil-confirmar-nova-senha" className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   Confirmar nova senha
                 </label>
                 <input
+                  id="perfil-confirmar-nova-senha"
                   type="password"
                   value={confirmPwd}
                   onChange={(e) => setConfirmPwd(e.target.value)}

@@ -100,7 +100,7 @@ export default function CheckinModal({
           className="mb-4"
         />
 
-        {error && <p className="text-xs text-red-500 mb-3">{error}</p>}
+        {error && <p role="alert" className="text-xs text-red-500 mb-3">{error}</p>}
 
         <button
           type="button"

@@ -174,7 +174,7 @@ function ItemForm({
       </div>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 rounded-md px-3 py-2">{error}</p>
+        <p role="alert" className="text-sm text-red-600 bg-red-50 rounded-md px-3 py-2">{error}</p>
       )}
 
       <div className="flex justify-end gap-2 pt-2">

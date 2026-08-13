@@ -57,13 +57,13 @@ export default async function AdminInspComentariosPage() {
           <div className="flex gap-1.5 shrink-0">
             {showApprove && (
               <form action={approve.bind(null, c.id)}>
-                <button title="Aprovar" className="p-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
+                <button title="Aprovar" aria-label="Aprovar comentário" className="p-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
                   <Check className="w-3.5 h-3.5" />
                 </button>
               </form>
             )}
             <form action={reject.bind(null, c.id)}>
-              <button title="Excluir" className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+              <button title="Excluir" aria-label="Excluir comentário" className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
             </form>

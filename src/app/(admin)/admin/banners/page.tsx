@@ -133,6 +133,7 @@ export default async function BannersPage() {
                         b.active ? "bg-[#f6614f]" : "bg-muted-foreground/30"
                       )}
                       title={b.active ? "Desativar" : "Ativar"}
+                      aria-label={b.active ? "Desativar" : "Ativar"}
                     >
                       <span
                         className={cn(

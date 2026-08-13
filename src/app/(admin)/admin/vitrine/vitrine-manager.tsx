@@ -232,8 +232,9 @@ function ShowcaseCard({
       {/* Campos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">ID do vídeo de vendas (Panda)</label>
+          <label htmlFor={`vitrine-sales-video-${course.id}`} className="text-xs font-medium text-muted-foreground">ID do vídeo de vendas (Panda)</label>
           <input
+            id={`vitrine-sales-video-${course.id}`}
             type="text"
             value={salesVideo}
             onChange={(e) => setSalesVideo(e.target.value)}
@@ -242,8 +243,9 @@ function ShowcaseCard({
           />
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Link de checkout (Payt)</label>
+          <label htmlFor={`vitrine-checkout-url-${course.id}`} className="text-xs font-medium text-muted-foreground">Link de checkout (Payt)</label>
           <input
+            id={`vitrine-checkout-url-${course.id}`}
             type="url"
             value={checkoutUrl}
             onChange={(e) => setCheckoutUrl(e.target.value)}

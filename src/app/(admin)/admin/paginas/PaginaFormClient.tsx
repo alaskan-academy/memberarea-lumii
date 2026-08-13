@@ -78,7 +78,7 @@ export default function PaginaFormClient({
     <div className="space-y-6 max-w-4xl mx-auto">
 
       {error && (
-        <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+        <div role="alert" className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
           {error}
         </div>
       )}
@@ -88,10 +88,11 @@ export default function PaginaFormClient({
 
         {/* Título */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-semibold text-foreground/60 uppercase tracking-wide">
+          <label htmlFor="pagina-title" className="block text-xs font-semibold text-foreground/60 uppercase tracking-wide">
             Título da página
           </label>
           <input
+            id="pagina-title"
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Ex: Termos de Uso"
@@ -102,12 +103,13 @@ export default function PaginaFormClient({
 
         {/* Slug */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-semibold text-foreground/60 uppercase tracking-wide">
+          <label htmlFor="pagina-slug" className="block text-xs font-semibold text-foreground/60 uppercase tracking-wide">
             Slug (URL)
           </label>
           <div className="flex items-center gap-2">
             <span className="text-xs text-foreground/40 whitespace-nowrap shrink-0">/p/</span>
             <input
+              id="pagina-slug"
               value={slug}
               onChange={(e) => { setSlug(slugify(e.target.value)); setSlugManual(true); }}
               placeholder="termos-de-uso"
@@ -143,9 +145,9 @@ export default function PaginaFormClient({
       {/* Conteúdo HTML */}
       <div className="bg-white rounded-xl border border-border/60 shadow-sm">
         <div className="flex items-center justify-between px-5 py-3 border-b border-border/40">
-          <p className="text-xs font-semibold text-foreground/60 uppercase tracking-wide">
+          <label htmlFor="pagina-content" className="text-xs font-semibold text-foreground/60 uppercase tracking-wide">
             Conteúdo (HTML)
-          </p>
+          </label>
           <button
             onClick={() => setPreview((v) => !v)}
             className="flex items-center gap-1.5 text-xs text-foreground/50 hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-muted"
@@ -162,6 +164,7 @@ export default function PaginaFormClient({
           />
         ) : (
           <textarea
+            id="pagina-content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="<h2>Título</h2><p>Conteúdo da página...</p>"

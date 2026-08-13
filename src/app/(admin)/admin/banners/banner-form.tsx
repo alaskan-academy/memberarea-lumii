@@ -68,7 +68,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
   return (
     <form action={formAction} className="lumii-card p-6 space-y-5" encType="multipart/form-data">
       {state.error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+        <div role="alert" className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
           {state.error}
         </div>
       )}
@@ -80,8 +80,9 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
 
       {/* Título */}
       <div>
-        <label className="block text-sm font-medium mb-1.5">Título (interno) *</label>
+        <label htmlFor="banner-title" className="block text-sm font-medium mb-1.5">Título (interno) *</label>
         <input
+          id="banner-title"
           name="title"
           required
           defaultValue={banner?.title}
@@ -112,6 +113,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
               onClick={clearImage}
               className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
               title="Remover imagem"
+              aria-label="Remover imagem"
             >
               <X className="w-4 h-4" />
             </button>
@@ -159,8 +161,9 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
 
       {/* URL de destino */}
       <div>
-        <label className="block text-sm font-medium mb-1.5">URL de destino *</label>
+        <label htmlFor="banner-link_url" className="block text-sm font-medium mb-1.5">URL de destino *</label>
         <input
+          id="banner-link_url"
           name="link_url"
           type="url"
           required
@@ -172,8 +175,9 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
 
       {/* Slot */}
       <div>
-        <label className="block text-sm font-medium mb-1.5">Posição *</label>
+        <label htmlFor="banner-position_slot" className="block text-sm font-medium mb-1.5">Posição *</label>
         <select
+          id="banner-position_slot"
           name="position_slot"
           required
           defaultValue={banner?.position_slot ?? "header"}
@@ -222,8 +226,9 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
       {/* Vigência */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1.5">Início (opcional)</label>
+          <label htmlFor="banner-starts_at" className="block text-sm font-medium mb-1.5">Início (opcional)</label>
           <input
+            id="banner-starts_at"
             name="starts_at"
             type="date"
             defaultValue={toDateInput(banner?.starts_at)}
@@ -231,8 +236,9 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1.5">Fim (opcional)</label>
+          <label htmlFor="banner-ends_at" className="block text-sm font-medium mb-1.5">Fim (opcional)</label>
           <input
+            id="banner-ends_at"
             name="ends_at"
             type="date"
             defaultValue={toDateInput(banner?.ends_at)}

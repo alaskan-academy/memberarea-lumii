@@ -112,7 +112,7 @@ export default function PlanCard({
         )}
       </div>
 
-      {error && <p className="text-xs text-red-500 mb-3">{error}</p>}
+      {error && <p role="alert" className="text-xs text-red-500 mb-3">{error}</p>}
 
       {editing ? (
         <EditablePlanFields plano={draft} onChange={setDraft} />

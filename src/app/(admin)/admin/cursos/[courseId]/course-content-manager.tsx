@@ -53,12 +53,14 @@ function ModuleForm({ courseId, initial, onSave, onCancel, moduleId, nextPositio
     });
   }
 
+  const idPrefix = moduleId ?? "new-module";
+
   return (
     <form onSubmit={handleSubmit} className="flex items-end gap-2 flex-wrap">
-      {error && <p className="w-full text-sm text-red-600">{error}</p>}
+      {error && <p role="alert" className="w-full text-sm text-red-600">{error}</p>}
       <div className="flex-1 min-w-0 space-y-1">
-        <label className="text-xs font-medium text-muted-foreground">Título do módulo *</label>
-        <input name="title" required defaultValue={initial?.title ?? ""}
+        <label htmlFor={`module-title-${idPrefix}`} className="text-xs font-medium text-muted-foreground">Título do módulo *</label>
+        <input id={`module-title-${idPrefix}`} name="title" required defaultValue={initial?.title ?? ""}
           placeholder="Ex: Módulo 1 — Introdução"
           className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background" />
       </div>
@@ -163,22 +165,24 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
     });
   }
 
+  const idPrefix = lessonId ?? `new-${moduleId}`;
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4 pl-4 border-l-2 border-[#f6614f]/20">
-      {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-1.5 rounded-lg">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-1.5 rounded-lg">{error}</p>}
 
       {/* Título e duração */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Título *</label>
-          <input name="title" required
+          <label htmlFor={`lesson-title-${idPrefix}`} className="text-xs font-medium text-muted-foreground">Título *</label>
+          <input id={`lesson-title-${idPrefix}`} name="title" required
             defaultValue={initial?.title ?? ""}
             placeholder="Título da aula"
             className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background" />
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Duração (minutos)</label>
-          <input name="duration_minutes" type="number" min="0"
+          <label htmlFor={`lesson-duration-${idPrefix}`} className="text-xs font-medium text-muted-foreground">Duração (minutos)</label>
+          <input id={`lesson-duration-${idPrefix}`} name="duration_minutes" type="number" min="0"
             defaultValue={initial?.duration_seconds ? Math.round(initial.duration_seconds / 60) : 0}
             className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background" />
         </div>
@@ -201,11 +205,12 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
       {/* Atalho de vídeo — só antes de criar a aula, evita precisar entrar no editor de blocos */}
       {!savedLessonId && (
         <div className="bg-[#6699F3]/5 border border-[#6699F3]/20 rounded-xl p-3 space-y-2">
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6699F3]">
+          <label htmlFor={`lesson-video-${idPrefix}`} className="flex items-center gap-1.5 text-xs font-medium text-[#6699F3]">
             <Video className="w-3.5 h-3.5" />
             Vídeo da aula <span className="text-[#6699F3]/60">(opcional)</span>
           </label>
           <input
+            id={`lesson-video-${idPrefix}`}
             type="text"
             name="video_panda_id"
             placeholder="ID do Panda Video ou URL do player..."
@@ -326,6 +331,7 @@ function SortableLesson({ lesson: initialLesson, courseId, moduleId, editingLess
         <div className={`flex items-center justify-between px-4 py-2.5 hover:bg-muted/20 transition-colors gap-2 border-b border-border/40 last:border-0 ${lesson.archived ? "opacity-50" : ""}`}>
           <div className="flex items-center gap-2 min-w-0">
             <button {...attributes} {...listeners}
+              aria-label="Arrastar para reordenar aula"
               className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-muted transition-colors shrink-0 touch-none">
               <GripVertical className="w-3.5 h-3.5 text-muted-foreground/40" />
             </button>
@@ -346,12 +352,13 @@ function SortableLesson({ lesson: initialLesson, courseId, moduleId, editingLess
           </div>
           <div className="flex items-center gap-1 shrink-0">
             <button onClick={() => setEditingLessonId(lesson.id)}
-              className="p-1.5 rounded hover:bg-muted transition-colors" title="Editar">
+              className="p-1.5 rounded hover:bg-muted transition-colors" title="Editar" aria-label="Editar aula">
               <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
             </button>
             <button onClick={handleToggleArchive} disabled={archivePending || isPending}
               className="p-1.5 rounded hover:bg-muted transition-colors disabled:opacity-50"
-              title={lesson.archived ? "Desarquivar" : "Arquivar"}>
+              title={lesson.archived ? "Desarquivar" : "Arquivar"}
+              aria-label={lesson.archived ? "Desarquivar aula" : "Arquivar aula"}>
               {lesson.archived
                 ? <ArchiveRestore className="w-3.5 h-3.5 text-orange-500" />
                 : <Archive className="w-3.5 h-3.5 text-muted-foreground" />}
@@ -361,7 +368,7 @@ function SortableLesson({ lesson: initialLesson, courseId, moduleId, editingLess
               Blocos →
             </a>
             <button onClick={() => onDelete(lesson.id, lesson.title)} disabled={isPending}
-              className="p-1.5 rounded hover:bg-red-50 transition-colors disabled:opacity-50" title="Excluir">
+              className="p-1.5 rounded hover:bg-red-50 transition-colors disabled:opacity-50" title="Excluir" aria-label="Excluir aula">
               <Trash2 className="w-3.5 h-3.5 text-red-500" />
             </button>
           </div>
@@ -441,6 +448,7 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0 flex-1">
               <button {...attributes} {...listeners}
+                aria-label="Arrastar para reordenar módulo"
                 className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-muted transition-colors touch-none shrink-0">
                 <GripVertical className="w-4 h-4 text-muted-foreground/40" />
               </button>
@@ -462,18 +470,19 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
             </div>
             <div className="flex items-center gap-1 shrink-0">
               <button onClick={() => setEditingModuleId(mod.id)}
-                className="p-1.5 rounded hover:bg-muted transition-colors" title="Editar">
+                className="p-1.5 rounded hover:bg-muted transition-colors" title="Editar" aria-label="Editar módulo">
                 <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
               <button onClick={handleToggleArchive} disabled={archivePending || isPending}
                 className="p-1.5 rounded hover:bg-muted transition-colors disabled:opacity-50"
-                title={archived ? "Desarquivar" : "Arquivar"}>
+                title={archived ? "Desarquivar" : "Arquivar"}
+                aria-label={archived ? "Desarquivar módulo" : "Arquivar módulo"}>
                 {archived
                   ? <ArchiveRestore className="w-3.5 h-3.5 text-orange-500" />
                   : <Archive className="w-3.5 h-3.5 text-muted-foreground" />}
               </button>
               <button onClick={() => onDeleteModule(mod.id, mod.title)} disabled={isPending}
-                className="p-1.5 rounded hover:bg-red-50 transition-colors disabled:opacity-50" title="Excluir">
+                className="p-1.5 rounded hover:bg-red-50 transition-colors disabled:opacity-50" title="Excluir" aria-label="Excluir módulo">
                 <Trash2 className="w-3.5 h-3.5 text-red-500" />
               </button>
             </div>

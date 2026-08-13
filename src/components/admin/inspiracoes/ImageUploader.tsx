@@ -118,7 +118,7 @@ export function ImageUploader({ value, onChange, label, className }: Props) {
         </p>
       )}
 
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
 
       <input
         ref={inputRef}

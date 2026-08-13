@@ -9,7 +9,11 @@ export default function AlunosSearch({ defaultValue }: { defaultValue: string })
   return (
     <form ref={formRef} method="GET" className="relative">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+      <label htmlFor="alunos-search-q" className="sr-only">
+        Buscar por nome, e-mail ou CPF
+      </label>
       <input
+        id="alunos-search-q"
         name="q"
         defaultValue={defaultValue}
         placeholder="Buscar por nome, e-mail ou CPF…"

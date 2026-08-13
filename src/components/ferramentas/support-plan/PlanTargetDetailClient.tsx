@@ -94,7 +94,7 @@ export default function PlanTargetDetailClient({
             />
           </div>
 
-          {error && <p className="text-xs text-red-500">{error}</p>}
+          {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
 
           <div className="grid grid-cols-2 gap-2">
             <button
