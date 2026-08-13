@@ -249,6 +249,7 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
           className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-dashed border-border hover:border-[#f6614f] text-muted-foreground hover:text-[#f6614f] transition-colors">
           <Upload className="w-3.5 h-3.5" /> Adicionar arquivo
         </button>
+        <p className="text-[11px] text-muted-foreground">Máx 50MB por arquivo.</p>
         {newMaterials.length > 0 && (
           <div className="space-y-1">
             <p className="text-[11px] text-muted-foreground">Para upload:</p>
