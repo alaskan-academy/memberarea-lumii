@@ -63,6 +63,7 @@ function ToolBtn({
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
       disabled={disabled}
       title={title}
+      aria-label={title}
       className={cn(
         "p-1.5 rounded transition-colors",
         active
