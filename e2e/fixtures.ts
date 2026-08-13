@@ -33,6 +33,9 @@ export const test = base.extend<object, { sharedContext: BrowserContext; sharedP
   // Sobrescreve a fixture `page` padrão do Playwright (que criaria um
   // context/page novo por teste) para sempre devolver a mesma página viva.
   page: async ({ sharedPage }, use) => {
+    // `use` aqui é o parâmetro de fixture do Playwright, não o hook use() do
+    // React — a regra abaixo confunde os dois pelo nome do parâmetro.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(sharedPage);
   },
 });
