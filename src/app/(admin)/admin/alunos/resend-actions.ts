@@ -3,6 +3,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { sendAccessConfirmedEmail } from "@/lib/email";
 
 export async function resendActivationAction(
@@ -202,4 +203,103 @@ export async function correctEmailAction(
   });
 
   return { sent };
+}
+
+// ─── Criar conta + definir senha (aluna sem cadastro) ─────────────────────────
+
+export async function createAccountAndSetPasswordAction(
+  email: string,
+  password: string
+): Promise<{ error?: string; userId?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const service = createServiceClient();
+
+  const { data: me } = await service
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+  if (me?.role !== "admin") return { error: "Sem permissão." };
+
+  if (password.length < 8) return { error: "A senha deve ter no mínimo 8 caracteres." };
+
+  const normalizedEmail = email.toLowerCase().trim();
+
+  // Garante que não existe conta com este e-mail
+  const { data: existingProfile } = await service
+    .from("profiles")
+    .select("id")
+    .eq("email", normalizedEmail)
+    .maybeSingle();
+  if (existingProfile) return { error: "Esta aluna já possui uma conta." };
+
+  // Busca dados da compra (nome, telefone, cursos) via tokens pendentes
+  const { data: tokens } = await service
+    .from("activation_tokens")
+    .select("token, course_id, buyer_name, buyer_phone")
+    .eq("email", normalizedEmail)
+    .eq("used", false)
+    .not("course_id", "is", null);
+
+  const buyerName = tokens?.[0]?.buyer_name ?? null;
+  const buyerPhone = tokens?.[0]?.buyer_phone ?? null;
+
+  // email_confirm: true libera o acesso imediatamente, sem exigir confirmação
+  const { data: created, error: createError } = await service.auth.admin.createUser({
+    email: normalizedEmail,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name: buyerName },
+  });
+
+  if (createError) {
+    const msg = createError.message.toLowerCase();
+    if (msg.includes("already registered") || msg.includes("already exists")) {
+      return { error: "Já existe uma conta com este e-mail." };
+    }
+    return { error: `Erro ao criar conta: ${createError.message}` };
+  }
+
+  const userId = created.user.id;
+
+  // Aguarda o trigger criar a linha em profiles antes de atualizar
+  await new Promise((r) => setTimeout(r, 500));
+
+  const profileUpdate: Record<string, string> = {};
+  if (buyerName) profileUpdate.full_name = buyerName;
+  if (buyerPhone) profileUpdate.phone = buyerPhone;
+  if (Object.keys(profileUpdate).length > 0) {
+    await service.from("profiles").update(profileUpdate).eq("id", userId);
+  }
+
+  // Concede matrícula em cada curso comprado e marca os tokens como usados
+  let enrollmentsGranted = 0;
+  for (const t of tokens ?? []) {
+    if (!t.course_id) continue;
+    const { error: enrollErr } = await service.from("enrollments").insert({
+      user_id: userId,
+      course_id: t.course_id,
+      source: "payt",
+      granted_at: new Date().toISOString(),
+      expires_at: null,
+    });
+    if (!enrollErr) enrollmentsGranted++;
+    await service.from("activation_tokens").update({ used: true }).eq("token", t.token);
+  }
+
+  await service.from("audit_log").insert({
+    admin_id: user.id,
+    action: "create_account_with_password",
+    target_type: "user",
+    target_id: userId,
+    meta: { email: normalizedEmail, enrollments_granted: enrollmentsGranted },
+  });
+
+  revalidatePath("/admin/alunos");
+  return { userId };
 }
