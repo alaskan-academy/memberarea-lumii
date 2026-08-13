@@ -73,12 +73,16 @@ export default function SupportPlanForm({
           ))}
         </div>
         {dificuldade === "outro" && (
-          <input
-            value={outro}
-            onChange={(e) => setOutro(e.target.value)}
-            placeholder="Descreva rapidamente a dificuldade..."
-            className="w-full mt-2 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
-          />
+          <>
+            <label htmlFor="dificuldade-outro" className="sr-only">Descreva a dificuldade</label>
+            <input
+              id="dificuldade-outro"
+              value={outro}
+              onChange={(e) => setOutro(e.target.value)}
+              placeholder="Descreva rapidamente a dificuldade..."
+              className="w-full mt-2 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+            />
+          </>
         )}
       </div>
 

@@ -407,7 +407,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
               </div>
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+                <label htmlFor="aluna-detail-course-search" className="sr-only">
+                  Pesquisar curso
+                </label>
                 <input
+                  id="aluna-detail-course-search"
                   type="text"
                   placeholder="Pesquisar curso…"
                   value={courseSearch}
@@ -417,6 +421,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                 {courseSearch && (
                   <button
                     onClick={() => setCourseSearch("")}
+                    aria-label="Limpar busca"
                     className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -640,10 +645,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
               <div className="px-5 py-5 space-y-4">
                 {/* Nome */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  <label htmlFor="aluna-edit-full_name" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                     Nome completo
                   </label>
                   <input
+                    id="aluna-edit-full_name"
                     name="full_name"
                     required
                     defaultValue={profile.full_name ?? ""}
@@ -655,10 +661,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                 {/* Telefone + Nascimento em grid */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+                    <label htmlFor="aluna-edit-phone" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
                       <Phone className="w-3 h-3" /> Telefone / WhatsApp
                     </label>
                     <input
+                      id="aluna-edit-phone"
                       name="phone"
                       type="tel"
                       defaultValue={profile.phone ?? ""}
@@ -667,10 +674,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+                    <label htmlFor="aluna-edit-date_of_birth" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
                       <Calendar className="w-3 h-3" /> Data de nascimento
                     </label>
                     <input
+                      id="aluna-edit-date_of_birth"
                       name="date_of_birth"
                       type="date"
                       defaultValue={profile.date_of_birth ?? ""}
@@ -681,10 +689,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
 
                 {/* E-mail */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+                  <label htmlFor="aluna-edit-email" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
                     <Mail className="w-3 h-3" /> E-mail
                   </label>
                   <input
+                    id="aluna-edit-email"
                     name="email"
                     type="email"
                     required
@@ -696,10 +705,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
 
                 {/* CPF */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+                  <label htmlFor="aluna-edit-cpf" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
                     <CreditCard className="w-3 h-3" /> CPF
                   </label>
                   <input
+                    id="aluna-edit-cpf"
                     name="cpf"
                     type="text"
                     inputMode="numeric"
@@ -717,11 +727,12 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
 
                 {/* Anotações admin */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
+                  <label htmlFor="aluna-edit-admin_notes" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
                     <NotebookPen className="w-3 h-3" /> Anotações internas
                     <span className="normal-case font-normal text-muted-foreground/60 ml-1">— visível apenas para admins</span>
                   </label>
                   <textarea
+                    id="aluna-edit-admin_notes"
                     name="admin_notes"
                     rows={4}
                     defaultValue={profile.admin_notes ?? ""}
@@ -732,7 +743,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
 
                 {/* Feedback */}
                 {profileState.error && (
-                  <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+                  <div role="alert" className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
                     {profileState.error}
                   </div>
                 )}
@@ -795,11 +806,12 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
               </p>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                <label htmlFor="aluna-new-password" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   Nova senha
                 </label>
                 <div className="relative">
                   <input
+                    id="aluna-new-password"
                     type={pwShowPass ? "text" : "password"}
                     value={pwPassword}
                     onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
@@ -818,11 +830,12 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                <label htmlFor="aluna-confirm-password" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   Confirmar senha
                 </label>
                 <div className="relative">
                   <input
+                    id="aluna-confirm-password"
                     type={pwShowConfirm ? "text" : "password"}
                     value={pwConfirm}
                     onChange={(e) => { setPwConfirm(e.target.value); setPwError(null); }}
@@ -840,7 +853,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                 </div>
               </div>
 
-              {pwError && <p className="text-xs text-red-600">{pwError}</p>}
+              {pwError && <p role="alert" className="text-xs text-red-600">{pwError}</p>}
               {pwSuccess && (
                 <div className="rounded-lg bg-[#71c69a]/10 border border-[#71c69a]/30 px-4 py-3 text-sm text-[#3d9e5a] font-medium">
                   Senha definida com sucesso!
@@ -941,7 +954,11 @@ function BulkGrantSection({
               </div>
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+                <label htmlFor="aluna-bulk-course-search" className="sr-only">
+                  Pesquisar curso
+                </label>
                 <input
+                  id="aluna-bulk-course-search"
                   type="text"
                   placeholder="Pesquisar curso…"
                   value={bulkSearch}
@@ -952,6 +969,7 @@ function BulkGrantSection({
                   <button
                     type="button"
                     onClick={() => setBulkSearch("")}
+                    aria-label="Limpar busca"
                     className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -989,8 +1007,9 @@ function BulkGrantSection({
             {/* Motivo + Expiração */}
             <div className="flex gap-2 flex-wrap items-end">
               <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                <label className="text-[10px] text-muted-foreground leading-none">Motivo (obrigatório)</label>
+                <label htmlFor="aluna-bulk-reason" className="text-[10px] text-muted-foreground leading-none">Motivo (obrigatório)</label>
                 <input
+                  id="aluna-bulk-reason"
                   name="reason"
                   required
                   placeholder="Ex.: cortesia, pacote especial…"
@@ -998,8 +1017,9 @@ function BulkGrantSection({
                 />
               </div>
               <div className="flex flex-col gap-0.5">
-                <label className="text-[10px] text-muted-foreground leading-none">Expiração (opcional)</label>
+                <label htmlFor="aluna-bulk-expires_at" className="text-[10px] text-muted-foreground leading-none">Expiração (opcional)</label>
                 <input
+                  id="aluna-bulk-expires_at"
                   name="expires_at"
                   type="date"
                   min={new Date().toISOString().split("T")[0]}
@@ -1010,7 +1030,7 @@ function BulkGrantSection({
 
             {/* Feedback */}
             {state.error && (
-              <p className="text-xs text-red-600">{state.error}</p>
+              <p role="alert" className="text-xs text-red-600">{state.error}</p>
             )}
             {state.success && (
               <p className="text-xs text-green-600">{state.success}</p>
@@ -1108,6 +1128,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
                 onClick={() => setMode(mode === "removing" ? "idle" : "removing")}
                 className="p-1.5 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                 title="Remover acesso"
+                aria-label="Remover acesso"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
@@ -1117,6 +1138,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
               onClick={() => setMode(mode === "adding" ? "idle" : "adding")}
               className="p-1.5 rounded-lg text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors"
               title="Dar acesso"
+              aria-label="Dar acesso"
             >
               <Plus className="w-3.5 h-3.5" />
             </button>
@@ -1146,15 +1168,16 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
           <input type="hidden" name="user_id" value={userId} />
           <input type="hidden" name="course_id" value={course.id} />
           {grantState.error && (
-            <p className="text-xs text-red-600">{grantState.error}</p>
+            <p role="alert" className="text-xs text-red-600">{grantState.error}</p>
           )}
           {grantState.success && (
             <p className="text-xs text-green-600">{grantState.success}</p>
           )}
           <div className="flex gap-2 flex-wrap items-end">
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-              <label className="text-[10px] text-muted-foreground leading-none">Motivo</label>
+              <label htmlFor={`aluna-course-reason-add-${course.id}`} className="text-[10px] text-muted-foreground leading-none">Motivo</label>
               <input
+                id={`aluna-course-reason-add-${course.id}`}
                 name="reason"
                 required
                 placeholder="Motivo (obrigatório)"
@@ -1162,8 +1185,9 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
               />
             </div>
             <div className="flex flex-col gap-0.5">
-              <label className="text-[10px] text-muted-foreground leading-none">Expiração (opcional)</label>
+              <label htmlFor={`aluna-course-expires-add-${course.id}`} className="text-[10px] text-muted-foreground leading-none">Expiração (opcional)</label>
               <input
+                id={`aluna-course-expires-add-${course.id}`}
                 name="expires_at"
                 type="date"
                 min={new Date().toISOString().split("T")[0]}
@@ -1200,10 +1224,14 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
           <input type="hidden" name="enrollment_id" value={e.id} />
           <input type="hidden" name="course_id" value={course.id} />
           {revokeState.error && (
-            <p className="text-xs text-red-600">{revokeState.error}</p>
+            <p role="alert" className="text-xs text-red-600">{revokeState.error}</p>
           )}
           <div className="flex gap-2 flex-wrap">
+            <label htmlFor={`aluna-course-reason-remove-${course.id}`} className="sr-only">
+              Motivo da remoção
+            </label>
             <input
+              id={`aluna-course-reason-remove-${course.id}`}
               name="reason"
               required
               placeholder="Motivo da remoção (obrigatório)"

@@ -43,7 +43,7 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
       {/* Card de config */}
       <div className="bg-white rounded-xl border border-border/60 shadow-sm divide-y divide-border/40">
@@ -67,8 +67,9 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
 
         {/* Texto do badge no menu */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-medium text-foreground/70">Texto do botão no menu</label>
+          <label htmlFor="annual-promo-badge_text" className="block text-xs font-medium text-foreground/70">Texto do botão no menu</label>
           <input
+            id="annual-promo-badge_text"
             value={form.badge_text}
             onChange={(e) => set("badge_text", e.target.value)}
             placeholder="Ex: Plano Anual, Seja Premium…"
@@ -79,11 +80,12 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
 
         {/* Link de compra */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-medium text-foreground/70">
+          <label htmlFor="annual-promo-link_url" className="block text-xs font-medium text-foreground/70">
             URL de compra <span className="text-muted-foreground">(botão "Assinar" do modal)</span>
           </label>
           <div className="flex gap-2">
             <input
+              id="annual-promo-link_url"
               value={form.link_url}
               onChange={(e) => set("link_url", e.target.value)}
               placeholder="https://checkout.payt.com.br/…"
@@ -101,8 +103,9 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
 
         {/* Modal: título */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-medium text-foreground/70">Título do modal</label>
+          <label htmlFor="annual-promo-modal_title" className="block text-xs font-medium text-foreground/70">Título do modal</label>
           <input
+            id="annual-promo-modal_title"
             value={form.modal_title}
             onChange={(e) => set("modal_title", e.target.value)}
             placeholder="Assine o Plano Anual Lumii"
@@ -113,8 +116,9 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
 
         {/* Modal: descrição */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-medium text-foreground/70">Descrição do modal</label>
+          <label htmlFor="annual-promo-modal_desc" className="block text-xs font-medium text-foreground/70">Descrição do modal</label>
           <textarea
+            id="annual-promo-modal_desc"
             value={form.modal_desc}
             onChange={(e) => set("modal_desc", e.target.value)}
             placeholder="Descreva os benefícios do plano anual…"
@@ -127,8 +131,9 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
 
         {/* Modal: texto do botão de compra */}
         <div className="px-5 py-4 space-y-1.5">
-          <label className="block text-xs font-medium text-foreground/70">Texto do botão de compra</label>
+          <label htmlFor="annual-promo-button_text" className="block text-xs font-medium text-foreground/70">Texto do botão de compra</label>
           <input
+            id="annual-promo-button_text"
             value={form.button_text}
             onChange={(e) => set("button_text", e.target.value)}
             placeholder="Assinar agora"

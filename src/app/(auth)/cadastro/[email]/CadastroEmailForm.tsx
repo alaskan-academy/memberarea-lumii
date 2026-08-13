@@ -21,7 +21,7 @@ const initialState = { error: undefined, success: undefined, fieldErrors: undefi
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
-  return <p className="text-xs text-destructive mt-1">{msg}</p>;
+  return <p role="alert" className="text-xs text-destructive mt-1">{msg}</p>;
 }
 
 export default function CadastroEmailForm({

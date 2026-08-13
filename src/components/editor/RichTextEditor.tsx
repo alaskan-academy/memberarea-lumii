@@ -99,6 +99,7 @@ function ColorPicker({
         type="button"
         onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v); }}
         title={title}
+        aria-label={title}
         className="flex items-center gap-0.5 p-1.5 rounded transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
       >
         {icon}
@@ -181,8 +182,9 @@ function LinkDialog({ editor }: { editor: Editor }) {
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-xl shadow-xl p-5 w-80 space-y-3">
-            <p className="font-semibold text-sm">Inserir link</p>
+            <label htmlFor="rich-text-link-url" className="font-semibold text-sm">Inserir link</label>
             <input
+              id="rich-text-link-url"
               autoFocus
               type="url"
               placeholder="https://..."
@@ -395,11 +397,14 @@ export default function RichTextEditor({
   onChange,
   placeholder = "Digite o conteúdo...",
   minHeight = 180,
+  ariaLabel,
 }: {
   value: string;
   onChange: (html: string) => void;
   placeholder?: string;
   minHeight?: number;
+  /** Nome acessível do editor para leitores de tela (o conteúdo é editável mas não é um <input>/<textarea> nativo, então não pode ser associado via <label htmlFor>). Padrão: usa o placeholder. */
+  ariaLabel?: string;
 }) {
   const editor = useEditor({
     extensions: [
@@ -423,6 +428,9 @@ export default function RichTextEditor({
       attributes: {
         class: "focus:outline-none prose prose-sm max-w-none text-foreground p-3",
         style: `min-height:${minHeight}px`,
+        role: "textbox",
+        "aria-label": ariaLabel ?? placeholder,
+        "aria-multiline": "true",
       },
     },
   });

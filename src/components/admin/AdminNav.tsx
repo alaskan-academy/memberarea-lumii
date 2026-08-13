@@ -296,6 +296,7 @@ export default function AdminNav({
               </div>
               <button
                 onClick={() => setDrawerOpen(false)}
+                aria-label="Fechar menu"
                 className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />

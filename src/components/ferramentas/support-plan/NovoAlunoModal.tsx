@@ -70,8 +70,9 @@ export default function NovoAlunoModal({
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <label className="text-xs font-medium text-muted-foreground">Nome *</label>
+            <label htmlFor="novo-aluno-nome" className="text-xs font-medium text-muted-foreground">Nome *</label>
             <input
+              id="novo-aluno-nome"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -80,8 +81,9 @@ export default function NovoAlunoModal({
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-medium text-muted-foreground">Idade</label>
+              <label htmlFor="novo-aluno-idade" className="text-xs font-medium text-muted-foreground">Idade</label>
               <input
+                id="novo-aluno-idade"
                 value={age}
                 onChange={(e) => setAge(e.target.value.replace(/\D/g, ""))}
                 inputMode="numeric"
@@ -90,8 +92,9 @@ export default function NovoAlunoModal({
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-muted-foreground">Turma</label>
+              <label htmlFor="novo-aluno-turma" className="text-xs font-medium text-muted-foreground">Turma</label>
               <input
+                id="novo-aluno-turma"
                 value={classLabel}
                 onChange={(e) => setClassLabel(e.target.value)}
                 placeholder="ex: 3º ano B"
@@ -100,7 +103,7 @@ export default function NovoAlunoModal({
             </div>
           </div>
 
-          {error && <p className="text-xs text-red-500">{error}</p>}
+          {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
 
           <button
             type="submit"

@@ -467,6 +467,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
         <button
           onClick={() => setCommentsOpen(v => !v)}
           aria-expanded={commentsOpen}
+          aria-label="Ver comentários"
           className={cn(
             'flex items-center gap-1.5 text-sm transition-colors min-h-[44px] px-1',
             commentsOpen ? 'text-[#f6614f]' : 'text-foreground/50 hover:text-foreground/80'

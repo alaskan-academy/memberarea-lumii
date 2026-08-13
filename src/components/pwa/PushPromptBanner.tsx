@@ -147,7 +147,7 @@ export default function PushPromptBanner() {
                 Receba avisos sobre novos conteúdos e novidades da Lumii.
               </p>
               {saveError && (
-                <p className="text-xs text-red-600 mt-2">{saveError}</p>
+                <p role="alert" className="text-xs text-red-600 mt-2">{saveError}</p>
               )}
               <div className="flex gap-2 mt-3">
                 <button

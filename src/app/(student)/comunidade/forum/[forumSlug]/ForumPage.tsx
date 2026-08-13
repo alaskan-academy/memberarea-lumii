@@ -116,18 +116,18 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
       {showForm && (
         <form onSubmit={handleCreatePost} className="bg-white rounded-xl border border-[#f6614f]/30 shadow-sm p-5 mb-6 space-y-4">
           <h2 className="font-bold text-sm">Criar novo post</h2>
-          {error && <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
+          {error && <p role="alert" className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
           <div>
-            <label className="block text-xs font-medium text-foreground/70 mb-1">Título *</label>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+            <label htmlFor="forum-post-title" className="block text-xs font-medium text-foreground/70 mb-1">Título *</label>
+            <input id="forum-post-title" type="text" value={title} onChange={(e) => setTitle(e.target.value)}
               placeholder="Sobre o que é seu post?" required maxLength={200}
               className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-foreground/70 mb-1">Descrição *</label>
-            <textarea value={body} onChange={(e) => setBody(e.target.value)}
+            <label htmlFor="forum-post-body" className="block text-xs font-medium text-foreground/70 mb-1">Descrição *</label>
+            <textarea id="forum-post-body" value={body} onChange={(e) => setBody(e.target.value)}
               placeholder="Compartilhe sua dúvida, projeto ou ideia…" required rows={4} maxLength={5000}
               className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
           </div>
@@ -144,6 +144,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
                   style={{ maxHeight: 200 }}
                 />
                 <button type="button" onClick={() => setImageUrl("")}
+                  aria-label="Remover imagem"
                   className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70">
                   <X className="w-3 h-3" />
                 </button>
@@ -165,6 +166,7 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
                 <Paperclip className="w-4 h-4 text-[#f6614f] shrink-0" />
                 <span className="flex-1 truncate text-foreground/80">{attachmentName}</span>
                 <button type="button" onClick={() => { setAttachmentUrl(""); setAttachmentName(""); }}
+                  aria-label="Remover anexo"
                   className="text-muted-foreground hover:text-red-500 transition-colors">
                   <X className="w-3.5 h-3.5" />
                 </button>

@@ -74,7 +74,11 @@ export default function SemCadastroClient({
     <>
       <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+        <label htmlFor="sem-cadastro-search" className="sr-only">
+          Buscar por nome ou e-mail
+        </label>
         <input
+          id="sem-cadastro-search"
           type="search"
           placeholder="Buscar por nome ou e-mail…"
           value={search}
@@ -390,7 +394,11 @@ function DetailModal({
             {/* E-mail editável inline */}
             {editing ? (
               <form onSubmit={handleCorrect} className="flex items-center gap-1.5 mt-1.5">
+                <label htmlFor="sem-cadastro-email-correction" className="sr-only">
+                  Corrigir e-mail
+                </label>
                 <input
+                  id="sem-cadastro-email-correction"
                   ref={inputRef}
                   type="email"
                   required
@@ -403,6 +411,7 @@ function DetailModal({
                   type="submit"
                   disabled={correctPending}
                   title="Salvar"
+                  aria-label="Salvar"
                   className="w-7 h-7 rounded-md flex items-center justify-center bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
                 >
                   {correctPending
@@ -413,6 +422,7 @@ function DetailModal({
                   type="button"
                   onClick={cancelEditing}
                   title="Cancelar"
+                  aria-label="Cancelar"
                   className="w-7 h-7 rounded-md flex items-center justify-center border border-border hover:bg-muted transition-colors shrink-0"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -439,7 +449,7 @@ function DetailModal({
               </p>
             )}
             {correctResult?.error && (
-              <p className="text-[11px] text-red-500 mt-1">{correctResult.error}</p>
+              <p role="alert" className="text-[11px] text-red-500 mt-1">{correctResult.error}</p>
             )}
           </div>
           <button
@@ -508,7 +518,7 @@ function DetailModal({
             </p>
           )}
           {resendResult?.error && (
-            <p className="text-center text-xs text-red-500">{resendResult.error}</p>
+            <p role="alert" className="text-center text-xs text-red-500">{resendResult.error}</p>
           )}
           <div className="grid grid-cols-2 gap-2">
             <button
@@ -539,7 +549,11 @@ function DetailModal({
                 Cria a conta desta compradora e libera o acesso aos cursos comprados imediatamente.
               </p>
               <div className="relative">
+                <label htmlFor="sem-cadastro-new-password" className="sr-only">
+                  Senha (mínimo 8 caracteres)
+                </label>
                 <input
+                  id="sem-cadastro-new-password"
                   type={pwShowPass ? "text" : "password"}
                   value={pwPassword}
                   onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
@@ -557,7 +571,11 @@ function DetailModal({
                 </button>
               </div>
               <div className="relative">
+                <label htmlFor="sem-cadastro-confirm-password" className="sr-only">
+                  Confirmar senha
+                </label>
                 <input
+                  id="sem-cadastro-confirm-password"
                   type={pwShowConfirm ? "text" : "password"}
                   value={pwConfirm}
                   onChange={(e) => { setPwConfirm(e.target.value); setPwError(null); }}
@@ -573,7 +591,7 @@ function DetailModal({
                   {pwShowConfirm ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
               </div>
-              {pwError && <p className="text-xs text-red-600">{pwError}</p>}
+              {pwError && <p role="alert" className="text-xs text-red-600">{pwError}</p>}
               <div className="flex gap-2">
                 <button
                   type="submit"

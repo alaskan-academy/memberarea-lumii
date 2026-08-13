@@ -124,13 +124,14 @@ export default function AdminMaterialsUploader({
       <h2 className="font-semibold">Materiais da Aula</h2>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
+        <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
       )}
 
       {/* Upload form */}
       <form onSubmit={handleUpload} className="lumii-card p-4 space-y-3">
-        <p className="text-sm font-medium text-muted-foreground">Novo material</p>
+        <label htmlFor="material-upload-name" className="text-sm font-medium text-muted-foreground block">Novo material</label>
         <input
+          id="material-upload-name"
           ref={nameRef}
           name="name"
           type="text"
@@ -176,7 +177,11 @@ export default function AdminMaterialsUploader({
             <div className="border-t border-border px-4 pb-4 space-y-3 pt-3">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                <label htmlFor="material-link-search" className="sr-only">
+                  Buscar por nome, aula ou curso
+                </label>
                 <input
+                  id="material-link-search"
                   type="text"
                   placeholder="Buscar por nome, aula ou curso..."
                   value={search}
@@ -244,6 +249,7 @@ export default function AdminMaterialsUploader({
                 <button
                   onClick={() => copyId(m.id)}
                   title="Copiar ID para usar em bloco Download"
+                  aria-label="Copiar ID do material"
                   className="p-1.5 rounded hover:bg-muted transition-colors"
                 >
                   {copiedId === m.id ? (
@@ -255,6 +261,7 @@ export default function AdminMaterialsUploader({
                 <button
                   onClick={() => handleDelete(m.id, m.name)}
                   disabled={isPending}
+                  aria-label="Excluir material"
                   className="p-1.5 rounded hover:bg-red-50 text-red-500 transition-colors disabled:opacity-50"
                 >
                   <Trash2 className="w-3.5 h-3.5" />

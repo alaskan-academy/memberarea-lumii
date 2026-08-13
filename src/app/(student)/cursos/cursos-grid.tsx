@@ -48,7 +48,9 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
       <div className="flex gap-2">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          <label htmlFor="cursos-busca" className="sr-only">Buscar curso</label>
           <input
+            id="cursos-busca"
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
             placeholder="Buscar curso..."

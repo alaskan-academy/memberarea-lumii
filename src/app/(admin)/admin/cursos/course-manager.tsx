@@ -78,7 +78,7 @@ function CategorySelect({
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-medium text-muted-foreground">Categoria</label>
+        <label htmlFor="course-form-category_id" className="text-xs font-medium text-muted-foreground">Categoria</label>
         <button
           type="button"
           onClick={() => setShowManager((v) => !v)}
@@ -90,6 +90,7 @@ function CategorySelect({
       </div>
 
       <select
+        id="course-form-category_id"
         name="category_id"
         defaultValue={defaultValue ?? ""}
         className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
@@ -102,7 +103,7 @@ function CategorySelect({
 
       {showManager && (
         <div className="rounded-xl border border-border bg-muted/30 p-3 space-y-2">
-          {error && <p className="text-xs text-red-600">{error}</p>}
+          {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
 
           {/* Lista de categorias existentes */}
           <div className="space-y-1">
@@ -113,7 +114,11 @@ function CategorySelect({
               <div key={cat.id} className="flex items-center gap-2">
                 {editingId === cat.id ? (
                   <>
+                    <label htmlFor={`category-edit-name-${cat.id}`} className="sr-only">
+                      Editar nome da categoria
+                    </label>
                     <input
+                      id={`category-edit-name-${cat.id}`}
                       type="text"
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
@@ -128,6 +133,7 @@ function CategorySelect({
                       type="button"
                       onClick={() => handleUpdate(cat.id)}
                       disabled={isPending}
+                      aria-label="Confirmar"
                       className="p-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" />
@@ -135,6 +141,7 @@ function CategorySelect({
                     <button
                       type="button"
                       onClick={() => setEditingId(null)}
+                      aria-label="Cancelar"
                       className="p-1.5 rounded-lg border border-border hover:bg-muted transition-colors"
                     >
                       <X className="w-3.5 h-3.5" />
@@ -148,6 +155,7 @@ function CategorySelect({
                     <button
                       type="button"
                       onClick={() => { setEditingId(cat.id); setEditingName(cat.name); }}
+                      aria-label="Editar categoria"
                       className="p-1.5 rounded-lg hover:bg-muted transition-colors shrink-0"
                     >
                       <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
@@ -156,6 +164,7 @@ function CategorySelect({
                       type="button"
                       onClick={() => handleDelete(cat.id, cat.name)}
                       disabled={isPending}
+                      aria-label="Excluir categoria"
                       className="p-1.5 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50 shrink-0"
                     >
                       <Trash2 className="w-3.5 h-3.5 text-red-500" />
@@ -168,7 +177,11 @@ function CategorySelect({
 
           {/* Nova categoria */}
           <div className="flex gap-2 pt-1 border-t border-border/50">
+            <label htmlFor="category-new-name" className="sr-only">
+              Nova categoria
+            </label>
             <input
+              id="category-new-name"
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
@@ -204,12 +217,13 @@ function ForumSelect({
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-medium text-muted-foreground">Fórum vinculado</label>
+        <label htmlFor="course-form-forum_id" className="text-xs font-medium text-muted-foreground">Fórum vinculado</label>
         <a href="/admin/forums" target="_blank" className="text-xs text-[#f6614f] hover:underline">
           Gerenciar fóruns →
         </a>
       </div>
       <select
+        id="course-form-forum_id"
         name="forum_id"
         defaultValue={defaultValue ?? ""}
         className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
@@ -293,7 +307,7 @@ function ThumbnailUpload({ defaultUrl }: { defaultUrl?: string | null }) {
         className="hidden"
         onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
       />
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
     </div>
   );
 }
@@ -329,7 +343,7 @@ function ProductCodesInput({ defaultCodes }: { defaultCodes?: string[] }) {
 
   return (
     <div className="space-y-1.5">
-      <label className="text-xs font-medium text-muted-foreground">
+      <label htmlFor="course-form-product-codes-input" className="text-xs font-medium text-muted-foreground">
         Cód. Payt
         <span className="text-muted-foreground/60 ml-1">(um ou mais — Enter ou vírgula para adicionar)</span>
       </label>
@@ -356,6 +370,7 @@ function ProductCodesInput({ defaultCodes }: { defaultCodes?: string[] }) {
           </span>
         ))}
         <input
+          id="course-form-product-codes-input"
           type="text"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value.toUpperCase())}
@@ -457,7 +472,7 @@ function CourseForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
       {/* ── Thumbnail ─── */}
       <ThumbnailUpload defaultUrl={initial?.thumbnail_url} />
@@ -486,8 +501,9 @@ function CourseForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Título *</label>
+          <label htmlFor="course-form-title" className="text-xs font-medium text-muted-foreground">Título *</label>
           <input
+            id="course-form-title"
             name="title" required defaultValue={initial?.title ?? ""}
             placeholder="Ex: Crochê do Básico ao Avançado"
             onChange={(e) => {
@@ -500,8 +516,9 @@ function CourseForm({
           />
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Slug * (URL)</label>
+          <label htmlFor="course-form-slug" className="text-xs font-medium text-muted-foreground">Slug * (URL)</label>
           <input
+            id="course-form-slug"
             name="slug" required defaultValue={initial?.slug ?? ""}
             placeholder="croche-basico-ao-avancado"
             className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
@@ -510,8 +527,9 @@ function CourseForm({
       </div>
 
       <div className="space-y-1">
-        <label className="text-xs font-medium text-muted-foreground">Descrição</label>
+        <label htmlFor="course-form-description" className="text-xs font-medium text-muted-foreground">Descrição</label>
         <textarea
+          id="course-form-description"
           name="description" rows={3} defaultValue={initial?.description ?? ""}
           placeholder="Descrição do curso..."
           className="w-full text-sm border border-border rounded-lg px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
@@ -523,15 +541,17 @@ function CourseForm({
 
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Preço (R$)</label>
+          <label htmlFor="course-form-price" className="text-xs font-medium text-muted-foreground">Preço (R$)</label>
           <input
+            id="course-form-price"
             name="price" type="number" min="0" step="0.01" defaultValue={initial?.price ?? 0}
             className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           />
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Carga horária (h)</label>
+          <label htmlFor="course-form-workload_hours" className="text-xs font-medium text-muted-foreground">Carga horária (h)</label>
           <input
+            id="course-form-workload_hours"
             name="workload_hours" type="number" min="0" defaultValue={initial?.workload_hours ?? 0}
             className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           />
@@ -544,8 +564,9 @@ function CourseForm({
       <SectionDivider label="Vendas" />
 
       <div className="space-y-1">
-        <label className="text-xs font-medium text-muted-foreground">Link de checkout (Payt)</label>
+        <label htmlFor="course-form-checkout_url" className="text-xs font-medium text-muted-foreground">Link de checkout (Payt)</label>
         <input
+          id="course-form-checkout_url"
           name="checkout_url" type="url"
           defaultValue={initial?.checkout_url ?? ""}
           placeholder="https://pay.payt.com.br/..."
@@ -569,10 +590,11 @@ function CourseForm({
 
           {inVitrine && (
             <div className="space-y-1 pl-6">
-              <label className="text-xs font-medium text-muted-foreground">
+              <label htmlFor="course-form-sales-video" className="text-xs font-medium text-muted-foreground">
                 ID do vídeo de vendas (Panda)
               </label>
               <input
+                id="course-form-sales-video"
                 type="text"
                 value={salesVideo}
                 onChange={(e) => setSalesVideo(e.target.value)}
@@ -753,7 +775,7 @@ export default function CourseManager({
           <div className="p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold">Editando: {course.title}</h2>
-              <button onClick={() => setEditingId(null)} className="p-1 rounded hover:bg-muted transition-colors">
+              <button onClick={() => setEditingId(null)} aria-label="Cancelar" className="p-1 rounded hover:bg-muted transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -807,6 +829,7 @@ export default function CourseManager({
                 onClick={() => handleToggle(course.id, course.published)}
                 disabled={isPending}
                 title={course.published ? "Arquivar" : "Publicar"}
+                aria-label={course.published ? "Arquivar" : "Publicar"}
                 className="p-2 rounded-lg hover:bg-muted transition-colors disabled:opacity-50"
               >
                 {course.published
@@ -815,6 +838,7 @@ export default function CourseManager({
               </button>
               <button
                 onClick={() => { setEditingId(course.id); setShowCreate(false); }}
+                aria-label="Editar curso"
                 className="p-2 rounded-lg hover:bg-muted transition-colors"
               >
                 <Pencil className="w-4 h-4 text-muted-foreground" />
@@ -825,6 +849,7 @@ export default function CourseManager({
               <button
                 onClick={() => handleDelete(course.id, course.title)}
                 disabled={isPending}
+                aria-label="Excluir curso"
                 className="p-2 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
               >
                 <Trash2 className="w-4 h-4 text-red-500" />
@@ -862,7 +887,7 @@ export default function CourseManager({
         <div className="lumii-card p-5 border-[#f6614f]/30">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold">Novo curso</h2>
-            <button onClick={() => setShowCreate(false)} className="p-1 rounded hover:bg-muted transition-colors">
+            <button onClick={() => setShowCreate(false)} aria-label="Fechar" className="p-1 rounded hover:bg-muted transition-colors">
               <X className="w-4 h-4" />
             </button>
           </div>

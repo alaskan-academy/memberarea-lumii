@@ -52,10 +52,12 @@ function ContentInput({
   type,
   value,
   onChange,
+  idPrefix,
 }: {
   type: BlockType;
   value: string;
   onChange: (v: string) => void;
+  idPrefix: string;
 }) {
   const parsed = parseContent(value);
 
@@ -74,13 +76,19 @@ function ContentInput({
   if (type === "html") {
     const rawHtml = (parsed.html as string) ?? (parsed.body as string) ?? "";
     return (
-      <textarea
-        rows={10}
-        className="w-full text-xs border border-border rounded-lg px-3 py-2 font-mono resize-y focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
-        placeholder="<p>Conteúdo HTML aqui...</p>"
-        value={rawHtml}
-        onChange={(e) => onChange(JSON.stringify({ html: e.target.value }))}
-      />
+      <>
+        <label htmlFor={`${idPrefix}-html`} className="sr-only">
+          Conteúdo HTML
+        </label>
+        <textarea
+          id={`${idPrefix}-html`}
+          rows={10}
+          className="w-full text-xs border border-border rounded-lg px-3 py-2 font-mono resize-y focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          placeholder="<p>Conteúdo HTML aqui...</p>"
+          value={rawHtml}
+          onChange={(e) => onChange(JSON.stringify({ html: e.target.value }))}
+        />
+      </>
     );
   }
 
@@ -94,7 +102,11 @@ function ContentInput({
             Sites como Shopee bloqueiam incorporação — para esses, use o bloco <strong>HTML</strong> com código completo.
           </span>
         </div>
+        <label htmlFor={`${idPrefix}-embed-url`} className="sr-only">
+          URL do embed
+        </label>
         <input
+          id={`${idPrefix}-embed-url`}
           type="url"
           className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="https://docs.google.com/forms/..."
@@ -103,7 +115,11 @@ function ContentInput({
             onChange(JSON.stringify({ ...parsed, url: e.target.value }))
           }
         />
+        <label htmlFor={`${idPrefix}-embed-title`} className="sr-only">
+          Título do embed (opcional)
+        </label>
         <input
+          id={`${idPrefix}-embed-title`}
           type="text"
           className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="Título (opcional)"
@@ -112,7 +128,11 @@ function ContentInput({
             onChange(JSON.stringify({ ...parsed, title: e.target.value }))
           }
         />
+        <label htmlFor={`${idPrefix}-embed-height`} className="sr-only">
+          Altura do embed em pixels
+        </label>
         <input
+          id={`${idPrefix}-embed-height`}
           type="number"
           className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="Altura em px (ex: 600)"
@@ -132,15 +152,21 @@ function ContentInput({
 
   if (type === "download") {
     return (
-      <input
-        type="text"
-        className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
-        placeholder="ID do material (copie da seção Materiais abaixo)"
-        value={(parsed.material_id as string) ?? ""}
-        onChange={(e) =>
-          onChange(JSON.stringify({ material_id: e.target.value }))
-        }
-      />
+      <>
+        <label htmlFor={`${idPrefix}-download-material_id`} className="sr-only">
+          ID do material
+        </label>
+        <input
+          id={`${idPrefix}-download-material_id`}
+          type="text"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          placeholder="ID do material (copie da seção Materiais abaixo)"
+          value={(parsed.material_id as string) ?? ""}
+          onChange={(e) =>
+            onChange(JSON.stringify({ material_id: e.target.value }))
+          }
+        />
+      </>
     );
   }
 
@@ -150,7 +176,11 @@ function ContentInput({
         <p className="text-xs text-muted-foreground">
           Cole o ID do Panda Video, a URL do player Panda, ou a URL do YouTube (youtube.com/watch?v=... ou youtu.be/...).
         </p>
+        <label htmlFor={`${idPrefix}-video-id`} className="sr-only">
+          ID ou URL do vídeo
+        </label>
         <input
+          id={`${idPrefix}-video-id`}
           type="text"
           className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
           placeholder="ID Panda, https://player.pandavideo.com.br/embed/?v=... ou https://youtu.be/..."
@@ -324,7 +354,7 @@ export default function AdminBlocksEditor({
       </p>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
+        <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
       )}
 
       {/* Form: novo bloco */}
@@ -337,6 +367,7 @@ export default function AdminBlocksEditor({
             type={addingType}
             value={newContent}
             onChange={setNewContent}
+            idPrefix="block-add"
           />
           <div className="flex gap-2">
             <button
@@ -379,6 +410,7 @@ export default function AdminBlocksEditor({
                   <button
                     onClick={() => handleMove(index, "up")}
                     disabled={index === 0 || isPending}
+                    aria-label="Mover bloco para cima"
                     className="p-1 rounded hover:bg-muted disabled:opacity-30 transition-colors"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
@@ -386,6 +418,7 @@ export default function AdminBlocksEditor({
                   <button
                     onClick={() => handleMove(index, "down")}
                     disabled={index === blocks.length - 1 || isPending}
+                    aria-label="Mover bloco para baixo"
                     className="p-1 rounded hover:bg-muted disabled:opacity-30 transition-colors"
                   >
                     <ChevronDown className="w-3.5 h-3.5" />
@@ -401,6 +434,7 @@ export default function AdminBlocksEditor({
                   <button
                     onClick={() => handleDelete(block.id)}
                     disabled={isPending}
+                    aria-label="Excluir bloco"
                     className="p-1 rounded hover:bg-red-50 text-red-500 transition-colors disabled:opacity-50"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -410,7 +444,11 @@ export default function AdminBlocksEditor({
 
               {editingId === block.id ? (
                 <div className="space-y-2">
+                  <label htmlFor={`block-edit-type-${block.id}`} className="sr-only">
+                    Tipo do bloco
+                  </label>
                   <select
+                    id={`block-edit-type-${block.id}`}
                     value={editType}
                     onChange={(e) => setEditType(e.target.value as BlockType)}
                     className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
@@ -427,6 +465,7 @@ export default function AdminBlocksEditor({
                     type={editType}
                     value={editContent}
                     onChange={setEditContent}
+                    idPrefix={`block-edit-${block.id}`}
                   />
                   <button
                     onClick={() => handleSaveEdit(block)}

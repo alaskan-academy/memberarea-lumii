@@ -300,8 +300,9 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
 
         {/* Título */}
         <div>
-          <label className={LABEL_CLS}>Título *</label>
+          <label htmlFor="inspiracao-titulo" className={LABEL_CLS}>Título *</label>
           <input
+            id="inspiracao-titulo"
             required
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -318,6 +319,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
             onChange={setBody}
             placeholder="Descrição do post, contexto, dicas gerais..."
             minHeight={120}
+            ariaLabel="Legenda / corpo do post"
           />
         </div>
 
@@ -368,8 +370,9 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         {type === 'video' && (
           <div className="space-y-3">
             <div>
-              <label className={LABEL_CLS}>URL do vídeo (YouTube ou Panda Video)</label>
+              <label htmlFor="inspiracao-video-url" className={LABEL_CLS}>URL do vídeo (YouTube ou Panda Video)</label>
               <input
+                id="inspiracao-video-url"
                 type="url"
                 value={videoUrl}
                 onChange={e => setVideoUrl(e.target.value)}
@@ -401,6 +404,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
               <div className="rounded-xl overflow-hidden border border-border/40 aspect-video">
                 <iframe
                   src={`https://www.youtube.com/embed/${ytId}`}
+                  title="Pré-visualização do vídeo do YouTube"
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -412,7 +416,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 className="rounded-xl overflow-hidden border border-border/40"
                 style={{ aspectRatio: videoAspect, maxHeight: '80vh' }}
               >
-                <iframe src={videoUrl} className="w-full h-full" allowFullScreen style={{ border: 'none' }} />
+                <iframe src={videoUrl} title="Pré-visualização do vídeo do Panda Video" className="w-full h-full" allowFullScreen style={{ border: 'none' }} />
               </div>
             )}
           </div>
@@ -427,8 +431,9 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
               onChange={setCoverImage}
             />
             <div>
-              <label className={LABEL_CLS}>ID da aluna em destaque (UUID do perfil)</label>
+              <label htmlFor="inspiracao-featured-student" className={LABEL_CLS}>ID da aluna em destaque (UUID do perfil)</label>
               <input
+                id="inspiracao-featured-student"
                 value={featuredStudentId}
                 onChange={e => setFeaturedStudentId(e.target.value)}
                 className={INPUT_CLS}
@@ -462,13 +467,17 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
             <div className="space-y-2">
               {ingredientes.map((ing, i) => (
                 <div key={i} className="flex gap-2">
+                  <label htmlFor={`ingrediente-nome-${i}`} className="sr-only">Nome do ingrediente {i + 1}</label>
                   <input
+                    id={`ingrediente-nome-${i}`}
                     value={ing.item}
                     onChange={e => updateIngrediente(i, 'item', e.target.value)}
                     className={`${INPUT_CLS} flex-1`}
                     placeholder="Ex: Base glicerinada branca"
                   />
+                  <label htmlFor={`ingrediente-quantidade-${i}`} className="sr-only">Quantidade do ingrediente {i + 1}</label>
                   <input
+                    id={`ingrediente-quantidade-${i}`}
                     value={ing.quantidade}
                     onChange={e => updateIngrediente(i, 'quantidade', e.target.value)}
                     className="w-32 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] bg-white"
@@ -476,6 +485,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                   />
                   {ingredientes.length > 1 && (
                     <button type="button" onClick={() => removeIngrediente(i)}
+                      aria-label="Remover ingrediente"
                       className="p-2 text-muted-foreground hover:text-red-500 transition-colors shrink-0">
                       <X className="w-4 h-4" />
                     </button>
@@ -500,7 +510,9 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                     <span className="mt-2.5 text-xs font-bold text-muted-foreground w-5 shrink-0 text-right">
                       {i + 1}.
                     </span>
+                    <label htmlFor={`passo-${i}`} className="sr-only">Passo {i + 1}</label>
                     <textarea
+                      id={`passo-${i}`}
                       value={passo}
                       onChange={e => updatePasso(i, e.target.value)}
                       rows={2}
@@ -510,6 +522,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                   </div>
                   {passos.length > 1 && (
                     <button type="button" onClick={() => removePasso(i)}
+                      aria-label="Remover passo"
                       className="p-2 text-muted-foreground hover:text-red-500 transition-colors shrink-0 mt-1">
                       <X className="w-4 h-4" />
                     </button>
@@ -527,38 +540,39 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
           {/* Metadados */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className={LABEL_CLS}>Nível</label>
-              <select value={nivel} onChange={e => setNivel(e.target.value)} className={INPUT_CLS}>
+              <label htmlFor="inspiracao-nivel" className={LABEL_CLS}>Nível</label>
+              <select id="inspiracao-nivel" value={nivel} onChange={e => setNivel(e.target.value)} className={INPUT_CLS}>
                 <option value="">Selecionar...</option>
                 {NIVEL_OPTIONS.map(n => <option key={n} value={n}>{n}</option>)}
               </select>
             </div>
             <div>
-              <label className={LABEL_CLS}>Tempo</label>
-              <input value={tempo} onChange={e => setTempo(e.target.value)}
+              <label htmlFor="inspiracao-tempo" className={LABEL_CLS}>Tempo</label>
+              <input id="inspiracao-tempo" value={tempo} onChange={e => setTempo(e.target.value)}
                 className={INPUT_CLS} placeholder="Ex: 45 min" />
             </div>
             <div>
-              <label className={LABEL_CLS}>Temperatura</label>
-              <input value={temperatura} onChange={e => setTemperatura(e.target.value)}
+              <label htmlFor="inspiracao-temperatura" className={LABEL_CLS}>Temperatura</label>
+              <input id="inspiracao-temperatura" value={temperatura} onChange={e => setTemperatura(e.target.value)}
                 className={INPUT_CLS} placeholder="Ex: 65°C–70°C (derretimento)" />
             </div>
             <div>
-              <label className={LABEL_CLS}>Custo médio</label>
-              <input value={custoMedio} onChange={e => setCustoMedio(e.target.value)}
+              <label htmlFor="inspiracao-custo-medio" className={LABEL_CLS}>Custo médio</label>
+              <input id="inspiracao-custo-medio" value={custoMedio} onChange={e => setCustoMedio(e.target.value)}
                 className={INPUT_CLS} placeholder="Ex: R$ 3,20 por barra" />
             </div>
             <div>
-              <label className={LABEL_CLS}>Preço de venda sugerido</label>
-              <input value={precoVenda} onChange={e => setPrecoVenda(e.target.value)}
+              <label htmlFor="inspiracao-preco-venda" className={LABEL_CLS}>Preço de venda sugerido</label>
+              <input id="inspiracao-preco-venda" value={precoVenda} onChange={e => setPrecoVenda(e.target.value)}
                 className={INPUT_CLS} placeholder="Ex: R$ 15 – R$ 22" />
             </div>
           </div>
 
           {/* Dicas */}
           <div>
-            <label className={LABEL_CLS}>Dica da receita</label>
+            <label htmlFor="inspiracao-dicas" className={LABEL_CLS}>Dica da receita</label>
             <textarea
+              id="inspiracao-dicas"
               value={dicas}
               onChange={e => setDicas(e.target.value)}
               rows={3}
@@ -579,8 +593,9 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
             onChange={setCoverImage}
           />
           <div>
-            <label className={LABEL_CLS}>Conteúdo HTML</label>
+            <label htmlFor="inspiracao-html" className={LABEL_CLS}>Conteúdo HTML</label>
             <textarea
+              id="inspiracao-html"
               value={htmlBlock}
               onChange={e => setHtmlBlock(e.target.value)}
               rows={12}
@@ -663,7 +678,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         {isEdit && <Toggle label="Arquivado" value={archived} onChange={setArchived} />}
       </div>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
 
       <div className="flex gap-3">
         <Link href="/admin/inspiracoes"

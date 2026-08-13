@@ -172,7 +172,7 @@ export default function PushSubscribeButton({ initialEndpoints }: Props) {
         </p>
       )}
       {error && (
-        <p className="text-xs text-red-600 px-1">{error}</p>
+        <p role="alert" className="text-xs text-red-600 px-1">{error}</p>
       )}
     </div>
   );

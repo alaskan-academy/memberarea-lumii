@@ -91,7 +91,7 @@ export default function LessonCompleteButton({
       </button>
 
       {error && (
-        <span className="flex items-center gap-1 text-xs text-red-500">
+        <span role="alert" className="flex items-center gap-1 text-xs text-red-500">
           <AlertCircle className="w-3.5 h-3.5" />
           Erro ao salvar. Tente novamente.
         </span>

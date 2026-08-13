@@ -66,7 +66,7 @@ export default function PlanResultCard({
       </p>
 
       {error && (
-        <p className="flex items-center gap-1.5 text-xs text-red-500">
+        <p role="alert" className="flex items-center gap-1.5 text-xs text-red-500">
           <XCircle className="w-3.5 h-3.5" />
           {error}
         </p>

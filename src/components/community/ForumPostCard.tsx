@@ -170,7 +170,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
 
       {/* Ações — desabilitadas se pendente */}
       <div className="px-5 py-3 flex items-center gap-4 border-t border-border/40">
-        <button onClick={handleLike} disabled={isPending}
+        <button onClick={handleLike} disabled={isPending} aria-label={liked ? "Descurtir" : "Curtir"}
           className={cn("flex items-center gap-1.5 text-sm font-medium transition-colors",
             isPending ? "opacity-40 cursor-not-allowed" :
             liked ? "text-red-500" : "text-foreground/50 hover:text-red-400")}>
@@ -222,6 +222,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
                           </span>
                           {comment.user_id === userId && (
                             <button onClick={() => handleDeleteComment(comment.id)}
+                              aria-label="Excluir comentário"
                               className="text-muted-foreground hover:text-red-500 transition-colors">
                               <Trash2 className="w-3 h-3" />
                             </button>
@@ -239,12 +240,14 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
           <form onSubmit={handleComment} className="flex gap-2.5">
             <Avatar name="Você" size={7} />
             <div className="flex-1 flex gap-2">
-              <textarea value={commentBody} onChange={(e) => setCommentBody(e.target.value)}
+              <label htmlFor="forum-comment-body" className="sr-only">Escreva sua resposta</label>
+              <textarea id="forum-comment-body" value={commentBody} onChange={(e) => setCommentBody(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleComment(e as unknown as React.FormEvent); } }}
                 placeholder="Escreva sua resposta… (Enter para enviar)"
                 rows={1} className="flex-1 resize-none rounded-lg border border-border px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 placeholder:text-muted-foreground"
                 style={{ minHeight: "44px" }} />
               <button type="submit" disabled={!commentBody.trim() || submitting}
+                aria-label="Enviar comentário"
                 className="p-2 rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:opacity-90 transition-opacity shrink-0 self-end">
                 {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>

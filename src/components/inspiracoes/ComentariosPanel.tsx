@@ -131,7 +131,11 @@ export function ComentariosPanel({ postId, userId }: Props) {
                       </div>
                     ) : (
                       <form onSubmit={(e) => handleReplySubmit(e, c.id)} className="flex gap-2">
+                        <label htmlFor={`comentario-resposta-${c.id}`} className="sr-only">
+                          {`Responder a ${c.profiles?.full_name ?? 'Aluna'}`}
+                        </label>
                         <input
+                          id={`comentario-resposta-${c.id}`}
                           autoFocus
                           value={replyBody}
                           onChange={e => setReplyBody(e.target.value)}
@@ -159,7 +163,7 @@ export function ComentariosPanel({ postId, userId }: Props) {
                         </button>
                       </form>
                     )}
-                    {replyError && <p className="text-[10px] text-red-500 mt-1">{replyError}</p>}
+                    {replyError && <p role="alert" className="text-[10px] text-red-500 mt-1">{replyError}</p>}
                   </div>
                 )}
 
@@ -195,10 +199,12 @@ export function ComentariosPanel({ postId, userId }: Props) {
         </div>
       )}
 
-      {error && <p className="text-xs text-red-500 mb-2">{error}</p>}
+      {error && <p role="alert" className="text-xs text-red-500 mb-2">{error}</p>}
 
       <form onSubmit={handleSubmit} className="flex gap-2">
+        <label htmlFor="inspiracao-novo-comentario" className="sr-only">Escrever um comentário</label>
         <input
+          id="inspiracao-novo-comentario"
           value={body}
           onChange={e => { setBody(e.target.value); setSent(false) }}
           placeholder="Escreva um comentário..."

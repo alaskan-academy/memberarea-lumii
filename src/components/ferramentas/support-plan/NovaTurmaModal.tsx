@@ -62,8 +62,9 @@ export default function NovaTurmaModal({
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <label className="text-xs font-medium text-muted-foreground">Nome da turma *</label>
+            <label htmlFor="nova-turma-nome" className="text-xs font-medium text-muted-foreground">Nome da turma *</label>
             <input
+              id="nova-turma-nome"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -72,7 +73,7 @@ export default function NovaTurmaModal({
             />
           </div>
 
-          {error && <p className="text-xs text-red-500">{error}</p>}
+          {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
 
           <button
             type="submit"

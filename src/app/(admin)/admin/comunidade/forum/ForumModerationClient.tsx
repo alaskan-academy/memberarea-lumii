@@ -145,6 +145,7 @@ export default function ForumModerationClient({ posts: initialPosts }: Props) {
               <button
                 onClick={() => handleTogglePin(post.id, post.pinned)}
                 title={post.pinned ? "Desfixar" : "Fixar no topo"}
+                aria-label={post.pinned ? "Desfixar" : "Fixar no topo"}
                 className="p-1.5 rounded-lg text-muted-foreground hover:text-[#eebc3e] hover:bg-[#eebc3e]/10 transition-colors"
               >
                 {post.pinned ? <PinOff className="w-4 h-4" /> : <Pin className="w-4 h-4" />}
@@ -153,6 +154,7 @@ export default function ForumModerationClient({ posts: initialPosts }: Props) {
             <button
               onClick={() => handleDelete(post.id, post.forum_slug)}
               title="Deletar post"
+              aria-label="Deletar post"
               className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
