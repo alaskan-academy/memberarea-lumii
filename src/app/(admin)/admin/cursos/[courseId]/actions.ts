@@ -243,31 +243,44 @@ async function uploadLessonFile(lessonId: string, file: File): Promise<void> {
   });
 }
 
-export async function uploadMaterialForLesson(
+// Upload direto do browser pro Supabase Storage via URL assinada — o arquivo
+// nunca passa pela Server Action. Necessário porque as Serverless Functions da
+// Vercel têm limite de 4,5MB de corpo de requisição (fixo, não configurável),
+// bem abaixo do limite de 50MB validado no bucket.
+export async function createMaterialUploadUrl(
   lessonId: string,
-  formData: FormData
-): Promise<{ error?: string; material?: LessonMaterial }> {
-  const supabase = await assertAdmin();
-  const file = formData.get("file") as File | null;
-  if (!file || file.size === 0) return { error: "Arquivo obrigatorio" };
-  if (file.size > 52_428_800) return { error: "Arquivo muito grande (max 50MB)" };
-
-  const ext = file.name.split(".").pop() ?? "bin";
+  fileName: string
+): Promise<{ error?: string; path?: string; token?: string }> {
+  await assertAdmin();
+  const ext = fileName.split(".").pop() ?? "bin";
   const filePath = `${lessonId}/${Date.now()}.${ext}`;
-  const buffer = new Uint8Array(await file.arrayBuffer());
   const service = createServiceClient();
 
-  const { error: uploadError } = await service.storage
+  const { data, error } = await service.storage
     .from("lesson-materials")
-    .upload(filePath, buffer, { contentType: file.type, upsert: false });
-  if (uploadError) return { error: "Erro no upload: " + uploadError.message };
+    .createSignedUploadUrl(filePath);
+  if (error || !data) return { error: "Erro ao preparar upload: " + (error?.message ?? "desconhecido") };
+
+  return { path: data.path, token: data.token };
+}
+
+export async function finalizeMaterialUpload(
+  lessonId: string,
+  filePath: string,
+  name: string
+): Promise<{ error?: string; material?: LessonMaterial }> {
+  const supabase = await assertAdmin();
 
   const { data, error: dbError } = await supabase
     .from("lesson_materials")
-    .insert({ lesson_id: lessonId, name: file.name, file_path: filePath })
+    .insert({ lesson_id: lessonId, name, file_path: filePath })
     .select("id, name, file_path")
     .single();
-  if (dbError) return { error: "Erro ao salvar material: " + dbError.message };
+  if (dbError) {
+    const service = createServiceClient();
+    await service.storage.from("lesson-materials").remove([filePath]);
+    return { error: "Erro ao salvar material: " + dbError.message };
+  }
 
   return { material: data as LessonMaterial };
 }

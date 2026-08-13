@@ -91,33 +91,35 @@ const MaterialSchema = z.object({
   lessonId: z.string().uuid(),
 });
 
-export async function uploadMaterial(formData: FormData): Promise<void> {
+// Upload direto do browser pro Supabase Storage via URL assinada — o arquivo
+// nunca passa pela Server Action. Necessário porque as Serverless Functions da
+// Vercel têm limite de 4,5MB de corpo de requisição (fixo, não configurável),
+// bem abaixo do limite de 50MB validado no bucket.
+export async function createMaterialUploadUrl(
+  lessonId: string,
+  fileName: string
+): Promise<{ path: string; token: string }> {
+  await assertAdmin();
+  const ext = fileName.split(".").pop() ?? "bin";
+  const filePath = `${lessonId}/${Date.now()}.${ext}`;
+  const serviceClient = createServiceClient();
+
+  const { data, error } = await serviceClient.storage
+    .from("lesson-materials")
+    .createSignedUploadUrl(filePath);
+  if (error || !data) throw new Error("Erro ao preparar upload: " + (error?.message ?? "desconhecido"));
+
+  return { path: data.path, token: data.token };
+}
+
+export async function finalizeMaterialUpload(
+  lessonId: string,
+  filePath: string,
+  name: string
+): Promise<void> {
   await assertAdmin();
 
-  const lessonId = formData.get("lessonId") as string;
-  const file = formData.get("file") as File | null;
-  if (!file || file.size === 0) throw new Error("Arquivo obrigatório");
-
-  // Nome é opcional na UI — usa o nome original do arquivo quando não informado.
-  const nameRaw = (formData.get("name") as string | null)?.trim();
-  const name = nameRaw && nameRaw.length > 0 ? nameRaw : file.name;
-
   MaterialSchema.parse({ name, lessonId });
-
-  if (file.size > 52_428_800) throw new Error("Arquivo muito grande (máx 50 MB)");
-
-  const ext = file.name.split(".").pop() ?? "bin";
-  const filePath = `${lessonId}/${Date.now()}.${ext}`;
-
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
-
-  const serviceClient = createServiceClient();
-  const { error: uploadError } = await serviceClient.storage
-    .from("lesson-materials")
-    .upload(filePath, buffer, { contentType: file.type, upsert: false });
-
-  if (uploadError) throw new Error("Erro no upload: " + uploadError.message);
 
   const supabase = await createClient();
   const { error: insertError } = await supabase.from("lesson_materials").insert({
@@ -128,6 +130,7 @@ export async function uploadMaterial(formData: FormData): Promise<void> {
 
   if (insertError) {
     // Remove arquivo órfão se o insert falhar
+    const serviceClient = createServiceClient();
     await serviceClient.storage.from("lesson-materials").remove([filePath]);
     throw new Error("Erro ao salvar material: " + insertError.message);
   }
