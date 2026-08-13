@@ -16,10 +16,11 @@ import {
 import {
   createModule, updateModule, deleteModule, toggleArchivedModule,
   createLesson, updateLesson, deleteLesson, toggleArchivedLesson,
-  reorderModules, reorderLessons, uploadMaterialForLesson, deleteLessonMaterial,
+  reorderModules, reorderLessons, createMaterialUploadUrl, finalizeMaterialUpload, deleteLessonMaterial,
   refreshLessonWithMaterials,
 } from "./actions";
 import type { LessonData, LessonMaterial } from "./actions";
+import { createClient } from "@/lib/supabase/client";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -92,6 +93,10 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
   const fileRef = useRef<HTMLInputElement>(null);
 
   function handleAddMaterial(file: File) {
+    if (file.size > 52_428_800) {
+      setError(`Arquivo muito grande (máx 50MB): ${file.name}`);
+      return;
+    }
     setNewMaterials((prev) => [...prev, { name: file.name, file }]);
   }
 
@@ -124,13 +129,25 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
 
       if (id && newMaterials.length > 0) {
         const uploadErrors: string[] = [];
+        const supabase = createClient();
         await Promise.allSettled(
           newMaterials.map(async (m) => {
-            const mfd = new FormData();
-            mfd.set("file", m.file);
-            mfd.set("name", m.name);
-            const res = await uploadMaterialForLesson(id, mfd);
-            if (res.error) uploadErrors.push(`${m.name}: ${res.error}`);
+            // Upload direto do browser pro Storage via URL assinada — o arquivo
+            // nunca passa pela Server Action (limite de 4,5MB nas functions da Vercel).
+            const urlRes = await createMaterialUploadUrl(id, m.file.name);
+            if (urlRes.error || !urlRes.path || !urlRes.token) {
+              uploadErrors.push(`${m.name}: ${urlRes.error ?? "erro ao preparar upload"}`);
+              return;
+            }
+            const { error: uploadError } = await supabase.storage
+              .from("lesson-materials")
+              .uploadToSignedUrl(urlRes.path, urlRes.token, m.file, { contentType: m.file.type });
+            if (uploadError) {
+              uploadErrors.push(`${m.name}: ${uploadError.message}`);
+              return;
+            }
+            const finalizeRes = await finalizeMaterialUpload(id, urlRes.path, m.name);
+            if (finalizeRes.error) uploadErrors.push(`${m.name}: ${finalizeRes.error}`);
           })
         );
         if (uploadErrors.length > 0) {

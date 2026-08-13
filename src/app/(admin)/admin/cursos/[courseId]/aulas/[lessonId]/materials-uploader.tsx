@@ -2,7 +2,8 @@
 
 import { useState, useTransition, useRef } from "react";
 import { Upload, Trash2, Copy, Check, Link2, ChevronDown, ChevronUp, Search } from "lucide-react";
-import { uploadMaterial, deleteMaterial, linkMaterial } from "./actions";
+import { createMaterialUploadUrl, finalizeMaterialUpload, deleteMaterial, linkMaterial } from "./actions";
+import { createClient } from "@/lib/supabase/client";
 
 interface Material {
   id: string;
@@ -42,15 +43,31 @@ export default function AdminMaterialsUploader({
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    data.set("lessonId", lessonId);
     const file = data.get("file") as File | null;
-    if (!(data.get("name") as string)?.trim() && file) {
-      data.set("name", file.name);
+    const nameRaw = (data.get("name") as string)?.trim();
+
+    if (!file || file.size === 0) {
+      setError("Arquivo obrigatório");
+      return;
     }
+    if (file.size > 52_428_800) {
+      setError("Arquivo muito grande (máx 50MB)");
+      return;
+    }
+    const name = nameRaw && nameRaw.length > 0 ? nameRaw : file.name;
 
     startTransition(async () => {
       try {
-        await uploadMaterial(data);
+        // Upload direto do browser pro Storage via URL assinada — o arquivo
+        // nunca passa pela Server Action (limite de 4,5MB nas functions da Vercel).
+        const { path, token } = await createMaterialUploadUrl(lessonId, file.name);
+        const supabase = createClient();
+        const { error: uploadError } = await supabase.storage
+          .from("lesson-materials")
+          .uploadToSignedUrl(path, token, file, { contentType: file.type });
+        if (uploadError) throw new Error(uploadError.message);
+
+        await finalizeMaterialUpload(lessonId, path, name);
         form.reset();
         setError(null);
         window.location.reload();
