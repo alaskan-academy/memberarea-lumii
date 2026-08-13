@@ -454,6 +454,50 @@ export async function resendAccessEmailAction(
   return { success: true };
 }
 
+// ─── Definir senha (aluna já tem conta) ───────────────────────────────────────
+
+const setPasswordSchema = z.object({
+  user_id: z.string().uuid(),
+  password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres."),
+});
+
+export async function setStudentPasswordAction(
+  userId: string,
+  password: string
+): Promise<{ error?: string }> {
+  let adminId: string;
+  try {
+    adminId = await getAdminId();
+  } catch (e) {
+    return { error: (e as Error).message };
+  }
+
+  const parsed = setPasswordSchema.safeParse({ user_id: userId, password });
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
+
+  const service = createServiceClient();
+
+  // email_confirm: true é essencial — sem ele, uma conta nunca confirmada
+  // continua bloqueada mesmo com a senha trocada.
+  const { error } = await service.auth.admin.updateUserById(userId, {
+    password: parsed.data.password,
+    email_confirm: true,
+  });
+
+  if (error) return { error: `Erro ao definir senha: ${error.message}` };
+
+  await service.from("audit_log").insert({
+    admin_id: adminId,
+    action: "set_password",
+    target_type: "user",
+    target_id: userId,
+    meta: {},
+  });
+
+  revalidatePath(`/admin/alunos/${userId}`);
+  return {};
+}
+
 // ─── Atualizar e-mail ─────────────────────────────────────────────────────────
 
 const emailSchema = z.object({

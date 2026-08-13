@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useMemo, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Mail,
   Phone,
@@ -13,8 +14,11 @@ import {
   Pencil,
   Check,
   Link2,
+  Lock,
+  Eye,
+  EyeOff,
 } from "lucide-react";
-import { resendActivationAction, correctEmailAction } from "./resend-actions";
+import { resendActivationAction, correctEmailAction, createAccountAndSetPasswordAction } from "./resend-actions";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
 
 /** Copia o link de cadastro (/cadastro/[email]) para a área de transferência — usado para enviar via WhatsApp sem depender de e-mail. */
@@ -271,10 +275,39 @@ function DetailModal({
   row: SemCadastroRow;
   onClose: () => void;
 }) {
+  const router = useRouter();
+
   // reenvio
   const [resendPending, startResendTransition] = useTransition();
   const [resendResult, setResendResult] = useState<{ sent?: number; error?: string } | null>(null);
   const { copied, copy } = useCopyLink(row.email);
+
+  // criar conta + definir senha
+  const [showPwForm, setShowPwForm] = useState(false);
+  const [pwPassword, setPwPassword] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
+  const [pwShowPass, setPwShowPass] = useState(false);
+  const [pwShowConfirm, setPwShowConfirm] = useState(false);
+  const [pwPending, startPwTransition] = useTransition();
+  const [pwError, setPwError] = useState<string | null>(null);
+  const [pwSuccess, setPwSuccess] = useState(false);
+
+  function handleCreateAccount(e: React.FormEvent) {
+    e.preventDefault();
+    if (pwPassword.length < 8) { setPwError("A senha deve ter no mínimo 8 caracteres."); return; }
+    if (pwPassword !== pwConfirm) { setPwError("As senhas não coincidem."); return; }
+    setPwError(null);
+    startPwTransition(async () => {
+      const res = await createAccountAndSetPasswordAction(row.email, pwPassword);
+      if (res.error) {
+        setPwError(res.error);
+      } else {
+        setPwSuccess(true);
+        router.refresh();
+        setTimeout(onClose, 2500);
+      }
+    });
+  }
 
   // edição inline de e-mail
   const [editing, setEditing] = useState(false);
@@ -494,6 +527,80 @@ function DetailModal({
               {resendPending ? "Enviando…" : "Reenviar e-mail"}
             </button>
           </div>
+
+          {/* Criar conta + definir senha */}
+          {pwSuccess ? (
+            <div className="rounded-xl bg-[#71c69a]/10 border border-[#71c69a]/30 px-4 py-3 text-center">
+              <p className="text-sm font-medium text-[#3d9e5a]">Conta criada com acesso liberado!</p>
+            </div>
+          ) : showPwForm ? (
+            <form onSubmit={handleCreateAccount} className="space-y-2.5 rounded-xl border border-[#f6614f]/20 bg-[#f6614f]/5 p-3">
+              <p className="text-[11px] text-muted-foreground">
+                Cria a conta desta compradora e libera o acesso aos cursos comprados imediatamente.
+              </p>
+              <div className="relative">
+                <input
+                  type={pwShowPass ? "text" : "password"}
+                  value={pwPassword}
+                  onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
+                  placeholder="Senha (mínimo 8 caracteres)"
+                  autoFocus
+                  className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                />
+                <button
+                  type="button"
+                  onClick={() => setPwShowPass((v) => !v)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  aria-label={pwShowPass ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {pwShowPass ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type={pwShowConfirm ? "text" : "password"}
+                  value={pwConfirm}
+                  onChange={(e) => { setPwConfirm(e.target.value); setPwError(null); }}
+                  placeholder="Confirmar senha"
+                  className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                />
+                <button
+                  type="button"
+                  onClick={() => setPwShowConfirm((v) => !v)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  aria-label={pwShowConfirm ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {pwShowConfirm ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+              {pwError && <p className="text-xs text-red-600">{pwError}</p>}
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={pwPending}
+                  className="flex-1 px-3 py-2 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] rounded-lg transition-colors disabled:opacity-50"
+                >
+                  {pwPending ? "Criando…" : "Criar conta"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setShowPwForm(false); setPwPassword(""); setPwConfirm(""); setPwError(null); }}
+                  className="px-3 py-2 text-xs text-muted-foreground hover:text-foreground"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          ) : (
+            <button
+              onClick={() => setShowPwForm(true)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-dashed border-[#f6614f]/40 text-[#f6614f] hover:bg-[#f6614f]/5 transition-colors"
+            >
+              <Lock className="w-4 h-4" />
+              Criar conta e definir senha
+            </button>
+          )}
+
           <p className="text-center text-[11px] text-muted-foreground">
             Um e-mail por curso · Links expirados são renovados
           </p>

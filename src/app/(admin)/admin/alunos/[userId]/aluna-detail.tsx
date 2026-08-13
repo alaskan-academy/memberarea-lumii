@@ -27,6 +27,9 @@ import {
   Search,
   Send,
   Check,
+  Lock,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -36,6 +39,7 @@ import {
   updateProfileAction,
   grantMultipleAccessAction,
   resendAccessEmailAction,
+  setStudentPasswordAction,
 } from "./actions";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
 import ActivityTab, { type ActivityItem } from "@/components/admin/alunos/ActivityTab";
@@ -104,6 +108,7 @@ const ACTION_LABELS: Record<string, string> = {
   ban: "Aluna banida",
   unban: "Ban removido",
   update_email: "E-mail atualizado",
+  set_password: "Senha definida pelo admin",
   reject_forum_post: "Post do fórum rejeitado",
   delete_forum_post: "Post do fórum deletado",
 };
@@ -118,6 +123,16 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
   const [editingProfile, setEditingProfile] = useState(false);
   const [profileState, profileAction, profilePending] = useActionState(updateProfileAction, {});
   useModalBackGuard(editingProfile, () => setEditingProfile(false));
+
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [pwPassword, setPwPassword] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
+  const [pwShowPass, setPwShowPass] = useState(false);
+  const [pwShowConfirm, setPwShowConfirm] = useState(false);
+  const [pwPending, startPwTransition] = useTransition();
+  const [pwError, setPwError] = useState<string | null>(null);
+  const [pwSuccess, setPwSuccess] = useState(false);
+  useModalBackGuard(showPasswordModal, () => setShowPasswordModal(false));
 
   const [courseSearch, setCourseSearch] = useState("");
   const searchLower = courseSearch.toLowerCase();
@@ -148,6 +163,36 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
       const res = await resendAccessEmailAction(profile.id);
       setResendFeedback(res.error ? "error" : "sent");
       setTimeout(() => setResendFeedback(null), 4000);
+    });
+  }
+
+  function openPasswordModal() {
+    setPwPassword("");
+    setPwConfirm("");
+    setPwError(null);
+    setPwSuccess(false);
+    setShowPasswordModal(true);
+  }
+
+  function handleSetPassword(e: React.FormEvent) {
+    e.preventDefault();
+    if (pwPassword.length < 8) {
+      setPwError("A senha deve ter no mínimo 8 caracteres.");
+      return;
+    }
+    if (pwPassword !== pwConfirm) {
+      setPwError("As senhas não coincidem.");
+      return;
+    }
+    setPwError(null);
+    startPwTransition(async () => {
+      const res = await setStudentPasswordAction(profile.id, pwPassword);
+      if (res.error) {
+        setPwError(res.error);
+      } else {
+        setPwSuccess(true);
+        setTimeout(() => setShowPasswordModal(false), 2500);
+      }
     });
   }
 
@@ -193,6 +238,14 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
           >
             <Send className="w-3.5 h-3.5" />
             {resendPending ? "Enviando…" : "Reenviar acesso"}
+          </button>
+          <button
+            onClick={openPasswordModal}
+            title="Definir uma nova senha para esta aluna"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border border-border text-foreground/70 hover:bg-muted transition-colors"
+          >
+            <Lock className="w-3.5 h-3.5" />
+            Definir senha
           </button>
           <button
             onClick={handleToggleBan}
@@ -706,6 +759,109 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                 >
                   <Save className="w-4 h-4" />
                   {profilePending ? "Salvando…" : "Salvar alterações"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de definir senha */}
+      {showPasswordModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.45)" }}
+          onClick={() => setShowPasswordModal(false)}
+        >
+          <div
+            className="lumii-card w-full max-w-sm overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
+              <Lock className="w-5 h-5 text-[#f6614f]" />
+              <h2 className="font-semibold flex-1">Definir senha</h2>
+              <button
+                onClick={() => setShowPasswordModal(false)}
+                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
+                aria-label="Fechar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSetPassword} className="px-5 py-5 space-y-4">
+              <p className="text-xs text-muted-foreground">
+                Define uma nova senha para <strong>{profile.full_name ?? profile.email}</strong> e ativa a conta imediatamente, mesmo que ela nunca tenha confirmado o e-mail.
+              </p>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  Nova senha
+                </label>
+                <div className="relative">
+                  <input
+                    type={pwShowPass ? "text" : "password"}
+                    value={pwPassword}
+                    onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
+                    placeholder="Mínimo 8 caracteres"
+                    className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setPwShowPass((v) => !v)}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={pwShowPass ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {pwShowPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  Confirmar senha
+                </label>
+                <div className="relative">
+                  <input
+                    type={pwShowConfirm ? "text" : "password"}
+                    value={pwConfirm}
+                    onChange={(e) => { setPwConfirm(e.target.value); setPwError(null); }}
+                    placeholder="Repita a senha"
+                    className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setPwShowConfirm((v) => !v)}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={pwShowConfirm ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {pwShowConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {pwError && <p className="text-xs text-red-600">{pwError}</p>}
+              {pwSuccess && (
+                <div className="rounded-lg bg-[#71c69a]/10 border border-[#71c69a]/30 px-4 py-3 text-sm text-[#3d9e5a] font-medium">
+                  Senha definida com sucesso!
+                </div>
+              )}
+
+              <div className="flex justify-end gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setShowPasswordModal(false)}
+                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={pwPending || pwSuccess}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                >
+                  <Lock className="w-4 h-4" />
+                  {pwPending ? "Salvando…" : "Definir senha"}
                 </button>
               </div>
             </form>
