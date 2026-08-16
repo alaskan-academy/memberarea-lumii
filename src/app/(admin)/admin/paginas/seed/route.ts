@@ -133,5 +133,6 @@ export async function GET() {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  return NextResponse.redirect(new URL("/admin/paginas", process.env.NEXT_PUBLIC_APP_URL!));
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.lumiieduca.com.br";
+  return NextResponse.redirect(new URL("/admin/paginas", appUrl));
 }
