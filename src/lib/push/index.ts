@@ -7,11 +7,10 @@ function ensureVapid() {
   const pub = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
   const priv = process.env.VAPID_PRIVATE_KEY;
   if (!pub || !priv) throw new Error("VAPID keys not configured");
-  webpush.setVapidDetails(
-    `mailto:${process.env.VAPID_EMAIL ?? "contato@lumiieduca.com.br"}`,
-    pub,
-    priv
-  );
+  // Usa || (não ??) de propósito — VAPID_EMAIL pode estar definida mas vazia
+  // no ambiente (ex: "VAPID_EMAIL=" no .env.local), e ?? só cobre undefined/null.
+  const email = process.env.VAPID_EMAIL?.trim() || "contato@lumiieduca.com.br";
+  webpush.setVapidDetails(`mailto:${email}`, pub, priv);
   vapidConfigured = true;
 }
 

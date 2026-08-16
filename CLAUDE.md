@@ -259,9 +259,17 @@ Nunca usar `/embed?url=...` — a URL de destino e o email ficam invisíveis na 
 ```
 NEXT_PUBLIC_VAPID_PUBLIC_KEY=  # chave pública VAPID (exposta ao client)
 VAPID_PRIVATE_KEY=             # chave privada VAPID (server-only)
-VAPID_EMAIL=admin@handify.com.br
+VAPID_EMAIL=contato@lumiieduca.com.br
 ```
-Configuradas em `.env.local` e nas env vars da Vercel.
+Configuradas em `.env.local` e nas env vars da Vercel. `VAPID_EMAIL` é só
+metadado do protocolo VAPID (RFC 8292, contato para os serviços de push em
+caso de abuso) — não depende do domínio `lumiieduca.com.br` estar verificado
+no Resend, que é um sistema totalmente separado (envio de e-mail transacional).
+
+**Correção (2026-08-14):** `src/lib/push/index.ts` usava `??` pro fallback de
+`VAPID_EMAIL`, que não cobre string vazia — se a env var existisse mas
+estivesse em branco (`VAPID_EMAIL=`), o código montava `mailto:` sem
+endereço nenhum. Trocado para `.trim() || fallback`.
 
 ### Tabela no Supabase
 `push_subscriptions (id, user_id, endpoint, p256dh, auth, created_at)` — RLS ativo.
