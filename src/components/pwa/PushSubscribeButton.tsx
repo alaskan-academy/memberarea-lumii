@@ -6,7 +6,7 @@ import { subscribePush, unsubscribePush } from "@/lib/push/actions";
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
 // Chave compartilhada com PushPromptBanner para evitar exibição repetida no mobile
-const LS_ACTIVATED = "handify_push_activated";
+const LS_ACTIVATED = "lumii_push_activated";
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);

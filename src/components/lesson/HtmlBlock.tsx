@@ -43,7 +43,7 @@ const RESIZE_SCRIPT = `
   var _last=0,_t=null;
   function send(){
     var h=document.body?document.body.scrollHeight:document.documentElement.scrollHeight;
-    if(h>0&&h!==_last){_last=h;try{window.parent.postMessage({type:'handify-resize',height:h},'*');}catch(e){}}
+    if(h>0&&h!==_last){_last=h;try{window.parent.postMessage({type:'lumii-resize',height:h},'*');}catch(e){}}
   }
   function poll(){
     clearTimeout(_t);
@@ -78,7 +78,7 @@ function HtmlDocument({ html }: { html: string }) {
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (
-        e.data?.type === "handify-resize" &&
+        e.data?.type === "lumii-resize" &&
         typeof e.data.height === "number" &&
         e.data.height > 50 &&
         // Garante que o postMessage veio do nosso iframe específico

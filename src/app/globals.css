@@ -205,6 +205,6 @@
 }
 
 /* Transições padrão Lumii: 200-300ms ease-out */
-.handify-transition {
+.lumii-transition {
   transition: all 250ms ease-out;
 }

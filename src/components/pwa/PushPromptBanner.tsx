@@ -6,8 +6,8 @@ import { subscribePush } from "@/lib/push/actions";
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
 // Compartilhada com PushSubscribeButton — não alterar o nome
-const LS_ACTIVATED = "handify_push_activated";
-const LS_DISMISSED = "handify_push_dismissed_at";
+const LS_ACTIVATED = "lumii_push_activated";
+const LS_DISMISSED = "lumii_push_dismissed_at";
 const INTERVAL_MS = 15 * 24 * 60 * 60 * 1000; // 15 dias em ms
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array {

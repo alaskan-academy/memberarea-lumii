@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { activeModalRef } from "@/lib/modal-back-state";
 
-const GUARD_KEY = "__handify_guard";
+const GUARD_KEY = "__lumii_guard";
 const COOLDOWN_MS = 2000;
 
 export default function BackButtonGuard() {

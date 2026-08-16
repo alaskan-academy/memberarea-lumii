@@ -1,4 +1,4 @@
-# Handify Membros — Dev Notes
+# Lumii Membros — Dev Notes
 
 PRD e arquitetura completa em: `../CLAUDE.md`
 Plano de execução em: `../PLAN.md`
@@ -89,7 +89,7 @@ O modal que abre ao clicar num curso na listagem **sempre** deve exibir para qua
 
 **Causa raiz:** `{{ .ConfirmationURL }}` no template do Supabase aponta para `supabase.co/auth/v1/verify?...` que redireciona para o app. Esse salto entre domínios faz o Android perder o contexto do PWA — a sessão não chegava corretamente ao callback.
 
-**Solução:** Template de e-mail usa `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=recovery` diretamente, eliminando o redirect intermediário do Supabase. O link já vai direto para `membros.handify.com.br`, o PWA intercepta sem ambiguidade.
+**Solução:** Template de e-mail usa `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=recovery` diretamente, eliminando o redirect intermediário do Supabase. O link já vai direto para `membros.lumiieduca.com.br`, o PWA intercepta sem ambiguidade.
 
 ### Callback `/auth/callback/route.ts` — regras críticas
 
@@ -149,7 +149,7 @@ Colunas: Nome, E-mail, Telefone, Nascimento, Qtd. Cursos, Cursos, Fonte, Data da
 
 ## Política de acesso — 100% fechado sem login
 
-**Regra não-negociável:** qualquer URL de `membros.handify.com.br` exige conta logada. Sem login → redireciona para `/login`. Sem exceções para alunas ou visitantes.
+**Regra não-negociável:** qualquer URL de `membros.lumiieduca.com.br` exige conta logada. Sem login → redireciona para `/login`. Sem exceções para alunas ou visitantes.
 
 Rotas que ficam abertas sem login (necessidades técnicas, não alterar):
 - `/login`, `/cadastro`, `/recuperar-senha`, `/nova-senha` — páginas de autenticação
@@ -290,7 +290,7 @@ Migration: `supabase/migrations/20260625_push_subscriptions.sql`.
 ### Lógica do PushPromptBanner
 - Aparece 1x para quem nunca viu
 - Se aprovado antes mas sem subscription no dispositivo atual (ex: novo celular) → aparece novamente
-- Se dispensado sem ativar → guarda timestamp em `localStorage` (`handify_push_prompt_dismissed_at`) e reexibe após 15 dias
+- Se dispensado sem ativar → guarda timestamp em `localStorage` (`lumii_push_dismissed_at`) e reexibe após 15 dias
 - Se permission === "denied" → nunca aparece
 
 ## Segurança — checklist por PR
@@ -329,12 +329,12 @@ Migration: `supabase/migrations/20260625_push_subscriptions.sql`.
 |----------|------------------|--------|
 | `default-src` | `'self'` | Padrão restritivo: tudo bloqueado salvo exceções abaixo |
 | `script-src` | `'self' 'unsafe-inline' 'unsafe-eval'` + Panda Video | Next.js exige `unsafe-inline`/`unsafe-eval`; Panda Video precisa carregar scripts do player |
-| `frame-src` | Panda Video, Google Forms, YouTube, Notion, Canva, Typeform, `*.handify.com.br` | Embeds permitidos nas aulas (allowlist do DOMPurify espelhada aqui) |
+| `frame-src` | Panda Video, Google Forms, YouTube, Notion, Canva, Typeform | Embeds permitidos nas aulas (allowlist do DOMPurify espelhada aqui) |
 | `img-src` | `'self' data: blob: https:` | Thumbnails do Supabase Storage e imagens externas nos posts |
 | `style-src` | `'self' 'unsafe-inline'` | Tailwind e shadcn/ui usam estilos inline |
 | `connect-src` | Supabase (HTTPS + WSS), Panda Video | Requisições de rede: banco, realtime e player |
 | `media-src` | `'self' blob:` + Panda Video | Vídeos do player |
-| `font-src` | `'self'` | Montserrat é servida localmente via `next/font` — sem chamada ao Google Fonts em runtime |
+| `font-src` | `'self'` | Poppins é servida localmente via `next/font` — sem chamada ao Google Fonts em runtime |
 | `object-src` | `'none'` | Bloqueia Flash, Java e qualquer plugin |
 | `base-uri` | `'self'` | Impede injeção de `<base href="...">` que redirecionaria todos os links da página |
 | `frame-ancestors` | `'none'` | Equivalente moderno do `X-Frame-Options` no CSP (mantidos os dois por compatibilidade) |

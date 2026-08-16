@@ -53,11 +53,11 @@ export default function EmbedBlock({ url, title = "Conteúdo incorporado", heigh
       });
     }
 
-    // Dynamic HTMLs (e.g. receitas.html) send height via postMessage on each
-    // view change. As soon as the first message arrives we trust the iframe
-    // completely and cancel the static retries.
+    // Dynamic HTMLs send height via postMessage on each view change. As soon
+    // as the first message arrives we trust the iframe completely and
+    // cancel the static retries.
     function onMessage(e: MessageEvent) {
-      if (e.data?.type === "handify-resize" && typeof e.data.height === "number") {
+      if (e.data?.type === "lumii-resize" && typeof e.data.height === "number") {
         if (!dynamicMode) {
           dynamicMode = true;
           retryTimers.forEach(clearTimeout);

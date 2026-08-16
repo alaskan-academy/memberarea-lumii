@@ -23,7 +23,7 @@ export function useModalBackGuard(isOpen: boolean, onClose: () => void) {
     closedByBackRef.current = false;
     // Guarda a URL atual para saber se houve navegação no cleanup.
     const urlOnOpen = window.location.href;
-    history.pushState({ __handify_modal: true }, "");
+    history.pushState({ __lumii_modal: true }, "");
 
     function handlePopState() {
       closedByBackRef.current = true;
