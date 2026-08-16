@@ -95,7 +95,7 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
           </div>
           <div className="flex gap-2">
             <button onClick={() => handleUpdate(forum.id)} disabled={!editTitle.trim()}
-              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50">
+              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50">
               <Check className="w-3.5 h-3.5" /> Salvar
             </button>
             <button onClick={() => setEditingId(null)}
@@ -175,7 +175,7 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
         </div>
         <button
           onClick={() => { setShowCreate(true); setEditingId(null); }}
-          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors font-medium"
+          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors font-medium"
         >
           <Plus className="w-4 h-4" /> Novo fórum
         </button>
@@ -210,7 +210,7 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
           </div>
           <div className="flex gap-2">
             <button onClick={handleCreate} disabled={!newTitle.trim()}
-              className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50">
+              className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50">
               <Plus className="w-4 h-4" /> Criar fórum
             </button>
             <button onClick={() => { setShowCreate(false); setNewTitle(""); setNewDesc(""); setError(null); }}

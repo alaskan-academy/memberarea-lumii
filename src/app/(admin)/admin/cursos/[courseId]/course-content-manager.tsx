@@ -67,7 +67,7 @@ function ModuleForm({ courseId, initial, onSave, onCancel, moduleId, nextPositio
       <input name="position" type="hidden" defaultValue={initial?.position ?? nextPosition} />
       <div className="flex gap-2">
         <button type="submit" disabled={isPending}
-          className="flex items-center gap-1 text-xs px-3 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium">
+          className="flex items-center gap-1 text-xs px-3 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50 font-medium">
           <Save className="w-3.5 h-3.5" />
           {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : moduleId ? "Salvar" : "Criar módulo"}
         </button>
@@ -204,17 +204,17 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
 
       {/* Atalho de vídeo — só antes de criar a aula, evita precisar entrar no editor de blocos */}
       {!savedLessonId && (
-        <div className="bg-[#6699F3]/5 border border-[#6699F3]/20 rounded-xl p-3 space-y-2">
-          <label htmlFor={`lesson-video-${idPrefix}`} className="flex items-center gap-1.5 text-xs font-medium text-[#6699F3]">
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2">
+          <label htmlFor={`lesson-video-${idPrefix}`} className="flex items-center gap-1.5 text-xs font-medium text-primary">
             <Video className="w-3.5 h-3.5" />
-            Vídeo da aula <span className="text-[#6699F3]/60">(opcional)</span>
+            Vídeo da aula <span className="text-primary/60">(opcional)</span>
           </label>
           <input
             id={`lesson-video-${idPrefix}`}
             type="text"
             name="video_panda_id"
             placeholder="ID do Panda Video ou URL do player..."
-            className="w-full text-sm font-mono border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6699F3]/40 bg-background"
+            className="w-full text-sm font-mono border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/40 bg-background"
           />
           <p className="text-[11px] text-muted-foreground">
             Salvo automaticamente como primeiro bloco ao criar a aula.
@@ -278,7 +278,7 @@ function LessonForm({ moduleId, courseId, initial, onSave, onCancel, lessonId, n
 
       <div className="flex gap-2">
         <button type="submit" disabled={isPending}
-          className="flex items-center gap-1.5 text-xs px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium">
+          className="flex items-center gap-1.5 text-xs px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50 font-medium">
           {isPending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
           {isPending ? "Salvando..." : lessonId ? "Salvar aula" : "Criar aula"}
         </button>

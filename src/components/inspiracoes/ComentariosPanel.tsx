@@ -147,7 +147,7 @@ export function ComentariosPanel({ postId, userId }: Props) {
                           type="submit"
                           disabled={!replyBody.trim() || isReplySubmitting}
                           aria-label="Enviar resposta"
-                          className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:bg-[#5588e8] transition-colors"
+                          className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:bg-[#dd5747] transition-colors"
                         >
                           {isReplySubmitting
                             ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -215,7 +215,7 @@ export function ComentariosPanel({ postId, userId }: Props) {
           type="submit"
           disabled={!body.trim() || isSubmitting}
           aria-label="Enviar comentário"
-          className="shrink-0 w-11 h-11 flex items-center justify-center rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:bg-[#5588e8] transition-colors"
+          className="shrink-0 w-11 h-11 flex items-center justify-center rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:bg-[#dd5747] transition-colors"
         >
           {isSubmitting
             ? <Loader2 className="w-3.5 h-3.5 animate-spin" />

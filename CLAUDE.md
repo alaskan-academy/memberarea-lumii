@@ -57,11 +57,11 @@ Padrão atual em `src/components/layout/StudentNav.tsx`:
 
 ## Página de aula — padrões visuais (jun/2026)
 
-### Download de materiais (`src/components/lesson/content-blocks.tsx` — `DownloadBlock`)
-- Card com `border-2 border-[#6699F3]/25 bg-[#6699F3]/5 rounded-xl p-4 sm:p-5`
-- Ícone `Download` 48×48px com fundo azul suave (`bg-[#6699F3]/15`)
-- Label "MATERIAL DA AULA" em azul maiúsculo acima do nome do arquivo
-- Botão "Baixar" sólido azul (`bg-[#6699F3]`) com ícone, `min-h-[44px]` (WCAG)
+### Download de materiais (`src/components/lesson/ContentBlocks.tsx` — `DownloadBlock`)
+- Card com `border-2 border-[#f6614f]/25 bg-[#f6614f]/5 rounded-xl p-4 sm:p-5`
+- Ícone `Download` 48×48px com fundo coral suave (`bg-[#f6614f]/15`)
+- Label "MATERIAL DA AULA" em coral maiúsculo acima do nome do arquivo
+- Botão "Baixar" sólido coral (`bg-[#f6614f]`, hover `#dd5747`, active `#c54e3f`) com ícone, `min-h-[44px]` (WCAG)
 - **Nunca voltar ao estilo anterior** (link de texto "Baixar" — alunas não viam)
 
 ### Botões de ação da aula (`src/app/(student)/aulas/[id]/page.tsx`)
@@ -70,7 +70,7 @@ Padrão atual em `src/components/layout/StudentNav.tsx`:
 - Linha 2: "Anterior" e "Próxima" em `grid grid-cols-2 gap-2 w-full`
   - Sempre simétrico 50/50 — `justify-center` em cada botão
   - Quando não há botão de um lado, usar `<div />` para manter o grid
-  - Anterior: estilo border/outline; Próxima: sólido azul `bg-[#6699F3]`
+  - Anterior: estilo border/outline; Próxima: sólido coral `bg-[#f6614f]` (`NextLessonButton.tsx`)
 
 ## Modal de curso (`/cursos` — CursosGrid) — padrão obrigatório (jun/2026)
 

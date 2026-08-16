@@ -412,7 +412,7 @@ function DetailModal({
                   disabled={correctPending}
                   title="Salvar"
                   aria-label="Salvar"
-                  className="w-7 h-7 rounded-md flex items-center justify-center bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
+                  className="w-7 h-7 rounded-md flex items-center justify-center bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50 shrink-0"
                 >
                   {correctPending
                     ? <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -531,7 +531,7 @@ function DetailModal({
             <button
               onClick={handleResend}
               disabled={resendPending}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${resendPending ? "animate-spin" : ""}`} />
               {resendPending ? "Enviando…" : "Reenviar e-mail"}
@@ -596,7 +596,7 @@ function DetailModal({
                 <button
                   type="submit"
                   disabled={pwPending}
-                  className="flex-1 px-3 py-2 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] rounded-lg transition-colors disabled:opacity-50"
+                  className="flex-1 px-3 py-2 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] rounded-lg transition-colors disabled:opacity-50"
                 >
                   {pwPending ? "Criando…" : "Criar conta"}
                 </button>

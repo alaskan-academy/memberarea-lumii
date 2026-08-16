@@ -259,7 +259,7 @@ export default async function AlunosPage({
         <div className="flex items-center gap-2">
           <Link
             href="/admin/alunos/nova"
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors"
           >
             <UserPlus className="w-4 h-4" />
             Nova aluna

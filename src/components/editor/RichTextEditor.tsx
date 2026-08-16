@@ -205,7 +205,7 @@ function LinkDialog({ editor }: { editor: Editor }) {
               <button
                 type="button"
                 onClick={apply}
-                className="text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4]"
+                className="text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747]"
               >
                 Aplicar
               </button>

@@ -517,7 +517,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                       href={`/verificar/${c.verify_hash}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#f6614f] hover:text-[#5580d4]"
+                      className="text-[#f6614f] hover:text-[#dd5747]"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </Link>
@@ -766,7 +766,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                 <button
                   type="submit"
                   disabled={profilePending}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   {profilePending ? "Salvando…" : "Salvar alterações"}
@@ -871,7 +871,7 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
                 <button
                   type="submit"
                   disabled={pwPending || pwSuccess}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
                 >
                   <Lock className="w-4 h-4" />
                   {pwPending ? "Salvando…" : "Definir senha"}
@@ -1041,7 +1041,7 @@ function BulkGrantSection({
               <button
                 type="submit"
                 disabled={pending || selected.size === 0}
-                className="px-4 py-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] rounded-md transition-colors disabled:opacity-50"
+                className="px-4 py-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] rounded-md transition-colors disabled:opacity-50"
               >
                 {pending
                   ? "Salvando…"
@@ -1198,7 +1198,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
               <button
                 type="submit"
                 disabled={grantPending}
-                className="px-3 py-1 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] rounded-md transition-colors disabled:opacity-50"
+                className="px-3 py-1 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] rounded-md transition-colors disabled:opacity-50"
               >
                 {grantPending ? "Salvando…" : "Dar acesso"}
               </button>

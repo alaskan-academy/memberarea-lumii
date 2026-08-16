@@ -176,7 +176,7 @@ export default async function CourseDetailPage({
                     progressPct === 100
                       ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
                       : lastWatchedLessonId
-                      ? "bg-[#f6614f] text-white hover:bg-[#5580d4]"
+                      ? "bg-[#f6614f] text-white hover:bg-[#dd5747]"
                       : "bg-muted text-foreground hover:bg-muted/80"
                   )}
                 >
@@ -208,7 +208,7 @@ export default async function CourseDetailPage({
                 rel={(course as unknown as { checkout_url: string | null }).checkout_url ? "noopener noreferrer" : undefined}
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "w-full bg-[#f6614f] hover:bg-[#5580d4] text-white font-semibold justify-center"
+                  "w-full bg-[#f6614f] hover:bg-[#dd5747] text-white font-semibold justify-center"
                 )}
               >
                 Comprar curso

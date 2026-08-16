@@ -108,7 +108,7 @@ function DownloadBlock({ material }: { material?: LessonMaterial }) {
         <a
           href={material.signed_url}
           download
-          className="flex items-center gap-1.5 bg-[#f6614f] hover:bg-[#5580d4] active:bg-[#4a70c0] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shrink-0 min-h-[44px]"
+          className="flex items-center gap-1.5 bg-[#f6614f] hover:bg-[#dd5747] active:bg-[#c54e3f] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shrink-0 min-h-[44px]"
         >
           <Download className="w-4 h-4" />
           <span>Baixar</span>

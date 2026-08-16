@@ -33,15 +33,15 @@ export default function PlanSummary({ plano }: { plano: PlanoGerado }) {
         <p className="text-sm leading-relaxed">{plano.se_houver_recusa}</p>
       </div>
       <div>
-        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#6699F3] mb-1">
+        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#212d42] mb-1">
           <Eye className="w-3.5 h-3.5" />
           O que observar
         </p>
         <p className="text-sm leading-relaxed">{plano.o_que_observar}</p>
       </div>
       {plano.sugestao_coordenacao && (
-        <div className="rounded-xl bg-[#6699F3]/5 border border-[#6699F3]/20 p-3">
-          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#6699F3] mb-1">
+        <div className="rounded-xl bg-[#212d42]/5 border border-[#212d42]/20 p-3">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#212d42] mb-1">
             <MessageCircle className="w-3.5 h-3.5" />
             Vale conversar com a coordenação
           </p>

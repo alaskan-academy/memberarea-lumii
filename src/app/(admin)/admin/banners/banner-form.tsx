@@ -262,7 +262,7 @@ export default function BannerForm({ action, banner, courses, submitLabel }: Pro
       <button
         type="submit"
         disabled={pending}
-        className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+        className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] transition-colors disabled:opacity-50"
       >
         {pending ? "Salvando…" : submitLabel}
       </button>

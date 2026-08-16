@@ -95,7 +95,7 @@ function supportBlock() {
     Precisa de ajuda? Fale com a gente:<br>
     <a href="mailto:contato@lumiieduca.com.br" style="color:#f6614f;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">contato@lumiieduca.com.br</a>
     &nbsp;|&nbsp;
-    <a href="https://wa.me/554284296823" style="color:#f6614f;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">WhatsApp (42) 8429-6823</a>
+    <a href="https://wa.me/5548992215138" style="color:#f6614f;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">WhatsApp (48) 99221-5138</a>
   </p>
 </div>`;
 }

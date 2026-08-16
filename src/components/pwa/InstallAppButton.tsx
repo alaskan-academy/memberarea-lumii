@@ -114,7 +114,7 @@ export default function InstallAppButton() {
       <>
         <button
           onClick={() => setShowIosModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors min-h-[44px]"
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors min-h-[44px]"
         >
           <Share className="w-4 h-4 shrink-0" />
           Adicionar à tela inicial
@@ -204,7 +204,7 @@ export default function InstallAppButton() {
 
                 <button
                   onClick={() => setShowIosModal(false)}
-                  className="w-full py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors"
+                  className="w-full py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors"
                 >
                   Entendido
                 </button>
@@ -220,7 +220,7 @@ export default function InstallAppButton() {
   return (
     <button
       onClick={handleInstall}
-      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors min-h-[44px]"
+      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors min-h-[44px]"
     >
       <Download className="w-4 h-4 shrink-0" />
       Baixar app

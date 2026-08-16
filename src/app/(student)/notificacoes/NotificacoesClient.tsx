@@ -117,7 +117,7 @@ export default function NotificacoesClient({
         {unreadCount > 0 && (
           <button
             onClick={handleReadAll}
-            className="flex items-center gap-1.5 text-sm text-[#f6614f] hover:text-[#4d7de0] transition-colors font-medium"
+            className="flex items-center gap-1.5 text-sm text-[#f6614f] hover:text-[#dd5747] transition-colors font-medium"
           >
             <CheckCheck className="w-4 h-4" />
             Marcar todas como lidas

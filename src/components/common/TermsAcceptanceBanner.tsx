@@ -38,7 +38,7 @@ export default function TermsAcceptanceBanner() {
           <button
             onClick={handleAccept}
             disabled={isPending}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#f6614f] text-white text-xs font-semibold hover:bg-[#5580d4] disabled:opacity-60 transition-colors min-h-[36px]"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#f6614f] text-white text-xs font-semibold hover:bg-[#dd5747] disabled:opacity-60 transition-colors min-h-[36px]"
           >
             {isPending ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />

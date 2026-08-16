@@ -141,7 +141,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                           <a
                             href={m.signed_url}
                             download
-                            className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] px-3 py-2 rounded-lg min-h-[40px] transition-colors"
+                            className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] px-3 py-2 rounded-lg min-h-[40px] transition-colors"
                           >
                             <Download className="w-3.5 h-3.5" />
                             Baixar

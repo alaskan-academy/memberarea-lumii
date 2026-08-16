@@ -429,7 +429,7 @@ function ProfileSection({
             <button
               onClick={handleSave}
               disabled={isPending}
-              className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-1.5 min-h-[44px] rounded-lg hover:bg-[#5580d4] disabled:opacity-60 transition-colors"
+              className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-1.5 min-h-[44px] rounded-lg hover:bg-[#dd5747] disabled:opacity-60 transition-colors"
             >
               {isPending ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -557,7 +557,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
                     "shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-2.5 min-h-[44px] rounded-lg transition-colors",
                     isComplete
                       ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
-                      : "bg-[#f6614f] text-white hover:bg-[#5580d4]"
+                      : "bg-[#f6614f] text-white hover:bg-[#dd5747]"
                   )}
                 >
                   {isComplete ? (
@@ -920,7 +920,7 @@ function ChangePasswordSection() {
                 <button
                   onClick={handleSubmit}
                   disabled={isPending || !currentPwd || !newPwd || !confirmPwd}
-                  className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-2 min-h-[44px] rounded-lg hover:bg-[#5580d4] disabled:opacity-50 transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-2 min-h-[44px] rounded-lg hover:bg-[#dd5747] disabled:opacity-50 transition-colors"
                 >
                   {isPending ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />

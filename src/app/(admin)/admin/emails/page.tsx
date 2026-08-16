@@ -108,7 +108,7 @@ export default function EmailsAdminPage() {
       <button
         onClick={handleSend}
         disabled={isPending || !to}
-        className="flex items-center gap-2 bg-[#f6614f] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#4d7de0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex items-center gap-2 bg-[#f6614f] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#dd5747] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <Send className="w-4 h-4" />
         {isPending ? "Enviando..." : "Enviar e-mail de teste"}

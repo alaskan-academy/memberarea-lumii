@@ -134,7 +134,7 @@ function CategorySelect({
                       onClick={() => handleUpdate(cat.id)}
                       disabled={isPending}
                       aria-label="Confirmar"
-                      className="p-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+                      className="p-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" />
                     </button>
@@ -193,7 +193,7 @@ function CategorySelect({
               type="button"
               onClick={handleCreate}
               disabled={isPending || !newName.trim()}
-              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 shrink-0"
+              className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50 shrink-0"
             >
               {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
               Criar
@@ -641,7 +641,7 @@ function CourseForm({
       <div className="flex gap-2 pt-2 border-t border-border/50">
         <button
           type="submit" disabled={isPending}
-          className="flex items-center gap-1.5 text-sm px-5 py-2.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50 font-medium"
+          className="flex items-center gap-1.5 text-sm px-5 py-2.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50 font-medium"
         >
           <Save className="w-4 h-4" />
           {isPending ? "Salvando..." : courseId ? "Salvar alterações" : "Criar curso"}
@@ -877,7 +877,7 @@ export default function CourseManager({
         </div>
         <button
           onClick={() => { setShowCreate(true); setEditingId(null); }}
-          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors font-medium"
+          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors font-medium"
         >
           <Plus className="w-4 h-4" /> Novo curso
         </button>

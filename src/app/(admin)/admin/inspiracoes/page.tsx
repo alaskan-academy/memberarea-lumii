@@ -66,7 +66,7 @@ export default async function AdminInspiracoesPage() {
           )}
           <Link
             href="/admin/inspiracoes/novo"
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#dd5747] transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             Novo post
@@ -79,7 +79,7 @@ export default async function AdminInspiracoesPage() {
           <Sparkles className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
           <p className="text-sm font-medium text-muted-foreground">Nenhum post ainda.</p>
           <Link href="/admin/inspiracoes/novo"
-            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] transition-colors">
+            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#dd5747] transition-colors">
             <Plus className="w-3.5 h-3.5" />
             Criar primeiro post
           </Link>

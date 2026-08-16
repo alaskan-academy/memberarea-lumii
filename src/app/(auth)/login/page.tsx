@@ -128,7 +128,7 @@ function LoginContent() {
           <p className="text-xs text-center text-muted-foreground/70">
             Problemas com o acesso?{" "}
             <a
-              href="https://wa.me/message/ZVYBKLSWPO7OM1"
+              href="https://wa.me/5548992215138"
               target="_blank"
               rel="noopener noreferrer"
               className="text-lumii-coral underline-offset-4 hover:underline"

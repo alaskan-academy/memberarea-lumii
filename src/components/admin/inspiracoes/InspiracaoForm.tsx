@@ -688,7 +688,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 py-2.5 text-sm font-medium bg-[#f6614f] text-white rounded-lg hover:bg-[#5588e8] disabled:opacity-50 transition-colors"
+          className="flex-1 py-2.5 text-sm font-medium bg-[#f6614f] text-white rounded-lg hover:bg-[#dd5747] disabled:opacity-50 transition-colors"
         >
           {loading ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar post'}
         </button>

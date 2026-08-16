@@ -752,7 +752,7 @@ function CourseModal({
                   onClick={onClose}
                   className={cn(
                     "w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors",
-                    isComplete ? "bg-[#71c69a] hover:bg-[#5bb577]" : "bg-[#f6614f] hover:bg-[#5580d4]"
+                    isComplete ? "bg-[#71c69a] hover:bg-[#5bb577]" : "bg-[#f6614f] hover:bg-[#dd5747]"
                   )}
                 >
                   {isComplete
@@ -785,7 +785,7 @@ function CourseModal({
                     href={ctaHref}
                     target={course.checkout_url ? "_blank" : undefined}
                     rel={course.checkout_url ? "noopener noreferrer" : undefined}
-                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] transition-colors"
                   >
                     Comprar agora
                   </a>

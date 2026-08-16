@@ -119,7 +119,7 @@ export function CourseProgressCard({ card }: { card: CourseCardData }) {
               isComplete
                 ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
                 : hasStarted
-                ? "bg-[#f6614f] text-white hover:bg-[#5580d4]"
+                ? "bg-[#f6614f] text-white hover:bg-[#dd5747]"
                 : "bg-muted text-foreground hover:bg-muted/80"
             )}
           >

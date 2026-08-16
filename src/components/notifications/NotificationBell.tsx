@@ -159,7 +159,7 @@ export default function NotificationBell({
             <div className="flex items-center gap-2">
               {unread > 0 && (
                 <button onClick={handleReadAll}
-                  className="flex items-center gap-1 text-xs text-[#f6614f] hover:text-[#4d7de0] transition-colors"
+                  className="flex items-center gap-1 text-xs text-[#f6614f] hover:text-[#dd5747] transition-colors"
                   aria-label="Marcar todas como lidas">
                   <CheckCheck className="w-3.5 h-3.5" />
                   Lidas

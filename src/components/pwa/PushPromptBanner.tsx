@@ -153,7 +153,7 @@ export default function PushPromptBanner() {
                 <button
                   onClick={handleEnable}
                   disabled={isPending}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#5580d4] transition-colors disabled:opacity-60"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] transition-colors disabled:opacity-60"
                 >
                   {isPending ? (
                     <Loader2 className="w-3 h-3 animate-spin" />

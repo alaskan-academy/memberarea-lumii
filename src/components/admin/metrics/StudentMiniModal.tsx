@@ -93,7 +93,7 @@ export function StudentMiniModal({
               <Link
                 href={`/admin/alunos/${student.id}`}
                 onClick={markNavigating}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#5580d4] transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#dd5747] transition-colors"
               >
                 <UserCircle className="w-4 h-4" />
                 Ver perfil completo

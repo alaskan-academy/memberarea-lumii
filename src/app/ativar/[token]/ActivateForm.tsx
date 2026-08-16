@@ -235,7 +235,7 @@ export default function ActivateForm({
           <button
             type="submit"
             disabled={pending}
-            className="w-full bg-[#f6614f] text-white py-3 rounded-lg text-sm font-bold hover:bg-[#4d7de0] transition-colors disabled:opacity-60 disabled:cursor-not-allowed min-h-[48px]"
+            className="w-full bg-[#f6614f] text-white py-3 rounded-lg text-sm font-bold hover:bg-[#dd5747] transition-colors disabled:opacity-60 disabled:cursor-not-allowed min-h-[48px]"
           >
             {pending ? "Criando conta..." : "Criar minha conta"}
           </button>

@@ -275,7 +275,7 @@ function ShowcaseCard({
         <button
           onClick={handleSave}
           disabled={isPending}
-          className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-1.5 rounded-lg hover:bg-[#5580d4] disabled:opacity-60 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-1.5 rounded-lg hover:bg-[#dd5747] disabled:opacity-60 transition-colors"
         >
           {isPending ? (
             <Loader2 className="w-3.5 h-3.5 animate-spin" />

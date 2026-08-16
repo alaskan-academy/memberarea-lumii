@@ -176,7 +176,7 @@ export function CourseMenuModal({
               "flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold transition-colors min-h-[44px]",
               isComplete
                 ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
-                : "bg-[#f6614f] text-white hover:bg-[#5580d4]"
+                : "bg-[#f6614f] text-white hover:bg-[#dd5747]"
             )}
           >
             {isComplete ? (

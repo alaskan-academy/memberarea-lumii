@@ -148,7 +148,7 @@ function buildMigrationEmail(firstName: string, email: string) {
     </div>
     <p style="color:#888888;font-size:13px;line-height:1.6;margin:0;font-family:Arial,Helvetica,sans-serif;">
       Precisa de ajuda? Responda este e-mail ou fale com a gente pelo
-      <a href="https://wa.me/554284296823" style="color:#6699F3;text-decoration:none;">WhatsApp (42) 8429-6823</a>.
+      <a href="https://wa.me/5548992215138" style="color:#6699F3;text-decoration:none;">WhatsApp (48) 99221-5138</a>.
     </p>
   `);
 
@@ -181,7 +181,7 @@ function buildUrgentMigrationEmail(firstName: string, email: string) {
     </div>
     <p style="color:#888888;font-size:13px;line-height:1.6;margin:0;font-family:Arial,Helvetica,sans-serif;">
       Precisa de ajuda? Fale com a gente pelo
-      <a href="https://wa.me/message/ZVYBKLSWPO7OM1" style="color:#6699F3;text-decoration:none;">WhatsApp (suporte)</a>.
+      <a href="https://wa.me/5548992215138" style="color:#6699F3;text-decoration:none;">WhatsApp (suporte)</a>.
     </p>
   `);
 

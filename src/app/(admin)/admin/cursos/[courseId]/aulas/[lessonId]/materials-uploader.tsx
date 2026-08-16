@@ -152,7 +152,7 @@ export default function AdminMaterialsUploader({
         <button
           type="submit"
           disabled={isPending}
-          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#5580d4] transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
         >
           <Upload className="w-3 h-3" />
           {isPending ? "Enviando..." : "Enviar material"}
