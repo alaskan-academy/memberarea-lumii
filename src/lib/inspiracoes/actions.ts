@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
+import { assertAdmin } from '@/lib/supabase/admin-guard'
 import { revalidatePath } from 'next/cache'
 import type {
   InspiracaoPost,
@@ -322,6 +323,7 @@ export async function adminListPosts(opts: {
   tipo?: string
   busca?: string
 } = {}) {
+  await assertAdmin()
   const supabase = createServiceClient()
 
   let query = supabase
@@ -340,6 +342,7 @@ export async function adminListPosts(opts: {
 }
 
 export async function adminGetPost(id: string) {
+  await assertAdmin()
   const supabase = createServiceClient()
 
   const { data, error } = await supabase
@@ -356,6 +359,7 @@ export async function adminUpsertPost(
   adminId: string,
   payload: UpsertInspiracaoPayload
 ): Promise<{ id: string }> {
+  await assertAdmin()
   const supabase = createServiceClient()
   const { id, ...fields } = payload
 
@@ -380,6 +384,7 @@ export async function adminUpsertPost(
 }
 
 export async function adminDeletePost(id: string): Promise<void> {
+  await assertAdmin()
   const supabase = createServiceClient()
   await supabase.from('inspiration_posts').delete().eq('id', id)
   revalidatePath('/inspiracoes')
@@ -387,6 +392,7 @@ export async function adminDeletePost(id: string): Promise<void> {
 }
 
 export async function adminArchivePost(id: string, archived: boolean): Promise<void> {
+  await assertAdmin()
   const supabase = createServiceClient()
   await supabase.from('inspiration_posts').update({ archived }).eq('id', id)
   revalidatePath('/inspiracoes')
@@ -394,6 +400,7 @@ export async function adminArchivePost(id: string, archived: boolean): Promise<v
 }
 
 export async function adminPublishPost(id: string, published: boolean): Promise<void> {
+  await assertAdmin()
   const supabase = createServiceClient()
   await supabase.from('inspiration_posts').update({ published }).eq('id', id)
   revalidatePath('/inspiracoes')
@@ -403,6 +410,7 @@ export async function adminPublishPost(id: string, published: boolean): Promise<
 // ── Admin — Moderação de comentários ─────────────────────────────────────────
 
 export async function adminGetPendingComments() {
+  await assertAdmin()
   const supabase = createServiceClient()
 
   const { data, error } = await supabase
@@ -420,6 +428,7 @@ export async function adminGetPendingComments() {
 }
 
 export async function adminGetPendingCommentsCount(): Promise<number> {
+  await assertAdmin()
   const supabase = createServiceClient()
 
   const { count, error } = await supabase
@@ -432,6 +441,7 @@ export async function adminGetPendingCommentsCount(): Promise<number> {
 }
 
 export async function adminApproveComment(id: string, approved: boolean): Promise<void> {
+  await assertAdmin()
   const supabase = createServiceClient()
 
   const { data: comment } = await supabase
@@ -467,6 +477,7 @@ export async function adminApproveComment(id: string, approved: boolean): Promis
 }
 
 export async function adminDeleteComment(id: string): Promise<void> {
+  await assertAdmin()
   const supabase = createServiceClient()
   await supabase.from('inspiration_comments').delete().eq('id', id)
   revalidatePath('/inspiracoes')

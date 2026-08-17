@@ -198,7 +198,7 @@ export async function correctEmailAction(
   await service
     .from("payment_events")
     .update({ buyer_email: normalizedNew })
-    .ilike("buyer_email", normalizedOld);
+    .eq("buyer_email", normalizedOld);
 
   // Reenvia e-mails para o endereço correto
   const buyerName =
