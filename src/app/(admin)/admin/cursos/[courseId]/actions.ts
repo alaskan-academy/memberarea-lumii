@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 async function assertAdmin() {
@@ -55,6 +55,7 @@ export async function createModule(
 
   if (error) return { error: "Erro ao criar modulo: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return { module: data };
 }
 
@@ -74,6 +75,7 @@ export async function updateModule(
   const { error } = await supabase.from("modules").update(parsed.data).eq("id", moduleId);
   if (error) return { error: "Erro ao atualizar modulo: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -85,6 +87,7 @@ export async function deleteModule(
   const { error } = await supabase.from("modules").delete().eq("id", moduleId);
   if (error) return { error: "Erro ao excluir modulo: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -97,6 +100,7 @@ export async function toggleArchivedModule(
   const { error } = await supabase.from("modules").update({ archived }).eq("id", moduleId);
   if (error) return { error: "Erro ao arquivar modulo: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -170,6 +174,7 @@ export async function createLesson(
   }
 
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   const lesson = await fetchLessonWithMaterials(supabase, data.id);
   return { lesson: lesson ?? undefined };
 }
@@ -193,6 +198,7 @@ export async function updateLesson(
   if (error) return { error: "Erro ao atualizar aula: " + error.message };
 
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   const lesson = await fetchLessonWithMaterials(supabase, lessonId);
   return { lesson: lesson ?? undefined };
 }
@@ -205,6 +211,7 @@ export async function deleteLesson(
   const { error } = await supabase.from("lessons").delete().eq("id", lessonId);
   if (error) return { error: "Erro ao excluir aula: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -217,6 +224,7 @@ export async function toggleArchivedLesson(
   const { error } = await supabase.from("lessons").update({ archived }).eq("id", lessonId);
   if (error) return { error: "Erro ao arquivar aula: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -298,6 +306,7 @@ export async function deleteLessonMaterial(
   const { error } = await supabase.from("lesson_materials").delete().eq("id", materialId);
   if (error) return { error: "Erro ao excluir material: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
+  revalidateTag("catalog", "minutes");
   return {};
 }
 

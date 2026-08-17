@@ -1,10 +1,56 @@
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
+import { unstable_cache } from "next/cache";
 import { formatPrice, formatDuration } from "@/lib/format";
 import CursosGrid from "./cursos-grid";
 import BannerDisplay from "@/components/banner/BannerDisplay";
 
 export const revalidate = 60;
+
+// A página inteira é dinâmica (usa searchParams + getUser()), então o
+// `revalidate` acima nunca se aplicava de fato — o catálogo (categorias,
+// vitrine, cursos+módulos+aulas publicados) refazia a mesma consulta a
+// cada request, logada ou não. Isolado aqui num unstable_cache com tag
+// "catalog": invalidado nas Server Actions que editam curso/módulo/aula/
+// vitrine/categoria (revalidateTag("catalog")), com os 60s como rede de
+// segurança. Não cobre o caso "admin vê rascunhos" nem "aluna vê curso que
+// comprou mas não está na vitrine" — esses dois casos continuam com busca
+// dinâmica separada, fora do cache.
+const getCachedCatalog = unstable_cache(
+  async () => {
+    const service = createServiceClient();
+    const [{ data: categoriesRaw }, { data: showcaseRaw }] = await Promise.all([
+      service.from("categories").select("id, name, slug").order("name"),
+      service.from("showcase_courses").select("course_id, sales_video_panda_id").eq("active", true),
+    ]);
+
+    const showcaseIds = ((showcaseRaw ?? []) as { course_id: string }[]).map((s) => s.course_id);
+
+    const { data: coursesRaw } =
+      showcaseIds.length > 0
+        ? await service
+            .from("courses")
+            .select(
+              `
+              id, slug, title, description, thumbnail_url,
+              price, workload_hours, checkout_url, course_type,
+              category:categories(id, name, slug),
+              modules(
+                id, title, position, archived,
+                lessons(id, title, duration_seconds, is_preview, position, archived)
+              )
+            `
+            )
+            .eq("published", true)
+            .in("id", showcaseIds)
+            .order("position")
+        : { data: [] };
+
+    return { categoriesRaw, showcaseRaw, coursesRaw };
+  },
+  ["catalog"],
+  { revalidate: 60, tags: ["catalog"] }
+);
 
 export type CatalogLesson = {
   id: string;
@@ -65,50 +111,60 @@ export default async function CursosPage({
     ? (await supabase.from("profiles").select("role").eq("id", user.id).single()).data?.role === "admin"
     : false;
 
-  // Usa service client para cursos/módulos/aulas — sem video_panda_id,
-  // apenas metadados. Necessário para que não-matriculadas vejam a estrutura completa.
-  // Busca showcase, categorias e matrículas em paralelo para filtrar cursos logo após.
   const now = new Date().toISOString();
-  const [{ data: categoriesRaw }, { data: showcaseRaw }, enrollmentResult] = await Promise.all([
-    service.from("categories").select("id, name, slug").order("name"),
-    service.from("showcase_courses").select("course_id, sales_video_panda_id").eq("active", true),
-    user
-      ? supabase.from("enrollments").select("course_id").eq("user_id", user.id).or(`expires_at.is.null,expires_at.gt.${now}`)
-      : Promise.resolve({ data: null }),
-  ]);
+  const enrollmentResult = user
+    ? await supabase.from("enrollments").select("course_id").eq("user_id", user.id).or(`expires_at.is.null,expires_at.gt.${now}`)
+    : { data: null };
+  const enrolledIdsList = ((enrollmentResult?.data ?? []) as { course_id: string }[]).map((e) => e.course_id);
+
+  let categoriesRaw: { id: string; name: string; slug: string }[] | null;
+  let showcaseRaw: { course_id: string; sales_video_panda_id: string | null }[] | null;
+  let coursesRaw: unknown[] | null;
+
+  const courseSelectClause = `
+    id, slug, title, description, thumbnail_url,
+    price, workload_hours, checkout_url, course_type,
+    category:categories(id, name, slug),
+    modules(
+      id, title, position, archived,
+      lessons(id, title, duration_seconds, is_preview, position, archived)
+    )
+  `;
+
+  if (isAdmin) {
+    // Admin vê tudo (inclusive rascunhos) — sempre dinâmico, nunca cacheado.
+    const [catRes, showcaseRes, coursesRes] = await Promise.all([
+      service.from("categories").select("id, name, slug").order("name"),
+      service.from("showcase_courses").select("course_id, sales_video_panda_id").eq("active", true),
+      service.from("courses").select(courseSelectClause).order("position"),
+    ]);
+    categoriesRaw = catRes.data;
+    showcaseRaw = showcaseRes.data;
+    coursesRaw = coursesRes.data;
+  } else {
+    const cached = await getCachedCatalog();
+    categoriesRaw = cached.categoriesRaw;
+    showcaseRaw = cached.showcaseRaw;
+    coursesRaw = cached.coursesRaw;
+
+    // Caso raro: aluna comprou um curso que não está (ou não está mais) na
+    // vitrine — busca só esses, fora do cache, e junta com o resultado cacheado.
+    const showcaseIds = new Set((showcaseRaw ?? []).map((s) => s.course_id));
+    const extraEnrolledIds = enrolledIdsList.filter((id) => !showcaseIds.has(id));
+    if (extraEnrolledIds.length > 0) {
+      const { data: extraCourses } = await service
+        .from("courses")
+        .select(courseSelectClause)
+        .eq("published", true)
+        .in("id", extraEnrolledIds);
+      coursesRaw = [...(coursesRaw ?? []), ...(extraCourses ?? [])];
+    }
+  }
 
   const categories: CatalogCategory[] = (categoriesRaw ?? []) as CatalogCategory[];
   const showcaseMap = Object.fromEntries(
-    ((showcaseRaw ?? []) as { course_id: string; sales_video_panda_id: string | null }[]).map(
-      (s) => [s.course_id, s.sales_video_panda_id]
-    )
+    (showcaseRaw ?? []).map((s) => [s.course_id, s.sales_video_panda_id])
   );
-
-  // Catálogo mostra só cursos da vitrine + cursos que a aluna comprou (mesmo fora da vitrine)
-  const showcaseIds = (showcaseRaw ?? []).map((s) => (s as { course_id: string }).course_id);
-  const enrolledIdsList = ((enrollmentResult?.data ?? []) as { course_id: string }[]).map((e) => e.course_id);
-  const allRelevantIds = [...new Set([...showcaseIds, ...enrolledIdsList])];
-
-  const baseQuery = service
-    .from("courses")
-    .select(
-      `
-      id, slug, title, description, thumbnail_url,
-      price, workload_hours, checkout_url, course_type,
-      category:categories(id, name, slug),
-      modules(
-        id, title, position, archived,
-        lessons(id, title, duration_seconds, is_preview, position, archived)
-      )
-    `
-    )
-    .order("position");
-
-  const { data: coursesRaw } = isAdmin
-    ? await baseQuery
-    : allRelevantIds.length > 0
-    ? await baseQuery.eq("published", true).in("id", allRelevantIds)
-    : { data: [] };
 
   type RawLesson = {
     id: string;

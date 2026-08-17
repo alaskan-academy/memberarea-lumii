@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const ShowcaseSchema = z.object({
@@ -42,6 +42,7 @@ export async function upsertShowcaseCourse(formData: FormData) {
 
   revalidatePath("/vitrine");
   revalidatePath("/admin/vitrine");
+  revalidateTag("catalog", "minutes");
 }
 
 export async function reorderShowcaseCourses(items: { course_id: string; position: number }[]) {
@@ -59,6 +60,7 @@ export async function reorderShowcaseCourses(items: { course_id: string; positio
 
   revalidatePath("/vitrine");
   revalidatePath("/admin/vitrine");
+  revalidateTag("catalog", "minutes");
 }
 
 export async function removeShowcaseCourse(courseId: string) {
@@ -74,4 +76,5 @@ export async function removeShowcaseCourse(courseId: string) {
 
   revalidatePath("/vitrine");
   revalidatePath("/admin/vitrine");
+  revalidateTag("catalog", "minutes");
 }

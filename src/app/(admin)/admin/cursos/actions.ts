@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sendNewCourseEmail } from "@/lib/email";
@@ -66,6 +66,7 @@ export async function createCategory(
 
   if (error) return { error: "Erro ao criar categoria: " + error.message };
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   return { id: data.id, name: data.name };
 }
 
@@ -86,6 +87,7 @@ export async function updateCategory(
 
   if (error) return { error: "Erro ao atualizar: " + error.message };
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -96,6 +98,7 @@ export async function deleteCategory(
   const { error } = await supabase.from("categories").delete().eq("id", id);
   if (error) return { error: "Erro ao excluir: " + error.message };
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   return {};
 }
 
@@ -149,6 +152,7 @@ export async function createCourse(
 
   if (error) return { error: "Erro ao criar curso: " + error.message };
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   return { courseId: data.id };
 }
 
@@ -183,6 +187,7 @@ export async function updateCourse(
   if (error) return { error: "Erro ao atualizar: " + error.message };
 
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   revalidatePath(`/admin/cursos/${courseId}`);
   revalidatePath(`/cursos/${raw.slug}`);
   return {};
@@ -192,6 +197,7 @@ export async function togglePublished(courseId: string, published: boolean): Pro
   const supabase = await assertAdmin();
   await supabase.from("courses").update({ published }).eq("id", courseId);
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
 
   if (!published) return;
 
@@ -246,6 +252,7 @@ export async function reorderCourses(courseIds: string[]): Promise<{ error?: str
     courseIds.map((id, i) => supabase.from("courses").update({ position: i }).eq("id", id))
   );
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   revalidatePath("/cursos");
   return {};
 }
@@ -255,5 +262,6 @@ export async function deleteCourse(courseId: string): Promise<void> {
   const { error } = await supabase.from("courses").delete().eq("id", courseId);
   if (error) throw new Error("Erro ao excluir: " + error.message);
   revalidatePath("/admin/cursos");
+  revalidateTag("catalog", "minutes");
   redirect("/admin/cursos");
 }

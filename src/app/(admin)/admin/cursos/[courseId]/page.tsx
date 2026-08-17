@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import CourseContentManager from "./course-content-manager";
+import CourseContentManager from "./CourseContentManagerLazy";
 import type { LessonData } from "./actions";
 
 export default async function AdminCoursePage({
