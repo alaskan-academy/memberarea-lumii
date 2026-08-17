@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { prepareImageForUpload } from "@/lib/images/to-webp";
 
 export type ForumCommentRow = {
   id: string;
@@ -68,9 +69,13 @@ export async function uploadForumFile(
   if (!allowed.includes(file.type)) return { error: mimeError };
 
   const service = createServiceClient();
-  const ext = file.name.split(".").pop() ?? "bin";
-  const path = `forum/${user.id}/${Date.now()}.${ext}`;
-  const { error } = await service.storage.from("community").upload(path, file, { upsert: false });
+  // Imagens são convertidas pra WebP antes do upload; anexos não-imagem
+  // (PDF, ZIP etc.) passam direto, prepareImageForUpload só age em image/*.
+  const prepared = await prepareImageForUpload(file);
+  const path = `forum/${user.id}/${Date.now()}.${prepared.ext}`;
+  const { error } = await service.storage
+    .from("community")
+    .upload(path, prepared.buffer, { contentType: prepared.contentType, upsert: false });
   if (error) return { error: "Erro ao fazer upload" };
 
   const { data: urlData } = service.storage.from("community").getPublicUrl(path);

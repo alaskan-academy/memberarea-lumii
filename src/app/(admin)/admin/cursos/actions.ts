@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sendNewCourseEmail } from "@/lib/email";
+import { prepareImageForUpload } from "@/lib/images/to-webp";
 
 async function assertAdmin() {
   const supabase = await createClient();
@@ -29,14 +30,13 @@ export async function uploadCourseThumbnail(
   if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
     return { error: "Formato invalido. Use JPG, PNG ou WebP" };
 
-  const ext = file.type === "image/webp" ? "webp" : file.type === "image/png" ? "png" : "jpg";
-  const path = `${Date.now()}.${ext}`;
-  const buffer = new Uint8Array(await file.arrayBuffer());
+  const prepared = await prepareImageForUpload(file);
+  const path = `${Date.now()}.${prepared.ext}`;
 
   const service = createServiceClient();
   const { error: uploadError } = await service.storage
     .from("course-thumbnails")
-    .upload(path, buffer, { contentType: file.type, upsert: false });
+    .upload(path, prepared.buffer, { contentType: prepared.contentType, upsert: false });
 
   if (uploadError) return { error: "Erro no upload: " + uploadError.message };
 

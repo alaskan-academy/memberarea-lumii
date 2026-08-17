@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { assertAdmin } from "@/lib/supabase/admin-guard";
+import { prepareImageForUpload } from "@/lib/images/to-webp";
 import { z } from "zod";
 
 const bannerSchema = z.object({
@@ -25,12 +26,12 @@ async function uploadBannerImage(
   file: File,
   service: ReturnType<typeof createServiceClient>
 ): Promise<{ url: string } | { error: string }> {
-  const ext = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-  const path = `${crypto.randomUUID()}.${ext}`;
+  const prepared = await prepareImageForUpload(file);
+  const path = `${crypto.randomUUID()}.${prepared.ext}`;
 
   const { error: uploadError } = await service.storage
     .from("banners")
-    .upload(path, file, { contentType: file.type, upsert: false });
+    .upload(path, prepared.buffer, { contentType: prepared.contentType, upsert: false });
 
   if (uploadError) return { error: `Erro ao enviar imagem: ${uploadError.message}` };
 

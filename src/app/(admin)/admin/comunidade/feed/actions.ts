@@ -5,6 +5,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { sendNewsPostEmail } from "@/lib/email";
+import { prepareImageForUpload } from "@/lib/images/to-webp";
 
 async function assertAdmin() {
   const supabase = await createClient();
@@ -26,9 +27,11 @@ export async function uploadCommunityImage(
     return { error: "Formato inválido. Use JPG, PNG, WebP ou GIF" };
 
   const service = createServiceClient();
-  const ext = file.name.split(".").pop() ?? "jpg";
-  const path = `feed/${Date.now()}.${ext}`;
-  const { error } = await service.storage.from("community").upload(path, file, { upsert: false });
+  const prepared = await prepareImageForUpload(file);
+  const path = `feed/${Date.now()}.${prepared.ext}`;
+  const { error } = await service.storage
+    .from("community")
+    .upload(path, prepared.buffer, { contentType: prepared.contentType, upsert: false });
   if (error) return { error: "Erro ao fazer upload da imagem" };
 
   const { data: urlData } = service.storage.from("community").getPublicUrl(path);

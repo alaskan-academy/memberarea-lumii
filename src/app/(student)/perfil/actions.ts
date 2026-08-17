@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath } from "next/cache";
+import { prepareImageForUpload } from "@/lib/images/to-webp";
 
 // ─── Certificados ─────────────────────────────────────────────────────────────
 
@@ -75,16 +76,14 @@ export async function uploadAvatar(
   if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
     return { error: "Formato inválido. Use JPG, PNG ou WebP." };
 
-  const ext =
-    file.type === "image/webp" ? "webp" : file.type === "image/png" ? "png" : "jpg";
-  const path = `${user.id}.${ext}`;
+  const prepared = await prepareImageForUpload(file);
+  const path = `${user.id}.${prepared.ext}`;
 
   const serviceClient = createServiceClient();
-  const bytes = Buffer.from(await file.arrayBuffer());
 
   const { error: uploadError } = await serviceClient.storage
     .from("avatars")
-    .upload(path, bytes, { upsert: true, contentType: file.type });
+    .upload(path, prepared.buffer, { upsert: true, contentType: prepared.contentType });
 
   if (uploadError) return { error: uploadError.message };
 

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
+import { prepareImageForUpload } from '@/lib/images/to-webp'
 
 export async function uploadInspiracaoImage(
   formData: FormData
@@ -24,13 +25,13 @@ export async function uploadInspiracaoImage(
   if (!allowed.includes(file.type)) return { error: 'Formato inválido' }
   if (file.size > 10 * 1024 * 1024) return { error: 'Imagem muito grande (máx. 10 MB)' }
 
-  const ext = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg'
-  const path = `inspiracoes/${crypto.randomUUID()}.${ext}`
+  const prepared = await prepareImageForUpload(file)
+  const path = `inspiracoes/${crypto.randomUUID()}.${prepared.ext}`
 
   const service = createServiceClient()
   const { error: uploadError } = await service.storage
     .from('community')
-    .upload(path, file, { contentType: file.type, upsert: false })
+    .upload(path, prepared.buffer, { contentType: prepared.contentType, upsert: false })
 
   if (uploadError) return { error: `Erro ao enviar: ${uploadError.message}` }
 
