@@ -1,27 +1,86 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { z } from "zod";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
 import { sendAccessConfirmedEmail, sendLoginReminderEmail } from "@/lib/email";
 
-async function getAdminId(): Promise<string> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autenticado");
+// ─── Helper compartilhado: concede acesso a um curso ───────────────────────────
+// Usado por grantAccessAction (1 curso) e grantMultipleAccessAction (N cursos).
+// A checagem de matrícula existente fica fora deste helper de propósito: no
+// caso de N cursos ela é feita em lote (1 query .in() para todos os course_ids)
+// antes do loop, em vez de 1 query por curso — ver grantMultipleAccessAction.
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
+type ExistingEnrollment = { id: string; expires_at: string | null } | null;
+
+async function grantCourseAccess(
+  service: ReturnType<typeof createServiceClient>,
+  params: {
+    adminId: string;
+    user_id: string;
+    course_id: string;
+    reason: string;
+    expires_at?: string;
+    existing: ExistingEnrollment;
+  }
+): Promise<{ granted: boolean; alreadyActive?: boolean; error?: string }> {
+  const { adminId, user_id, course_id, reason, expires_at, existing } = params;
+
+  if (existing) {
+    const isActive = !existing.expires_at || new Date(existing.expires_at) > new Date();
+    if (isActive) return { granted: false, alreadyActive: true };
+    // Remove matrícula expirada antes de reinserir (unique constraint)
+    await service.from("enrollments").delete().eq("id", existing.id);
+  }
+
+  const { data: enrollment, error: enrollErr } = await service
+    .from("enrollments")
+    .insert({
+      user_id,
+      course_id,
+      source: "manual",
+      granted_at: new Date().toISOString(),
+      expires_at: expires_at ? new Date(expires_at).toISOString() : null,
+    })
+    .select("id")
     .single();
-  if (profile?.role !== "admin") throw new Error("Sem permissão");
 
-  return user.id;
+  if (enrollErr || !enrollment) {
+    console.error("[grantCourseAccess] insert error:", enrollErr);
+    return { granted: false, error: enrollErr?.message ?? "Erro ao dar acesso." };
+  }
+
+  await service.from("audit_log").insert({
+    admin_id: adminId,
+    action: "grant_access",
+    target_type: "enrollment",
+    target_id: enrollment.id,
+    meta: { user_id, course_id, reason, expires_at: expires_at ?? null },
+  });
+
+  // E-mail de acesso liberado em background — não bloqueia a resposta da action,
+  // mas o resultado do envio é checado e logado (nunca mais falha silenciosa).
+  ;(async () => {
+    const [{ data: profile }, { data: course }] = await Promise.all([
+      service.from("profiles").select("email, full_name").eq("id", user_id).single(),
+      service.from("courses").select("title, slug").eq("id", course_id).single(),
+    ]);
+    if (profile?.email && course?.title) {
+      const emailResult = await sendAccessConfirmedEmail({
+        to: profile.email,
+        studentName: profile.full_name ?? profile.email,
+        courseTitle: course.title,
+        courseSlug: course.slug,
+      });
+      if (!emailResult.success) {
+        console.error(`[grantCourseAccess] e-mail falhou (${profile.email}):`, emailResult.error);
+      }
+    }
+  })().catch((e) => console.error("[grantCourseAccess] email:", e));
+
+  return { granted: true };
 }
 
 // ─── Dar acesso ───────────────────────────────────────────────────────────────
@@ -39,7 +98,7 @@ export async function grantAccessAction(
 ): Promise<{ error?: string; success?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -54,9 +113,7 @@ export async function grantAccessAction(
 
   const { user_id, course_id, reason, expires_at } = parsed.data;
   const service = createServiceClient();
-  const now = new Date().toISOString();
 
-  // Verifica se já existe matrícula ativa
   const { data: existing } = await service
     .from("enrollments")
     .select("id, expires_at")
@@ -64,55 +121,17 @@ export async function grantAccessAction(
     .eq("course_id", course_id)
     .maybeSingle();
 
-  if (existing) {
-    const isActive =
-      !existing.expires_at || new Date(existing.expires_at) > new Date();
-    if (isActive) return { error: "Aluna já tem acesso ativo a este curso." };
-
-    // Remove matrícula expirada antes de reinserir (unique constraint)
-    await service.from("enrollments").delete().eq("id", existing.id);
-  }
-
-  const { data: enrollment, error: enrollErr } = await service
-    .from("enrollments")
-    .insert({
-      user_id,
-      course_id,
-      source: "manual",
-      granted_at: now,
-      expires_at: expires_at ? new Date(expires_at).toISOString() : null,
-    })
-    .select("id")
-    .single();
-
-  if (enrollErr) {
-    console.error("[grantAccess] insert error:", enrollErr);
-    return { error: `Erro ao dar acesso: ${enrollErr.message}` };
-  }
-
-  await service.from("audit_log").insert({
-    admin_id: adminId,
-    action: "grant_access",
-    target_type: "enrollment",
-    target_id: enrollment.id,
-    meta: { user_id, course_id, reason, expires_at: expires_at ?? null },
+  const result = await grantCourseAccess(service, {
+    adminId,
+    user_id,
+    course_id,
+    reason,
+    expires_at,
+    existing: existing ?? null,
   });
 
-  // E-mail de acesso liberado em background
-  ;(async () => {
-    const [{ data: profile }, { data: course }] = await Promise.all([
-      service.from("profiles").select("email, full_name").eq("id", user_id).single(),
-      service.from("courses").select("title, slug").eq("id", course_id).single(),
-    ]);
-    if (profile?.email && course?.title) {
-      await sendAccessConfirmedEmail({
-        to: profile.email,
-        studentName: profile.full_name ?? profile.email,
-        courseTitle: course.title,
-        courseSlug: course.slug,
-      });
-    }
-  })().catch((e) => console.error("[grantAccess] email:", e));
+  if (result.alreadyActive) return { error: "Aluna já tem acesso ativo a este curso." };
+  if (!result.granted) return { error: `Erro ao dar acesso: ${result.error}` };
 
   revalidatePath(`/admin/alunos/${user_id}`);
   return { success: "Acesso concedido com sucesso." };
@@ -133,7 +152,7 @@ export async function revokeAccessAction(
 ): Promise<{ error?: string; success?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -180,7 +199,7 @@ export async function toggleBanAction(
 ): Promise<{ error?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -231,7 +250,7 @@ export async function updateProfileAction(
 ): Promise<{ error?: string; success?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -323,7 +342,7 @@ export async function grantMultipleAccessAction(
 ): Promise<{ error?: string; success?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -338,64 +357,38 @@ export async function grantMultipleAccessAction(
 
   const { user_id, course_ids, reason, expires_at } = parsed.data;
   const service = createServiceClient();
-  const now = new Date().toISOString();
+
+  // Checagem de matrículas existentes em lote — 1 query para todos os cursos
+  // selecionados, em vez de 1 query por curso (era o N+1 original).
+  const { data: existingRows } = await service
+    .from("enrollments")
+    .select("id, course_id, expires_at")
+    .eq("user_id", user_id)
+    .in("course_id", course_ids);
+
+  const existingByCourse = new Map<string, { id: string; expires_at: string | null }>();
+  for (const row of existingRows ?? []) {
+    existingByCourse.set(row.course_id, { id: row.id, expires_at: row.expires_at });
+  }
 
   let granted = 0;
   let skipped = 0;
 
   for (const course_id of course_ids) {
-    const { data: existing } = await service
-      .from("enrollments")
-      .select("id, expires_at")
-      .eq("user_id", user_id)
-      .eq("course_id", course_id)
-      .maybeSingle();
-
-    if (existing) {
-      const isActive = !existing.expires_at || new Date(existing.expires_at) > new Date();
-      if (isActive) { skipped++; continue; }
-      await service.from("enrollments").delete().eq("id", existing.id);
-    }
-
-    const { data: enrollment, error: enrollErr } = await service
-      .from("enrollments")
-      .insert({
-        user_id,
-        course_id,
-        source: "manual",
-        granted_at: now,
-        expires_at: expires_at ? new Date(expires_at).toISOString() : null,
-      })
-      .select("id")
-      .single();
-
-    if (enrollErr) {
-      console.error("[grantMultiple] insert error:", enrollErr);
-      continue;
-    }
-
-    await service.from("audit_log").insert({
-      admin_id: adminId,
-      action: "grant_access",
-      target_type: "enrollment",
-      target_id: enrollment.id,
-      meta: { user_id, course_id, reason, expires_at: expires_at ?? null },
+    const result = await grantCourseAccess(service, {
+      adminId,
+      user_id,
+      course_id,
+      reason,
+      expires_at,
+      existing: existingByCourse.get(course_id) ?? null,
     });
 
-    ;(async () => {
-      const [{ data: profile }, { data: course }] = await Promise.all([
-        service.from("profiles").select("email, full_name").eq("id", user_id).single(),
-        service.from("courses").select("title, slug").eq("id", course_id).single(),
-      ]);
-      if (profile?.email && course?.title) {
-        await sendAccessConfirmedEmail({
-          to: profile.email,
-          studentName: profile.full_name ?? profile.email,
-          courseTitle: course.title,
-          courseSlug: course.slug,
-        });
-      }
-    })().catch((e) => console.error("[grantMultiple] email:", e));
+    if (result.alreadyActive) {
+      skipped++;
+      continue;
+    }
+    if (!result.granted) continue; // erro já logado dentro do helper
 
     granted++;
   }
@@ -418,7 +411,7 @@ export async function resendAccessEmailAction(
 ): Promise<{ success?: boolean; error?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -433,13 +426,12 @@ export async function resendAccessEmailAction(
 
   if (!profile?.email) return { error: "Aluna sem e-mail cadastrado." };
 
-  try {
-    await sendLoginReminderEmail({
-      to: profile.email,
-      studentName: profile.full_name ?? profile.email,
-    });
-  } catch (e) {
-    console.error("[resendAccessEmail] send error:", e);
+  const emailResult = await sendLoginReminderEmail({
+    to: profile.email,
+    studentName: profile.full_name ?? profile.email,
+  });
+  if (!emailResult.success) {
+    console.error("[resendAccessEmail] send error:", emailResult.error);
     return { error: "Erro ao enviar e-mail. Tente novamente." };
   }
 
@@ -467,7 +459,7 @@ export async function setStudentPasswordAction(
 ): Promise<{ error?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }
@@ -511,7 +503,7 @@ export async function updateStudentEmailAction(
 ): Promise<{ error?: string; success?: string }> {
   let adminId: string;
   try {
-    adminId = await getAdminId();
+    ({ adminId } = await assertAdmin());
   } catch (e) {
     return { error: (e as Error).message };
   }

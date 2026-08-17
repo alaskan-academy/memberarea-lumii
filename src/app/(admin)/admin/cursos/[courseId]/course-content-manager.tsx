@@ -21,6 +21,7 @@ import {
 } from "./actions";
 import type { LessonData, LessonMaterial } from "./actions";
 import { createClient } from "@/lib/supabase/client";
+import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -401,12 +402,14 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
   const [lessons, setLessons] = useState<Lesson[]>([...mod.lessons].sort((a, b) => a.position - b.position));
   const [, startReorder] = useTransition();
+  const [lessonDeleteError, setLessonDeleteError] = useState<string | null>(null);
 
   function handleDeleteLessonLocal(lessonId: string, title: string) {
     if (!confirm(`Excluir aula "${title}"?`)) return;
+    setLessonDeleteError(null);
     startDeleteLessonTransition(async () => {
       const result = await deleteLesson(lessonId, courseId);
-      if (result.error) { alert(result.error); return; }
+      if (result.error) { setLessonDeleteError(result.error); return; }
       setLessons((prev) => prev.filter((l) => l.id !== lessonId));
     });
   }
@@ -490,6 +493,12 @@ function SortableModule({ mod, courseId, editingModuleId, setEditingModuleId,
         )}
       </div>
 
+      {lessonDeleteError && (
+        <p role="alert" className="text-sm text-red-600 bg-red-50 px-4 py-2 border-b border-red-100">
+          {lessonDeleteError}
+        </p>
+      )}
+
       {/* Aulas — visíveis apenas quando expandido */}
       {!collapsed && (
         <>
@@ -544,8 +553,16 @@ export default function CourseContentManager({ courseId, initialModules }: {
   const [editingModuleId, setEditingModuleId] = useState<string | null>(null);
   const [addingLessonToModule, setAddingLessonToModule] = useState<string | null>(null);
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
+  const [moduleDeleteError, setModuleDeleteError] = useState<string | null>(null);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+
+  // Módulos/aulas são salvos individualmente (Server Action por formulário),
+  // então "não salvo" aqui significa ter algum formulário de módulo/aula
+  // aberto (novo ou em edição) com conteúdo ainda não persistido.
+  useUnsavedChangesGuard(
+    addingModule || editingModuleId !== null || addingLessonToModule !== null || editingLessonId !== null
+  );
 
   function refresh() { router.refresh(); }
 
@@ -563,9 +580,10 @@ export default function CourseContentManager({ courseId, initialModules }: {
 
   function handleDeleteModule(moduleId: string, title: string) {
     if (!confirm(`Excluir módulo "${title}"? Todas as aulas serão excluídas.`)) return;
+    setModuleDeleteError(null);
     startTransition(async () => {
       const result = await deleteModule(moduleId, courseId);
-      if (result.error) alert(result.error);
+      if (result.error) setModuleDeleteError(result.error);
       else setModules((prev) => prev.filter((m) => m.id !== moduleId));
     });
   }
@@ -584,6 +602,10 @@ export default function CourseContentManager({ courseId, initialModules }: {
           <Plus className="w-3.5 h-3.5" /> Novo módulo
         </button>
       </div>
+
+      {moduleDeleteError && (
+        <p role="alert" className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{moduleDeleteError}</p>
+      )}
 
       {addingModule && (
         <div className="lumii-card p-4">

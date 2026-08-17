@@ -5,6 +5,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { revalidatePath } from 'next/cache'
 import type {
   InspiracaoPost,
+  InspiracaoPostRow,
   InspiracaoComment,
   InspiracaoFiltros,
   InspiracaoCursor,
@@ -13,6 +14,21 @@ import type {
 } from './types'
 
 const PAGE_SIZE = 12
+
+// ── Shape das linhas retornadas pelo select com joins (feed/getById) ──────────
+// O client Supabase aqui não usa generics de Database, então `data` vem sem
+// tipo — este type descreve o que os `.select()` desta tela realmente trazem.
+type InspiracaoPostJoinRow = InspiracaoPostRow & {
+  author: { full_name: string | null; avatar_url: string | null } | null
+  featured_student: { id: string; full_name: string | null; avatar_url: string | null; bio: string | null } | null
+  inspiration_likes: { user_id: string }[] | null
+  inspiration_bookmarks: { user_id: string }[] | null
+}
+
+// Bookmarks só trazem o autor (sem contadores de like/bookmark no próprio join)
+type InspiracaoPostWithAuthor = InspiracaoPostRow & {
+  author: { full_name: string | null; avatar_url: string | null } | null
+}
 
 // ── Feed (alunas) ─────────────────────────────────────────────────────────────
 
@@ -70,7 +86,7 @@ export async function getInspiracoesFeed(
   const { data, error } = await query
   if (error) throw error
 
-  const rows = data ?? []
+  const rows = (data ?? []) as InspiracaoPostJoinRow[]
   const has_more = rows.length > PAGE_SIZE
   const posts = rows.slice(0, PAGE_SIZE)
 
@@ -102,14 +118,14 @@ export async function getInspiracoesFeed(
     commentMap[c.post_id] = (commentMap[c.post_id] ?? 0) + 1
   }
 
-  const result: InspiracaoPost[] = posts.map((p: any) => ({
+  const result: InspiracaoPost[] = posts.map((p) => ({
     ...p,
-    author: p.author ?? null,
+    author: p.author ?? undefined,
     featured_student: p.featured_student ?? null,
     like_count: likeMap[p.id] ?? 0,
     comment_count: commentMap[p.id] ?? 0,
-    is_liked: (p.inspiration_likes ?? []).some((l: any) => l.user_id === userId),
-    is_bookmarked: (p.inspiration_bookmarks ?? []).some((b: any) => b.user_id === userId),
+    is_liked: (p.inspiration_likes ?? []).some((l) => l.user_id === userId),
+    is_bookmarked: (p.inspiration_bookmarks ?? []).some((b) => b.user_id === userId),
   }))
 
   const last = result[result.length - 1]
@@ -139,19 +155,21 @@ export async function getInspiracaoById(postId: string, userId: string): Promise
 
   if (error || !data) return null
 
+  const post = data as InspiracaoPostJoinRow
+
   const [likeCounts, commentCounts] = await Promise.all([
     supabase.from('inspiration_likes').select('post_id').eq('post_id', postId),
     supabase.from('inspiration_comments').select('post_id').eq('post_id', postId).eq('approved', true),
   ])
 
   return {
-    ...data,
-    author: (data as any).author ?? null,
-    featured_student: (data as any).featured_student ?? null,
+    ...post,
+    author: post.author ?? undefined,
+    featured_student: post.featured_student ?? null,
     like_count: likeCounts.data?.length ?? 0,
     comment_count: commentCounts.data?.length ?? 0,
-    is_liked: ((data as any).inspiration_likes ?? []).some((l: any) => l.user_id === userId),
-    is_bookmarked: ((data as any).inspiration_bookmarks ?? []).some((b: any) => b.user_id === userId),
+    is_liked: (post.inspiration_likes ?? []).some((l) => l.user_id === userId),
+    is_bookmarked: (post.inspiration_bookmarks ?? []).some((b) => b.user_id === userId),
   }
 }
 
@@ -189,9 +207,11 @@ export async function getBookmarks(userId: string): Promise<InspiracaoPost[]> {
   for (const l of likeCounts.data ?? []) likeMap[l.post_id] = (likeMap[l.post_id] ?? 0) + 1
   for (const c of commentCounts.data ?? []) commentMap[c.post_id] = (commentMap[c.post_id] ?? 0) + 1
 
-  return posts.map((p: any) => ({
+  const postRows = posts as InspiracaoPostWithAuthor[]
+
+  return postRows.map((p) => ({
     ...p,
-    author: p.author ?? null,
+    author: p.author ?? undefined,
     featured_student: null,
     like_count: likeMap[p.id] ?? 0,
     comment_count: commentMap[p.id] ?? 0,

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import NextImage from "next/image";
 import { Image, Plus, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toggleBannerActiveAction } from "./actions";
@@ -74,13 +75,12 @@ export default async function BannersPage() {
             return (
               <div key={b.id} className="lumii-card p-4 flex gap-4 items-center">
                 {/* Thumbnail */}
-                <div className="w-24 h-14 rounded-lg overflow-hidden bg-muted shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative w-24 h-14 rounded-lg overflow-hidden bg-muted shrink-0">
+                  <NextImage
                     src={b.image_url}
                     alt={b.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
+                    fill
+                    className="object-cover"
                   />
                 </div>
 

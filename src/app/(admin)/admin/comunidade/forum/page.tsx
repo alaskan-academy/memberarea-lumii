@@ -1,35 +1,29 @@
 import { createClient } from "@/lib/supabase/server";
 import { MessageSquare } from "lucide-react";
 import ForumModerationClient from "./ForumModerationClient";
+import ForumSearch from "./ForumSearch";
+import Link from "next/link";
+import { getCurrentAdmin } from "@/lib/auth/current-admin";
 
 export const metadata = { title: "Fórum — Moderação Admin Lumii" };
 
-export default async function AdminForumPage() {
-  const supabase = await createClient();
+const PAGE_SIZE = 20;
+// A fila de moderação (pendentes) precisa ficar sempre visível de uma vez —
+// paginar esconderia posts aguardando aprovação há mais tempo. Um teto alto
+// evita, mesmo assim, um full-scan sem limite nenhum.
+const PENDING_CAP = 300;
 
-  const { data: postsRaw } = await supabase
-    .from("forum_posts")
-    .select(`
-      id, title, body, pinned, approved, created_at, forum_id,
-      attachment_url, attachment_name,
-      author:profiles!user_id (full_name),
-      forums!forum_id (title, slug),
-      forum_comments(count)
-    `)
-    .order("approved", { ascending: true })
-    .order("created_at", { ascending: false })
-    .limit(200);
+type PostRaw = {
+  id: string; title: string; body: string; pinned: boolean; approved: boolean;
+  created_at: string; forum_id: string | null;
+  attachment_url: string | null; attachment_name: string | null;
+  author: { full_name: string } | null;
+  forums: { title: string; slug: string } | null;
+  forum_comments: [{ count: number }];
+};
 
-  type PostRaw = {
-    id: string; title: string; body: string; pinned: boolean; approved: boolean;
-    created_at: string; forum_id: string | null;
-    attachment_url: string | null; attachment_name: string | null;
-    author: { full_name: string } | null;
-    forums: { title: string; slug: string } | null;
-    forum_comments: [{ count: number }];
-  };
-
-  const posts = ((postsRaw as unknown as PostRaw[]) ?? []).map((p) => ({
+function mapPost(p: PostRaw) {
+  return {
     id: p.id,
     title: p.title,
     body: p.body,
@@ -43,9 +37,57 @@ export default async function AdminForumPage() {
     forum_title: p.forums?.title ?? "—",
     forum_slug: p.forums?.slug ?? "",
     comment_count: (p.forum_comments as unknown as [{ count: number }])[0]?.count ?? 0,
-  }));
+  };
+}
 
-  const pendingCount = posts.filter((p) => !p.approved).length;
+export default async function AdminForumPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; q?: string }>;
+}) {
+  await getCurrentAdmin();
+  const supabase = await createClient();
+
+  const { page: rawPage, q: rawQ } = await searchParams;
+  const q = rawQ?.trim() ?? "";
+  const page = Math.max(1, parseInt(rawPage ?? "1"));
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+
+  const selectCols = `
+      id, title, body, pinned, approved, created_at, forum_id,
+      attachment_url, attachment_name,
+      author:profiles!user_id (full_name),
+      forums!forum_id (title, slug),
+      forum_comments(count)
+    `;
+
+  let pendingQuery = supabase
+    .from("forum_posts")
+    .select(selectCols)
+    .eq("approved", false)
+    .order("created_at", { ascending: false })
+    .limit(PENDING_CAP);
+  if (q) pendingQuery = pendingQuery.ilike("title", `%${q}%`);
+
+  let approvedQuery = supabase
+    .from("forum_posts")
+    .select(selectCols, { count: "exact" })
+    .eq("approved", true)
+    .order("created_at", { ascending: false })
+    .range(from, to);
+  if (q) approvedQuery = approvedQuery.ilike("title", `%${q}%`);
+
+  const [{ data: pendingRaw }, { data: approvedRaw, count: approvedCount }] = await Promise.all([
+    pendingQuery,
+    approvedQuery,
+  ]);
+
+  const pending = ((pendingRaw as unknown as PostRaw[]) ?? []).map(mapPost);
+  const approved = ((approvedRaw as unknown as PostRaw[]) ?? []).map(mapPost);
+  const posts = [...pending, ...approved];
+  const pendingCount = pending.length;
+  const totalPages = Math.max(1, Math.ceil((approvedCount ?? 0) / PAGE_SIZE));
 
   return (
     <div>
@@ -61,11 +103,41 @@ export default async function AdminForumPage() {
             ) : (
               "Nenhum post pendente"
             )}
-            {" · "}{posts.length} posts no total
+            {" · "}{approvedCount ?? 0} posts aprovados no total
           </p>
         </div>
       </div>
+
+      <div className="mb-4">
+        <ForumSearch defaultValue={q} />
+      </div>
+
       <ForumModerationClient posts={posts} />
+
+      {/* Paginação — apenas a lista de posts aprovados é paginada; pendentes ficam sempre visíveis */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {page > 1 && (
+            <Link
+              href={`?${q ? `q=${encodeURIComponent(q)}&` : ""}page=${page - 1}`}
+              className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+            >
+              ← Anterior
+            </Link>
+          )}
+          <span className="text-sm text-muted-foreground">
+            Aprovados: página {page} de {totalPages}
+          </span>
+          {page < totalPages && (
+            <Link
+              href={`?${q ? `q=${encodeURIComponent(q)}&` : ""}page=${page + 1}`}
+              className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+            >
+              Próxima →
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

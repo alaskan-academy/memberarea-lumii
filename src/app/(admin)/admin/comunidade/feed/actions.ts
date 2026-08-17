@@ -162,13 +162,16 @@ async function notifyNewsPost(postId: string) {
     );
 
     for (const p of eligible) {
-      await sendNewsPostEmail({
+      const result = await sendNewsPostEmail({
         to: p.email,
         studentName: p.full_name ?? "Aluna",
         postTitle: post.title,
         postBody: post.body ?? undefined,
         postId,
       });
+      if (!result.success) {
+        console.error(`[email] notifyNewsPost falhou para ${p.email}:`, result.error);
+      }
     }
   } catch (e) {
     console.error("[email] notifyNewsPost:", e);

@@ -1,20 +1,17 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Users, BookOpen, Award, Webhook, TrendingUp, CheckCircle2, Clock, XCircle, Bell } from "lucide-react";
 import { InfoTooltip } from "./metric-tooltip";
+import { getCurrentAdmin } from "@/lib/auth/current-admin";
 
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+// Página de BI/relatório — dados agregados no banco via RPC, não precisa ser real-time.
+export const revalidate = 300;
+
+type TopCourseRow = { course_id: string; title: string; slug: string; thumbnail_url: string | null; enrollment_count: number };
+type SourceRow = { source: string; enrollment_count: number };
 
 export default async function MetricasPage() {
-  await assertAdmin();
+  await getCurrentAdmin();
   const service = createServiceClient();
 
   const [
@@ -25,7 +22,7 @@ export default async function MetricasPage() {
     { data: topCursos },
     { data: webhooksRecentes },
     { data: matriculasPorFonte },
-    { data: pushSubsData },
+    { data: pushCountData },
   ] = await Promise.all([
     // Alunas ativas (não banidas)
     service.from("profiles").select("*", { count: "exact", head: true })
@@ -41,10 +38,8 @@ export default async function MetricasPage() {
     // Cursos publicados
     service.from("courses").select("*", { count: "exact", head: true }).eq("published", true),
 
-    // Top cursos por matrículas
-    service.from("enrollments")
-      .select("course_id, courses(title, slug, thumbnail_url)")
-      .or("expires_at.is.null,expires_at.gte." + new Date().toISOString()),
+    // Top cursos por matrículas — agregado no Postgres (join + group by + limit)
+    service.rpc("admin_top_courses_by_enrollments", { limit_n: 8 }),
 
     // Webhooks recentes
     service.from("payment_events")
@@ -52,39 +47,22 @@ export default async function MetricasPage() {
       .order("created_at", { ascending: false })
       .limit(15),
 
-    // Matrículas por fonte
-    service.from("enrollments")
-      .select("source")
-      .or("expires_at.is.null,expires_at.gte." + new Date().toISOString()),
+    // Matrículas por fonte — agregado no Postgres (group by)
+    service.rpc("admin_enrollments_by_source"),
 
-    // Alunas com push ativo (distinct user_id)
-    service.from("push_subscriptions").select("user_id"),
+    // Alunas com push ativo (distinct user_id) — agregado no Postgres
+    service.rpc("admin_push_active_students_count"),
   ]);
 
-  // Agrupa top cursos por course_id
-  const cursoContagem = new Map<string, { id: string; title: string; slug: string; thumbnail_url: string | null; count: number }>();
-  for (const e of topCursos ?? []) {
-    const c = e.courses as unknown as { title: string; slug: string; thumbnail_url: string | null } | null;
-    if (!c) continue;
-    const entry = cursoContagem.get(e.course_id);
-    if (entry) entry.count++;
-    else cursoContagem.set(e.course_id, { id: e.course_id, ...c, count: 1 });
-  }
-  const topCursosOrdenados = [...cursoContagem.values()].sort((a, b) => b.count - a.count).slice(0, 8);
-
-  // Alunas com push ativo (distinct user_ids)
-  const pushAlunas = new Set((pushSubsData ?? []).map((s) => s.user_id)).size;
+  const topCursosOrdenados = (topCursos ?? []) as TopCourseRow[];
+  const pushAlunas = (pushCountData as unknown as number) ?? 0;
 
   // Taxa de conclusão = certificados / matrículas (%)
   const taxaConclusao = totalMatriculas && totalMatriculas > 0
     ? Math.round(((totalCertificados ?? 0) / totalMatriculas) * 100)
     : 0;
 
-  // Matrículas por fonte
-  const fontes = (matriculasPorFonte ?? []).reduce<Record<string, number>>((acc, e) => {
-    acc[e.source] = (acc[e.source] ?? 0) + 1;
-    return acc;
-  }, {});
+  const fontes = (matriculasPorFonte ?? []) as SourceRow[];
 
   const FONTE_LABEL: Record<string, string> = {
     payt: "Payt (compra)",
@@ -129,18 +107,18 @@ export default async function MetricasPage() {
           ) : (
             <div className="space-y-3">
               {topCursosOrdenados.map((curso, i) => (
-                <Link key={curso.slug} href={`/admin/cursos/${curso.id}`} className="flex items-center gap-3 group">
+                <Link key={curso.slug} href={`/admin/cursos/${curso.course_id}`} className="flex items-center gap-3 group">
                   <span className="text-xs font-bold text-muted-foreground w-5 text-right">{i + 1}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate group-hover:text-[#f6614f] transition-colors">{curso.title}</p>
                     <div className="mt-1 h-1.5 rounded-full bg-muted overflow-hidden">
                       <div
                         className="h-full rounded-full bg-[#f6614f]"
-                        style={{ width: `${Math.round((curso.count / (topCursosOrdenados[0]?.count || 1)) * 100)}%` }}
+                        style={{ width: `${Math.round((curso.enrollment_count / (topCursosOrdenados[0]?.enrollment_count || 1)) * 100)}%` }}
                       />
                     </div>
                   </div>
-                  <span className="text-sm font-semibold tabular-nums">{curso.count}</span>
+                  <span className="text-sm font-semibold tabular-nums">{curso.enrollment_count}</span>
                 </Link>
               ))}
             </div>
@@ -155,13 +133,13 @@ export default async function MetricasPage() {
               Origem das matrículas
             </h2>
             <div className="space-y-2">
-              {Object.entries(fontes).length === 0 ? (
+              {fontes.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Sem dados.</p>
               ) : (
-                Object.entries(fontes).map(([fonte, qtd]) => (
-                  <div key={fonte} className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{FONTE_LABEL[fonte] ?? fonte}</span>
-                    <span className="font-semibold tabular-nums">{qtd}</span>
+                fontes.map((f) => (
+                  <div key={f.source} className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">{FONTE_LABEL[f.source] ?? f.source}</span>
+                    <span className="font-semibold tabular-nums">{f.enrollment_count}</span>
                   </div>
                 ))
               )}

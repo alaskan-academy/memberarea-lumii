@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useMemo, useRef, useEffect } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Mail,
@@ -9,7 +9,6 @@ import {
   Clock,
   RefreshCw,
   X,
-  Search,
   AlertCircle,
   Pencil,
   Check,
@@ -57,44 +56,16 @@ export default function SemCadastroClient({
   rows: SemCadastroRow[];
 }) {
   const [selected, setSelected] = useState<SemCadastroRow | null>(null);
-  const [search, setSearch] = useState("");
   useModalBackGuard(!!selected, () => setSelected(null));
-
-  const filtered = useMemo(() => {
-    const q = search.toLowerCase();
-    if (!q) return rows;
-    return rows.filter(
-      (r) =>
-        r.email.toLowerCase().includes(q) ||
-        r.buyer_name?.toLowerCase().includes(q)
-    );
-  }, [rows, search]);
 
   return (
     <>
-      <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-        <label htmlFor="sem-cadastro-search" className="sr-only">
-          Buscar por nome ou e-mail
-        </label>
-        <input
-          id="sem-cadastro-search"
-          type="search"
-          placeholder="Buscar por nome ou e-mail…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
-        />
-      </div>
-
       <div className="lumii-card overflow-hidden overflow-x-auto">
-        {filtered.length === 0 ? (
+        {rows.length === 0 ? (
           <div className="py-16 text-center text-muted-foreground">
             <Package className="w-10 h-10 mx-auto mb-3 opacity-30" />
             <p className="font-medium">
-              {rows.length === 0
-                ? "Todas as compradoras já criaram sua conta."
-                : "Nenhuma encontrada com este termo."}
+              Nenhuma compradora sem cadastro encontrada.
             </p>
           </div>
         ) : (
@@ -117,7 +88,7 @@ export default function SemCadastroClient({
               </tr>
             </thead>
             <tbody className="divide-y divide-border/40">
-              {filtered.map((row) => (
+              {rows.map((row) => (
                 <TableRow
                   key={row.email}
                   row={row}

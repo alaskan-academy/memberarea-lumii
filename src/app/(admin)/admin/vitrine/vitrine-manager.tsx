@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef } from "react";
+import Image from "next/image";
 import { Eye, EyeOff, Loader2, Save, Trash2, GripVertical, Play, BookOpen } from "lucide-react";
 import { upsertShowcaseCourse, removeShowcaseCourse, reorderShowcaseCourses } from "./actions";
 
@@ -202,10 +203,9 @@ function ShowcaseCard({
     <div className="bg-white rounded-xl border border-border/60 p-4 space-y-4">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#f6614f]/10 shrink-0">
+        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-[#f6614f]/10 shrink-0">
           {course.thumbnail_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover" />
+            <Image src={course.thumbnail_url} alt={course.title} fill className="object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-lg">
               {course.course_type === "material" ? "📄" : "🎨"}

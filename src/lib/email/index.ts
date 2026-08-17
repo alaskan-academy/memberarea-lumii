@@ -3,6 +3,10 @@ import { Resend } from "resend";
 const FROM = "Lumii <noreply@mail.lumiieduca.com.br>";
 const REPLY_TO = "contato@lumiieduca.com.br";
 
+// Toda função send*Email retorna este formato em vez de void — quem chama
+// precisa checar o resultado (nunca mais um erro de envio silencioso).
+export type EmailResult = { success: boolean; error?: string };
+
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
@@ -137,7 +141,7 @@ export async function sendWelcomeEmail({
 }: {
   to: string;
   studentName: string;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
 
   const { error } = await getResend().emails.send({
@@ -160,7 +164,9 @@ export async function sendWelcomeEmail({
 
   if (error) {
     console.error("[email] welcome error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Acesso confirmado (pós-compra) ───────────────────────────────────────────
@@ -179,7 +185,7 @@ export async function sendAccessConfirmedEmail({
   courseSlug: string;
   activationToken?: string;
   totalCourses?: number;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
   const courseUrl = activationToken
     ? `${appUrl()}/ativar/${activationToken}`
@@ -217,7 +223,9 @@ export async function sendAccessConfirmedEmail({
 
   if (error) {
     console.error("[email] access confirmed error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Certificado disponível ───────────────────────────────────────────────────
@@ -232,7 +240,7 @@ export async function sendCertificateEmail({
   studentName: string;
   courseTitle: string;
   profileUrl: string;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
 
   const { error } = await getResend().emails.send({
@@ -257,7 +265,9 @@ export async function sendCertificateEmail({
 
   if (error) {
     console.error("[email] certificate error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Lembrete de como acessar a conta ─────────────────────────────────────────
@@ -268,7 +278,7 @@ export async function sendLoginReminderEmail({
 }: {
   to: string;
   studentName: string;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
   const loginUrl = `${appUrl()}/login`;
   const recoverUrl = `${appUrl()}/recuperar-senha`;
@@ -300,7 +310,9 @@ export async function sendLoginReminderEmail({
 
   if (error) {
     console.error("[email] login reminder error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Lembrete de reengajamento (7 dias sem acesso) ────────────────────────────
@@ -339,8 +351,8 @@ export async function sendReengagementEmail({
   to: string;
   studentName: string;
   courses: ReengagementCourse[];
-}): Promise<void> {
-  if (!courses.length) return;
+}): Promise<EmailResult> {
+  if (!courses.length) return { success: true };
   const firstName = studentName.split(" ")[0];
   const single = courses.length === 1;
   const pct = single ? Math.round(courses[0].progressPercent) : 0;
@@ -379,7 +391,9 @@ export async function sendReengagementEmail({
 
   if (error) {
     console.error("[email] reengagement error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Novo curso disponível ────────────────────────────────────────────────────
@@ -398,7 +412,7 @@ export async function sendNewCourseEmail({
   courseSlug: string;
   courseDescription?: string;
   thumbnailUrl?: string | null;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
   const courseUrl = `${appUrl()}/cursos/${courseSlug}`;
   const imgBlock = thumbnailUrl
@@ -430,7 +444,9 @@ export async function sendNewCourseEmail({
 
   if (error) {
     console.error("[email] new course error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Reembolso / cancelamento ────────────────────────────────────────────────
@@ -443,7 +459,7 @@ export async function sendRefundEmail({
   to: string;
   studentName: string;
   courseTitle: string;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
   const vitrineUrl = `${appUrl()}/vitrine`;
 
@@ -474,7 +490,9 @@ export async function sendRefundEmail({
 
   if (error) {
     console.error("[email] refund error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }
 
 // ─── Novo post no feed de notícias ────────────────────────────────────────────
@@ -491,7 +509,7 @@ export async function sendNewsPostEmail({
   postTitle: string;
   postBody?: string;
   postId: string;
-}): Promise<void> {
+}): Promise<EmailResult> {
   const firstName = studentName.split(" ")[0];
   const postUrl = `${appUrl()}/comunidade/feed`;
   const excerpt = postBody
@@ -522,5 +540,7 @@ export async function sendNewsPostEmail({
 
   if (error) {
     console.error("[email] news post error:", error);
+    return { success: false, error: error.message ?? "Erro desconhecido ao enviar e-mail." };
   }
+  return { success: true };
 }

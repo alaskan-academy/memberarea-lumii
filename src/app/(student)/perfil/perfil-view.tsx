@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,7 +21,6 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import {
   getCertificateDownloadUrl,
   updateProfile,
@@ -32,11 +31,10 @@ import {
 } from "./actions";
 import PushSubscribeButton from "@/components/pwa/PushSubscribeButton";
 import InstallAppButton from "@/components/pwa/InstallAppButton";
-import { getUserPushEndpoints } from "@/lib/push/actions";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Profile = {
+export type Profile = {
   full_name: string | null;
   email: string;
   bio: string | null;
@@ -44,14 +42,14 @@ type Profile = {
   email_prefs: EmailPrefs | null;
 };
 
-type Certificate = {
+export type Certificate = {
   id: string;
   issued_at: string;
   verify_hash: string;
   course: { title: string; workload_hours: number } | null;
 };
 
-type CourseCard = {
+export type CourseCard = {
   id: string;
   slug: string;
   title: string;
@@ -82,135 +80,26 @@ function mergeWithDefaults(raw: EmailPrefs | null): EmailPrefs {
 
 // ─── Page root ────────────────────────────────────────────────────────────────
 
-export default function PerfilView() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [certificates, setCertificates] = useState<Certificate[]>([]);
-  const [courses, setCourses] = useState<CourseCard[]>([]);
-  const [pushEndpoints, setPushEndpoints] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function PerfilView({
+  initialProfile,
+  initialCertificates,
+  initialCourses,
+  initialPushEndpoints,
+}: {
+  initialProfile: Profile | null;
+  initialCertificates: Certificate[];
+  initialCourses: CourseCard[];
+  initialPushEndpoints: string[];
+}) {
+  const [profile, setProfile] = useState<Profile | null>(initialProfile);
+  const certificates = initialCertificates;
+  const courses = initialCourses;
+  const pushEndpoints = initialPushEndpoints;
   const searchParams = useSearchParams();
   const newCert = searchParams.get("certificado") === "1";
 
-  useEffect(() => {
-    (async () => {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const [profileRes, certRes, enrollRes] = await Promise.all([
-        supabase
-          .from("profiles")
-          .select("full_name, email, bio, avatar_url, email_prefs")
-          .eq("id", user.id)
-          .single(),
-        supabase
-          .from("certificates")
-          .select("id, issued_at, verify_hash, course:courses(title, workload_hours)")
-          .eq("user_id", user.id)
-          .order("issued_at", { ascending: false }),
-        supabase
-          .from("enrollments")
-          .select("course:courses(id, slug, title, thumbnail_url, workload_hours)")
-          .eq("user_id", user.id)
-          .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
-          .order("granted_at", { ascending: false }),
-      ]);
-
-      setProfile(profileRes.data as Profile | null);
-      setCertificates((certRes.data ?? []) as unknown as Certificate[]);
-
-      // Endpoints de push deste usuário (para o botão de ativar/desativar)
-      getUserPushEndpoints().then(setPushEndpoints).catch(() => {});
-
-      // Calcula progresso por curso
-      type RawCourse = {
-        id: string;
-        slug: string;
-        title: string;
-        thumbnail_url: string | null;
-        workload_hours: number;
-      };
-      const rawCourses = ((enrollRes.data ?? []) as unknown as { course: RawCourse | null }[])
-        .map((e) => e.course)
-        .filter(Boolean) as RawCourse[];
-
-      if (rawCourses.length) {
-        const courseIds = rawCourses.map((c) => c.id);
-
-        const { data: modules } = await supabase
-          .from("modules")
-          .select("course_id, lessons(id, archived)")
-          .eq("archived", false)
-          .in("course_id", courseIds);
-
-        type LessonRef = { id: string; archived: boolean };
-        type ModRow = { course_id: string; lessons: LessonRef[] };
-        const mods = (modules as ModRow[] | null) ?? [];
-
-        const allLessonIds = mods.flatMap((m) =>
-          (m.lessons ?? []).filter((l) => !l.archived).map((l) => l.id)
-        );
-
-        const lessonToCourse: Record<string, string> = {};
-        for (const m of mods) {
-          for (const l of m.lessons ?? []) lessonToCourse[l.id] = m.course_id;
-        }
-
-        const totalsMap: Record<string, number> = {};
-        for (const m of mods) {
-          totalsMap[m.course_id] = (totalsMap[m.course_id] ?? 0) + (m.lessons ?? []).filter((l) => !l.archived).length;
-        }
-
-        let completedMap: Record<string, number> = {};
-        let lastLessonMap: Record<string, string> = {};
-
-        if (allLessonIds.length) {
-          const { data: progress } = await supabase
-            .from("lesson_progress")
-            .select("lesson_id, completed, updated_at")
-            .eq("user_id", user.id)
-            .in("lesson_id", allLessonIds)
-            .order("updated_at", { ascending: false });
-
-          for (const p of progress ?? []) {
-            const cid = lessonToCourse[p.lesson_id];
-            if (!cid) continue;
-            if (p.completed) completedMap[cid] = (completedMap[cid] ?? 0) + 1;
-            if (!lastLessonMap[cid]) lastLessonMap[cid] = p.lesson_id;
-          }
-        }
-
-        setCourses(
-          rawCourses.map((c) => {
-            const total = totalsMap[c.id] ?? 0;
-            const completed = completedMap[c.id] ?? 0;
-            return {
-              ...c,
-              completed,
-              total,
-              percentage: total > 0 ? Math.round((completed / total) * 100) : 0,
-              lastLessonId: lastLessonMap[c.id] ?? null,
-            };
-          })
-        );
-      }
-
-      setLoading(false);
-    })();
-  }, []);
-
   const refreshProfile = (updated: Partial<Profile>) =>
     setProfile((p) => (p ? { ...p, ...updated } : p));
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-24">
-        <Loader2 className="w-6 h-6 animate-spin text-[#f6614f]" />
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-12">
@@ -721,14 +610,23 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
   const [current, setCurrent] = useState<EmailPrefs>(prefs);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const toggle = async (key: keyof EmailPrefs) => {
+    const previous = current;
     const next = { ...current, [key]: !current[key] };
     setCurrent(next);
     setSaving(true);
     setSaved(false);
-    await updateEmailPrefs(next);
+    setError(null);
+    const result = await updateEmailPrefs(next);
     setSaving(false);
+    if (result.error) {
+      setCurrent(previous);
+      setError("Não foi possível salvar. Tente novamente.");
+      setTimeout(() => setError(null), 4000);
+      return;
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -741,13 +639,21 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
           Preferências de e-mail
         </h2>
         <span
+          role={error ? "alert" : "status"}
           className={cn(
             "text-xs transition-opacity duration-300",
-            saved ? "text-[#71c69a] opacity-100" : "opacity-0"
+            error
+              ? "text-red-500 opacity-100"
+              : saved
+              ? "text-[#71c69a] opacity-100"
+              : "opacity-0",
+            saving && "opacity-100"
           )}
         >
           {saving ? (
             <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground inline" />
+          ) : error ? (
+            error
           ) : (
             "Salvo ✓"
           )}

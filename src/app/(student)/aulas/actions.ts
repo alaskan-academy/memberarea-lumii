@@ -374,7 +374,11 @@ async function issueCertificateIfComplete(
     studentName: profile.full_name ?? "Aluna",
     courseTitle: course.title,
     profileUrl: `${appUrl}/perfil`,
-  }).catch((err) => console.error("[cert] email error:", err));
+  })
+    .then((result) => {
+      if (!result.success) console.error("[cert] email error:", result.error);
+    })
+    .catch((err) => console.error("[cert] email error:", err));
 
   return true;
 }

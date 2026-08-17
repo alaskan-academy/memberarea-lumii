@@ -6,9 +6,9 @@ import { sendReengagementEmail, type ReengagementCourse } from "@/lib/email";
 // vercel.json crons: [{ "path": "/api/cron/reengagement", "schedule": "0 13 * * *" }]
 //
 // Envia no máximo 1 e-mail por aluna por execução, mesmo que ela tenha
-// vários cursos parados — os cursos elegíveis são acumulados por user_id
-// (Fase 1) antes de qualquer envio, e o e-mail só sai depois de buscar
-// os perfis em lote (Fase 2).
+// vários cursos parados. Todo o cruzamento matrícula→módulo→aula→progresso
+// é feito em lote (poucas queries com .in(), nunca uma por matrícula) e
+// depois processado em memória — evita N+1 quando a base de matrículas cresce.
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
@@ -29,52 +29,78 @@ export async function GET(req: NextRequest) {
 
     if (!enrollments?.length) return NextResponse.json({ sent: 0 });
 
-    // ── Fase 1: acumula cursos elegíveis por aluna ──────────────────────────
+    const courseIds = [...new Set(enrollments.map((e) => e.course_id))];
+    const userIds = [...new Set(enrollments.map((e) => e.user_id))];
+
+    // ── Fase 1: busca em lote — módulos, aulas, cursos e progresso ──────────
+    const { data: modules } = await service
+      .from("modules")
+      .select("id, course_id")
+      .in("course_id", courseIds);
+
+    const moduleToCourse: Record<string, string> = {};
+    for (const m of modules ?? []) moduleToCourse[m.id] = m.course_id;
+    const moduleIds = Object.keys(moduleToCourse);
+
+    const { data: lessons } = moduleIds.length
+      ? await service.from("lessons").select("id, module_id").in("module_id", moduleIds)
+      : { data: [] };
+
+    // Agrupa lesson_ids por curso
+    const lessonsByCourse: Record<string, string[]> = {};
+    for (const l of lessons ?? []) {
+      const courseId = moduleToCourse[l.module_id];
+      if (!courseId) continue;
+      (lessonsByCourse[courseId] ??= []).push(l.id);
+    }
+
+    const allLessonIds = (lessons ?? []).map((l) => l.id);
+
+    const { data: progress } = allLessonIds.length
+      ? await service
+          .from("lesson_progress")
+          .select("user_id, lesson_id, completed, updated_at")
+          .in("user_id", userIds)
+          .in("lesson_id", allLessonIds)
+      : { data: [] };
+
+    // Agrupa progresso por usuária
+    const progressByUser: Record<
+      string,
+      { lesson_id: string; completed: boolean; updated_at: string }[]
+    > = {};
+    for (const p of progress ?? []) {
+      (progressByUser[p.user_id] ??= []).push(p);
+    }
+
+    const { data: courses } = await service
+      .from("courses")
+      .select("id, title, slug")
+      .in("id", courseIds);
+    const courseById: Record<string, { title: string; slug: string }> = {};
+    for (const c of courses ?? []) courseById[c.id] = { title: c.title, slug: c.slug };
+
+    // ── Fase 2: acumula cursos elegíveis por aluna (tudo em memória) ────────
     const byUser = new Map<string, ReengagementCourse[]>();
 
     for (const { user_id, course_id } of enrollments) {
-      // Aulas do curso
-      const { data: modules } = await service
-        .from("modules")
-        .select("id")
-        .eq("course_id", course_id);
+      const lessonIds = lessonsByCourse[course_id];
+      if (!lessonIds?.length) continue;
 
-      if (!modules?.length) continue;
-
-      const { data: lessons } = await service
-        .from("lessons")
-        .select("id")
-        .in("module_id", modules.map((m) => m.id));
-
-      if (!lessons?.length) continue;
-
-      const lessonIds = lessons.map((l) => l.id);
-
-      // Progresso da aluna neste curso
-      const { data: progress } = await service
-        .from("lesson_progress")
-        .select("lesson_id, completed, updated_at")
-        .eq("user_id", user_id)
-        .in("lesson_id", lessonIds);
-
-      if (!progress?.length) continue; // nunca acessou
+      const lessonIdSet = new Set(lessonIds);
+      const userProgress = (progressByUser[user_id] ?? []).filter((p) => lessonIdSet.has(p.lesson_id));
+      if (!userProgress.length) continue; // nunca acessou
 
       // Verificar se acessou nos últimos 7 dias
-      const recentAccess = progress.some((p) => p.updated_at >= sevenDaysAgo);
+      const recentAccess = userProgress.some((p) => p.updated_at >= sevenDaysAgo);
       if (recentAccess) continue;
 
       // Verificar se já concluiu
-      const completedCount = progress.filter((p) => p.completed).length;
+      const completedCount = userProgress.filter((p) => p.completed).length;
       const pct = (completedCount / lessonIds.length) * 100;
       if (pct >= 100) continue;
 
-      // Dados do curso
-      const { data: course } = await service
-        .from("courses")
-        .select("title, slug")
-        .eq("id", course_id)
-        .maybeSingle();
-
+      const course = courseById[course_id];
       if (!course) continue;
 
       const list = byUser.get(user_id) ?? [];
@@ -84,7 +110,7 @@ export async function GET(req: NextRequest) {
 
     if (byUser.size === 0) return NextResponse.json({ sent: 0 });
 
-    // ── Fase 2: busca perfis em lote e envia um único e-mail por aluna ─────
+    // ── Fase 3: busca perfis em lote e envia um único e-mail por aluna ─────
     const { data: profiles } = await service
       .from("profiles")
       .select("id, full_name, email, email_prefs")
@@ -100,11 +126,16 @@ export async function GET(req: NextRequest) {
       const courses = byUser.get(profile.id);
       if (!courses?.length) continue;
 
-      await sendReengagementEmail({
+      const result = await sendReengagementEmail({
         to: profile.email,
         studentName: profile.full_name ?? "Aluna",
         courses,
       });
+
+      if (!result.success) {
+        console.error(`[cron/reengagement] falha ao enviar para ${profile.email}: ${result.error}`);
+        continue;
+      }
 
       sent++;
     }

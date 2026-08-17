@@ -193,9 +193,11 @@ export async function cadastroAction(
 
   // Envia boas-vindas apenas para quem não tinha compra prévia
   if (!hasPendingPurchase) {
-    sendWelcomeEmail({ to: parsed.data.email, studentName: parsed.data.full_name }).catch(
-      (e) => console.error("[cadastro] welcome email:", e)
-    );
+    sendWelcomeEmail({ to: parsed.data.email, studentName: parsed.data.full_name })
+      .then((result) => {
+        if (!result.success) console.error("[cadastro] welcome email falhou:", result.error);
+      })
+      .catch((e) => console.error("[cadastro] welcome email:", e));
   }
 
   // Auto-login após criação da conta — tenta de novo uma vez se falhar

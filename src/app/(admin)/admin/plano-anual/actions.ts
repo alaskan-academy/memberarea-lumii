@@ -1,16 +1,7 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autorizado");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") throw new Error("Acesso negado");
-  return supabase;
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 export type AnnualPromo = {
   id: string;
@@ -23,7 +14,7 @@ export type AnnualPromo = {
 };
 
 export async function saveAnnualPromo(data: Omit<AnnualPromo, "id">): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { data: existing } = await supabase.from("annual_promo").select("id").single();
   if (!existing) return { error: "Configuração não encontrada. Rode a migration 021." };
 

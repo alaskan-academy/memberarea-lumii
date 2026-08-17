@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { Plus, Trash2, ChevronUp, ChevronDown, Save, Info } from "lucide-react";
 import { upsertBlock, deleteBlock, reorderBlocks } from "./actions";
+import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 const RichTextEditor = dynamic(
   () => import("@/components/editor/RichTextEditor"),
@@ -219,6 +220,11 @@ export default function AdminBlocksEditor({
   const [newContent, setNewContent] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  // Blocos são salvos individualmente (Server Action a cada bloco), então
+  // "não salvo" aqui significa ter um formulário de bloco aberto (novo ou em
+  // edição) com conteúdo que ainda não foi persistido.
+  useUnsavedChangesGuard(addingType !== null || editingId !== null);
 
   function startEdit(block: Block) {
     setEditingId(block.id);

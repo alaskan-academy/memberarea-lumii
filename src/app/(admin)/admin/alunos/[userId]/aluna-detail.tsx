@@ -1,14 +1,11 @@
 "use client";
 
 import { useActionState, useState, useTransition } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import {
   ShieldOff,
   Shield,
   BookOpen,
-  Award,
-  ClipboardList,
-  ExternalLink,
   Plus,
   Minus,
   Mail,
@@ -20,7 +17,6 @@ import {
   UserCircle,
   Bell,
   BellOff,
-  ShoppingBag,
   X,
   NotebookPen,
   Save,
@@ -58,28 +54,6 @@ type CourseEntry = {
   } | null;
 };
 
-type Certificate = {
-  id: string;
-  verify_hash: string;
-  issued_at: string;
-  course: { title: string } | null;
-};
-
-type AuditEntry = {
-  id: string;
-  action: string;
-  meta: Record<string, unknown>;
-  created_at: string;
-  admin: { full_name: string | null } | null;
-};
-
-type PaytEnrollment = {
-  id: string;
-  course_title: string | null;
-  granted_at: string;
-  expires_at: string | null;
-};
-
 interface Props {
   profile: {
     id: string;
@@ -94,30 +68,20 @@ interface Props {
     hasPushEnabled: boolean;
   };
   courses: CourseEntry[];
-  certificates: Certificate[];
-  auditLog: AuditEntry[];
   activity: ActivityItem[];
-  paytEnrollments: PaytEnrollment[];
   defaultTab?: "perfil" | "atividade";
+  /** Server Components que buscam os próprios dados — ver src/components/admin/alunos/*.tsx */
+  certificatesSlot: React.ReactNode;
+  purchasesSlot: React.ReactNode;
+  auditLogSlot: React.ReactNode;
 }
 
-const ACTION_LABELS: Record<string, string> = {
-  grant_access: "Acesso concedido",
-  revoke_access: "Acesso revogado",
-  "enrollment.revoked": "Acesso revogado (webhook)",
-  ban: "Aluna banida",
-  unban: "Ban removido",
-  update_email: "E-mail atualizado",
-  set_password: "Senha definida pelo admin",
-  reject_forum_post: "Post do fórum rejeitado",
-  delete_forum_post: "Post do fórum deletado",
-};
-
-export default function AlunaDetail({ profile, courses, certificates, auditLog, activity, paytEnrollments, defaultTab = "perfil" }: Props) {
+export default function AlunaDetail({ profile, courses, activity, defaultTab = "perfil", certificatesSlot, purchasesSlot, auditLogSlot }: Props) {
   const initial = profile.full_name?.charAt(0)?.toUpperCase() ?? "?";
   const [activeTab, setActiveTab] = useState<"perfil" | "atividade">(defaultTab);
   const [banPending, startBanTransition] = useTransition();
   const [banned, setBanned] = useState(profile.banned);
+  const [banError, setBanError] = useState<string | null>(null);
   const [resendPending, startResendTransition] = useTransition();
   const [resendFeedback, setResendFeedback] = useState<"sent" | "error" | null>(null);
   const [editingProfile, setEditingProfile] = useState(false);
@@ -151,10 +115,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
       ? `Banir ${profile.full_name ?? "esta aluna"}? Ela não poderá acessar a plataforma.`
       : `Remover o ban de ${profile.full_name ?? "esta aluna"}?`;
     if (!confirm(msg)) return;
+    setBanError(null);
     startBanTransition(async () => {
       const res = await toggleBanAction(profile.id, next);
       if (!res.error) setBanned(next);
-      else alert(res.error);
+      else setBanError(res.error);
     });
   }
 
@@ -199,6 +164,11 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
   return (
     <div className="space-y-6">
       {/* Perfil header */}
+      {banError && (
+        <p role="alert" className="text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2.5 rounded-lg">
+          {banError}
+        </p>
+      )}
       <div className="lumii-card p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
         <div
           className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold text-white shrink-0"
@@ -484,131 +454,14 @@ export default function AlunaDetail({ profile, courses, certificates, auditLog, 
           )}
         </div>
 
-        {/* Coluna lateral */}
+        {/* Coluna lateral — Certificados, Compras e Auditoria são Server
+            Components que buscam os próprios dados (ver
+            src/components/admin/alunos/*.tsx); não precisam rodar no
+            cliente por serem puramente exibição. */}
         <div className="space-y-6">
-          {/* Certificados */}
-          <section className="lumii-card overflow-hidden">
-            <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
-              <Award className="w-4 h-4 text-[#eebc3e]" />
-              <h2 className="font-semibold">
-                Certificados{" "}
-                <span className="text-muted-foreground font-normal text-sm">
-                  ({certificates.length})
-                </span>
-              </h2>
-            </div>
-            {certificates.length === 0 ? (
-              <div className="py-6 text-center text-muted-foreground text-sm">
-                Nenhum certificado.
-              </div>
-            ) : (
-              <ul className="divide-y divide-border/40">
-                {certificates.map((c) => (
-                  <li key={c.id} className="px-5 py-3 flex items-center justify-between gap-2">
-                    <div>
-                      <p className="text-sm font-medium line-clamp-1">
-                        {c.course?.title ?? "Curso"}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(c.issued_at).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })}
-                      </p>
-                    </div>
-                    <Link
-                      href={`/verificar/${c.verify_hash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#f6614f] hover:text-[#dd5747]"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-
-          {/* Compras via Payt — uma linha por curso (inclui order bumps e upsells) */}
-          <section className="lumii-card overflow-hidden">
-            <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4 text-[#f6614f]" />
-              <h2 className="font-semibold">
-                Compras{" "}
-                <span className="text-muted-foreground font-normal text-sm">
-                  ({paytEnrollments.filter((e) => !e.expires_at || new Date(e.expires_at) > new Date()).length})
-                </span>
-              </h2>
-            </div>
-            {paytEnrollments.length === 0 ? (
-              <div className="py-6 text-center text-muted-foreground text-sm">
-                Nenhuma compra registrada.
-              </div>
-            ) : (
-              <ul className="divide-y divide-border/40">
-                {paytEnrollments.map((e) => {
-                  const revoked = !!e.expires_at && new Date(e.expires_at) <= new Date();
-                  return (
-                    <li key={e.id} className="px-5 py-3 space-y-0.5">
-                      <div className="flex items-start justify-between gap-2">
-                        <p className="text-sm font-medium line-clamp-1 flex-1 min-w-0">
-                          {e.course_title ?? "Curso não identificado"}
-                        </p>
-                        {revoked ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-500/15 text-red-600 shrink-0">
-                            Revogado
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#71c69a]/15 text-[#3d9e5a] shrink-0">
-                            Ativo
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[11px] text-muted-foreground">
-                        {new Date(e.granted_at).toLocaleString("pt-BR", {
-                          day: "2-digit", month: "2-digit", year: "numeric",
-                          hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo",
-                        })}
-                      </p>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </section>
-
-          {/* Auditoria */}
-          {auditLog.length > 0 && (
-            <section className="lumii-card overflow-hidden">
-              <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
-                <ClipboardList className="w-4 h-4 text-muted-foreground" />
-                <h2 className="font-semibold text-sm">Histórico de ações</h2>
-              </div>
-              <ul className="divide-y divide-border/40">
-                {auditLog.map((entry) => (
-                  <li key={entry.id} className="px-5 py-3 space-y-0.5">
-                    <p className="text-xs font-medium">
-                      {ACTION_LABELS[entry.action] ?? entry.action}
-                    </p>
-                    {typeof entry.meta?.reason === "string" && (
-                      <p className="text-xs text-muted-foreground">
-                        Motivo: {entry.meta.reason}
-                      </p>
-                    )}
-                    <p className="text-[11px] text-muted-foreground">
-                      {entry.admin?.full_name ?? "Admin"} ·{" "}
-                      {new Date(entry.created_at).toLocaleString("pt-BR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        timeZone: "America/Sao_Paulo",
-                      })}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          {certificatesSlot}
+          {purchasesSlot}
+          {auditLogSlot}
         </div>
       </div>
       </>}
@@ -1081,12 +934,14 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
       <div className="flex items-center gap-3">
         {/* Thumbnail */}
         {course.thumbnail_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={course.thumbnail_url}
-            alt={course.title}
-            className="w-10 h-10 rounded object-cover shrink-0"
-          />
+          <div className="relative w-10 h-10 rounded overflow-hidden shrink-0">
+            <Image
+              src={course.thumbnail_url}
+              alt={course.title}
+              fill
+              className="object-cover"
+            />
+          </div>
         ) : (
           <div className="w-10 h-10 rounded bg-[#f6614f]/10 flex items-center justify-center text-lg shrink-0">
             🎨

@@ -122,13 +122,15 @@ export async function POST(req: NextRequest) {
   const { data: profileRow } = await supabase
     .from("profiles")
     .select("id")
-    .ilike("email", buyerEmail)
+    .eq("email", buyerEmail.toLowerCase())
     .maybeSingle();
   const user = profileRow ? { id: profileRow.id } : null;
 
   // 8. Sem conta ainda — cria um token de ativação por curso (em paralelo) e
   // envia UM ÚNICO e-mail (referenciando o curso principal) em vez de um por curso
   if (!user) {
+    let emailError: string | undefined;
+
     if (action === "grant") {
       const tokenRows = await Promise.all(
         courses.map((course) =>
@@ -151,7 +153,7 @@ export async function POST(req: NextRequest) {
       const mainToken = tokenRows[mainCourseIndex]?.data?.token;
 
       if (mainToken) {
-        await sendAccessConfirmedEmail({
+        const emailResult = await sendAccessConfirmedEmail({
           to: buyerEmail,
           studentName: buyerName || buyerEmail,
           courseTitle: mainCourse.title,
@@ -159,7 +161,12 @@ export async function POST(req: NextRequest) {
           activationToken: mainToken,
           totalCourses: courses.length,
         });
+        if (!emailResult.success) {
+          emailError = `Email de acesso falhou: ${emailResult.error}`;
+          console.error(`[payt-webhook] ${emailError} (destinatário: ${buyerEmail})`);
+        }
       } else {
+        emailError = "Email de acesso falhou: token do curso principal não foi criado";
         console.error(`[payt-webhook] Token do curso principal (${mainCourse.id}) não foi criado — e-mail de ativação não enviado para ${buyerEmail}`);
       }
       console.info(`[payt-webhook] ${courses.length} token(s) de ativação criados para ${buyerEmail}`);
@@ -172,7 +179,8 @@ export async function POST(req: NextRequest) {
       buyer_name: buyerName,
       payload: rawJson,
       amount_paid: amountPaid,
-      processed: true, // token criado e e-mail enviado — tratado com sucesso
+      processed: true, // token/matrícula tratados com sucesso — falha de e-mail não altera este sinal
+      error: emailError,
     });
     return NextResponse.json({ received: true });
   }
@@ -180,6 +188,9 @@ export async function POST(req: NextRequest) {
   // 9. Usuário existe — processar matrícula/revogação para cada curso
   const now = new Date().toISOString();
   let processed = 0;
+  // E-mails são falhas independentes do sucesso da matrícula — acumuladas aqui
+  // e anexadas ao campo error do evento (nunca sobrescrevem, nunca derrubam `processed`).
+  const emailFailures: string[] = [];
 
   for (const course of courses) {
     if (action === "grant") {
@@ -231,18 +242,21 @@ export async function POST(req: NextRequest) {
         // Email de reembolso só para estorno real (não para PIX expirado/cancelado sem pagamento)
         const isRealRefund = ["refunded", "chargeback"].includes(payload.status);
         if (isRealRefund) {
-          ;(async () => {
-            const { data: profile } = await supabase
-              .from("profiles")
-              .select("full_name")
-              .eq("id", user.id)
-              .maybeSingle();
-            await sendRefundEmail({
-              to: buyerEmail,
-              studentName: profile?.full_name ?? payload.customer.name ?? buyerEmail,
-              courseTitle: course.title,
-            });
-          })().catch((e) => console.error("[payt-webhook] refund email:", e));
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("full_name")
+            .eq("id", user.id)
+            .maybeSingle();
+          const emailResult = await sendRefundEmail({
+            to: buyerEmail,
+            studentName: profile?.full_name ?? payload.customer.name ?? buyerEmail,
+            courseTitle: course.title,
+          });
+          if (!emailResult.success) {
+            const msg = `Email de reembolso falhou (${course.title}): ${emailResult.error}`;
+            console.error(`[payt-webhook] ${msg}`);
+            emailFailures.push(msg);
+          }
         }
       } else {
         console.info(`[payt-webhook] Revoke ignorado (sem matrícula ativa): user=${user.id} curso=${course.id} motivo=${payload.status}`);
@@ -288,23 +302,35 @@ export async function POST(req: NextRequest) {
     // E-mail de acesso confirmado (envia referenciando o produto principal)
     const mainCourse =
       courses.find((c) => (c.product_codes as string[])?.includes(mainProductCode)) ?? courses[0];
-    ;(async () => {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", user.id)
-        .maybeSingle();
-      await sendAccessConfirmedEmail({
-        to: buyerEmail,
-        studentName: profile?.full_name ?? payload.customer.name ?? buyerEmail,
-        courseTitle: mainCourse.title,
-        courseSlug: mainCourse.slug,
-        totalCourses: courses.length,
-      });
-    })().catch((e) => console.error("[payt-webhook] access email:", e));
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .maybeSingle();
+    const emailResult = await sendAccessConfirmedEmail({
+      to: buyerEmail,
+      studentName: profile?.full_name ?? payload.customer.name ?? buyerEmail,
+      courseTitle: mainCourse.title,
+      courseSlug: mainCourse.slug,
+      totalCourses: courses.length,
+    });
+    if (!emailResult.success) {
+      const msg = `Email de acesso falhou: ${emailResult.error}`;
+      console.error(`[payt-webhook] ${msg} (destinatário: ${buyerEmail})`);
+      emailFailures.push(msg);
+    }
   }
 
-  // 11. Registrar evento
+  // 11. Registrar evento — matrícula e e-mail são sinais independentes:
+  // `processed` reflete só o sucesso da matrícula; falhas de e-mail são
+  // anexadas ao `error` sem nunca sobrescrever um erro de matrícula já presente.
+  const enrollmentError =
+    processed < courses.length
+      ? `${courses.length - processed} curso(s) falharam`
+      : undefined;
+  const combinedError =
+    [enrollmentError, ...emailFailures].filter(Boolean).join(" | ") || undefined;
+
   await logPaymentEvent(supabase, {
     product_code: mainProductCode,
     event_type: payload.status,
@@ -312,10 +338,7 @@ export async function POST(req: NextRequest) {
     buyer_name: buyerName,
     payload,
     processed: processed === courses.length,
-    error:
-      processed < courses.length
-        ? `${courses.length - processed} curso(s) falharam`
-        : undefined,
+    error: combinedError,
   });
 
   return NextResponse.json({ received: true, processed, total: courses.length });

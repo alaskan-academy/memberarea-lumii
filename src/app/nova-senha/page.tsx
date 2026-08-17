@@ -11,7 +11,7 @@ export default async function NovaSenhaPage() {
   // Sessão deve ter sido estabelecida pelo callback após clicar no link do e-mail.
   // Se não há sessão, o link expirou ou foi mal formado.
   if (!user) {
-    redirect("/login?error=link-expirado");
+    redirect("/login?msg=link-expirado");
   }
 
   return (

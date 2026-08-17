@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import {
   ChevronLeft, ChevronRight, ChevronDown, ChevronUp, MessageCircle, User,
   Image as ImageIcon, PlayCircle, ChefHat, Lightbulb, Star, GalleryHorizontal
@@ -62,11 +63,13 @@ function Carrossel({ images }: { images: { url: string; alt?: string }[] }) {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden bg-white">
-        <img
+      <div className="relative overflow-hidden bg-white" style={{ height: 480 }}>
+        <Image
           src={images[idx].url}
           alt={images[idx].alt ?? ''}
-          className="w-full max-h-[480px] object-contain"
+          fill
+          className="object-contain"
+          unoptimized
         />
       </div>
       {images.length > 1 && (
@@ -172,11 +175,13 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
 
       {/* Mídia — sempre visível, fora do truncamento */}
       {post.type === 'foto' && post.media[0] && (
-        <div className="bg-white">
-          <img
+        <div className="relative w-full bg-white" style={{ height: 480 }}>
+          <Image
             src={post.media[0].url}
             alt={post.media[0].alt ?? post.title}
-            className="w-full max-h-[480px] object-contain"
+            fill
+            className="object-contain"
+            unoptimized
           />
         </div>
       )}
@@ -215,11 +220,13 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
 
       {/* Imagem de capa da dica — sempre visível */}
       {post.type === 'dica' && post.media[0] && (
-        <div className="bg-white">
-          <img
+        <div className="relative w-full bg-white" style={{ height: 480 }}>
+          <Image
             src={post.media[0].url}
             alt={post.media[0].alt ?? post.title}
-            className="w-full max-h-[480px] object-contain"
+            fill
+            className="object-contain"
+            unoptimized
           />
         </div>
       )}
@@ -239,11 +246,15 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           {post.type === 'receita' && post.recipe_data && (
             <div className="space-y-4">
               {post.media[0] && (
-                <img
-                  src={post.media[0].url}
-                  alt={post.title}
-                  className="w-full rounded-xl object-contain max-h-[400px] bg-muted/30"
-                />
+                <div className="relative w-full rounded-xl bg-muted/30" style={{ height: 400 }}>
+                  <Image
+                    src={post.media[0].url}
+                    alt={post.title}
+                    fill
+                    className="object-contain rounded-xl"
+                    unoptimized
+                  />
+                </div>
               )}
 
               {(post.recipe_data.tempo || post.recipe_data.temperatura || post.recipe_data.nivel) && (
@@ -375,10 +386,13 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
               {post.featured_student ? (
                 <div className="flex flex-col items-center text-center gap-3 py-2">
                   {post.featured_student.avatar_url ? (
-                    <img
+                    <Image
                       src={post.featured_student.avatar_url}
                       alt={post.featured_student.full_name ?? ''}
+                      width={80}
+                      height={80}
                       className="w-20 h-20 rounded-full object-cover border-2 border-[#f6614f]/30"
+                      unoptimized
                     />
                   ) : (
                     <div className="w-20 h-20 rounded-full bg-[#f6614f]/10 flex items-center justify-center">

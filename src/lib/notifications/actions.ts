@@ -162,6 +162,7 @@ export async function cancelCampaign(id: string) {
 // ── Dispatcher: envia notificações para as alunas ─────────────────
 
 export async function dispatchCampaign(campaignId: string) {
+  await requireAdmin();
   const service = createServiceClient();
 
   const { data: campaign } = await service

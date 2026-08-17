@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { MessageCircle, Image as ImageIcon, PlayCircle, ChefHat, Lightbulb, Star, GalleryHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { InspiracaoPost, InspiracaoType } from '@/lib/inspiracoes/types'
@@ -26,6 +27,7 @@ function CardThumbnail({ post }: { post: InspiracaoPost }) {
     if (ytId) {
       return (
         <div className="relative aspect-square bg-black overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element -- domínio img.youtube.com não está no remotePatterns do next/image */}
           <img
             src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`}
             alt={post.title}
@@ -44,11 +46,13 @@ function CardThumbnail({ post }: { post: InspiracaoPost }) {
   const firstMedia = post.media[0]
   if (firstMedia?.url) {
     return (
-      <div className="aspect-square overflow-hidden bg-muted flex items-center justify-center">
-        <img
+      <div className="relative aspect-square overflow-hidden bg-muted">
+        <Image
           src={firstMedia.url}
           alt={firstMedia.alt ?? post.title}
-          className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+          fill
+          className="object-contain group-hover:scale-105 transition-transform duration-300"
+          unoptimized
         />
       </div>
     )

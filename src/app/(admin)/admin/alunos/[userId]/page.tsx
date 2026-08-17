@@ -1,11 +1,14 @@
 import { createServiceClient } from "@/lib/supabase/service";
-import { createClient } from "@/lib/supabase/server";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import AlunaDetail from "./aluna-detail";
 import type { ActivityItem } from "@/components/admin/alunos/ActivityTab";
 import { decryptCpf, formatCpf } from "@/lib/cpf-crypto";
+import { getCurrentAdmin } from "@/lib/auth/current-admin";
+import CertificatesSection from "@/components/admin/alunos/CertificatesSection";
+import PurchasesSection from "@/components/admin/alunos/PurchasesSection";
+import AuditLogSection from "@/components/admin/alunos/AuditLogSection";
 
 export default async function AlunaDetailPage({
   params,
@@ -14,17 +17,7 @@ export default async function AlunaDetailPage({
   params: Promise<{ userId: string }>;
   searchParams: Promise<{ tab?: string }>;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: me } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (me?.role !== "admin") redirect("/dashboard");
+  await getCurrentAdmin();
 
   const [{ userId }, { tab }] = await Promise.all([params, searchParams]);
   const service = createServiceClient();
@@ -135,13 +128,6 @@ export default async function AlunaDetailPage({
     }
   }
 
-  // Certificados
-  const { data: certificates } = await service
-    .from("certificates")
-    .select("id, verify_hash, issued_at, course:courses(title)")
-    .eq("user_id", userId)
-    .order("issued_at", { ascending: false });
-
   // Push subscriptions
   const { data: pushSubs } = await service
     .from("push_subscriptions")
@@ -150,13 +136,10 @@ export default async function AlunaDetailPage({
     .limit(1);
   const hasPushEnabled = (pushSubs?.length ?? 0) > 0;
 
-  // Histórico de auditoria
-  const { data: auditLog } = await service
-    .from("audit_log")
-    .select("id, action, target_type, meta, created_at, admin:profiles!admin_id(full_name)")
-    .eq("meta->>user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(20);
+  // Certificados, compras (Payt) e histórico de auditoria agora são
+  // Server Components que buscam os próprios dados (CertificatesSection,
+  // PurchasesSection, AuditLogSection) — extraídos de AlunaDetail, que era
+  // um único client component de 1200+ linhas. Ver src/components/admin/alunos/.
 
   // Todos os cursos publicados + enrollment da aluna mesclados
   const { data: allCourses } = await service
@@ -167,16 +150,6 @@ export default async function AlunaDetailPage({
 
   type CourseWithCodes = { id: string; title: string; thumbnail_url: string | null; slug: string; product_codes: string[] | null };
   const coursesWithCodes = (allCourses ?? []) as unknown as CourseWithCodes[];
-
-  // Compras via Payt — uma entrada por curso (inclui order bumps e upsells)
-  const paytEnrollments = enrollmentRows
-    .filter((e) => e.source === "payt")
-    .map((e) => ({
-      id: e.id,
-      course_title: e.course?.title ?? null,
-      granted_at: e.granted_at,
-      expires_at: e.expires_at,
-    }));
 
   // Activity queries — all in parallel, only need userId
   const [
@@ -352,20 +325,9 @@ export default async function AlunaDetailPage({
           hasPushEnabled,
         }}
         courses={courseEntries}
-        paytEnrollments={paytEnrollments}
-        certificates={(certificates ?? []) as unknown as {
-          id: string;
-          verify_hash: string;
-          issued_at: string;
-          course: { title: string } | null;
-        }[]}
-        auditLog={(auditLog ?? []) as unknown as {
-          id: string;
-          action: string;
-          meta: Record<string, unknown>;
-          created_at: string;
-          admin: { full_name: string | null } | null;
-        }[]}
+        certificatesSlot={<CertificatesSection userId={userId} />}
+        purchasesSlot={<PurchasesSection userId={userId} />}
+        auditLogSlot={<AuditLogSection userId={userId} />}
       />
     </div>
   );

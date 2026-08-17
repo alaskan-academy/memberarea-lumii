@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MessageSquare, Plus, X, ArrowLeft, Loader2, ImageIcon, Paperclip } from "lucide-react";
 import ForumPostCard, { type ForumPostData } from "@/components/community/ForumPostCard";
 import { createForumPost, deleteForumPost, uploadForumFile } from "@/app/(student)/comunidade/forum/actions";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 interface Props {
   forum: { id: string; slug: string; title: string; description: string | null };
@@ -24,6 +25,10 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [deletePending, setDeletePending] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const likedSet = new Set(likedIds);
@@ -66,7 +71,8 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
 
     if (result.error) { setError(result.error); return; }
     closeForm();
-    alert("Post enviado! Aguarde a aprovação da equipe Lumii para aparecer no fórum.");
+    setSuccessMsg("Post enviado! Aguarde a aprovação da equipe Lumii para aparecer no fórum.");
+    setTimeout(() => setSuccessMsg(null), 6000);
   }
 
   function closeForm() {
@@ -76,10 +82,24 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
     setError(null);
   }
 
-  async function handleDeletePost(postId: string) {
-    if (!confirm("Deletar este post?")) return;
-    await deleteForumPost(postId, forum.slug);
+  function requestDeletePost(postId: string) {
+    setDeleteError(null);
+    setDeleteTarget(postId);
+  }
+
+  async function confirmDeletePost() {
+    if (!deleteTarget) return;
+    const postId = deleteTarget;
+    setDeletePending(true);
+    setDeleteError(null);
+    const result = await deleteForumPost(postId, forum.slug);
+    setDeletePending(false);
+    if (result.error) {
+      setDeleteError(result.error);
+      return;
+    }
     setPosts((prev) => prev.filter((p) => p.id !== postId));
+    setDeleteTarget(null);
   }
 
   return (
@@ -91,6 +111,15 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
         <span className="text-muted-foreground/40">/</span>
         <span className="text-sm font-medium text-foreground truncate">{forum.title}</span>
       </div>
+
+      {successMsg && (
+        <div
+          role="status"
+          className="mb-6 rounded-md bg-lumii-green/15 border border-lumii-green/30 px-4 py-3 text-sm text-foreground"
+        >
+          {successMsg}
+        </div>
+      )}
 
       <div className="flex items-start justify-between gap-3 mb-6 flex-wrap">
         <div className="flex items-center gap-3 min-w-0">
@@ -209,11 +238,22 @@ export default function ForumPage({ forum, posts: initialPosts, userId, likedIds
               post={post}
               userId={userId}
               initialLiked={likedSet.has(post.id)}
-              onDelete={handleDeletePost}
+              onDelete={requestDeletePost}
             />
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={!!deleteTarget}
+        title="Deletar este post?"
+        description="Essa ação não pode ser desfeita."
+        confirmLabel="Deletar"
+        pending={deletePending}
+        error={deleteError}
+        onConfirm={confirmDeletePost}
+        onCancel={() => { setDeleteTarget(null); setDeleteError(null); }}
+      />
     </div>
   );
 }

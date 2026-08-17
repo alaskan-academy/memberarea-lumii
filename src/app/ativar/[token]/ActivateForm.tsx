@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { Lock, Eye, EyeOff, CheckCircle2, Cake, Phone } from "lucide-react";
 import { activateAccount } from "./actions";
 import { useRouter } from "next/navigation";
@@ -73,6 +74,7 @@ export default function ActivateForm({
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const [signingIn, setSigningIn] = useState(false);
+  const [signInFailed, setSignInFailed] = useState(false);
   const birthDate = useBirthDateMask();
 
   const [state, action, pending] = useActionState(
@@ -83,13 +85,40 @@ export default function ActivateForm({
         setSigningIn(true);
         const password = formData.get("password") as string;
         const supabase = createClient();
-        await supabase.auth.signInWithPassword({ email, password });
-        router.push("/cursos");
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError) {
+          setSigningIn(false);
+          setSignInFailed(true);
+        } else {
+          router.push("/cursos");
+        }
       }
       return res;
     },
     null
   );
+
+  if (signInFailed) {
+    return (
+      <div className="min-h-screen bg-lumii-bg flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-border p-8 w-full max-w-md text-center space-y-4">
+          <div className="flex justify-center">
+            <CheckCircle2 className="w-14 h-14 text-[#71c69a]" />
+          </div>
+          <h1 className="text-xl font-bold">Conta criada com sucesso!</h1>
+          <p className="text-muted-foreground text-sm">
+            Só não conseguimos entrar automaticamente — faça login com a senha que você acabou de criar.
+          </p>
+          <Link
+            href={`/login?msg=cadastro-ok&email=${encodeURIComponent(email)}`}
+            className="inline-flex items-center justify-center w-full bg-[#f6614f] text-white py-3 rounded-lg text-sm font-bold hover:bg-[#dd5747] transition-colors min-h-[48px]"
+          >
+            Ir para o login
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (success || signingIn) {
     return (

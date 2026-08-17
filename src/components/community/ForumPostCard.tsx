@@ -51,6 +51,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
   const [loadingComments, setLoadingComments] = useState(false);
   const [commentBody, setCommentBody] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [commentError, setCommentError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [, startTransition] = useTransition();
 
@@ -81,16 +82,25 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
     e.preventDefault();
     if (!commentBody.trim() || submitting) return;
     setSubmitting(true);
+    setCommentError(null);
     const result = await addForumComment(post.id, commentBody.trim());
     setSubmitting(false);
-    if ("error" in result) return;
+    if ("error" in result) {
+      setCommentError(result.error);
+      return;
+    }
     setComments((prev) => [...(prev ?? []), result]);
     setCommentCount((c) => c + 1);
     setCommentBody("");
   }
 
   async function handleDeleteComment(commentId: string) {
-    await deleteForumComment(commentId);
+    setCommentError(null);
+    const result = await deleteForumComment(commentId);
+    if (result.error) {
+      setCommentError(result.error);
+      return;
+    }
     setComments((prev) => (prev ?? []).filter((c) => c.id !== commentId));
     setCommentCount((c) => Math.max(0, c - 1));
   }
@@ -138,12 +148,13 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
 
       {/* Imagem — acima do texto, proporcional (sem cortar) */}
       {post.image_url && (
-        <div className="w-full bg-muted/30 flex items-center justify-center">
-          <img
+        <div className="relative w-full bg-muted/30" style={{ height: 480 }}>
+          <Image
             src={post.image_url}
             alt={post.title}
-            className="w-full object-contain"
-            style={{ maxHeight: 480 }}
+            fill
+            className="object-contain"
+            unoptimized
           />
         </div>
       )}
@@ -189,6 +200,12 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
 
       {showComments && (
         <div className="border-t border-border/40 bg-muted/30 px-5 py-4 space-y-4">
+          {commentError && (
+            <p role="alert" className="text-xs text-red-500 bg-red-50 px-3 py-2 rounded-lg">
+              {commentError}
+            </p>
+          )}
+
           {loadingComments && (
             <div className="flex justify-center py-4">
               <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />

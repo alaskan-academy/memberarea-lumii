@@ -1,13 +1,9 @@
 import { createServiceClient } from "@/lib/supabase/service";
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { getCurrentAdmin } from "@/lib/auth/current-admin";
 import Link from "next/link";
 import {
   Download,
-  UserCircle,
   UserPlus,
-  Phone,
-  Calendar,
   TrendingUp,
   Users,
   UserCheck,
@@ -15,9 +11,11 @@ import {
 } from "lucide-react";
 import { hashCpf, decryptCpf } from "@/lib/cpf-crypto";
 import AlunosSearch from "./alunos-search";
+import AlunosTable from "./AlunosTable";
 import SemCadastroClient, { type SemCadastroRow } from "./SemCadastroClient";
 
 const PAGE_SIZE = 25;
+const PAGE_SIZE_SC = 25;
 const GRANT_EVENT_TYPES = ["paid", "approved", "completed", "confirmed"];
 
 function isCpf(q: string) {
@@ -27,30 +25,31 @@ function formatCpfRaw(q: string) {
   return q.replace(/\D/g, "");
 }
 
+type UnregisteredBuyerRpcRow = {
+  email: string;
+  buyer_name: string | null;
+  buyer_phone: string | null;
+  created_at: string;
+  courses: { id: string | null; title: string | null; slug: string | null; token: string; expires_at: string }[] | null;
+  total_count: number;
+};
+
 export default async function AlunosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string; tab?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; scpage?: string; tab?: string }>;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: me } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (me?.role !== "admin") redirect("/dashboard");
+  await getCurrentAdmin();
 
-  const { q: rawQ, page: rawPage, tab: rawTab } = await searchParams;
+  const { q: rawQ, page: rawPage, scpage: rawScPage, tab: rawTab } = await searchParams;
   const activeTab =
     rawTab === "sem-cadastro" ? "sem-cadastro" : "cadastradas";
   const q = rawQ?.trim() ?? "";
   const page = Math.max(1, parseInt(rawPage ?? "1"));
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
+  const scPage = Math.max(1, parseInt(rawScPage ?? "1"));
+  const scOffset = (scPage - 1) * PAGE_SIZE_SC;
 
   const service = createServiceClient();
 
@@ -113,49 +112,34 @@ export default async function AlunosPage({
   const conversionRate =
     totalBuyers > 0 ? Math.round((withAccount / totalBuyers) * 100) : 0;
 
-  // ── Dados "sem cadastro" ─────────────────────────────────────────────────────
-  // Sempre busca para mostrar o badge no tab e calcular o card
-  const { data: rawTokens } = await service
-    .from("activation_tokens")
-    .select(
-      "id, email, buyer_name, buyer_phone, created_at, token, expires_at, courses(id, title, slug)"
-    )
-    .eq("used", false)
-    .order("created_at", { ascending: false });
+  // ── Dados "sem cadastro" — agrupado + paginado + buscado no Postgres (RPC) ──
+  // A busca (q) é compartilhada com a aba "Cadastradas". Fora dessa aba,
+  // pedimos só 1 linha — a RPC ainda retorna o total_count correto (window
+  // function sobre o grupo inteiro), suficiente para o badge da aba.
+  const { data: unregisteredRpc } = await service.rpc("admin_unregistered_buyers", {
+    search: q || null,
+    limit_n: activeTab === "sem-cadastro" ? PAGE_SIZE_SC : 1,
+    offset_n: activeTab === "sem-cadastro" ? scOffset : 0,
+  });
 
-  const unregisteredTokens = (rawTokens ?? []).filter(
-    (t) => !profileEmailSet.has(t.email.toLowerCase())
-  );
-
-  // Agrupa por email: uma linha por compradora, lista de cursos pendentes
-  const byEmail = new Map<string, SemCadastroRow>();
-  for (const t of unregisteredTokens) {
-    const key = t.email.toLowerCase();
-    const course = (
-      t as unknown as { courses?: { id: string; title: string; slug: string } | null }
-    ).courses;
-    if (!byEmail.has(key)) {
-      byEmail.set(key, {
-        email: t.email,
-        buyer_name: (t as { buyer_name?: string | null }).buyer_name ?? null,
-        buyer_phone:
-          (t as { buyer_phone?: string | null }).buyer_phone ?? null,
-        created_at: t.created_at,
-        courses: [],
-      });
-    }
-    if (course) {
-      byEmail.get(key)!.courses.push({
-        id: course.id ?? null,
-        title: course.title ?? null,
-        slug: course.slug ?? null,
-        token: t.token,
-        expires_at: t.expires_at,
-      });
-    }
-  }
-  const semCadastro = Array.from(byEmail.values());
-  const semCadastroCount = semCadastro.length;
+  const unregisteredRows = (unregisteredRpc ?? []) as UnregisteredBuyerRpcRow[];
+  const semCadastroCount = unregisteredRows[0]?.total_count ?? 0;
+  const semCadastro: SemCadastroRow[] = unregisteredRows.map((r) => ({
+    email: r.email,
+    buyer_name: r.buyer_name,
+    buyer_phone: r.buyer_phone,
+    created_at: r.created_at,
+    courses: (r.courses ?? [])
+      .filter((c) => c.id !== null)
+      .map((c) => ({
+        id: c.id,
+        title: c.title,
+        slug: c.slug,
+        token: c.token,
+        expires_at: c.expires_at,
+      })),
+  }));
+  const totalPagesSC = Math.max(1, Math.ceil(semCadastroCount / PAGE_SIZE_SC));
 
   // ── Dados "cadastradas" (só no tab correspondente) ────────────────────────
   type ProfileRow = {
@@ -387,7 +371,35 @@ export default async function AlunosPage({
 
       {/* Conteúdo do tab "Sem cadastro" */}
       {activeTab === "sem-cadastro" && (
-        <SemCadastroClient rows={semCadastro} />
+        <>
+          <AlunosSearch defaultValue={q} />
+          <SemCadastroClient rows={semCadastro} />
+
+          {/* Paginação */}
+          {totalPagesSC > 1 && (
+            <div className="flex items-center justify-center gap-2">
+              {scPage > 1 && (
+                <Link
+                  href={`?tab=sem-cadastro&${q ? `q=${encodeURIComponent(q)}&` : ""}scpage=${scPage - 1}`}
+                  className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+                >
+                  ← Anterior
+                </Link>
+              )}
+              <span className="text-sm text-muted-foreground">
+                Página {scPage} de {totalPagesSC}
+              </span>
+              {scPage < totalPagesSC && (
+                <Link
+                  href={`?tab=sem-cadastro&${q ? `q=${encodeURIComponent(q)}&` : ""}scpage=${scPage + 1}`}
+                  className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+                >
+                  Próxima →
+                </Link>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {/* Conteúdo do tab "Cadastradas" */}
@@ -400,123 +412,17 @@ export default async function AlunosPage({
             </p>
           )}
 
-          <div className="lumii-card overflow-hidden overflow-x-auto">
-            {profiles.length === 0 ? (
-              <div className="py-16 text-center text-muted-foreground">
-                <UserCircle className="w-10 h-10 mx-auto mb-3 opacity-30" />
-                <p className="font-medium">Nenhuma aluna encontrada</p>
-                {q && (
-                  <p className="text-sm mt-1">
-                    {cpfSearch
-                      ? "CPF não encontrado nos registros."
-                      : "Tente um termo diferente."}
-                  </p>
-                )}
-              </div>
-            ) : (
-              <table className="w-full text-sm">
-                <thead className="bg-muted/60">
-                  <tr>
-                    <th className="text-left px-4 py-3 font-semibold text-foreground/70">
-                      Nome / E-mail
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-foreground/70 hidden md:table-cell">
-                      Telefone
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-foreground/70 hidden lg:table-cell">
-                      Nascimento
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-foreground/70 hidden xl:table-cell">
-                      Cadastro
-                    </th>
-                    <th className="text-center px-4 py-3 font-semibold text-foreground/70 hidden sm:table-cell">
-                      Matrículas
-                    </th>
-                    <th className="text-center px-4 py-3 font-semibold text-foreground/70">
-                      Status
-                    </th>
-                    <th className="px-4 py-3" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/40">
-                  {profiles.map((p) => (
-                    <tr
-                      key={p.id}
-                      className="hover:bg-muted/20 transition-colors"
-                    >
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                            style={{ background: "#f6614f" }}
-                          >
-                            {p.full_name?.charAt(0)?.toUpperCase() ?? "?"}
-                          </div>
-                          <div className="min-w-0">
-                            <p className="font-medium truncate max-w-[160px]">
-                              {p.full_name ?? "—"}
-                            </p>
-                            <p className="text-xs text-muted-foreground truncate max-w-[160px]">
-                              {p.email ?? "—"}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 hidden md:table-cell">
-                        {p.phone ? (
-                          <span className="flex items-center gap-1.5 text-muted-foreground">
-                            <Phone className="w-3.5 h-3.5 shrink-0" />
-                            {p.phone}
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground/40">—</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 hidden lg:table-cell">
-                        {p.date_of_birth ? (
-                          <span className="flex items-center gap-1.5 text-muted-foreground">
-                            <Calendar className="w-3.5 h-3.5 shrink-0" />
-                            {new Date(
-                              p.date_of_birth + "T00:00:00"
-                            ).toLocaleDateString("pt-BR")}
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground/40">—</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground hidden xl:table-cell">
-                        {new Date(p.created_at).toLocaleDateString("pt-BR")}
-                      </td>
-                      <td className="px-4 py-3 text-center hidden sm:table-cell">
-                        <span className="font-semibold">
-                          {enrollCount[p.id] ?? 0}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        {p.banned ? (
-                          <span className="inline-block px-2 py-0.5 rounded-full bg-red-100 text-red-600 text-xs font-medium">
-                            Banida
-                          </span>
-                        ) : (
-                          <span className="inline-block px-2 py-0.5 rounded-full bg-[#71c69a]/15 text-[#5bb577] text-xs font-medium">
-                            Ativa
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <Link
-                          href={`/admin/alunos/${p.id}`}
-                          className="text-xs font-medium text-[#f6614f] hover:underline"
-                        >
-                          Ver →
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
+          <AlunosTable
+            profiles={profiles}
+            enrollCount={enrollCount}
+            emptyMessage={
+              q
+                ? cpfSearch
+                  ? "CPF não encontrado nos registros."
+                  : "Nenhuma aluna encontrada. Tente um termo diferente."
+                : "Nenhuma aluna encontrada"
+            }
+          />
 
           {/* Paginação */}
           {!cpfSearch && totalPages > 1 && (

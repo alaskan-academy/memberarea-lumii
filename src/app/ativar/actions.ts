@@ -218,8 +218,7 @@ function generateToken(): string {
 async function grantMigrationEnrollments(
   userId: string,
   email: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  service: any,
+  service: ReturnType<typeof createServiceClient>,
   productCodes?: string[]
 ) {
   // Se não veio product_codes, busca da tabela

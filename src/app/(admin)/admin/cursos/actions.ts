@@ -223,7 +223,7 @@ async function notifyNewCourse(courseId: string) {
     );
 
     for (const p of eligible) {
-      await sendNewCourseEmail({
+      const result = await sendNewCourseEmail({
         to: p.email,
         studentName: p.full_name ?? "Aluna",
         courseTitle: course.title,
@@ -231,6 +231,9 @@ async function notifyNewCourse(courseId: string) {
         courseDescription: course.description ?? undefined,
         thumbnailUrl: course.thumbnail_url,
       });
+      if (!result.success) {
+        console.error(`[email] notifyNewCourse falhou para ${p.email}:`, result.error);
+      }
     }
   } catch (e) {
     console.error("[email] notifyNewCourse:", e);

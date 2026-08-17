@@ -1,20 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import UpdatePrompt from "@/components/pwa/UpdatePrompt";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import BackButtonGuard from "@/components/pwa/BackButtonGuard";
-import { redirect } from "next/navigation";
 import AdminNav from "@/components/admin/AdminNav";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import { getCurrentAdmin } from "@/lib/auth/current-admin";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: profile } = await supabase
-    .from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") redirect("/dashboard");
+  await getCurrentAdmin();
 
   const service = createServiceClient();
   const [

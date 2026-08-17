@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { Sparkles, Plus, Edit, Archive, Eye, EyeOff } from 'lucide-react'
@@ -139,11 +140,15 @@ function PostSection({
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       {thumb ? (
-                        <img
-                          src={thumb}
-                          alt=""
-                          className="w-10 h-10 rounded-lg object-cover border border-border/40 shrink-0"
-                        />
+                        <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-border/40 shrink-0">
+                          <Image
+                            src={thumb}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
+                        </div>
                       ) : (
                         <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
                           <Sparkles className="w-4 h-4 text-muted-foreground/40" />

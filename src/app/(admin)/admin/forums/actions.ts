@@ -1,16 +1,7 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autorizado");
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") throw new Error("Acesso negado");
-  return supabase;
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 function slugify(text: string) {
   return text.trim().toLowerCase()
@@ -21,7 +12,7 @@ function slugify(text: string) {
 export async function createForum(
   title: string, description: string
 ): Promise<{ id?: string; slug?: string; error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   if (!title.trim()) return { error: "Título obrigatório" };
   const slug = slugify(title);
   const { data, error } = await supabase
@@ -36,7 +27,7 @@ export async function createForum(
 export async function updateForum(
   id: string, title: string, description: string
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   if (!title.trim()) return { error: "Título obrigatório" };
   const slug = slugify(title);
   const { error } = await supabase
@@ -48,7 +39,7 @@ export async function updateForum(
 }
 
 export async function archiveForum(id: string, archived: boolean): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("forums").update({ archived }).eq("id", id);
   if (error) return { error: "Erro ao arquivar fórum: " + error.message };
   revalidatePath("/admin/forums");
@@ -56,7 +47,7 @@ export async function archiveForum(id: string, archived: boolean): Promise<{ err
 }
 
 export async function deleteForum(id: string): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("forums").delete().eq("id", id);
   if (error) return { error: "Erro ao excluir fórum: " + error.message };
   revalidatePath("/admin/forums");

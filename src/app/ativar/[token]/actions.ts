@@ -119,7 +119,7 @@ export async function activateAccount(
   const { data: existingProfile } = await service
     .from("profiles")
     .select("id")
-    .ilike("email", emailLower)
+    .eq("email", emailLower)
     .maybeSingle();
 
   if (existingProfile) {
@@ -190,7 +190,11 @@ export async function activateAccount(
   sendWelcomeEmail({
     to: email,
     studentName: parsed.data.full_name,
-  }).catch((e) => console.error("[activate] welcome email:", e));
+  })
+    .then((result) => {
+      if (!result.success) console.error("[activate] welcome email falhou:", result.error);
+    })
+    .catch((e) => console.error("[activate] welcome email:", e));
 
   return { success: true };
 }

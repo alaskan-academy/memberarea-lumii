@@ -4,15 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { z } from "zod";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autenticado");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") throw new Error("Sem permissão");
-}
 
 const bannerSchema = z.object({
   title: z.string().min(1, "Título obrigatório"),

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Loader2, Trash2, Eye, EyeOff } from "lucide-react";
 import { savePage, deletePage } from "./actions";
+import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 interface Props {
   id: string | null;
@@ -41,6 +42,22 @@ export default function PaginaFormClient({
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
 
+  // Snapshot dos últimos valores salvos — usado para detectar alterações
+  // não salvas, mesmo depois de um save bem-sucedido (não remonta o componente).
+  const [savedSnapshot, setSavedSnapshot] = useState({
+    title: initialTitle,
+    slug: initialSlug,
+    content: initialContent,
+    published: initialPublished,
+  });
+
+  const dirty =
+    title !== savedSnapshot.title ||
+    slug !== savedSnapshot.slug ||
+    content !== savedSnapshot.content ||
+    published !== savedSnapshot.published;
+  useUnsavedChangesGuard(dirty);
+
   function handleTitleChange(v: string) {
     setTitle(v);
     if (!slugManual) setSlug(slugify(v));
@@ -60,6 +77,7 @@ export default function PaginaFormClient({
       setSaving(false);
       if (result.error) { setError(result.error); return; }
       setSaved(true);
+      setSavedSnapshot({ title, slug, content, published });
       setTimeout(() => setSaved(false), 2500);
       if (!id) router.push("/admin/paginas");
     });

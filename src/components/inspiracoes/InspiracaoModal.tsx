@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useTransition } from 'react'
+import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, User, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { sanitizeHtml } from '@/lib/sanitize'
@@ -21,11 +22,13 @@ function Carrossel({ images }: { images: { url: string; alt?: string }[] }) {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-xl bg-black">
-        <img
+      <div className="relative overflow-hidden rounded-xl bg-black" style={{ height: 320 }}>
+        <Image
           src={images[idx].url}
           alt={images[idx].alt ?? ''}
-          className="w-full max-h-80 object-contain"
+          fill
+          className="object-contain"
+          unoptimized
         />
       </div>
       {images.length > 1 && (
@@ -127,11 +130,15 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
 
             {/* FOTO */}
             {post.type === 'foto' && post.media[0] && (
-              <img
-                src={post.media[0].url}
-                alt={post.media[0].alt ?? post.title}
-                className="w-full rounded-xl object-contain max-h-80 bg-black"
-              />
+              <div className="relative w-full rounded-xl bg-black" style={{ height: 320 }}>
+                <Image
+                  src={post.media[0].url}
+                  alt={post.media[0].alt ?? post.title}
+                  fill
+                  className="object-contain rounded-xl"
+                  unoptimized
+                />
+              </div>
             )}
 
             {/* CARROSSEL */}
@@ -165,11 +172,15 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
             {post.type === 'receita' && post.recipe_data && (
               <div className="space-y-4">
                 {post.media[0] && (
-                  <img
-                    src={post.media[0].url}
-                    alt={post.title}
-                    className="w-full rounded-xl object-contain max-h-[400px] bg-muted/30"
-                  />
+                  <div className="relative w-full rounded-xl bg-muted/30" style={{ height: 400 }}>
+                    <Image
+                      src={post.media[0].url}
+                      alt={post.title}
+                      fill
+                      className="object-contain rounded-xl"
+                      unoptimized
+                    />
+                  </div>
                 )}
 
                 {/* Meta */}
@@ -307,10 +318,13 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                 {post.featured_student ? (
                   <div className="flex flex-col items-center text-center gap-3 py-2">
                     {post.featured_student.avatar_url ? (
-                      <img
+                      <Image
                         src={post.featured_student.avatar_url}
                         alt={post.featured_student.full_name ?? ''}
+                        width={80}
+                        height={80}
                         className="w-20 h-20 rounded-full object-cover border-2 border-[#f6614f]/30"
+                        unoptimized
                       />
                     ) : (
                       <div className="w-20 h-20 rounded-full bg-[#f6614f]/10 flex items-center justify-center">

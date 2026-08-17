@@ -7,6 +7,7 @@ import type { PlanoGerado } from "@/lib/ferramentas/support-plan/types";
 import { updateSupportPlan, deleteSupportPlan } from "@/lib/ferramentas/support-plan/actions";
 import PlanSummary from "./PlanSummary";
 import EditablePlanFields from "./EditablePlanFields";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function PlanCard({
   planId,
@@ -23,6 +24,7 @@ export default function PlanCard({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<PlanoGerado>(planoGerado);
   const [error, setError] = useState<string | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function handleEdit() {
@@ -51,15 +53,20 @@ export default function PlanCard({
   }
 
   function handleDelete() {
-    if (!confirm(`Excluir o plano "${planLabel}"? O histórico de check-ins dele também será apagado. Essa ação não pode ser desfeita.`))
-      return;
+    setError(null);
+    setConfirmingDelete(true);
+  }
+
+  function confirmDelete() {
     setError(null);
     startTransition(async () => {
       const res = await deleteSupportPlan(planId);
       if (res.error) {
         setError(res.error);
+        setConfirmingDelete(false);
         return;
       }
+      setConfirmingDelete(false);
       router.refresh();
       onDeleted?.();
     });
@@ -119,6 +126,16 @@ export default function PlanCard({
       ) : (
         <PlanSummary plano={planoGerado} />
       )}
+
+      <ConfirmDialog
+        open={confirmingDelete}
+        title={`Excluir o plano "${planLabel}"?`}
+        description="O histórico de check-ins dele também será apagado. Essa ação não pode ser desfeita."
+        confirmLabel="Excluir"
+        pending={isPending}
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmingDelete(false)}
+      />
     </div>
   );
 }

@@ -1,10 +1,44 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { z } from "zod";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
+
+// Trigger do banco cria a linha em `profiles` de forma assíncrona logo após
+// auth.admin.createUser — não é garantido que já exista no instante seguinte.
+// Em vez de um setTimeout fixo (podia falhar sob carga, ou desperdiçar tempo
+// à toa), tenta a atualização com backoff curto e desiste após algumas tentativas.
+async function updateProfileWithRetry(
+  service: ReturnType<typeof createServiceClient>,
+  userId: string,
+  extras: Record<string, unknown>
+): Promise<boolean> {
+  const delays = [200, 400, 800];
+  for (let attempt = 0; attempt <= delays.length; attempt++) {
+    const { data: existing } = await service
+      .from("profiles")
+      .select("id")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (existing) {
+      const { error } = await service.from("profiles").update(extras).eq("id", userId);
+      if (error) {
+        console.error("[createStudent] erro ao atualizar profile:", error.message);
+        return false;
+      }
+      return true;
+    }
+
+    if (attempt < delays.length) {
+      await new Promise((r) => setTimeout(r, delays[attempt]));
+    }
+  }
+  console.error(`[createStudent] profile de ${userId} não apareceu após retries — trigger pode ter falhado`);
+  return false;
+}
 
 const createSchema = z.object({
   full_name: z.string().min(2, "Nome deve ter ao menos 2 caracteres"),
@@ -25,18 +59,11 @@ export async function createStudentAction(
   _prev: { error?: string },
   formData: FormData
 ): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { error: "Não autenticado" };
-
-  const { data: me } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (me?.role !== "admin") return { error: "Sem permissão" };
+  try {
+    await assertAdmin();
+  } catch (e) {
+    return { error: (e as Error).message };
+  }
 
   const rawPassword = ((formData.get("password") as string) ?? "").trim();
   const rawCpf = ((formData.get("cpf") as string) ?? "").replace(/\D/g, "");
@@ -87,9 +114,6 @@ export async function createStudentAction(
     return { error: `Erro ao criar aluna: ${authErr.message}` };
   }
 
-  // Aguarda trigger criar o profile
-  await new Promise((r) => setTimeout(r, 500));
-
   // Campos extras além do que o trigger já preenche
   const extras: Record<string, unknown> = {};
   if (phone) extras.phone = phone;
@@ -100,7 +124,7 @@ export async function createStudentAction(
   }
 
   if (Object.keys(extras).length > 0) {
-    await service.from("profiles").update(extras).eq("id", created.user.id);
+    await updateProfileWithRetry(service, created.user.id, extras);
   }
 
   redirect(`/admin/alunos/${created.user.id}`);

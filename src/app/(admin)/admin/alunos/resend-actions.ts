@@ -1,29 +1,63 @@
 "use server";
 
 import { createServiceClient } from "@/lib/supabase/service";
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { revalidatePath } from "next/cache";
 import { sendAccessConfirmedEmail } from "@/lib/email";
+
+// Trigger do banco cria a linha em `profiles` de forma assíncrona logo após
+// auth.admin.createUser — não é garantido que já exista no instante seguinte.
+// Em vez de um setTimeout fixo (podia falhar sob carga, ou desperdiçar tempo
+// à toa), tenta a atualização com backoff curto e desiste após algumas tentativas.
+async function updateProfileWithRetry(
+  service: ReturnType<typeof createServiceClient>,
+  userId: string,
+  extras: Record<string, unknown>
+): Promise<boolean> {
+  const delays = [200, 400, 800];
+  for (let attempt = 0; attempt <= delays.length; attempt++) {
+    const { data: existing } = await service
+      .from("profiles")
+      .select("id")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (existing) {
+      const { error } = await service.from("profiles").update(extras).eq("id", userId);
+      if (error) {
+        console.error("[createAccountAndSetPassword] erro ao atualizar profile:", error.message);
+        return false;
+      }
+      return true;
+    }
+
+    if (attempt < delays.length) {
+      await new Promise((r) => setTimeout(r, delays[attempt]));
+    }
+  }
+  console.error(`[createAccountAndSetPassword] profile de ${userId} não apareceu após retries — trigger pode ter falhado`);
+  return false;
+}
 
 export async function resendActivationAction(
   email: string
 ): Promise<{ error?: string; sent?: number }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  let adminId: string;
+  let adminName: string | null = null;
+  try {
+    const admin = await assertAdmin();
+    adminId = admin.adminId;
+    const { data: me } = await admin.supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", adminId)
+      .single();
+    adminName = me?.full_name ?? null;
+  } catch (e) {
+    return { error: (e as Error).message };
+  }
 
   const service = createServiceClient();
-
-  const { data: me } = await service
-    .from("profiles")
-    .select("role, full_name")
-    .eq("id", user.id)
-    .single();
-  if (me?.role !== "admin") return { error: "Sem permissão." };
-
   const normalizedEmail = email.toLowerCase().trim();
 
   // Garante que não existe conta com este e-mail
@@ -70,29 +104,29 @@ export async function resendActivationAction(
       t as unknown as { courses?: { id: string; title: string; slug: string } | null }
     ).courses;
     if (!course) continue;
-    try {
-      await sendAccessConfirmedEmail({
-        to: normalizedEmail,
-        studentName: buyerName,
-        courseTitle: course.title,
-        courseSlug: course.slug,
-        activationToken: t.token,
-      });
-      sent++;
-    } catch (e) {
-      console.error("[resend-activation] email error:", e);
+    const emailResult = await sendAccessConfirmedEmail({
+      to: normalizedEmail,
+      studentName: buyerName,
+      courseTitle: course.title,
+      courseSlug: course.slug,
+      activationToken: t.token,
+    });
+    if (!emailResult.success) {
+      console.error("[resend-activation] email error:", emailResult.error);
+      continue;
     }
+    sent++;
   }
 
   await service.from("audit_log").insert({
-    admin_id: user.id,
+    admin_id: adminId,
     action: "resend_activation",
     target_type: "activation_token",
     target_id: null,
     meta: {
       email: normalizedEmail,
       emails_sent: sent,
-      admin_name: me?.full_name ?? null,
+      admin_name: adminName,
     },
   });
 
@@ -103,32 +137,34 @@ export async function correctEmailAction(
   oldEmail: string,
   newEmail: string
 ): Promise<{ error?: string; sent?: number }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  let adminId: string;
+  let adminName: string | null = null;
+  try {
+    const admin = await assertAdmin();
+    adminId = admin.adminId;
+    const { data: me } = await admin.supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", adminId)
+      .single();
+    adminName = me?.full_name ?? null;
+  } catch (e) {
+    return { error: (e as Error).message };
+  }
 
   const service = createServiceClient();
-
-  const { data: me } = await service
-    .from("profiles")
-    .select("role, full_name")
-    .eq("id", user.id)
-    .single();
-  if (me?.role !== "admin") return { error: "Sem permissão." };
-
   const normalizedOld = oldEmail.toLowerCase().trim();
   const normalizedNew = newEmail.toLowerCase().trim();
 
   if (normalizedOld === normalizedNew)
     return { error: "O novo e-mail é igual ao atual." };
 
-  // Novo e-mail não pode já ter conta
+  // Novo e-mail não pode já ter conta — comparação exata: ilike trataria "_" e
+  // "%" no local-part do e-mail como coringas, podendo casar com a conta errada.
   const { data: existingProfile } = await service
     .from("profiles")
     .select("id")
-    .ilike("email", normalizedNew)
+    .eq("email", normalizedNew)
     .maybeSingle();
   if (existingProfile)
     return { error: "Já existe uma conta com este e-mail." };
@@ -174,22 +210,22 @@ export async function correctEmailAction(
       t as unknown as { courses?: { id: string; title: string; slug: string } | null }
     ).courses;
     if (!course) continue;
-    try {
-      await sendAccessConfirmedEmail({
-        to: normalizedNew,
-        studentName: buyerName,
-        courseTitle: course.title,
-        courseSlug: course.slug,
-        activationToken: t.token,
-      });
-      sent++;
-    } catch (e) {
-      console.error("[correct-email] email error:", e);
+    const emailResult = await sendAccessConfirmedEmail({
+      to: normalizedNew,
+      studentName: buyerName,
+      courseTitle: course.title,
+      courseSlug: course.slug,
+      activationToken: t.token,
+    });
+    if (!emailResult.success) {
+      console.error("[correct-email] email error:", emailResult.error);
+      continue;
     }
+    sent++;
   }
 
   await service.from("audit_log").insert({
-    admin_id: user.id,
+    admin_id: adminId,
     action: "correct_buyer_email",
     target_type: "activation_token",
     target_id: null,
@@ -198,7 +234,7 @@ export async function correctEmailAction(
       new_email: normalizedNew,
       tokens_updated: ids.length,
       emails_sent: sent,
-      admin_name: me?.full_name ?? null,
+      admin_name: adminName,
     },
   });
 
@@ -211,20 +247,14 @@ export async function createAccountAndSetPasswordAction(
   email: string,
   password: string
 ): Promise<{ error?: string; userId?: string }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  let adminId: string;
+  try {
+    ({ adminId } = await assertAdmin());
+  } catch (e) {
+    return { error: (e as Error).message };
+  }
 
   const service = createServiceClient();
-
-  const { data: me } = await service
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (me?.role !== "admin") return { error: "Sem permissão." };
 
   if (password.length < 8) return { error: "A senha deve ter no mínimo 8 caracteres." };
 
@@ -267,14 +297,11 @@ export async function createAccountAndSetPasswordAction(
 
   const userId = created.user.id;
 
-  // Aguarda o trigger criar a linha em profiles antes de atualizar
-  await new Promise((r) => setTimeout(r, 500));
-
   const profileUpdate: Record<string, string> = {};
   if (buyerName) profileUpdate.full_name = buyerName;
   if (buyerPhone) profileUpdate.phone = buyerPhone;
   if (Object.keys(profileUpdate).length > 0) {
-    await service.from("profiles").update(profileUpdate).eq("id", userId);
+    await updateProfileWithRetry(service, userId, profileUpdate);
   }
 
   // Concede matrícula em cada curso comprado e marca os tokens como usados
@@ -293,7 +320,7 @@ export async function createAccountAndSetPasswordAction(
   }
 
   await service.from("audit_log").insert({
-    admin_id: user.id,
+    admin_id: adminId,
     action: "create_account_with_password",
     target_type: "user",
     target_id: userId,

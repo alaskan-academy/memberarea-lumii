@@ -8,7 +8,7 @@ import {
   Image as ImageIcon, Bell, Mail, Newspaper,
   MessageSquare, Flag, BarChart3, Menu as MenuIcon, X, FileText,
   ChevronRight, ChevronLeft, PanelLeftClose, PanelLeftOpen,
-  MessageCircle, Sparkles, PlusCircle, type LucideIcon,
+  MessageCircle, Sparkles, PlusCircle, ShoppingBag, type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
@@ -26,7 +26,8 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: "Catálogo",
     items: [
-      { href: "/admin/cursos", icon: BookOpen, label: "Cursos" },
+      { href: "/admin/cursos",  icon: BookOpen,    label: "Cursos" },
+      { href: "/admin/vitrine", icon: ShoppingBag, label: "Vitrine" },
     ],
   },
   {

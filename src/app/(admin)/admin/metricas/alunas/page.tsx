@@ -1,19 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import { Trophy, BookOpen, Award, Activity, UserCheck, Clock } from "lucide-react";
 import { InfoTooltip } from "../metric-tooltip";
 import Image from "next/image";
 import { FinancialRankings, type StudentRow, type CourseEnroll } from "./FinancialRankings";
 import { StudentMiniModal } from "@/components/admin/metrics/StudentMiniModal";
+import { getCurrentAdmin } from "@/lib/auth/current-admin";
 
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+// Página de BI/relatório — rankings agregados no banco via RPC, não precisa ser real-time.
+export const revalidate = 300;
 
 type Profile = {
   id: string;
@@ -23,94 +17,83 @@ type Profile = {
   created_at: string;
 };
 
+type LessonRankRow = { user_id: string; full_name: string | null; email: string; avatar_url: string | null; lesson_count: number };
+type CertRankRow = { user_id: string; full_name: string | null; email: string; avatar_url: string | null; certificate_count: number };
+type EnrollRankRow = { user_id: string; full_name: string | null; email: string; avatar_url: string | null; enrollment_count: number };
+type ActiveRankRow = { user_id: string; full_name: string | null; email: string; avatar_url: string | null; last_active: string };
+
 export default async function AlunaRankingPage() {
-  await assertAdmin();
+  await getCurrentAdmin();
   const service = createServiceClient();
 
   const [
-    { data: progressAll },
-    { data: certs },
+    { data: topByLessonsRpc },
+    { data: topByCertsRpc },
+    { data: topByEnrollsRpc },
+    { data: recentlyActiveRpc },
+    { count: totalProgress },
+    { count: totalCompleted },
+    { data: alunaComProgressoData },
+    { data: alunaComCertificadoData },
+    { data: paymentEvents },
     { data: enrollsAll },
     { data: allProfiles },
     { data: courses },
-    { data: paymentEvents },
   ] = await Promise.all([
-    service.from("lesson_progress").select("user_id, lesson_id, completed, updated_at"),
-    service.from("certificates").select("user_id, course_id, issued_at"),
-    service.from("enrollments").select("user_id, course_id, granted_at, source"),
-    service.from("profiles").select("id, full_name, email, avatar_url, created_at").eq("role", "student").eq("banned", false),
-    service.from("courses").select("id, title, price"),
+    // Rankings — agregados no Postgres (join + group by + order + limit)
+    service.rpc("admin_top_students_by_lessons", { limit_n: 10 }),
+    service.rpc("admin_top_students_by_certificates", { limit_n: 10 }),
+    service.rpc("admin_top_students_by_enrollments", { limit_n: 10 }),
+    service.rpc("admin_recently_active_students", { limit_n: 10 }),
+
+    // Estatísticas de engajamento — contagens no Postgres
+    service.from("lesson_progress").select("*", { count: "exact", head: true }),
+    service.from("lesson_progress").select("*", { count: "exact", head: true }).eq("completed", true),
+    service.rpc("admin_students_with_progress_count"),
+    service.rpc("admin_students_with_certificate_count"),
+
+    // Rankings financeiros — precisam de correspondência por e-mail entre
+    // payment_events (Payt) e profiles, e fallback de preço de catálogo por
+    // matrícula; mantido em JS por ora — ver nota abaixo.
     service.from("payment_events")
       .select("buyer_email, buyer_name, amount_paid")
       .eq("processed", true)
       .not("amount_paid", "is", null),
+    service.from("enrollments").select("user_id, course_id, granted_at, source"),
+    service.from("profiles").select("id, full_name, email, avatar_url, created_at").eq("role", "student").eq("banned", false),
+    service.from("courses").select("id, title, price"),
   ]);
 
+  const topByLessons = (topByLessonsRpc ?? []) as LessonRankRow[];
+  const topByCerts = (topByCertsRpc ?? []) as CertRankRow[];
+  const topByEnrolls = (topByEnrollsRpc ?? []) as EnrollRankRow[];
+  const recentlyActive = (recentlyActiveRpc ?? []) as ActiveRankRow[];
+
   const profiles = (allProfiles ?? []) as Profile[];
-  const profileMap = new Map<string, Profile>(profiles.map((p) => [p.id, p]));
   const coursePriceMap = new Map<string, { title: string; price: number | null }>(
     (courses ?? []).map((c) => [c.id, { title: c.title, price: c.price }])
   );
 
-  // ── Ranking 1: Top por aulas concluídas ──────────────────────────
-  const completedByUser = new Map<string, number>();
-  for (const p of progressAll ?? []) {
-    if (p.completed) completedByUser.set(p.user_id, (completedByUser.get(p.user_id) ?? 0) + 1);
-  }
-  const topByLessons = [...completedByUser.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([id, count]) => ({ profile: profileMap.get(id), count }))
-    .filter((x) => x.profile);
-
-  // ── Ranking 2: Top por certificados ─────────────────────────────
-  const certsByUser = new Map<string, number>();
-  for (const c of certs ?? []) {
-    certsByUser.set(c.user_id, (certsByUser.get(c.user_id) ?? 0) + 1);
-  }
-  const topByCerts = [...certsByUser.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([id, count]) => ({ profile: profileMap.get(id), count }))
-    .filter((x) => x.profile);
-
-  // ── Ranking 3: Top por matrículas ────────────────────────────────
-  const enrollsByUser = new Map<string, number>();
-  for (const e of enrollsAll ?? []) {
-    enrollsByUser.set(e.user_id, (enrollsByUser.get(e.user_id) ?? 0) + 1);
-  }
-  const topByEnrolls = [...enrollsByUser.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([id, count]) => ({ profile: profileMap.get(id), count }))
-    .filter((x) => x.profile);
-
-  // ── Ranking 4: Mais recentemente ativas ─────────────────────────
-  const lastActiveByUser = new Map<string, string>();
-  for (const p of progressAll ?? []) {
-    const current = lastActiveByUser.get(p.user_id);
-    if (!current || p.updated_at > current) lastActiveByUser.set(p.user_id, p.updated_at);
-  }
-  const recentlyActive = [...lastActiveByUser.entries()]
-    .sort((a, b) => b[1].localeCompare(a[1]))
-    .slice(0, 10)
-    .map(([id, lastActive]) => ({ profile: profileMap.get(id), lastActive }))
-    .filter((x) => x.profile);
-
-  // ── Ranking 5: Novatas ──────────────────────────────────────────
+  // ── Novatas — já vem ordenado/filtrado do fetch de profiles acima ────────
   const newest = [...profiles]
     .sort((a, b) => b.created_at.localeCompare(a.created_at))
     .slice(0, 10);
 
-  // ── Estatísticas de engajamento ─────────────────────────────────
-  const totalProgress = progressAll?.length ?? 0;
-  const totalCompleted = progressAll?.filter((p) => p.completed).length ?? 0;
-  const engagementRate = totalProgress > 0 ? Math.round((totalCompleted / totalProgress) * 100) : 0;
-  const alunaComCertificado = new Set(certs?.map((c) => c.user_id) ?? []).size;
-  const alunaComProgresso = new Set(progressAll?.map((p) => p.user_id) ?? []).size;
+  // ── Estatísticas de engajamento ───────────────────────────────────────────
+  const engagementRate = totalProgress && totalProgress > 0
+    ? Math.round(((totalCompleted ?? 0) / totalProgress) * 100)
+    : 0;
+  const alunaComCertificado = (alunaComCertificadoData as unknown as number) ?? 0;
+  const alunaComProgresso = (alunaComProgressoData as unknown as number) ?? 0;
 
   // ── Rankings financeiros ─────────────────────────────────────────
-  // Valor real pago por e-mail (payment_events.amount_paid quando disponível)
+  // NOTA: mantido em JS deliberadamente (não migrado para RPC nesta passada).
+  // A lógica mistura valor real pago (payment_events.amount_paid, casado por
+  // e-mail) com fallback do preço de catálogo por matrícula quando não há
+  // amount_paid — reescrever essa mesclagem em SQL arriscaria alterar os
+  // números financeiros exibidos sem cobertura de teste equivalente. Os
+  // volumes envolvidos (alunas + eventos de pagamento) ainda são pequenos o
+  // bastante para processar em memória sem impacto perceptível.
   const realSpentByEmail = new Map<string, number>(); // centavos
   const txCountByEmail = new Map<string, number>();
   for (const pe of paymentEvents ?? []) {
@@ -200,7 +183,7 @@ export default async function AlunaRankingPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={UserCheck} label="Alunas com progresso" value={alunaComProgresso} color="#f6614f"
           tooltip="Alunas que iniciaram pelo menos uma aula — têm algum registro de progresso na plataforma." />
-        <StatCard icon={BookOpen} label="Aulas concluídas total" value={totalCompleted} color="#71c69a"
+        <StatCard icon={BookOpen} label="Aulas concluídas total" value={totalCompleted ?? 0} color="#71c69a"
           tooltip="Soma de todas as aulas marcadas como concluídas em toda a plataforma (pelo botão explícito ou ao atingir 90% do vídeo)." />
         <StatCard icon={Award} label="Com certificados" value={alunaComCertificado} color="#eebc3e"
           tooltip="Número de alunas que receberam pelo menos um certificado de conclusão de curso." />
@@ -222,13 +205,13 @@ export default async function AlunaRankingPage() {
           subtitle="por aulas concluídas"
           icon={BookOpen}
           color="#f6614f"
-          items={topByLessons.map(({ profile, count }) => ({
-            id: profile!.id,
-            name: profile!.full_name ?? profile!.email,
-            email: profile!.email,
-            avatar: profile!.avatar_url,
-            value: `${count} aulas`,
-            badge: count,
+          items={topByLessons.map((r) => ({
+            id: r.user_id,
+            name: r.full_name ?? r.email,
+            email: r.email,
+            avatar: r.avatar_url,
+            value: `${r.lesson_count} aulas`,
+            badge: r.lesson_count,
           }))}
         />
 
@@ -238,13 +221,13 @@ export default async function AlunaRankingPage() {
           subtitle="por cursos concluídos"
           icon={Award}
           color="#71c69a"
-          items={topByCerts.map(({ profile, count }) => ({
-            id: profile!.id,
-            name: profile!.full_name ?? profile!.email,
-            email: profile!.email,
-            avatar: profile!.avatar_url,
-            value: `${count} cert.`,
-            badge: count,
+          items={topByCerts.map((r) => ({
+            id: r.user_id,
+            name: r.full_name ?? r.email,
+            email: r.email,
+            avatar: r.avatar_url,
+            value: `${r.certificate_count} cert.`,
+            badge: r.certificate_count,
           }))}
         />
 
@@ -254,13 +237,13 @@ export default async function AlunaRankingPage() {
           subtitle="por cursos adquiridos"
           icon={Trophy}
           color="#eebc3e"
-          items={topByEnrolls.map(({ profile, count }) => ({
-            id: profile!.id,
-            name: profile!.full_name ?? profile!.email,
-            email: profile!.email,
-            avatar: profile!.avatar_url,
-            value: `${count} cursos`,
-            badge: count,
+          items={topByEnrolls.map((r) => ({
+            id: r.user_id,
+            name: r.full_name ?? r.email,
+            email: r.email,
+            avatar: r.avatar_url,
+            value: `${r.enrollment_count} cursos`,
+            badge: r.enrollment_count,
           }))}
         />
 
@@ -270,12 +253,12 @@ export default async function AlunaRankingPage() {
           subtitle="mais recentes na plataforma"
           icon={Clock}
           color="#f6614f"
-          items={recentlyActive.map(({ profile, lastActive }) => ({
-            id: profile!.id,
-            name: profile!.full_name ?? profile!.email,
-            email: profile!.email,
-            avatar: profile!.avatar_url,
-            value: formatRelativeTime(lastActive),
+          items={recentlyActive.map((r) => ({
+            id: r.user_id,
+            name: r.full_name ?? r.email,
+            email: r.email,
+            avatar: r.avatar_url,
+            value: formatRelativeTime(r.last_active),
             badge: null,
           }))}
         />

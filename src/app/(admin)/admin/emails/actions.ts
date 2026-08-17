@@ -30,12 +30,14 @@ export async function sendTestEmail(
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://membros.lumiieduca.com.br";
 
   try {
+    let result: { success: boolean; error?: string };
+
     switch (type) {
       case "welcome":
-        await sendWelcomeEmail({ to, studentName: "Ana Teste" });
+        result = await sendWelcomeEmail({ to, studentName: "Ana Teste" });
         break;
       case "access":
-        await sendAccessConfirmedEmail({
+        result = await sendAccessConfirmedEmail({
           to,
           studentName: "Ana Teste",
           courseTitle: "Crochê para Iniciantes",
@@ -43,7 +45,7 @@ export async function sendTestEmail(
         });
         break;
       case "certificate":
-        await sendCertificateEmail({
+        result = await sendCertificateEmail({
           to,
           studentName: "Ana Teste",
           courseTitle: "Crochê para Iniciantes",
@@ -51,7 +53,7 @@ export async function sendTestEmail(
         });
         break;
       case "reengagement":
-        await sendReengagementEmail({
+        result = await sendReengagementEmail({
           to,
           studentName: "Ana Teste",
           courses: [
@@ -61,7 +63,7 @@ export async function sendTestEmail(
         });
         break;
       case "new_course":
-        await sendNewCourseEmail({
+        result = await sendNewCourseEmail({
           to,
           studentName: "Ana Teste",
           courseTitle: "Bordado Japonês Sashiko",
@@ -70,7 +72,7 @@ export async function sendTestEmail(
         });
         break;
       case "news_post":
-        await sendNewsPostEmail({
+        result = await sendNewsPostEmail({
           to,
           studentName: "Ana Teste",
           postTitle: "Desafio de Maio já está aberto!",
@@ -79,7 +81,7 @@ export async function sendTestEmail(
         });
         break;
       case "refund":
-        await sendRefundEmail({
+        result = await sendRefundEmail({
           to,
           studentName: "Ana Teste",
           courseTitle: "Crochê para Iniciantes",
@@ -88,6 +90,8 @@ export async function sendTestEmail(
       default:
         return { error: "Tipo de e-mail inválido" };
     }
+
+    if (!result.success) return { error: result.error ?? "Erro ao enviar" };
     return { success: `E-mail "${type}" enviado para ${to}` };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Erro ao enviar" };
