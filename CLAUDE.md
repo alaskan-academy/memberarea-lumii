@@ -206,6 +206,33 @@ Implementado em `src/proxy.ts` — `ALWAYS_PUBLIC_PREFIXES` contém apenas `/api
 
 **Conclusão:** para cada curso vendido (principal, item de grupo ou OB), cadastrar o `product_code` correspondente no admin da área de membros.
 
+### Múltiplas contas Payt (empresas/CNPJs diferentes)
+
+A Lumii recebe postbacks de mais de uma conta Payt. Cada conta gera a **própria
+"Chave Única"** no formulário de Postback do painel dela — o valor é gerado pela
+Payt, não escolhido por nós (não existe campo pra colar um secret nosso).
+
+Por isso `PAYT_WEBHOOK_SECRET` aceita **várias chaves separadas por vírgula**:
+
+```
+PAYT_WEBHOOK_SECRET=chave-da-empresa-A,chave-da-empresa-B
+```
+
+`parsePaytSecrets()` separa a lista e `verifyPaytIntegrationKey()` aceita o
+postback se bater com **qualquer uma** delas (comparação `timingSafeEqual`, sem
+short-circuit para não vazar por timing qual conta bateu). Uma chave só continua
+funcionando igual — o formato antigo é compatível.
+
+**Ao adicionar uma conta nova:** criar o Postback no painel da Payt apontando
+para `https://membros.lumiieduca.com.br/api/webhooks/payt`, copiar a Chave Única
+gerada e **acrescentar** (com vírgula) à env var na Vercel — nunca substituir a
+existente, ou a outra empresa para de liberar acesso.
+
+> Se o postback chegar com chave não cadastrada, o handler devolve `401` e loga
+> `seller_id`, product code e e-mail do comprador — sem expor a chave. A aluna
+> não recebe acesso e **nada aparece em `payment_events`**, então esse log é o
+> único rastro: é o primeiro lugar pra olhar se "a compra não liberou".
+
 ### Exemplo de payload real (Payt, nov/2024)
 
 ```json

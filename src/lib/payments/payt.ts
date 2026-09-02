@@ -122,25 +122,50 @@ export function extractAmounts(payload: PaytPayload): {
 // ── Autenticação por integration_key ─────────────────────────────────────────
 
 /**
- * Payt usa postbacks simples (sem header de assinatura).
- * A autenticação é feita comparando o integration_key do payload
- * com o secret configurado em PAYT_WEBHOOK_SECRET.
- * Usa timingSafeEqual para prevenir timing attacks.
+ * Separa a env var em uma lista de chaves aceitas.
+ * Cada conta Payt gera a PRÓPRIA "Chave Única" no painel dela — não dá pra
+ * escolher o valor. Como a Lumii recebe postbacks de mais de uma empresa
+ * (CNPJs diferentes = contas Payt diferentes), PAYT_WEBHOOK_SECRET aceita
+ * várias chaves separadas por vírgula, espaço ou quebra de linha.
+ * Uma única chave continua funcionando sem mudança nenhuma.
  */
-export function verifyPaytIntegrationKey(
-  secret: string,
-  integrationKey: string
-): boolean {
-  if (!integrationKey || !secret) return false;
-  if (secret.length !== integrationKey.length) return false;
+export function parsePaytSecrets(raw: string | undefined | null): string[] {
+  if (!raw) return [];
+  return [...new Set(raw.split(/[,\s]+/).map((s) => s.trim()).filter(Boolean))];
+}
+
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
   try {
-    return crypto.timingSafeEqual(
-      Buffer.from(secret, "utf8"),
-      Buffer.from(integrationKey, "utf8")
-    );
+    return crypto.timingSafeEqual(Buffer.from(a, "utf8"), Buffer.from(b, "utf8"));
   } catch {
     return false;
   }
+}
+
+/**
+ * Payt usa postbacks simples (sem header de assinatura).
+ * A autenticação é feita comparando o integration_key do payload
+ * com as chaves configuradas em PAYT_WEBHOOK_SECRET.
+ * Usa timingSafeEqual para prevenir timing attacks.
+ *
+ * Aceita string (uma ou várias chaves) ou array já separado.
+ */
+export function verifyPaytIntegrationKey(
+  secrets: string | string[] | undefined | null,
+  integrationKey: string
+): boolean {
+  if (!integrationKey) return false;
+  const list = Array.isArray(secrets) ? secrets : parsePaytSecrets(secrets);
+  if (list.length === 0) return false;
+
+  // Percorre a lista inteira sem short-circuit: sair no primeiro acerto
+  // deixaria o tempo de resposta revelar QUAL das contas bateu.
+  let matched = false;
+  for (const secret of list) {
+    if (safeEqual(secret, integrationKey)) matched = true;
+  }
+  return matched;
 }
 
 // ── Extração de product codes ─────────────────────────────────────────────────

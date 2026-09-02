@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import {
   verifyPaytIntegrationKey,
+  parsePaytSecrets,
   PaytPayloadSchema,
   classifyEvent,
   extractProductCodes,
@@ -48,8 +49,9 @@ function calcExpiresAt(accessDays: number | null): string | null {
 // ── Handler principal ─────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
-  const secret = process.env.PAYT_WEBHOOK_SECRET;
-  if (!secret) {
+  // Aceita múltiplas chaves (uma por conta Payt) separadas por vírgula
+  const secrets = parsePaytSecrets(process.env.PAYT_WEBHOOK_SECRET);
+  if (secrets.length === 0) {
     console.error("[payt-webhook] PAYT_WEBHOOK_SECRET não configurado");
     return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
   }
@@ -66,8 +68,13 @@ export async function POST(req: NextRequest) {
   }
 
   // 2. Validar integration_key (autenticação do postback Payt)
-  if (!verifyPaytIntegrationKey(secret, payload.integration_key)) {
-    console.warn("[payt-webhook] integration_key inválida");
+  if (!verifyPaytIntegrationKey(secrets, payload.integration_key)) {
+    // Log sem expor a chave: só o suficiente pra diagnosticar postback novo
+    // cuja chave ainda não foi adicionada em PAYT_WEBHOOK_SECRET.
+    console.warn(
+      `[payt-webhook] integration_key não confere com nenhuma das ${secrets.length} chave(s) configuradas ` +
+        `(seller_id=${payload.seller_id ?? "?"}, produto=${payload.product.code}, comprador=${payload.customer.email})`
+    );
     return NextResponse.json({ error: "Invalid key" }, { status: 401 });
   }
 
