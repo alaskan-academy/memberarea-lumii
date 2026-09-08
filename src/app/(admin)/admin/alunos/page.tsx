@@ -1,5 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { getCurrentAdmin } from "@/lib/auth/current-admin";
+import { escapeLike } from "@/lib/supabase/escape-like";
 import Link from "next/link";
 import {
   Download,
@@ -208,7 +209,7 @@ export default async function AlunosPage({
         .neq("role", "admin")
         .order("created_at", { ascending: false })
         .range(from, to);
-      if (q) query = query.or(`full_name.ilike.%${q}%,email.ilike.%${q}%`);
+      if (q) { const s = escapeLike(q); query = query.or(`full_name.ilike.%${s}%,email.ilike.%${s}%`); }
       const { data, count: c } = await query;
       profiles = (data ?? []) as ProfileRow[];
       count = c ?? 0;

@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { assertAdmin } from '@/lib/supabase/admin-guard'
+import { escapeLike } from '@/lib/supabase/escape-like'
 import { revalidatePath } from 'next/cache'
 import type {
   InspiracaoPost,
@@ -72,8 +73,8 @@ export async function getInspiracoesFeed(
 
   // Busca por palavra-chave (pg_trgm no banco, filtra localmente para flexibilidade)
   if (filtros.busca) {
-    const q = filtros.busca.toLowerCase()
-    // Usar ilike no banco para performance
+    // Escapa curingas do ilike (% e _) para busca literal
+    const q = escapeLike(filtros.busca.toLowerCase())
     query = query.or(`title.ilike.%${q}%,body.ilike.%${q}%`)
   }
 
@@ -334,7 +335,7 @@ export async function adminListPosts(opts: {
   if (opts.published !== undefined) query = query.eq('published', opts.published)
   if (opts.archived !== undefined) query = query.eq('archived', opts.archived)
   if (opts.tipo) query = query.eq('type', opts.tipo)
-  if (opts.busca) query = query.or(`title.ilike.%${opts.busca}%`)
+  if (opts.busca) query = query.or(`title.ilike.%${escapeLike(opts.busca)}%`)
 
   const { data, error } = await query
   if (error) throw error

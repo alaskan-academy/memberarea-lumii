@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { escapeLike } from "@/lib/supabase/escape-like";
 import { MessageSquare } from "lucide-react";
 import ForumModerationClient from "./ForumModerationClient";
 import ForumSearch from "./ForumSearch";
@@ -68,7 +69,7 @@ export default async function AdminForumPage({
     .eq("approved", false)
     .order("created_at", { ascending: false })
     .limit(PENDING_CAP);
-  if (q) pendingQuery = pendingQuery.ilike("title", `%${q}%`);
+  if (q) pendingQuery = pendingQuery.ilike("title", `%${escapeLike(q)}%`);
 
   let approvedQuery = supabase
     .from("forum_posts")
@@ -76,7 +77,7 @@ export default async function AdminForumPage({
     .eq("approved", true)
     .order("created_at", { ascending: false })
     .range(from, to);
-  if (q) approvedQuery = approvedQuery.ilike("title", `%${q}%`);
+  if (q) approvedQuery = approvedQuery.ilike("title", `%${escapeLike(q)}%`);
 
   const [{ data: pendingRaw }, { data: approvedRaw, count: approvedCount }] = await Promise.all([
     pendingQuery,

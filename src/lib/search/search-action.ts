@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
+import { escapeLike } from "@/lib/supabase/escape-like";
 
 export type SearchResult = {
   type: "course" | "lesson" | "news";
@@ -32,7 +33,8 @@ export async function searchPlatform(query: string): Promise<SearchResults> {
   if (!user) return { courses: [], lessons: [], news: [], total: 0 };
 
   const service = createServiceClient();
-  const pattern = `%${q}%`;
+  // Escapa % e _ para buscar o termo literalmente (senão "%" retorna tudo).
+  const pattern = `%${escapeLike(q)}%`;
 
   const [{ data: courses }, { data: lessonRows }, { data: newsPosts }] =
     await Promise.all([
