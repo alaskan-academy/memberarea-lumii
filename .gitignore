@@ -55,3 +55,7 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Dados de migração da Handify (e-mails de alunas) — nunca versionar (LGPD)
+excluded-candidates.txt
+failed-migration-emails.txt
