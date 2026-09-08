@@ -15,7 +15,8 @@ Regra não-negociável: cores (`#71c69a`, `#eebc3e`, `#f6614f`, `#212d42`), font
 npm run dev      # desenvolvimento (http://localhost:3000)
 npm run build    # build de produção
 npm run lint     # ESLint
-npm run test     # Vitest
+npm test         # Vitest (testes unitários)
+npm run test:e2e # Playwright (testes end-to-end)
 ```
 
 ## Variáveis de Ambiente
@@ -41,7 +42,7 @@ Labels de status, aria-labels e UI strings genéricas podem ser constantes no c�
 **Pendente de implementar (itens hardcoded identificados):**
 - `src/app/(student)/cursos/page.tsx` — texto do Hero hardcoded; deveria vir de `static_pages` ou `site_config`
 
-**Exceção deliberada:** conteúdo das Ferramentas (`lib/ferramentas/parent-scripts/content.ts`, `lib/ferramentas/support-plan/content.ts`) fica em código, não em tabela — decisão consciente para garantir revisão humana pré-publicação (sem admin editando texto sensível sem revisão). Ver `CLAUDE-ferramentas.md`.
+**Exceção deliberada:** conteúdo das Ferramentas (`lib/ferramentas/parent-scripts/content.ts`, `lib/ferramentas/support-plan/content.ts`) fica em código, não em tabela — decisão consciente para garantir revisão humana pré-publicação (sem admin editando texto sensível sem revisão). Ver `docs/CLAUDE-ferramentas.md`.
 
 ## Sidebar desktop — regra não-negociável
 
@@ -109,6 +110,7 @@ Configurado em **Authentication → Email Templates → Reset Password**. Usar `
 - Zod para validar todos os inputs de forms e webhooks
 - Nunca retornar `video_panda_id` ou URL de vídeo sem verificar `enrollment` server-side
 - CPF nunca exposto em JSON; apenas no PDF do certificado
+- Novas migrations em `supabase/migrations/` usam o formato de data `YYYYMMDD_nome.sql` (ex.: `20260625_push_subscriptions.sql`). Não renomear as migrations antigas no formato sequencial `NNN_` (ex.: `028_leads_and_audit_fix.sql`) — apenas o padrão para novas.
 
 ## Rate Limiting — Decisão e Roadmap
 
@@ -162,7 +164,7 @@ Rotas que NÃO são mais públicas (mudança aplicada jun/2026):
 - `/p/[slug]` — páginas estáticas exigem login
 - `/verificar/[hash]` — verificação de certificado exige login
 
-Implementado em `src/proxy.ts` — `ALWAYS_PUBLIC_PREFIXES` contém apenas `/api/` e `/auth/`.
+Implementado em `src/proxy.ts` — `ALWAYS_PUBLIC_PREFIXES` contém `/api/`, `/auth/` e `/ebooks/` (materiais estáticos de aula, HTML sem dados de usuário, abrem em novo tab sem login).
 
 ## Middleware — `src/proxy.ts` (regras críticas)
 
