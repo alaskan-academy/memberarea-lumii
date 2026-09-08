@@ -167,15 +167,23 @@ describe("classifyEvent", () => {
   it("estornos revogam acesso (revoke)", () => {
     expect(classifyEvent("refunded")).toBe("revoke");
     expect(classifyEvent("chargeback")).toBe("revoke");
-    // A Payt manda "canceled" como status final de reembolso de pedido pago
-    expect(classifyEvent("canceled")).toBe("revoke");
-    expect(classifyEvent("cancelled")).toBe("revoke");
+    // reembolso de pedido pago chega como "canceled" + payment_status "refunded"
+    expect(classifyEvent("canceled", "refunded")).toBe("revoke");
+    expect(classifyEvent("cancelled", "refunded")).toBe("revoke");
   });
 
   it("estados sem pagamento efetivado são ignorados (ignore)", () => {
     expect(classifyEvent("waiting_payment")).toBe("ignore");
     expect(classifyEvent("expired")).toBe("ignore");
-    // interino: só o "canceled" final revoga
     expect(classifyEvent("refund_requested")).toBe("ignore");
+  });
+
+  it('"canceled" só revoga com payment_status "refunded" (não revoga PIX abandonado)', () => {
+    // regressão real: PIX abandonado do mesmo curso que a aluna PAGOU expira
+    // como "canceled" + payment_status "expired" — revogar aqui cortaria acesso legítimo
+    expect(classifyEvent("canceled", "expired")).toBe("ignore");
+    expect(classifyEvent("canceled", "waiting_payment")).toBe("ignore");
+    expect(classifyEvent("canceled")).toBe("ignore");
+    expect(classifyEvent("cancelled", "expired")).toBe("ignore");
   });
 });

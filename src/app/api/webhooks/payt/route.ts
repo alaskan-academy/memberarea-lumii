@@ -79,7 +79,9 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createServiceClient();
-  const action = classifyEvent(payload.status);
+  // payment_status distingue "canceled" de reembolso (refunded) de "canceled"
+  // de PIX/boleto abandonado (expired) — ver classifyEvent.
+  const action = classifyEvent(payload.status, payload.transaction?.payment_status);
   const buyerEmail = payload.customer.email;
   const buyerName = payload.customer.name?.trim() || undefined;
   const mainProductCode = payload.product.code;
@@ -246,10 +248,13 @@ export async function POST(req: NextRequest) {
         processed++;
         console.info(`[payt-webhook] Matrícula revogada: user=${user.id} curso=${course.id} motivo=${payload.status}`);
 
-        // Email de reembolso só para estorno real. Este ramo só executa quando
-        // havia matrícula ativa revogada (revoked.length > 0), ou seja, houve
-        // pagamento — logo "canceled"/"cancelled" aqui é reembolso, não PIX abandonado.
-        const isRealRefund = ["refunded", "chargeback", "canceled", "cancelled"].includes(payload.status);
+        // Email de reembolso só para estorno real. classifyEvent só retorna
+        // "revoke" para refunded/chargeback ou canceled+payment_status=refunded,
+        // então chegar aqui já significa reembolso — mas deixamos explícito.
+        const isRealRefund =
+          ["refunded", "chargeback"].includes(payload.status) ||
+          (["canceled", "cancelled"].includes(payload.status) &&
+            payload.transaction?.payment_status === "refunded");
         if (isRealRefund) {
           const { data: profile } = await supabase
             .from("profiles")

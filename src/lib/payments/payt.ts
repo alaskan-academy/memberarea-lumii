@@ -203,17 +203,25 @@ export function extractProductCodes(payload: PaytPayload): string[] {
 // ── Classificação de status ───────────────────────────────────────────────────
 
 const GRANT_STATUSES = new Set(["paid", "approved", "completed", "confirmed"]);
-// Estornos revogam acesso. A Payt usa "canceled" (1 L) como status final de
-// reembolso concluído de um pedido pago (sequência real: paid → refund_requested
-// → canceled), além de "refunded"/"chargeback". Incluímos as duas grafias de
-// "cancel" por segurança (contas/gateways variam). A revogação no webhook é
-// escopada só a matrículas ativas, então um "canceled" de PIX nunca-pago (sem
-// matrícula) é inofensivo — cai em "Revoke ignorado". "refund_requested" fica
-// como "ignore" (estado interino); a revogação ocorre no "canceled" final.
-const REVOKE_STATUSES = new Set(["refunded", "chargeback", "canceled", "cancelled"]);
+// Estornos inequívocos: sempre revogam acesso.
+const REVOKE_STATUSES = new Set(["refunded", "chargeback"]);
+// "canceled"/"cancelled" é AMBÍGUO na Payt — o status sozinho NÃO decide:
+//   • reembolso de pedido pago    → status "canceled" + transaction.payment_status "refunded"        → REVOGAR
+//   • PIX/boleto abandonado/expirado → status "canceled" + payment_status "expired"/"waiting_payment" → IGNORAR
+// Confirmado em produção: uma aluna gerou vários PIX do MESMO curso que depois
+// pagou; os PIX abandonados expiraram como "canceled". Revogar pelo status
+// sozinho cortaria o acesso legítimo dela. Por isso exigimos payment_status.
+const CANCEL_STATUSES = new Set(["canceled", "cancelled"]);
 
-export function classifyEvent(status: string): "grant" | "revoke" | "ignore" {
+export function classifyEvent(
+  status: string,
+  paymentStatus?: string | null
+): "grant" | "revoke" | "ignore" {
   if (GRANT_STATUSES.has(status)) return "grant";
   if (REVOKE_STATUSES.has(status)) return "revoke";
+  // cancelamento só revoga quando é reembolso de um pagamento efetivado
+  if (CANCEL_STATUSES.has(status)) {
+    return paymentStatus === "refunded" ? "revoke" : "ignore";
+  }
   return "ignore";
 }
