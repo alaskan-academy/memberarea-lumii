@@ -2,11 +2,16 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { dispatchCampaign } from "@/lib/notifications/actions";
 import { NextResponse } from "next/server";
 
-// Vercel Cron — roda a cada 15 minutos (configurado em vercel.json)
-// Também pode ser chamado manualmente via GET com CRON_SECRET no header
+// Vercel Cron — roda diariamente às 8h UTC ("0 8 * * *" em vercel.json).
+// A Vercel Cron autentica enviando `Authorization: Bearer <CRON_SECRET>`;
+// aceitamos também o header legado `x-cron-secret` para chamadas manuais.
 export async function GET(req: Request) {
-  const secret = req.headers.get("x-cron-secret");
-  if (secret !== process.env.CRON_SECRET) {
+  const secret = process.env.CRON_SECRET;
+  const authHeader = req.headers.get("authorization");
+  const legacyHeader = req.headers.get("x-cron-secret");
+  const authorized =
+    !!secret && (authHeader === `Bearer ${secret}` || legacyHeader === secret);
+  if (!authorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
