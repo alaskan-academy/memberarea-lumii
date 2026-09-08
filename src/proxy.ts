@@ -76,6 +76,9 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|icons|manifest.json|sw.js|workbox-.*\\.js|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.svg|.*\\.webp|.*\\.gif|.*\\.ico).*)",
+    // Exclui os assets gerados pelo next-pwa que o sw.js importa via importScripts()
+    // (worker-*.js e fallback-*.js): sem isso o middleware os redireciona para /login
+    // (302→HTML) em sessão anônima, o MIME quebra e o install do service worker falha.
+    "/((?!_next/static|_next/image|favicon.ico|icons|manifest.json|sw.js|workbox-.*\\.js|worker-.*\\.js|fallback-.*\\.js|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.svg|.*\\.webp|.*\\.gif|.*\\.ico).*)",
   ],
 };
