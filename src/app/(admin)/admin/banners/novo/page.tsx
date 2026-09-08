@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import BannerForm from "../banner-form";
+import BannerForm from "../BannerForm";
 import { createBannerAction } from "../actions";
 
 export default async function NovoBannerPage() {

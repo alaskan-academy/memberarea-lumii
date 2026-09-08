@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import NovaSenhaForm from "./nova-senha-form";
+import NovaSenhaForm from "./NovaSenhaForm";
 
 export default async function NovaSenhaPage() {
   const supabase = await createClient();

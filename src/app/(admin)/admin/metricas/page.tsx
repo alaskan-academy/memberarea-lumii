@@ -1,7 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import Link from "next/link";
 import { Users, BookOpen, Award, Webhook, TrendingUp, CheckCircle2, Clock, XCircle, Bell } from "lucide-react";
-import { InfoTooltip } from "./metric-tooltip";
+import { InfoTooltip } from "./MetricTooltip";
 import { getCurrentAdmin } from "@/lib/auth/current-admin";
 
 // Página de BI/relatório — dados agregados no banco via RPC, não precisa ser real-time.

@@ -6,7 +6,7 @@ import PerfilView, {
   type Profile,
   type Certificate,
   type CourseCard,
-} from "./perfil-view";
+} from "./PerfilView";
 
 export const metadata: Metadata = { title: "Meu Perfil — Lumii" };
 

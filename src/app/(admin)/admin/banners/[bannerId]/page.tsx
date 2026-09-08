@@ -2,9 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import BannerForm from "../banner-form";
+import BannerForm from "../BannerForm";
 import { updateBannerAction } from "../actions";
-import DeleteBannerButton from "../delete-banner-button";
+import DeleteBannerButton from "../DeleteBannerButton";
 
 export default async function EditBannerPage({
   params,

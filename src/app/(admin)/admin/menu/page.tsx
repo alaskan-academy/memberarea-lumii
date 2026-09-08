@@ -1,7 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import MenuClient from "./menu-client";
+import MenuClient from "./MenuClient";
 
 export const metadata = { title: "Menu de Navegação — Admin Lumii" };
 

@@ -2,8 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import AdminBlocksEditor from "./blocks-editor";
-import AdminMaterialsUploader from "./materials-uploader";
+import AdminBlocksEditor from "./BlocksEditor";
+import AdminMaterialsUploader from "./MaterialsUploader";
 import { listAllMaterials } from "./actions";
 
 export default async function AdminLessonPage({

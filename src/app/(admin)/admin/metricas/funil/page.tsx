@@ -1,6 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { Ghost, Zap, Target, Star, Clock, TrendingDown, Users, Award } from "lucide-react";
-import { InfoTooltip } from "../metric-tooltip";
+import { InfoTooltip } from "../MetricTooltip";
 import { StudentMiniModal, type StudentBasic } from "@/components/admin/metrics/StudentMiniModal";
 import { StudentListModal } from "@/components/admin/metrics/StudentListModal";
 import { FunnelTableClient, type FunnelRowData } from "./FunnelTableClient";

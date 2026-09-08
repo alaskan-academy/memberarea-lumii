@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import CourseManager from "./course-manager";
+import CourseManager from "./CourseManager";
 import { getCurrentAdmin } from "@/lib/auth/current-admin";
 
 export default async function AdminCoursesPage() {

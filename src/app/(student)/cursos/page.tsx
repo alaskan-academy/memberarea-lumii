@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { unstable_cache } from "next/cache";
 import { formatPrice, formatDuration } from "@/lib/format";
-import CursosGrid from "./cursos-grid";
+import CursosGrid from "./CursosGrid";
 import BannerDisplay from "@/components/banner/BannerDisplay";
 
 export const metadata: Metadata = { title: "Cursos — Lumii" };

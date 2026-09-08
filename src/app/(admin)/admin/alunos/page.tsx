@@ -10,7 +10,7 @@ import {
   UserX,
 } from "lucide-react";
 import { hashCpf, decryptCpf } from "@/lib/cpf-crypto";
-import AlunosSearch from "./alunos-search";
+import AlunosSearch from "./AlunosSearch";
 import AlunosTable from "./AlunosTable";
 import SemCadastroClient, { type SemCadastroRow } from "./SemCadastroClient";
 

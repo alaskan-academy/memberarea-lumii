@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import NovaAlunaForm from "./nova-aluna-form";
+import NovaAlunaForm from "./NovaAlunaForm";
 
 export default async function NovaAlunaPage() {
   const supabase = await createClient();

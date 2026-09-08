@@ -1,6 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { getVideos, formatDuration, formatStorage, extractPandaVideoId } from "@/lib/video/panda-api";
-import { InfoTooltip } from "../metric-tooltip";
+import { InfoTooltip } from "../MetricTooltip";
 import { Video, Clock, HardDrive, Eye, Play, AlertCircle } from "lucide-react";
 import Image from "next/image";
 import { assertAdminPage } from "@/lib/supabase/admin-guard";

@@ -1,6 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { Trophy, BookOpen, Award, Activity, UserCheck, Clock } from "lucide-react";
-import { InfoTooltip } from "../metric-tooltip";
+import { InfoTooltip } from "../MetricTooltip";
 import Image from "next/image";
 import { FinancialRankings, type StudentRow, type CourseEnroll } from "./FinancialRankings";
 import { StudentMiniModal } from "@/components/admin/metrics/StudentMiniModal";

@@ -2,7 +2,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import AlunaDetail from "./aluna-detail";
+import AlunaDetail from "./AlunaDetail";
 import type { ActivityItem } from "@/components/admin/alunos/ActivityTab";
 import { decryptCpf, formatCpf } from "@/lib/cpf-crypto";
 import { getCurrentAdmin } from "@/lib/auth/current-admin";

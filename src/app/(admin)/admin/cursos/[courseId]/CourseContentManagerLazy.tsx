@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 // @dnd-kit (core+sortable+utilities) só é necessário aqui — carrega sob
 // demanda em vez de entrar no bundle inicial da página de curso do admin.
-const CourseContentManager = dynamic(() => import("./course-content-manager"), {
+const CourseContentManager = dynamic(() => import("./CourseContentManager"), {
   ssr: false,
   loading: () => (
     <div className="space-y-3">
