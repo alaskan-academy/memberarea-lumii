@@ -95,6 +95,7 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={false}
                 target={item.target}
                 rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
                 title={collapsed ? item.label : undefined}
@@ -159,6 +160,7 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
             <Link
               key={href}
               href={href}
+              prefetch={false}
               className={cn(
                 "flex-1 flex flex-col items-center justify-center gap-1 py-2 text-[10px] font-medium transition-colors min-h-[52px]",
                 isActive ? "text-primary" : "text-foreground/45 hover:text-foreground/70"
@@ -215,6 +217,7 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={false}
                     target={item.target}
                     rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
                     onClick={() => { markDrawerNavigating(); setDrawerOpen(false); }}

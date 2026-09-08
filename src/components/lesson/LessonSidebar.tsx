@@ -30,6 +30,7 @@ function ModuleList({ courseModules, lessonId, completedSet }: Props) {
                 <li key={l.id}>
                   <Link
                     href={`/aulas/${l.id}`}
+                    prefetch={false}
                     className={cn(
                       "flex items-center gap-2.5 px-3 py-2.5 text-xs transition-colors min-h-[44px]",
                       isCurrent

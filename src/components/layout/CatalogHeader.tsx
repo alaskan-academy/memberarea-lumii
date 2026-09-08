@@ -43,6 +43,7 @@ export default function CatalogHeader({
           {/* Logo */}
           <Link
             href={isLoggedIn ? "/dashboard" : "/cursos"}
+            prefetch={false}
             className="flex items-center gap-2 shrink-0"
           >
             <Logo size={26} />
@@ -56,6 +57,7 @@ export default function CatalogHeader({
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={false}
                     className={cn(
                       "px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
                       pathname === item.href
@@ -140,6 +142,7 @@ export default function CatalogHeader({
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={false}
                     onClick={() => setOpen(false)}
                     className={cn(
                       "block px-3 py-2 rounded-md text-sm font-medium transition-colors",

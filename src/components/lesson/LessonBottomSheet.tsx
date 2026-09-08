@@ -170,6 +170,7 @@ export function LessonBottomSheet({ materials, courseModules, lessonId, complete
                             <li key={l.id}>
                               <Link
                                 href={`/aulas/${l.id}`}
+                                prefetch={false}
                                 onClick={markNavigating}
                                 className={cn(
                                   "flex items-center gap-2.5 px-3 py-2.5 text-xs transition-colors min-h-[44px]",

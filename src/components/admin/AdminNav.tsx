@@ -115,6 +115,7 @@ function NavLinks({
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch={false}
                   onClick={onNavigate}
                   title={collapsed ? item.label : undefined}
                   className={cn(
@@ -226,6 +227,7 @@ export default function AdminNav({
           {!collapsed && (
             <Link
               href="/dashboard"
+              prefetch={false}
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors"
             >
               <ChevronRight className="w-3.5 h-3.5 shrink-0" />
@@ -273,6 +275,7 @@ export default function AdminNav({
           </div>
           <Link
             href="/dashboard"
+            prefetch={false}
             className="text-xs text-white/40 hover:text-white transition-colors whitespace-nowrap shrink-0 flex items-center gap-1"
           >
             Site <ChevronRight className="w-3 h-3" />
@@ -315,6 +318,7 @@ export default function AdminNav({
             <div className="shrink-0 border-t border-white/[0.06] p-3">
               <Link
                 href="/dashboard"
+                prefetch={false}
                 onClick={() => setDrawerOpen(false)}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors"
               >

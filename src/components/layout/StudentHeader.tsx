@@ -76,7 +76,7 @@ export default function StudentHeader({
           <div className="flex items-center h-14 gap-3">
 
             {/* Logo */}
-            <Link href="/cursos" className="flex items-center gap-2 shrink-0">
+            <Link href="/cursos" prefetch={false} className="flex items-center gap-2 shrink-0">
               <Logo size={26} />
             </Link>
 
@@ -120,6 +120,7 @@ export default function StudentHeader({
                     </div>
                     <Link
                       href="/perfil"
+                      prefetch={false}
                       onClick={() => setAvatarOpen(false)}
                       className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors"
                     >
