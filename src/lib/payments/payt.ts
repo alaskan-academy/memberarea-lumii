@@ -203,9 +203,14 @@ export function extractProductCodes(payload: PaytPayload): string[] {
 // ── Classificação de status ───────────────────────────────────────────────────
 
 const GRANT_STATUSES = new Set(["paid", "approved", "completed", "confirmed"]);
-// Apenas estornos reais (pagamento foi feito e revertido) devem revogar acesso.
-// PIX/boleto expirado ou cancelado antes do pagamento → "ignore" (nada a desfazer).
-const REVOKE_STATUSES = new Set(["refunded", "chargeback"]);
+// Estornos revogam acesso. A Payt usa "canceled" (1 L) como status final de
+// reembolso concluído de um pedido pago (sequência real: paid → refund_requested
+// → canceled), além de "refunded"/"chargeback". Incluímos as duas grafias de
+// "cancel" por segurança (contas/gateways variam). A revogação no webhook é
+// escopada só a matrículas ativas, então um "canceled" de PIX nunca-pago (sem
+// matrícula) é inofensivo — cai em "Revoke ignorado". "refund_requested" fica
+// como "ignore" (estado interino); a revogação ocorre no "canceled" final.
+const REVOKE_STATUSES = new Set(["refunded", "chargeback", "canceled", "cancelled"]);
 
 export function classifyEvent(status: string): "grant" | "revoke" | "ignore" {
   if (GRANT_STATUSES.has(status)) return "grant";

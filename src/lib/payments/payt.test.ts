@@ -164,14 +164,18 @@ describe("classifyEvent", () => {
     expect(classifyEvent("paid")).toBe("grant");
   });
 
-  it("estornos reais revogam acesso (revoke)", () => {
+  it("estornos revogam acesso (revoke)", () => {
     expect(classifyEvent("refunded")).toBe("revoke");
     expect(classifyEvent("chargeback")).toBe("revoke");
+    // A Payt manda "canceled" como status final de reembolso de pedido pago
+    expect(classifyEvent("canceled")).toBe("revoke");
+    expect(classifyEvent("cancelled")).toBe("revoke");
   });
 
   it("estados sem pagamento efetivado são ignorados (ignore)", () => {
     expect(classifyEvent("waiting_payment")).toBe("ignore");
     expect(classifyEvent("expired")).toBe("ignore");
-    expect(classifyEvent("canceled")).toBe("ignore");
+    // interino: só o "canceled" final revoga
+    expect(classifyEvent("refund_requested")).toBe("ignore");
   });
 });

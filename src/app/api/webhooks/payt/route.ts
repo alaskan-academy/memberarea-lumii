@@ -246,8 +246,10 @@ export async function POST(req: NextRequest) {
         processed++;
         console.info(`[payt-webhook] Matrícula revogada: user=${user.id} curso=${course.id} motivo=${payload.status}`);
 
-        // Email de reembolso só para estorno real (não para PIX expirado/cancelado sem pagamento)
-        const isRealRefund = ["refunded", "chargeback"].includes(payload.status);
+        // Email de reembolso só para estorno real. Este ramo só executa quando
+        // havia matrícula ativa revogada (revoked.length > 0), ou seja, houve
+        // pagamento — logo "canceled"/"cancelled" aqui é reembolso, não PIX abandonado.
+        const isRealRefund = ["refunded", "chargeback", "canceled", "cancelled"].includes(payload.status);
         if (isRealRefund) {
           const { data: profile } = await supabase
             .from("profiles")
