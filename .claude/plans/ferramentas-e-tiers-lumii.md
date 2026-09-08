@@ -198,6 +198,20 @@ Constrói sobre `teacher_students` (já existe: name, age, class_label) e `teach
 
 **Fronteira do tier = o que se faz com o dado:** grátis usa avulso/sem salvar; aluna **salva por aluno**; completo desbloqueia a **agregação e relatório do ano**.
 
+### Visibilidade das ferramentas POR CATEGORIA (regra do usuário, 2026-09-08)
+
+O tier não é o único eixo: **cada ferramenta paga pertence a uma ou mais categorias de curso**, e a aluna só a vê se tiver **curso comprado numa dessas categorias**. Ferramenta gratuita aparece para qualquer conta logada.
+
+Regra de visibilidade de uma ferramenta para a aluna X:
+- ferramenta **gratuita** → visível para todos (piso `gratis`);
+- ferramenta **paga** → visível se `completo` (membership ativa vê tudo) **OU** X tem `enrollment` ativa em um curso cuja `category_id` está entre as categorias da ferramenta.
+
+Implicações de modelo:
+- ferramenta precisa de **categorias associadas** (como `tool_categories` na Handify). Hoje as 2 ferramentas da Lumii são hardcoded em `ferramentas/page.tsx`; near-term dá pra taggear cada uma com `category_id[]` em código; longer-term, tabela `tools` + `tool_categories` gerenciável no admin (Bloco Planejamento/Ferramentas).
+- helper novo: `getUserCourseCategories(userId)` → set de `category_id` em que a aluna tem curso ativo; o hub filtra as ferramentas por (gratuita) OU (completo) OU (overlap de categoria).
+- `<LockedFeature>` linear (por tier) **não basta** para isso — o gate de ferramenta é `free || completo || categoriaEmComum`. Criar um gate específico (ex.: `hasToolAccess(tier, userCategories, tool)`), reaproveitando `getTier`/`current_tier`.
+- não muda a fundação de membership já construída — é uma camada de visibilidade acima dela.
+
 ---
 
 # PARTE C — Fluxos conectados (CTA + volta automática)
