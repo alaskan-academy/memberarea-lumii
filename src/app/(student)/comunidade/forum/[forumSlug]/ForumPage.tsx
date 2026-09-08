@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MessageSquare, Plus, X, ArrowLeft, Loader2, ImageIcon, Paperclip } from "lucide-react";
 import ForumPostCard, { type ForumPostData } from "@/components/community/ForumPostCard";
 import { createForumPost, deleteForumPost, uploadForumFile } from "@/app/(student)/comunidade/forum/actions";
-import ConfirmDialog from "@/components/ui/confirm-dialog";
+import ConfirmDialog from "@/components/common/confirm-dialog";
 
 interface Props {
   forum: { id: string; slug: string; title: string; description: string | null };

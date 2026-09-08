@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { novaSenhaAction } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
-import { PasswordInput } from "@/components/ui/password-input";
+import { PasswordInput } from "@/components/common/password-input";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {

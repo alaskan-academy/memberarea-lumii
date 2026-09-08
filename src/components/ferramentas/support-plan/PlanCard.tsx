@@ -7,7 +7,7 @@ import type { PlanoGerado } from "@/lib/ferramentas/support-plan/types";
 import { updateSupportPlan, deleteSupportPlan } from "@/lib/ferramentas/support-plan/actions";
 import PlanSummary from "./PlanSummary";
 import EditablePlanFields from "./EditablePlanFields";
-import ConfirmDialog from "@/components/ui/confirm-dialog";
+import ConfirmDialog from "@/components/common/confirm-dialog";
 
 export default function PlanCard({
   planId,

@@ -44,6 +44,13 @@ Labels de status, aria-labels e UI strings genéricas podem ser constantes no c�
 
 **Exceção deliberada:** conteúdo das Ferramentas (`lib/ferramentas/parent-scripts/content.ts`, `lib/ferramentas/support-plan/content.ts`) fica em código, não em tabela — decisão consciente para garantir revisão humana pré-publicação (sem admin editando texto sensível sem revisão). Ver `docs/CLAUDE-ferramentas.md`.
 
+## Componentes de UI — organização e card canônico
+
+- `src/components/ui/` = **primitivos** shadcn (button, card, input, label, separator). Não colocar componentes compostos aqui.
+- `src/components/common/` = **compostos reutilizáveis** entre áreas (confirm-dialog, password-input, TermsAcceptanceBanner).
+- **Cor: usar tokens `lumii-*`**, nunca hex cru em className (ex.: `bg-lumii-coral`, não `bg-[#f6614f]`). Tokens definidos em `globals.css` (`@theme`). Hex cru só em inline style ou em `.ts` que não passa pelo Tailwind (e-mail, certificado).
+- **Card canônico: classe `.lumii-card`** (`globals.css`) — é o padrão dominante (superfície branca sobre o fundo navy, com remapeamento de cor de texto que superfícies brancas exigem neste tema). Ela define só o "chrome" (fundo/borda/raio/sombra); o **padding é adicionado à parte** (ex.: `className="lumii-card p-4"`). Novos cards devem usar `.lumii-card`, não recriar `bg-white rounded-* border` na mão nem o `<Card>` do shadcn (`ui/card.tsx`, legado, poucos usos). Migração dos cards manuais existentes é incremental — não fazer swap mecânico em massa, pois padding/raio/contraste divergem caso a caso.
+
 ## Sidebar desktop — regra não-negociável
 
 **`position: fixed` — NUNCA usar `sticky` no sidebar desktop.**

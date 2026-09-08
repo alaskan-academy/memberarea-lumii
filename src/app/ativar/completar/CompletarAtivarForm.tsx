@@ -5,7 +5,7 @@ import { Cake, Phone, CreditCard } from "lucide-react";
 import { completarAtivarAction } from "../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
+import { PasswordInput } from "@/components/common/password-input";
 import { Label } from "@/components/ui/label";
 import {
   Card,
