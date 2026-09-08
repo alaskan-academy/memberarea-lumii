@@ -9,7 +9,7 @@ import {
   ChevronLeft, ChevronRight, PanelLeftClose, PanelLeftOpen,
   Home, Bell, Users, ShoppingBag, Star, Heart, Globe, Video,
   Award, Settings, HelpCircle, GraduationCap, Layers,
-  Zap, Gift, Map, Sparkles, type LucideIcon,
+  Zap, Gift, Map, Wrench, type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logoutAction } from "@/app/(auth)/actions";
@@ -28,7 +28,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 const BOTTOM_TABS = [
   { href: "/dashboard",       icon: LayoutDashboard, label: "Jornada" },
   { href: "/cursos",          icon: BookOpen,   label: "Cursos" },
-  { href: "/inspiracoes",     icon: Sparkles,   label: "Inspirações" },
+  { href: "/ferramentas",     icon: Wrench,     label: "Ferramentas" },
   { href: "/comunidade/feed", icon: Bell,       label: "Avisos" },
 ];
 
