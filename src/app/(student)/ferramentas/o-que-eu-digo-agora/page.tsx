@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { assertToolAccess } from "@/lib/ferramentas/access";
 import ParentScriptTool from "@/components/ferramentas/parent-scripts/ParentScriptTool";
 
 export const metadata: Metadata = { title: "O que eu digo agora? — Lumii" };
 
 export default async function OQueEuDigoAgoraPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  const { user, supabase } = await assertToolAccess("o-que-eu-digo-agora");
 
   const { data: favorites } = await supabase
     .from("parent_script_favorites")
