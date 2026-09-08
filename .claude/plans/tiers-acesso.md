@@ -1,3 +1,5 @@
+> ⚠️ **OBSOLETO / NÃO SEGUIR.** Este plano foi escrito para o contexto artesanato (resíduo do fork da Handify) e não corresponde ao produto da Lumii (educação p/ pais e professores). Substituído por **`ferramentas-e-tiers-lumii.md`**.
+
 # Plano: Tiers de Acesso — Motivação de Compra
 
 **Status:** pendente  
