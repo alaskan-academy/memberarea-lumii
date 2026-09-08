@@ -5,6 +5,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/lib/supabase/server";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
 import { cadastroSchema } from "@/lib/validations/auth";
+import { traduzErroAuth } from "@/lib/auth/mensagens-erro";
 
 export type AtivarResult = {
   error?: string;
@@ -153,11 +154,11 @@ export async function completarAtivarAction(
   });
 
   if (createError) {
-    const msg = createError.message.toLowerCase();
-    if (msg.includes("already registered") || msg.includes("already exists")) {
-      return { error: "Este e-mail já está cadastrado. Tente fazer login." };
-    }
-    return { error: "Erro ao criar conta. Tente novamente ou entre em contato com o suporte." };
+    return {
+      error:
+        traduzErroAuth(createError.message) ??
+        "Erro ao criar conta. Tente novamente ou entre em contato com o suporte.",
+    };
   }
 
   const userId = created?.user?.id;

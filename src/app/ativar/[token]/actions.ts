@@ -3,6 +3,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendWelcomeEmail } from "@/lib/email";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
+import { traduzErroAuth } from "@/lib/auth/mensagens-erro";
 import { z } from "zod";
 
 const ActivateSchema = z.object({
@@ -137,7 +138,11 @@ export async function activateAccount(
   });
 
   if (signUpError || !created?.user) {
-    return { error: "Erro ao criar conta. Tente novamente ou entre em contato com o suporte." };
+    return {
+      error:
+        traduzErroAuth(signUpError?.message) ??
+        "Erro ao criar conta. Tente novamente ou entre em contato com o suporte.",
+    };
   }
 
   const userId = created.user.id;

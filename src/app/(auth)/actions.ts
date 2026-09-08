@@ -11,6 +11,7 @@ import {
 import { sendWelcomeEmail } from "@/lib/email";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
 import { createServiceClient } from "@/lib/supabase/service";
+import { traduzErroAuth } from "@/lib/auth/mensagens-erro";
 
 /** Mensagem de erro curta e sem detalhes técnicos para exibir à usuária; o erro completo já foi logado no servidor. */
 function friendlyAuthError(prefix: string): string {
@@ -134,11 +135,11 @@ export async function cadastroAction(
 
     if (error) {
       console.error("[cadastro] admin.createUser error:", error.message, error.status);
-      const msg = error.message.toLowerCase();
-      if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("already been registered")) {
-        return { error: "Este e-mail já está cadastrado. Tente fazer login." };
-      }
-      return { error: "Erro ao criar conta. Tente novamente ou entre em contato com o suporte." };
+      return {
+        error:
+          traduzErroAuth(error.message) ??
+          "Erro ao criar conta. Tente novamente ou entre em contato com o suporte.",
+      };
     }
 
     userId = created?.user?.id ?? null;
@@ -153,11 +154,11 @@ export async function cadastroAction(
 
     if (error) {
       console.error("[cadastro] admin.createUser error:", error.message, error.status);
-      const msg = error.message.toLowerCase();
-      if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("already been registered")) {
-        return { error: "Este e-mail já está cadastrado. Tente fazer login." };
-      }
-      return { error: "Erro ao criar conta. Tente novamente ou entre em contato com o suporte." };
+      return {
+        error:
+          traduzErroAuth(error.message) ??
+          "Erro ao criar conta. Tente novamente ou entre em contato com o suporte.",
+      };
     }
 
     userId = created?.user?.id ?? null;
@@ -276,11 +277,12 @@ export async function novaSenhaAction(
   });
 
   if (error) {
-    const msg = error.message?.toLowerCase() ?? "";
-    if (msg.includes("same") || msg.includes("different") || msg.includes("old password")) {
-      return { error: "A nova senha não pode ser igual à senha atual. Escolha uma senha diferente." };
-    }
-    return { error: "Erro ao atualizar senha. O link pode ter expirado." };
+    // Traduz senha fraca/vazada e senha-igual antes de cair no fallback de link
+    // expirado (que antes escondia o motivo real de uma senha recusada).
+    const traduzido = traduzErroAuth(error.message);
+    if (traduzido) return { error: traduzido };
+    console.error("[nova-senha] updateUser:", error.message, error.status);
+    return { error: "Não foi possível atualizar a senha. O link pode ter expirado — solicite um novo." };
   }
 
   redirect("/cursos");
