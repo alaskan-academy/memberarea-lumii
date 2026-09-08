@@ -71,12 +71,13 @@ interface Props {
   activity: ActivityItem[];
   defaultTab?: "perfil" | "atividade";
   /** Server Components que buscam os próprios dados — ver src/components/admin/alunos/*.tsx */
+  membershipSlot: React.ReactNode;
   certificatesSlot: React.ReactNode;
   purchasesSlot: React.ReactNode;
   auditLogSlot: React.ReactNode;
 }
 
-export default function AlunaDetail({ profile, courses, activity, defaultTab = "perfil", certificatesSlot, purchasesSlot, auditLogSlot }: Props) {
+export default function AlunaDetail({ profile, courses, activity, defaultTab = "perfil", membershipSlot, certificatesSlot, purchasesSlot, auditLogSlot }: Props) {
   const initial = profile.full_name?.charAt(0)?.toUpperCase() ?? "?";
   const [activeTab, setActiveTab] = useState<"perfil" | "atividade">(defaultTab);
   const [banPending, startBanTransition] = useTransition();
@@ -459,6 +460,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
             src/components/admin/alunos/*.tsx); não precisam rodar no
             cliente por serem puramente exibição. */}
         <div className="space-y-6">
+          {membershipSlot}
           {certificatesSlot}
           {purchasesSlot}
           {auditLogSlot}

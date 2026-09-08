@@ -17,7 +17,7 @@ interface Forum { id: string; title: string; slug: string }
 interface Course {
   id: string; title: string; slug: string; description: string | null;
   price: number | null; product_codes: string[]; workload_hours: number | null;
-  course_type: "course" | "material"; is_subscription_only: boolean;
+  course_type: "course" | "material"; is_subscription_only: boolean; in_plan: boolean;
   has_certificate: boolean; published: boolean;
   category_id: string | null; forum_id: string | null;
   thumbnail_url: string | null; checkout_url: string | null; position: number;
@@ -423,6 +423,7 @@ function CourseForm({
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     if (!fd.get("is_subscription_only")) fd.set("is_subscription_only", "false");
+    if (!fd.get("in_plan")) fd.set("in_plan", "false");
     if (!fd.get("has_certificate")) fd.set("has_certificate", "false");
     if (!fd.get("published")) fd.set("published", "false");
 
@@ -458,6 +459,12 @@ function CourseForm({
       label: "Apenas assinantes",
       desc: "Requer plano ativo para acessar",
       checked: initial?.is_subscription_only ?? false,
+    },
+    {
+      name: "in_plan",
+      label: "Incluído no Lumii Completo",
+      desc: "Faz parte do plano; entra na hora para assinantes",
+      checked: initial?.in_plan ?? false,
     },
     {
       name: "has_certificate",

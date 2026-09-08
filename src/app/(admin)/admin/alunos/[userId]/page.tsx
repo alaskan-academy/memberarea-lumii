@@ -9,6 +9,7 @@ import { getCurrentAdmin } from "@/lib/auth/current-admin";
 import CertificatesSection from "@/components/admin/alunos/CertificatesSection";
 import PurchasesSection from "@/components/admin/alunos/PurchasesSection";
 import AuditLogSection from "@/components/admin/alunos/AuditLogSection";
+import MembershipSection from "@/components/admin/alunos/MembershipSection";
 
 export default async function AlunaDetailPage({
   params,
@@ -325,6 +326,7 @@ export default async function AlunaDetailPage({
           hasPushEnabled,
         }}
         courses={courseEntries}
+        membershipSlot={<MembershipSection userId={userId} />}
         certificatesSlot={<CertificatesSection userId={userId} />}
         purchasesSlot={<PurchasesSection userId={userId} />}
         auditLogSlot={<AuditLogSection userId={userId} />}

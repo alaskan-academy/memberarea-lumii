@@ -5,10 +5,12 @@ import { Star, ExternalLink, Eye, EyeOff, Check, Loader2 } from "lucide-react";
 import { saveAnnualPromo, type AnnualPromo } from "./actions";
 import AnnualPromoModal from "@/components/promo/AnnualPromoModal";
 
-interface Props { promo: AnnualPromo }
+interface Props { promo: AnnualPromo; initialCodes: string[] }
 
-export default function AnnualPromoClient({ promo: initial }: Props) {
+export default function AnnualPromoClient({ promo: initial, initialCodes }: Props) {
   const [form, setForm] = useState(initial);
+  // Códigos da assinatura (config interna) — um por linha; fora do tipo público AnnualPromo.
+  const [codesText, setCodesText] = useState(initialCodes.join("\n"));
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -22,7 +24,8 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
   function handleSave() {
     startTransition(async () => {
       const { id: _, ...data } = form;
-      const result = await saveAnnualPromo(data);
+      const codes = codesText.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+      const result = await saveAnnualPromo(data, codes);
       if (result.error) { setError(result.error); return; }
       setError(null);
       setSaved(true);
@@ -99,6 +102,24 @@ export default function AnnualPromoClient({ promo: initial }: Props) {
               </a>
             )}
           </div>
+        </div>
+
+        {/* Códigos de produto da assinatura (Payt) — config interna, não aparece à aluna */}
+        <div className="px-5 py-4 space-y-1.5">
+          <label htmlFor="annual-promo-sub-codes" className="block text-xs font-medium text-foreground/70">
+            Códigos de produto do plano na Payt <span className="text-muted-foreground">(um por linha)</span>
+          </label>
+          <textarea
+            id="annual-promo-sub-codes"
+            value={codesText}
+            onChange={(e) => { setCodesText(e.target.value); setSaved(false); }}
+            placeholder={"ABC123\nXYZ789"}
+            rows={3}
+            className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
+          />
+          <p className="text-[10px] text-muted-foreground">
+            É o <code>product_code</code> da compra que identifica o <strong>Lumii Completo</strong>. Quando chega um pagamento com um destes, a aluna vira assinante e ganha todos os cursos marcados “Incluído no Lumii Completo”. Distinto do código avulso de cada curso.
+          </p>
         </div>
 
         {/* Modal: título */}

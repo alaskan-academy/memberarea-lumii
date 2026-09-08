@@ -27,9 +27,14 @@ export default async function PlanoAnualAdminPage() {
     button_text: "Assinar agora",
   };
 
+  // subscription_product_codes é config interna do admin (não faz parte do tipo
+  // público AnnualPromo, que o modal da aluna também usa) — passa à parte.
+  const promoRow = promo as (AnnualPromo & { subscription_product_codes?: string[] }) | null;
+  const initialCodes = promoRow?.subscription_product_codes ?? [];
+
   return (
     <div className="p-6 lg:p-8">
-      <AnnualPromoClient promo={(promo as AnnualPromo) ?? defaultPromo} />
+      <AnnualPromoClient promo={promoRow ?? defaultPromo} initialCodes={initialCodes} />
     </div>
   );
 }

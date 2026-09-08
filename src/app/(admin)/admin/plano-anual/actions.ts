@@ -13,14 +13,21 @@ export type AnnualPromo = {
   button_text: string;
 };
 
-export async function saveAnnualPromo(data: Omit<AnnualPromo, "id">): Promise<{ error?: string }> {
+export async function saveAnnualPromo(
+  data: Omit<AnnualPromo, "id">,
+  subscriptionProductCodes: string[] = []
+): Promise<{ error?: string }> {
   const { supabase } = await assertAdmin();
   const { data: existing } = await supabase.from("annual_promo").select("id").single();
   if (!existing) return { error: "Configuração não encontrada. Rode a migration 021." };
 
   const { error } = await supabase
     .from("annual_promo")
-    .update({ ...data, updated_at: new Date().toISOString() })
+    .update({
+      ...data,
+      subscription_product_codes: subscriptionProductCodes,
+      updated_at: new Date().toISOString(),
+    })
     .eq("id", existing.id);
 
   if (error) return { error: error.message };
