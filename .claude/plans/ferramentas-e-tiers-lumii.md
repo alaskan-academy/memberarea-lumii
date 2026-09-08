@@ -117,13 +117,29 @@ A matrícula física é criada no **primeiro acesso** ao curso do plano, com `so
 
 Reaproveita o pipeline atual (`route.ts` → `process_pending_payment_events` → `handle_new_user`).
 
-- Nova função `sync_membership_from_payments(user_id)` (adaptada da Handify):
-  - acha a 1ª compra paga de um código em `subscription_product_codes` que **não** foi desfeita por reembolso/cancelamento posterior (subquery `refund.created_at > compra.created_at`);
-  - cria a membership com `granted_at` = **data da compra** (não a data em que descobrimos), `expires_at` = **data de renovação que a Payt manda no payload**, `source = 'payt'`;
-  - matricula em todos os cursos `in_plan` com `source='subscription'` e o carimbo da membership;
-  - **idempotente**: devolve `false` se já há membership ativa (serve também de backfill).
-- No `route.ts`: se o `product_code` do evento bate com `subscription_product_codes` → aciona o fluxo de membership; senão → matrícula avulsa por curso (como hoje).
-- Revogação (reembolso real — ver `classifyEvent`/`payment_status` já corrigido): marca `revoked_at` na membership **e** expira só as matrículas com o carimbo dela.
+### ⚠️ Assinatura ≠ compra avulsa: fonte da verdade diferente
+O postback de assinatura traz um objeto **`subscription`** no nível raiz (ao lado de `product`/`transaction`). Para a membership, **quem manda é `subscription.status`, NÃO o `status`/`event_type` do topo** — a Payt pode mandar `event_type: canceled` no topo com `subscription.status: "active"` (cancelou a cobrança de um ciclo, mas a assinatura segue viva). Usar o topo revogaria acesso de quem não devia (mesma classe do bug de setembro). Então:
+
+- **É evento de assinatura?** `product.code ∈ subscription_product_codes` **ou** existe objeto `subscription` → fluxo de membership. Senão → matrícula avulsa por curso (fluxo atual, por `classifyEvent(status, payment_status)`).
+- **Estado da membership vem de `subscription.status`:**
+  - `active` → membership ativa; `expires_at` = `subscription.next_charge_at` **+ carência** (ver abaixo).
+  - `pending` → ainda não pago (`charges = 0`) → **não concede**.
+  - `overdue` → cobrança atrasada → mantém acesso **durante a carência**, depois expira.
+  - `inactive` → encerrada → revoga (após carência).
+- Precisa adicionar o objeto `subscription` ao `PaytPayloadSchema` (7 campos; `charges` é **number**).
+
+### `sync_membership_from_payments(user_id)` (adaptada da Handify)
+- acha a compra paga de um código em `subscription_product_codes` cuja assinatura está viva;
+- cria a membership com `granted_at` = **data da compra** (`transaction.paid_at`), `expires_at` = **`subscription.next_charge_at` + carência**, `source = 'payt'`;
+- matricula em todos os cursos `in_plan` com `source='subscription'` e o carimbo da membership;
+- **idempotente**: devolve `false` se já há membership ativa (serve de backfill).
+
+### Renovação e revogação
+- Renovação: cada postback `active` de ciclo novo **empurra o `expires_at`** para o novo `next_charge_at`.
+- Revogação (`subscription.status` = `inactive`, ou `overdue` após a carência): marca `revoked_at` na membership **e** expira só as matrículas com o carimbo dela (curso avulso, outro carimbo, fica).
+
+### Parsing de data (economiza um bug)
+`next_charge_at` vem como **`YYYY-MM-DD` (sem hora)**, ao contrário de `paid_at`/`transaction.*` que vêm `YYYY-MM-DD HH:MM:SS`. Jogar direto num `timestamptz` vira meia-noite UTC = 21h do dia anterior no Brasil. **Tratar como fim do dia (23:59:59 BRT)** e somar a carência.
 
 ## A.8 — Liberação/revogação manual (admin)
 
@@ -267,4 +283,6 @@ Da experiência Handify (o usuário sinalizou querer o mesmo): a tela `/admin/al
 - **Lumii Completo = assinatura anual, chega com `product_code`** (confirmado). Renovação anual → `expires_at` na membership; ao vencer, cai para `aluna`/`gratis` e perde acesso aos cursos `in_plan`.
 - **Sem IA no MVP** — parecer e planos por banco de frases/templates + input estruturado.
 - **Timing de renovação:** amarrar CTAs e e-mails ao calendário escolar (fim de bimestre/ano), quando os relatórios do Completo valem mais.
-- **Decidido:** (a) **todos os tiers exigem cadastro** — nenhuma ferramenta pública sem login; o piso é o cadastro grátis. (b) **`expires_at` vem do payload da Payt** (data de renovação), não fixado +1 ano — ao vencer, a membership deixa de ser ativa e a aluna cai para `aluna`/`gratis`, perdendo os cursos `in_plan`.
+- **Decidido:** (a) **todos os tiers exigem cadastro** — nenhuma ferramenta pública sem login; o piso é o cadastro grátis. (b) **`expires_at` = `subscription.next_charge_at` + carência**; o estado da assinatura vem de **`subscription.status`** (não do `status` do topo). Ao encerrar/vencer sem renovar, a membership deixa de ser ativa e a aluna cai para `aluna`/`gratis`, perdendo os cursos `in_plan`.
+
+- **Payload de assinatura da Payt** (confirmado em 239 payloads reais da Handify): objeto `subscription` no raiz — `code`, `status` (`active`/`inactive`/`overdue`/`pending`), `charges` (**number**, 0 na 1ª cobrança antes de pagar), `plan_name`, `started_at` (`YYYY-MM-DD HH:MM:SS`, presente em 127/239), `periodicity` (`1 month`/`6 month`/`1 year`), `next_charge_at` (`YYYY-MM-DD` puro, 239/239). O `status` do topo e o `subscription.status` **divergem** de propósito. Definir uma **carência** (ex.: 3–5 dias) para não cortar acesso entre o vencimento e a confirmação da renovação. *(Nota: na Handify o `access_days` do curso é que calcula prazo de curso avulso; para a assinatura Lumii usamos `next_charge_at`.)*
