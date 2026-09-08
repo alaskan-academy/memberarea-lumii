@@ -60,7 +60,9 @@ export default async function AdminHomePage() {
 
   const hourBRT = (new Date().getUTCHours() - 3 + 24) % 24;
   const greeting = hourBRT < 12 ? "Bom dia" : hourBRT < 18 ? "Boa tarde" : "Boa noite";
-  const firstName = adminName?.split(" ")[0] ?? "Admin";
+  // `|| "Admin"` (não `??`): full_name pode ser string vazia "" no banco, que
+  // o nullish coalescing não pega — resultava em "Boa tarde, !" sem nome.
+  const firstName = adminName?.split(" ")[0] || "Admin";
 
   const now = new Date().toISOString();
 

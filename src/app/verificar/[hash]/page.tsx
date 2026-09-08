@@ -149,7 +149,7 @@ export default async function VerificarPage({
           <p className="text-center text-sm text-muted-foreground">
             Este certificado foi emitido pela{" "}
             <span className="font-semibold text-[#f6614f]">Lumii</span> — Plataforma de
-            Cursos de Artesanato.
+            Educação Infantil para Pais e Professores.
           </p>
         </div>
       </main>

@@ -42,7 +42,7 @@ export default async function InspiracoesPage() {
             <span className="text-[#f6614f]">Inspirações</span> Lumii
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            Receitas, fotos, dicas e destaques do universo do artesanato.
+            Fotos, vídeos, dicas e destaques da comunidade Lumii.
           </p>
           <Link
             href="/inspiracoes/salvos"
