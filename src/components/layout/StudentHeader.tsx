@@ -8,6 +8,7 @@ import { logoutAction } from "@/app/(auth)/actions";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import AnnualPromoModal, { type AnnualPromoData } from "@/components/promo/AnnualPromoModal";
 import Logo from "@/components/brand/Logo";
+import GlobalSearch from "@/components/search/GlobalSearch";
 import type { Role } from "@/types";
 
 export type NavItem = {
@@ -93,8 +94,9 @@ export default function StudentHeader({
               </button>
             )}
 
-            {/* Sino + avatar */}
-            <div className="flex items-center gap-1">
+            {/* Busca + sino + avatar */}
+            <div className="flex items-center gap-1.5">
+              <GlobalSearch />
               <NotificationBell
                 userId={userId}
                 initialNotifications={initialNotifications}
