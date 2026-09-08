@@ -4,6 +4,7 @@ import { useState, useEffect, useTransition } from 'react'
 import { Send, MessageCircle, Loader2 } from 'lucide-react'
 import { getComments, submitComment } from '@/lib/inspiracoes/actions'
 import type { InspiracaoComment } from '@/lib/inspiracoes/types'
+import AutoGrowTextarea from '@/components/ferramentas/support-plan/AutoGrowTextarea'
 
 interface Props {
   postId: string
@@ -203,13 +204,16 @@ export function ComentariosPanel({ postId, userId }: Props) {
 
       <form onSubmit={handleSubmit} className="flex gap-2">
         <label htmlFor="inspiracao-novo-comentario" className="sr-only">Escrever um comentário</label>
-        <input
+        <AutoGrowTextarea
           id="inspiracao-novo-comentario"
           value={body}
-          onChange={e => { setBody(e.target.value); setSent(false) }}
+          onChange={v => { setBody(v); setSent(false) }}
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e as unknown as React.FormEvent) } }}
           placeholder="Escreva um comentário..."
           maxLength={2000}
-          className="flex-1 text-xs px-3 py-2.5 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 transition-shadow min-h-[44px]"
+          maxHeight={160}
+          className="flex-1 text-xs bg-background"
+          style={{ minHeight: '44px' }}
         />
         <button
           type="submit"

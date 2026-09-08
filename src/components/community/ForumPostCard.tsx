@@ -8,6 +8,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { addForumComment, deleteForumComment, toggleForumLike, getForumComments } from "@/app/(student)/comunidade/forum/actions";
 import type { ForumCommentRow } from "@/app/(student)/comunidade/forum/actions";
+import AutoGrowTextarea from "@/components/ferramentas/support-plan/AutoGrowTextarea";
 
 export type ForumComment = ForumCommentRow;
 
@@ -258,11 +259,17 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
             <Avatar name="Você" size={7} />
             <div className="flex-1 flex gap-2">
               <label htmlFor="forum-comment-body" className="sr-only">Escreva sua resposta</label>
-              <textarea id="forum-comment-body" value={commentBody} onChange={(e) => setCommentBody(e.target.value)}
+              <AutoGrowTextarea
+                id="forum-comment-body"
+                value={commentBody}
+                onChange={setCommentBody}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleComment(e as unknown as React.FormEvent); } }}
                 placeholder="Escreva sua resposta… (Enter para enviar)"
-                rows={1} className="flex-1 resize-none rounded-lg border border-border px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/30 placeholder:text-muted-foreground"
-                style={{ minHeight: "44px" }} />
+                maxLength={2000}
+                maxHeight={160}
+                className="flex-1 bg-white placeholder:text-muted-foreground"
+                style={{ minHeight: "44px" }}
+              />
               <button type="submit" disabled={!commentBody.trim() || submitting}
                 aria-label="Enviar comentário"
                 className="p-2 rounded-lg bg-lumii-coral text-white disabled:opacity-40 hover:opacity-90 transition-opacity shrink-0 self-end">

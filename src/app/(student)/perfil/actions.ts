@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath } from "next/cache";
@@ -35,6 +36,14 @@ export async function getCertificateDownloadUrl(
 
 // ─── Perfil ───────────────────────────────────────────────────────────────────
 
+// Limites server-side (o maxLength do form é só UX, burlável). Alinha com o
+// schema do admin (full_name máx. 200); bio até 500. Nome e bio são exibidos a
+// outras alunas (comunidade, Inspirações), então não podem ir crus pro banco.
+const profileSchema = z.object({
+  fullName: z.string().trim().min(1, "Nome não pode ser vazio").max(200, "Nome muito longo (máximo 200 caracteres)"),
+  bio: z.string().trim().max(500, "Bio muito longa (máximo 500 caracteres)").optional().default(""),
+});
+
 export async function updateProfile(data: {
   fullName: string;
   bio: string;
@@ -45,14 +54,14 @@ export async function updateProfile(data: {
   } = await supabase.auth.getUser();
   if (!user) return { error: "Não autenticado" };
 
-  const fullName = data.fullName.trim();
-  if (!fullName) return { error: "Nome não pode ser vazio" };
+  const parsed = profileSchema.safeParse(data);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
 
   const { error } = await supabase
     .from("profiles")
     .update({
-      full_name: fullName,
-      bio: data.bio.trim() || null,
+      full_name: parsed.data.fullName,
+      bio: parsed.data.bio || null,
     })
     .eq("id", user.id);
 
