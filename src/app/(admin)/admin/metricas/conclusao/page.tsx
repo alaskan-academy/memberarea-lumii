@@ -1,4 +1,5 @@
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import Link from "next/link";
 import Image from "next/image";
 import { TrendingUp, Award, BookOpen, ArrowLeft, CheckCircle2, Clock } from "lucide-react";
@@ -10,14 +11,21 @@ export default async function TaxaConclusaoPage() {
 
   const now = new Date().toISOString();
 
-  const [{ data: enrollsAll }, { data: certs }, { data: profiles }, { data: courses }] = await Promise.all([
-    service
-      .from("enrollments")
-      .select("user_id, course_id, granted_at")
-      .or(`expires_at.is.null,expires_at.gte.${now}`),
-    service.from("certificates").select("user_id, course_id, issued_at"),
-    service.from("profiles").select("id, full_name, email, avatar_url").eq("role", "student").eq("banned", false),
-    service.from("courses").select("id, title"),
+  // Paginado (fetchAll): enrollments/certificates/profiles passam de 1.000 linhas.
+  const [enrollsAll, certs, profiles, courses] = await Promise.all([
+    fetchAll((from, to) =>
+      service
+        .from("enrollments")
+        .select("user_id, course_id, granted_at")
+        .or(`expires_at.is.null,expires_at.gte.${now}`)
+        .order("id")
+        .range(from, to)),
+    fetchAll((from, to) =>
+      service.from("certificates").select("user_id, course_id, issued_at").order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("profiles").select("id, full_name, email, avatar_url").eq("role", "student").eq("banned", false).order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("courses").select("id, title").order("id").range(from, to)),
   ]);
 
   const profileMap = new Map((profiles ?? []).map((p) => [p.id, p]));

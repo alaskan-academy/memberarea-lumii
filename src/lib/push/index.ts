@@ -1,5 +1,6 @@
 import webpush from "web-push";
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 
 let vapidConfigured = false;
 function ensureVapid() {
@@ -58,14 +59,16 @@ export async function broadcastPush(
   userIds?: string[]
 ): Promise<number> {
   const service = createServiceClient();
-  let query = service
-    .from("push_subscriptions")
-    .select("endpoint, p256dh, auth");
-  if (userIds?.length) {
-    query = query.in("user_id", userIds);
-  }
-  const { data: subs } = await query;
-  if (!subs?.length) return 0;
+  // Pagina todas as inscrições — sem isto, um broadcast atinge no máx. 1.000
+  // dispositivos (limite silencioso do Supabase) e subnotifica a base inteira.
+  const subs = await fetchAll<{ endpoint: string; p256dh: string; auth: string }>(
+    (from, to) => {
+      let q = service.from("push_subscriptions").select("endpoint, p256dh, auth");
+      if (userIds?.length) q = q.in("user_id", userIds);
+      return q.order("id").range(from, to);
+    }
+  );
+  if (!subs.length) return 0;
 
   const results = await Promise.allSettled(
     subs.map((sub) =>

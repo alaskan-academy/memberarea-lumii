@@ -1,4 +1,5 @@
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import Link from "next/link";
 import Image from "next/image";
 import { Award, ExternalLink, ArrowLeft, CheckCircle2 } from "lucide-react";
@@ -8,13 +9,19 @@ export default async function CertificadosPage() {
   await assertAdminPage();
   const service = createServiceClient();
 
-  const [{ data: certs }, { data: profiles }, { data: courses }] = await Promise.all([
-    service
-      .from("certificates")
-      .select("id, user_id, course_id, verify_hash, issued_at")
-      .order("issued_at", { ascending: false }),
-    service.from("profiles").select("id, full_name, email, avatar_url").eq("role", "student"),
-    service.from("courses").select("id, title, slug"),
+  // Paginado (fetchAll): certificates/profiles podem passar de 1.000 linhas.
+  const [certs, profiles, courses] = await Promise.all([
+    fetchAll((from, to) =>
+      service
+        .from("certificates")
+        .select("id, user_id, course_id, verify_hash, issued_at")
+        .order("issued_at", { ascending: false })
+        .order("id")
+        .range(from, to)),
+    fetchAll((from, to) =>
+      service.from("profiles").select("id, full_name, email, avatar_url").eq("role", "student").order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("courses").select("id, title, slug").order("id").range(from, to)),
   ]);
 
   const profileMap = new Map((profiles ?? []).map((p) => [p.id, p]));

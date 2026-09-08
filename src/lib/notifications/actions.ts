@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { broadcastPush } from "@/lib/push";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 
 // ── Auth helpers ──────────────────────────────────────────────────
 
@@ -182,21 +183,30 @@ export async function dispatchCampaign(campaignId: string) {
   let userIds: string[] = [];
 
   if (campaign.target === "all") {
-    const { data: profiles } = await service
-      .from("profiles")
-      .select("id")
-      .eq("role", "student")
-      .eq("banned", false);
-    userIds = (profiles ?? []).map((p) => p.id);
+    // Pagina: sem isto, uma campanha para "todas" alcança no máx. 1.000 alunas
+    const profiles = await fetchAll<{ id: string }>((from, to) =>
+      service
+        .from("profiles")
+        .select("id")
+        .eq("role", "student")
+        .eq("banned", false)
+        .order("id")
+        .range(from, to)
+    );
+    userIds = profiles.map((p) => p.id);
   } else if (campaign.target.startsWith("course:")) {
     const courseId = campaign.target.replace("course:", "");
     const now = new Date().toISOString();
-    const { data: enrollments } = await service
-      .from("enrollments")
-      .select("user_id")
-      .eq("course_id", courseId)
-      .or(`expires_at.is.null,expires_at.gte.${now}`);
-    userIds = (enrollments ?? []).map((e) => e.user_id);
+    const enrollments = await fetchAll<{ user_id: string }>((from, to) =>
+      service
+        .from("enrollments")
+        .select("user_id")
+        .eq("course_id", courseId)
+        .or(`expires_at.is.null,expires_at.gte.${now}`)
+        .order("id")
+        .range(from, to)
+    );
+    userIds = enrollments.map((e) => e.user_id);
   }
 
   if (userIds.length === 0) {

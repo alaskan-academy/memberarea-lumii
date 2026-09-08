@@ -1,4 +1,5 @@
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import { getVideos, formatDuration, formatStorage, extractPandaVideoId } from "@/lib/video/panda-api";
 import { InfoTooltip } from "../MetricTooltip";
 import { Video, Clock, HardDrive, Eye, Play, AlertCircle } from "lucide-react";
@@ -9,14 +10,19 @@ export default async function VideosMetricasPage() {
   await assertAdminPage();
   const service = createServiceClient();
 
-  const [pandaResult, { data: lessons }, { data: allProgress }] = await Promise.all([
+  const [pandaResult, lessons, allProgress] = await Promise.all([
     getVideos(200),
-    service
-      .from("lessons")
-      .select("id, title, video_panda_id, module:modules(course_id, courses(title, slug))")
-      .not("video_panda_id", "is", null),
-    // Todos os registros de progresso (completed ou não) = proxy de "visualizações"
-    service.from("lesson_progress").select("lesson_id, completed"),
+    fetchAll((from, to) =>
+      service
+        .from("lessons")
+        .select("id, title, video_panda_id, module:modules(course_id, courses(title, slug))")
+        .not("video_panda_id", "is", null)
+        .order("id")
+        .range(from, to)),
+    // Todos os registros de progresso (completed ou não) = proxy de "visualizações".
+    // Paginado: sem isto, contava só as primeiras 1.000 visualizações.
+    fetchAll((from, to) =>
+      service.from("lesson_progress").select("lesson_id, completed").order("id").range(from, to)),
   ]);
 
   const pandaConfigured = !!process.env.PANDA_VIDEO_API_KEY;

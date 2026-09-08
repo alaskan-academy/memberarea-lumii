@@ -1,4 +1,5 @@
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import { Trophy, BookOpen, Award, Activity, UserCheck, Clock } from "lucide-react";
 import { InfoTooltip } from "../MetricTooltip";
 import Image from "next/image";
@@ -35,10 +36,10 @@ export default async function AlunaRankingPage() {
     { count: totalCompleted },
     { data: alunaComProgressoData },
     { data: alunaComCertificadoData },
-    { data: paymentEvents },
-    { data: enrollsAll },
-    { data: allProfiles },
-    { data: courses },
+    paymentEvents,
+    enrollsAll,
+    allProfiles,
+    courses,
   ] = await Promise.all([
     // Rankings — agregados no Postgres (join + group by + order + limit)
     service.rpc("admin_top_students_by_lessons", { limit_n: 10 }),
@@ -55,13 +56,21 @@ export default async function AlunaRankingPage() {
     // Rankings financeiros — precisam de correspondência por e-mail entre
     // payment_events (Payt) e profiles, e fallback de preço de catálogo por
     // matrícula; mantido em JS por ora — ver nota abaixo.
-    service.from("payment_events")
-      .select("buyer_email, buyer_name, amount_paid")
-      .eq("processed", true)
-      .not("amount_paid", "is", null),
-    service.from("enrollments").select("user_id, course_id, granted_at, source"),
-    service.from("profiles").select("id, full_name, email, avatar_url, created_at").eq("role", "student").eq("banned", false),
-    service.from("courses").select("id, title, price"),
+    // Paginado (fetchAll): sem isto, gasto/compras e "Novatas" saíam sobre só
+    // as primeiras 1.000 linhas de cada tabela.
+    fetchAll((from, to) =>
+      service.from("payment_events")
+        .select("buyer_email, buyer_name, amount_paid")
+        .eq("processed", true)
+        .not("amount_paid", "is", null)
+        .order("id")
+        .range(from, to)),
+    fetchAll((from, to) =>
+      service.from("enrollments").select("user_id, course_id, granted_at, source").order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("profiles").select("id, full_name, email, avatar_url, created_at").eq("role", "student").eq("banned", false).order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("courses").select("id, title, price").order("id").range(from, to)),
   ]);
 
   const topByLessons = (topByLessonsRpc ?? []) as LessonRankRow[];

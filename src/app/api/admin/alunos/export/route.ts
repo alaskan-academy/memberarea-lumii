@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 
 export async function GET() {
   const supabase = await createClient();
@@ -17,24 +18,30 @@ export async function GET() {
   const service = createServiceClient();
 
   // ── 1. Alunas ──────────────────────────────────────────────
-  const { data: profiles } = await service
-    .from("profiles")
-    .select("id, full_name, email, phone, date_of_birth, created_at, banned")
-    .neq("role", "admin")
-    .order("created_at", { ascending: false });
+  // Paginado: sem isto o CSV cobre no máx. 1.000 alunas (limite silencioso do Supabase).
+  // Ordena por created_at desc com id como desempate estável entre páginas.
+  const profiles = await fetchAll<{
+    id: string; full_name: string | null; email: string | null;
+    phone: string | null; date_of_birth: string | null;
+    created_at: string; banned: boolean | null;
+  }>((from, to) =>
+    service
+      .from("profiles")
+      .select("id, full_name, email, phone, date_of_birth, created_at, banned")
+      .neq("role", "admin")
+      .order("created_at", { ascending: false })
+      .order("id")
+      .range(from, to)
+  );
 
   if (!profiles?.length) {
     return csvResponse("Nome,E-mail,Telefone,Nascimento,Qtd. Cursos,Cursos,Fonte,Data da 1ª Matrícula,Aulas Concluídas,Progresso Médio (%),Certificados,Última Atividade,Data de Cadastro,Status\n");
   }
 
-  const profileIds = profiles.map((p) => p.id);
-
   // ── 2. Matrículas + cursos ──────────────────────────────────
-  const { data: enrollments } = await service
-    .from("enrollments")
-    .select("user_id, granted_at, course_id, source, course:courses(id, title, price)")
-    .in("user_id", profileIds);
-
+  // Paginado e sem .in(profileIds): a lista de ids poderia passar de 1.000 e
+  // estourar a URL do PostgREST. Traz todas as matrículas (são todas de alunas)
+  // e o agrupamento por aluna é feito em memória abaixo.
   type EnrollRow = {
     user_id: string;
     granted_at: string;
@@ -42,21 +49,25 @@ export async function GET() {
     source: string;
     course: { id: string; title: string; price: number | null } | null;
   };
-  const enrollRows = (enrollments ?? []) as unknown as EnrollRow[];
+  const enrollRows = (await fetchAll((from, to) =>
+    service
+      .from("enrollments")
+      .select("user_id, granted_at, course_id, source, course:courses(id, title, price)")
+      .order("id")
+      .range(from, to)
+  )) as unknown as EnrollRow[];
 
   // ── 3. Aulas — total por curso ──────────────────────────────
-  const courseIds = [...new Set(enrollRows.map((e) => e.course_id).filter(Boolean))];
-
-  const { data: lessons } = courseIds.length
-    ? await service
-        .from("lessons")
-        .select("id, module:modules!inner(course_id)")
-        .eq("archived", false)
-        .in("modules.course_id", courseIds)
-    : { data: [] };
-
+  // Paginado: todas as aulas não-arquivadas (agrupamento por curso em memória).
   type LessonRow = { id: string; module: { course_id: string } };
-  const lessonRows = (lessons ?? []) as unknown as LessonRow[];
+  const lessonRows = (await fetchAll((from, to) =>
+    service
+      .from("lessons")
+      .select("id, module:modules!inner(course_id)")
+      .eq("archived", false)
+      .order("id")
+      .range(from, to)
+  )) as unknown as LessonRow[];
 
   const totalByCourse: Record<string, number> = {};
   const lessonToCourse: Record<string, string> = {};
@@ -69,17 +80,17 @@ export async function GET() {
   }
 
   // ── 4. Progresso das alunas ─────────────────────────────────
-  const allLessonIds = lessonRows.map((l) => l.id);
-  const { data: progress } = allLessonIds.length
-    ? await service
-        .from("lesson_progress")
-        .select("user_id, lesson_id, completed, updated_at")
-        .in("user_id", profileIds)
-        .in("lesson_id", allLessonIds)
-    : { data: [] };
-
+  // Paginado (lesson_progress é a maior tabela) e filtrado em memória pelas
+  // aulas não-arquivadas — evita .in() gigante de user_id/lesson_id.
+  const lessonIdSet = new Set(lessonRows.map((l) => l.id));
   type ProgressRow = { user_id: string; lesson_id: string; completed: boolean; updated_at: string };
-  const progressRows = (progress ?? []) as unknown as ProgressRow[];
+  const progressRows = (await fetchAll<ProgressRow>((from, to) =>
+    service
+      .from("lesson_progress")
+      .select("user_id, lesson_id, completed, updated_at")
+      .order("id")
+      .range(from, to)
+  )).filter((p) => lessonIdSet.has(p.lesson_id));
 
   // Agrupa progresso por usuário
   const completedByUser: Record<string, Set<string>> = {};
@@ -95,13 +106,12 @@ export async function GET() {
   }
 
   // ── 5. Certificados ─────────────────────────────────────────
-  const { data: certs } = await service
-    .from("certificates")
-    .select("user_id")
-    .in("user_id", profileIds);
+  const certs = await fetchAll<{ user_id: string }>((from, to) =>
+    service.from("certificates").select("user_id").order("id").range(from, to)
+  );
 
   const certCountByUser: Record<string, number> = {};
-  for (const c of certs ?? []) {
+  for (const c of certs) {
     certCountByUser[c.user_id] = (certCountByUser[c.user_id] ?? 0) + 1;
   }
 

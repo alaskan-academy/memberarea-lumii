@@ -1,4 +1,5 @@
 import { createServiceClient } from "@/lib/supabase/service";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import { Ghost, Zap, Target, Star, Clock, TrendingDown, Users, Award } from "lucide-react";
 import { InfoTooltip } from "../MetricTooltip";
 import { StudentMiniModal, type StudentBasic } from "@/components/admin/metrics/StudentMiniModal";
@@ -16,27 +17,32 @@ export default async function FunilPage() {
   const now = new Date().toISOString();
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-  const [
-    { data: enrollments },
-    { data: allProgress },
-    { data: certs },
-    { data: courses },
-    { data: lessons },
-    { data: profiles },
-  ] = await Promise.all([
-    service
-      .from("enrollments")
-      .select("user_id, course_id, granted_at")
-      .or(`expires_at.is.null,expires_at.gte.${now}`),
-    service.from("lesson_progress").select("user_id, lesson_id, completed, updated_at"),
-    service.from("certificates").select("user_id, course_id, issued_at"),
-    service.from("courses").select("id, title").eq("published", true),
-    service.from("lessons").select("id, title, module:modules(course_id)"),
-    service
-      .from("profiles")
-      .select("id, full_name, email, avatar_url")
-      .eq("role", "student")
-      .eq("banned", false),
+  // Tudo paginado (fetchAll): lesson_progress e enrollments passam de 1.000
+  // linhas e o funil inteiro era calculado sobre só as primeiras mil.
+  const [enrollments, allProgress, certs, courses, lessons, profiles] = await Promise.all([
+    fetchAll((from, to) =>
+      service
+        .from("enrollments")
+        .select("user_id, course_id, granted_at")
+        .or(`expires_at.is.null,expires_at.gte.${now}`)
+        .order("id")
+        .range(from, to)),
+    fetchAll((from, to) =>
+      service.from("lesson_progress").select("user_id, lesson_id, completed, updated_at").order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("certificates").select("user_id, course_id, issued_at").order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("courses").select("id, title").eq("published", true).order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service.from("lessons").select("id, title, module:modules(course_id)").order("id").range(from, to)),
+    fetchAll((from, to) =>
+      service
+        .from("profiles")
+        .select("id, full_name, email, avatar_url")
+        .eq("role", "student")
+        .eq("banned", false)
+        .order("id")
+        .range(from, to)),
   ]);
 
   // ── Mapa: lessonId → courseId + title ────────────────────────────
