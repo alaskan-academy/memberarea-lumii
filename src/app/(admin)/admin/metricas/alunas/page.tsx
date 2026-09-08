@@ -267,7 +267,7 @@ export default async function AlunaRankingPage() {
       {/* Novatas */}
       <div className="lumii-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
-          <UserCheck className="w-4 h-4 text-[#71c69a]" />
+          <UserCheck className="w-4 h-4 text-lumii-green" />
           Novatas recentes
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">

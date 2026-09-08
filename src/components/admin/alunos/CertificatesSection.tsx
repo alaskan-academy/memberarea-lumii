@@ -28,7 +28,7 @@ export default async function CertificatesSection({ userId }: { userId: string }
   return (
     <section className="lumii-card overflow-hidden">
       <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
-        <Award className="w-4 h-4 text-[#eebc3e]" />
+        <Award className="w-4 h-4 text-lumii-yellow" />
         <h2 className="font-semibold">
           Certificados{" "}
           <span className="text-muted-foreground font-normal text-sm">
@@ -56,7 +56,7 @@ export default async function CertificatesSection({ userId }: { userId: string }
                 href={`/verificar/${c.verify_hash}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#f6614f] hover:text-[#dd5747]"
+                className="text-lumii-coral hover:text-lumii-coral-hover"
               >
                 <ExternalLink className="w-4 h-4" />
               </Link>

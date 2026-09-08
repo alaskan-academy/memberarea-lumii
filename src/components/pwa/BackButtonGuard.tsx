@@ -60,7 +60,7 @@ export default function BackButtonGuard() {
       aria-live="polite"
       className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none"
     >
-      <div className="bg-[#0F0F0F]/90 backdrop-blur-sm text-white text-sm font-medium px-5 py-3 rounded-full shadow-lg whitespace-nowrap animate-in fade-in slide-in-from-bottom-2 duration-200">
+      <div className="bg-lumii-black/90 backdrop-blur-sm text-white text-sm font-medium px-5 py-3 rounded-full shadow-lg whitespace-nowrap animate-in fade-in slide-in-from-bottom-2 duration-200">
         Pressione novamente para sair
       </div>
     </div>

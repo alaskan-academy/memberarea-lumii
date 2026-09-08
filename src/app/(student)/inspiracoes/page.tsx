@@ -35,18 +35,18 @@ export default async function InspiracoesPage() {
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
-          <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-3">
+          <p className="text-sm font-medium text-lumii-coral uppercase tracking-wide mb-3">
             Comunidade
           </p>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#0F0F0F]">
-            <span className="text-[#f6614f]">Inspirações</span> Lumii
+          <h1 className="text-3xl sm:text-4xl font-black text-lumii-black">
+            <span className="text-lumii-coral">Inspirações</span> Lumii
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Fotos, vídeos, dicas e destaques da comunidade Lumii.
           </p>
           <Link
             href="/inspiracoes/salvos"
-            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-[#f6614f] border border-[#f6614f]/30 rounded-xl hover:bg-[#f6614f]/5 transition-colors"
+            className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-lumii-coral border border-lumii-coral/30 rounded-xl hover:bg-lumii-coral/5 transition-colors"
           >
             <Bookmark className="w-4 h-4" />
             Ver salvos

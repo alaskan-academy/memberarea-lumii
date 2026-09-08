@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, User, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -54,7 +54,7 @@ function Carrossel({ images }: { images: { url: string; alt?: string }[] }) {
                 onClick={() => setIdx(i)}
                 className={cn(
                   'w-1.5 h-1.5 rounded-full transition-colors',
-                  i === idx ? 'bg-[#f6614f]' : 'bg-foreground/20'
+                  i === idx ? 'bg-lumii-coral' : 'bg-foreground/20'
                 )}
                 aria-label={`Imagem ${i + 1}`}
               />
@@ -161,15 +161,15 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                 href={post.video_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-[#f6614f] hover:underline"
+                className="inline-flex items-center gap-2 text-sm text-lumii-coral hover:underline"
               >
                 <ExternalLink className="w-4 h-4" />
                 Abrir vídeo
               </a>
             )}
 
-            {/* RECEITA */}
-            {post.type === 'receita' && post.recipe_data && (
+            {/* ATIVIDADE */}
+            {post.type === 'atividade' && post.recipe_data && (
               <div className="space-y-4">
                 {post.media[0] && (
                   <div className="relative w-full rounded-xl bg-muted/30" style={{ height: 400 }}>
@@ -184,73 +184,66 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                 )}
 
                 {/* Meta */}
-                {(post.recipe_data.tempo || post.recipe_data.temperatura || post.recipe_data.nivel) && (
+                {(post.recipe_data.duracao || post.recipe_data.faixa_etaria) && (
                   <div className="flex flex-wrap gap-4 bg-muted/50 rounded-xl p-3">
-                    {post.recipe_data.tempo && (
+                    {post.recipe_data.duracao && (
                       <div className="text-xs">
-                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Tempo</p>
-                        <p className="font-semibold mt-0.5">{post.recipe_data.tempo}</p>
+                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Duração</p>
+                        <p className="font-semibold mt-0.5">{post.recipe_data.duracao}</p>
                       </div>
                     )}
-                    {post.recipe_data.temperatura && (
+                    {post.recipe_data.faixa_etaria && (
                       <div className="text-xs">
-                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Temperatura</p>
-                        <p className="font-semibold mt-0.5">{post.recipe_data.temperatura}</p>
-                      </div>
-                    )}
-                    {post.recipe_data.nivel && (
-                      <div className="text-xs">
-                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Nível</p>
-                        <p className="font-semibold mt-0.5">{post.recipe_data.nivel}</p>
+                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Faixa etária</p>
+                        <p className="font-semibold mt-0.5">{post.recipe_data.faixa_etaria}</p>
                       </div>
                     )}
                   </div>
                 )}
 
-                {/* Paleta de cores */}
-                {post.recipe_data.paleta_cores && post.recipe_data.paleta_cores.length > 0 && (
+                {/* Materiais */}
+                {post.recipe_data.materiais && post.recipe_data.materiais.length > 0 && (
                   <div>
-                    <p className="text-xs font-semibold mb-2">Paleta de cores</p>
-                    <div className="flex gap-2 flex-wrap">
-                      {post.recipe_data.paleta_cores.map((hex, i) => (
-                        <div key={i} className="flex flex-col items-center gap-1">
-                          <div
-                            className="w-9 h-9 rounded-lg border border-border/60 shadow-sm"
-                            style={{ background: hex }}
-                          />
-                          <span className="text-[9px] text-muted-foreground font-mono">{hex}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Ingredientes */}
-                {post.recipe_data.ingredientes && post.recipe_data.ingredientes.length > 0 && (
-                  <div>
-                    <p className="text-xs font-semibold mb-2">Ingredientes</p>
+                    <p className="text-xs font-semibold mb-2">Materiais</p>
                     <ul className="space-y-1">
-                      {post.recipe_data.ingredientes.map((ing, i) => (
+                      {post.recipe_data.materiais.map((mat, i) => (
                         <li
                           key={i}
                           className="flex justify-between items-center text-xs text-foreground/80 py-1.5 border-b border-border/30 last:border-0"
                         >
-                          <span>{ing.item}</span>
-                          <span className="font-semibold text-foreground ml-4 shrink-0">{ing.quantidade}</span>
+                          <span>{mat.item}</span>
+                          {mat.quantidade && (
+                            <span className="font-semibold text-foreground ml-4 shrink-0">{mat.quantidade}</span>
+                          )}
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {/* Passos */}
-                {post.recipe_data.passos && post.recipe_data.passos.length > 0 && (
+                {/* Objetivos */}
+                {post.recipe_data.objetivos && post.recipe_data.objetivos.length > 0 && (
                   <div>
-                    <p className="text-xs font-semibold mb-2">Modo de preparo</p>
+                    <p className="text-xs font-semibold mb-2">Objetivos</p>
+                    <ul className="space-y-1.5">
+                      {post.recipe_data.objetivos.map((obj, i) => (
+                        <li key={i} className="flex gap-2 text-xs text-foreground/80 leading-relaxed">
+                          <span className="text-lumii-green font-bold shrink-0">•</span>
+                          {obj}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Passo a passo */}
+                {post.recipe_data.passo_a_passo && post.recipe_data.passo_a_passo.length > 0 && (
+                  <div>
+                    <p className="text-xs font-semibold mb-2">Passo a passo</p>
                     <ol className="space-y-2.5">
-                      {post.recipe_data.passos.map((passo, i) => (
+                      {post.recipe_data.passo_a_passo.map((passo, i) => (
                         <li key={i} className="flex gap-3 text-xs text-foreground/80 leading-relaxed">
-                          <span className="shrink-0 w-5 h-5 rounded-full bg-[#f6614f]/10 text-[#f6614f] font-bold flex items-center justify-center text-[10px]">
+                          <span className="shrink-0 w-5 h-5 rounded-full bg-lumii-coral/10 text-lumii-coral font-bold flex items-center justify-center text-[10px]">
                             {i + 1}
                           </span>
                           {passo}
@@ -262,27 +255,9 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
 
                 {/* Dicas */}
                 {post.recipe_data.dicas && (
-                  <div className="bg-[#71c69a]/10 rounded-xl p-3 border border-[#71c69a]/20">
+                  <div className="bg-lumii-green/10 rounded-xl p-3 border border-lumii-green/20">
                     <p className="text-xs font-semibold text-[#2a9d5a] mb-1">💡 Dicas</p>
                     <p className="text-xs text-foreground/75 leading-relaxed">{post.recipe_data.dicas}</p>
-                  </div>
-                )}
-
-                {/* Custo / Preço */}
-                {(post.recipe_data.custo_medio || post.recipe_data.preco_venda) && (
-                  <div className="flex gap-6">
-                    {post.recipe_data.custo_medio && (
-                      <div className="text-xs">
-                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Custo médio</p>
-                        <p className="font-bold mt-0.5">{post.recipe_data.custo_medio}</p>
-                      </div>
-                    )}
-                    {post.recipe_data.preco_venda && (
-                      <div className="text-xs">
-                        <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Preço de venda</p>
-                        <p className="font-bold mt-0.5 text-[#f6614f]">{post.recipe_data.preco_venda}</p>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
@@ -323,12 +298,12 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                         alt={post.featured_student.full_name ?? ''}
                         width={80}
                         height={80}
-                        className="w-20 h-20 rounded-full object-cover border-2 border-[#f6614f]/30"
+                        className="w-20 h-20 rounded-full object-cover border-2 border-lumii-coral/30"
                         unoptimized
                       />
                     ) : (
-                      <div className="w-20 h-20 rounded-full bg-[#f6614f]/10 flex items-center justify-center">
-                        <User className="w-10 h-10 text-[#f6614f]/40" />
+                      <div className="w-20 h-20 rounded-full bg-lumii-coral/10 flex items-center justify-center">
+                        <User className="w-10 h-10 text-lumii-coral/40" />
                       </div>
                     )}
                     <div>
@@ -354,7 +329,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
             )}
 
             {/* Body text para tipos que não o tratam acima */}
-            {!['dica', 'receita', 'destaque'].includes(post.type) && post.body && (
+            {!['dica', 'atividade', 'destaque'].includes(post.type) && post.body && (
               <p className="text-sm text-foreground/80 leading-relaxed">{post.body}</p>
             )}
 
@@ -364,7 +339,7 @@ export function InspiracaoModal({ post, userId, onClose }: Props) {
                 {post.tags.map(tag => (
                   <span
                     key={tag}
-                    className="text-xs px-2 py-0.5 rounded-full bg-[#f6614f]/8 text-[#f6614f] border border-[#f6614f]/20 font-medium"
+                    className="text-xs px-2 py-0.5 rounded-full bg-lumii-coral/8 text-lumii-coral border border-lumii-coral/20 font-medium"
                   >
                     #{tag}
                   </span>

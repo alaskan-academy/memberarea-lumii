@@ -54,7 +54,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
             placeholder="Buscar curso..."
-            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 transition-shadow"
+            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 transition-shadow"
           />
         </div>
         {categories.length > 0 && (
@@ -65,14 +65,14 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
             className={cn(
               "shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-sm font-medium transition-colors",
               filtersOpen || activeCategory
-                ? "border-[#f6614f] text-[#f6614f] bg-[#f6614f]/5"
-                : "border-border text-foreground/60 hover:border-[#f6614f]/50 hover:text-[#f6614f]"
+                ? "border-lumii-coral text-lumii-coral bg-lumii-coral/5"
+                : "border-border text-foreground/60 hover:border-lumii-coral/50 hover:text-lumii-coral"
             )}
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span className="hidden sm:inline text-xs">Categoria</span>
             {activeCategory && (
-              <span className="w-4 h-4 rounded-full bg-[#f6614f] text-white text-[10px] font-bold flex items-center justify-center leading-none">
+              <span className="w-4 h-4 rounded-full bg-lumii-coral text-white text-[10px] font-bold flex items-center justify-center leading-none">
                 1
               </span>
             )}
@@ -92,8 +92,8 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
               className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                 !activeCategory
-                  ? "bg-[#f6614f] text-white shadow-sm"
-                  : "bg-muted/60 text-foreground/70 hover:bg-[#f6614f]/10 hover:text-[#f6614f]"
+                  ? "bg-lumii-coral text-white shadow-sm"
+                  : "bg-muted/60 text-foreground/70 hover:bg-lumii-coral/10 hover:text-lumii-coral"
               )}
             >
               Todos
@@ -105,8 +105,8 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
                 className={cn(
                   "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                   activeCategory === cat.slug
-                    ? "bg-[#f6614f] text-white shadow-sm"
-                    : "bg-muted/60 text-foreground/70 hover:bg-[#f6614f]/10 hover:text-[#f6614f]"
+                    ? "bg-lumii-coral text-white shadow-sm"
+                    : "bg-muted/60 text-foreground/70 hover:bg-lumii-coral/10 hover:text-lumii-coral"
                 )}
               >
                 {cat.name}
@@ -132,7 +132,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
     const gridItems = tipo === "curso" ? exploreCourses : exploreMaterials;
     const gridTitle = tipo === "curso" ? "Todos os Cursos" : "Todos os Materiais Didáticos";
     const gridIcon = tipo === "curso"
-      ? <Play className="w-5 h-5 text-[#f6614f]" />
+      ? <Play className="w-5 h-5 text-lumii-coral" />
       : <BookOpen className="w-5 h-5 text-amber-600" />;
 
     return (
@@ -150,7 +150,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
 
         {/* Cabeçalho da grade */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-7 rounded-full bg-[#f6614f]" aria-hidden />
+          <div className="w-1 h-7 rounded-full bg-lumii-coral" aria-hidden />
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
             {gridIcon}
             {gridTitle}
@@ -197,7 +197,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
       {/* Meus cursos */}
       <HorizontalRow
         title="Meus cursos"
-        icon={<CheckCircle className="w-4 h-4 text-[#f6614f]" />}
+        icon={<CheckCircle className="w-4 h-4 text-lumii-coral" />}
         courses={enrolledCourses}
         onSelect={setSelected}
       />
@@ -218,7 +218,7 @@ export default function CursosGrid({ courses, categories, isLoggedIn, headerBann
       {/* Cursos — seção com destaque */}
       <HorizontalRow
         title="Outros Cursos"
-        icon={<Play className="w-4 h-4 text-[#f6614f]" />}
+        icon={<Play className="w-4 h-4 text-lumii-coral" />}
         courses={exploreCourses}
         onSelect={setSelected}
         featured
@@ -335,7 +335,7 @@ function HorizontalRow({
   const header = (
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-3">
-        {featured && <div className="w-1 h-6 rounded-full bg-[#f6614f]" aria-hidden />}
+        {featured && <div className="w-1 h-6 rounded-full bg-lumii-coral" aria-hidden />}
         <div>
           <h2 className={cn(
             "flex items-center gap-2",
@@ -358,7 +358,7 @@ function HorizontalRow({
         {verMaisHref && (
           <Link
             href={verMaisHref}
-            className="flex items-center gap-0.5 text-xs font-medium text-[#f6614f] hover:underline shrink-0"
+            className="flex items-center gap-0.5 text-xs font-medium text-lumii-coral hover:underline shrink-0"
           >
             Ver mais
             <ChevronRight className="w-3 h-3" />
@@ -367,14 +367,14 @@ function HorizontalRow({
         <div className="hidden sm:flex gap-1">
           <button
             onClick={() => scroll("left")}
-            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
+            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-lumii-coral hover:text-lumii-coral transition-colors"
             aria-label="Rolar para esquerda"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => scroll("right")}
-            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
+            className="w-8 h-8 rounded-full border border-border flex items-center justify-center hover:border-lumii-coral hover:text-lumii-coral transition-colors"
             aria-label="Rolar para direita"
           >
             <ChevronRight className="w-4 h-4" />
@@ -429,11 +429,11 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
       : null
     : null;
 
-  const cardClassName = "block group lumii-card overflow-hidden text-left w-full hover:shadow-md transition-shadow duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]";
+  const cardClassName = "block group lumii-card overflow-hidden text-left w-full hover:shadow-md transition-shadow duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-lumii-coral";
 
   const cardContent = (<>
       {/* Thumbnail */}
-      <div className="aspect-video relative overflow-hidden bg-[#f6614f]/10">
+      <div className="aspect-video relative overflow-hidden bg-lumii-coral/10">
         {course.thumbnail_url ? (
           <Image
             src={course.thumbnail_url}
@@ -455,8 +455,8 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
             {isLocked
-              ? <Lock className="w-4 h-4 text-[#f6614f]" />
-              : <Play className="w-4 h-4 text-[#f6614f] fill-[#f6614f] ml-0.5" />
+              ? <Lock className="w-4 h-4 text-lumii-coral" />
+              : <Play className="w-4 h-4 text-lumii-coral fill-lumii-coral ml-0.5" />
             }
           </div>
         </div>
@@ -470,12 +470,12 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
 
         {/* Badge status */}
         {course.isEnrolled ? (
-          <span className="absolute top-1.5 left-1.5 bg-[#f6614f] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
+          <span className="absolute top-1.5 left-1.5 bg-lumii-coral text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
             <CheckCircle className="w-2.5 h-2.5" />
             {isComplete ? "Concluído" : "Matriculada"}
           </span>
         ) : course.hasPreview ? (
-          <span className="absolute top-1.5 left-1.5 bg-[#71c69a] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+          <span className="absolute top-1.5 left-1.5 bg-lumii-green text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
             Prévia grátis
           </span>
         ) : null}
@@ -483,7 +483,7 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
         {/* Badge tipo */}
         <span className={cn(
           "absolute bottom-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-full",
-          isMaterial ? "bg-[#eebc3e] text-[#0F0F0F]" : "bg-white/90 text-[#f6614f]"
+          isMaterial ? "bg-lumii-yellow text-lumii-black" : "bg-white/90 text-lumii-coral"
         )}>
           {isMaterial ? "Material" : "Curso"}
         </span>
@@ -494,11 +494,11 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
         {/* Topo: categoria + título — ocupa espaço disponível, nunca transborda */}
         <div className="flex-1 min-h-0 overflow-hidden">
           {course.categoryName && (
-            <p className="text-[10px] font-medium text-[#f6614f] uppercase tracking-wide line-clamp-1 mb-1">
+            <p className="text-[10px] font-medium text-lumii-coral uppercase tracking-wide line-clamp-1 mb-1">
               {course.categoryName}
             </p>
           )}
-          <h3 className="font-bold text-sm leading-snug line-clamp-2 group-hover:text-[#f6614f] transition-colors">
+          <h3 className="font-bold text-sm leading-snug line-clamp-2 group-hover:text-lumii-coral transition-colors">
             {course.title}
           </h3>
         </div>
@@ -531,7 +531,7 @@ function CourseCard({ course, onClick }: { course: CatalogCourse; onClick: () =>
               <Clock className="w-3 h-3" />
               {course.workload_hours}h
             </span>
-            <span className="font-black text-sm text-[#0F0F0F]">
+            <span className="font-black text-sm text-lumii-black">
               {course.priceFormatted}
             </span>
           </div>
@@ -614,13 +614,13 @@ function CourseModal({
         <div className="flex items-center justify-between px-6 pt-5 pb-3">
           <div className="flex items-center gap-2">
             {course.categoryName && (
-              <span className="text-xs font-medium text-[#f6614f] uppercase tracking-wide">
+              <span className="text-xs font-medium text-lumii-coral uppercase tracking-wide">
                 {course.categoryName}
               </span>
             )}
             <span className={cn(
               "text-[10px] font-bold px-2 py-0.5 rounded-full",
-              isMaterial ? "bg-[#eebc3e] text-[#0F0F0F]" : "bg-[#f6614f]/15 text-[#f6614f]"
+              isMaterial ? "bg-lumii-yellow text-lumii-black" : "bg-lumii-coral/15 text-lumii-coral"
             )}>
               {isMaterial ? "Material Didático" : "Curso"}
             </span>
@@ -671,7 +671,7 @@ function CourseModal({
               {course.totalLessons} aulas
             </span>
             {course.hasPreview && (
-              <span className="flex items-center gap-1.5 text-[#71c69a] font-medium">
+              <span className="flex items-center gap-1.5 text-lumii-green font-medium">
                 <Play className="w-4 h-4" />
                 Prévia grátis disponível
               </span>
@@ -704,12 +704,12 @@ function CourseModal({
                           <div key={lesson.id} className="flex items-center justify-between px-3 py-2 text-xs">
                             <span className="flex items-center gap-2 text-muted-foreground min-w-0">
                               {lesson.is_preview
-                                ? <Play className="w-3 h-3 text-[#71c69a] shrink-0" />
+                                ? <Play className="w-3 h-3 text-lumii-green shrink-0" />
                                 : <Lock className="w-3 h-3 shrink-0" />
                               }
                               <span className="truncate">{lesson.title}</span>
                               {lesson.is_preview && (
-                                <span className="text-[#71c69a] font-medium shrink-0">Prévia</span>
+                                <span className="text-lumii-green font-medium shrink-0">Prévia</span>
                               )}
                             </span>
                             {lesson.duration_seconds > 0 && (
@@ -752,7 +752,7 @@ function CourseModal({
                   onClick={onClose}
                   className={cn(
                     "w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors",
-                    isComplete ? "bg-[#71c69a] hover:bg-[#5bb577]" : "bg-[#f6614f] hover:bg-[#dd5747]"
+                    isComplete ? "bg-lumii-green hover:bg-[#5bb577]" : "bg-lumii-coral hover:bg-lumii-coral-hover"
                   )}
                 >
                   {isComplete
@@ -766,7 +766,7 @@ function CourseModal({
             ) : (
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-2xl font-black text-[#0F0F0F]">{course.priceFormatted}</p>
+                  <p className="text-2xl font-black text-lumii-black">{course.priceFormatted}</p>
                   {!isLoggedIn && (
                     <p className="text-xs text-muted-foreground mt-0.5">Precisa de uma conta para comprar</p>
                   )}
@@ -776,7 +776,7 @@ function CourseModal({
                     <Link
                       href="/cadastro"
                       onClick={onClose}
-                      className="text-sm font-medium text-[#f6614f] hover:underline px-3 py-2 text-center"
+                      className="text-sm font-medium text-lumii-coral hover:underline px-3 py-2 text-center"
                     >
                       Criar conta
                     </Link>
@@ -785,7 +785,7 @@ function CourseModal({
                     href={ctaHref}
                     target={course.checkout_url ? "_blank" : undefined}
                     rel={course.checkout_url ? "noopener noreferrer" : undefined}
-                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] transition-colors"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors"
                   >
                     Comprar agora
                   </a>

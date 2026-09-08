@@ -109,6 +109,10 @@
   --color-lumii-black:   #0F0F0F;
   --color-lumii-gray:    #2D2D2D;
   --color-lumii-muted:   #F5F5F0;
+  /* Shades de estado (hover/active/success-escuro) — usados por botões/links */
+  --color-lumii-coral-hover:  #dd5747;
+  --color-lumii-coral-active: #c54e3f;
+  --color-lumii-green-dark:   #3d9e5a;
 
   --font-sans:    'Poppins', 'Poppins Fallback', Arial, Helvetica, sans-serif;
   --font-mono:    'Geist Mono', 'Geist Mono Fallback', monospace;

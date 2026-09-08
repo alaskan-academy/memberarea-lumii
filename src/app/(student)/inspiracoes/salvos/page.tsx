@@ -23,8 +23,8 @@ export default async function InspiracaoSalvosPage() {
         >
           <ArrowLeft className="w-4 h-4" />
         </Link>
-        <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
-          <Bookmark className="w-5 h-5 text-[#f6614f]" />
+        <div className="w-9 h-9 rounded-xl bg-lumii-coral/10 flex items-center justify-center shrink-0">
+          <Bookmark className="w-5 h-5 text-lumii-coral" />
         </div>
         <div>
           <h1 className="font-black text-xl text-foreground">Salvos</h1>

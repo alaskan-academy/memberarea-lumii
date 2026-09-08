@@ -56,8 +56,8 @@ export default async function AdminFeedPage({
   return (
     <div>
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
-          <Newspaper className="w-5 h-5 text-[#f6614f]" />
+        <div className="w-10 h-10 rounded-xl bg-lumii-coral/10 flex items-center justify-center">
+          <Newspaper className="w-5 h-5 text-lumii-coral" />
         </div>
         <div>
           <h1 className="font-black text-xl text-foreground">Avisos</h1>
@@ -78,7 +78,7 @@ export default async function AdminFeedPage({
               href={tabHref(t.value)}
               className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
                 status === t.value
-                  ? "border-[#f6614f] text-[#f6614f]"
+                  ? "border-lumii-coral text-lumii-coral"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
               }`}
             >

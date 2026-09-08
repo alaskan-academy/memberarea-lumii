@@ -63,7 +63,7 @@ export default function FeedPostCard({ post, userId: _userId, initialLiked }: Pr
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-semibold text-sm text-foreground">{authorName}</span>
               {post.pinned && (
-                <span className="flex items-center gap-1 text-[10px] font-semibold text-[#f6614f] bg-[#f6614f]/10 px-2 py-0.5 rounded-full">
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-lumii-coral bg-lumii-coral/10 px-2 py-0.5 rounded-full">
                   <Pin className="w-2.5 h-2.5" /> Fixado
                 </span>
               )}
@@ -88,7 +88,7 @@ export default function FeedPostCard({ post, userId: _userId, initialLiked }: Pr
         {post.body.length > 300 && (
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="text-xs font-medium text-[#f6614f] hover:underline mt-1"
+            className="text-xs font-medium text-lumii-coral hover:underline mt-1"
           >
             {expanded ? "Ver menos" : "Ver mais"}
           </button>

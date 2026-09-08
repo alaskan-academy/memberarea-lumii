@@ -1,24 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { z } from "zod";
 import { VALID_ICONS } from "./constants";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autenticado");
-  const { data: p } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (p?.role !== "admin") throw new Error("Sem permissão");
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 const menuItemSchema = z.object({
   label: z.string().min(1, "Label obrigatório").max(60),

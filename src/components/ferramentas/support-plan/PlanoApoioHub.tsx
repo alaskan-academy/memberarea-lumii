@@ -43,7 +43,7 @@ export default function PlanoApoioHub({
           className={cn(
             "px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors",
             aba === "aluno"
-              ? "border-[#f6614f] text-[#f6614f]"
+              ? "border-lumii-coral text-lumii-coral"
               : "border-transparent text-muted-foreground hover:text-foreground"
           )}
         >
@@ -55,7 +55,7 @@ export default function PlanoApoioHub({
           className={cn(
             "px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors",
             aba === "turma"
-              ? "border-[#f6614f] text-[#f6614f]"
+              ? "border-lumii-coral text-lumii-coral"
               : "border-transparent text-muted-foreground hover:text-foreground"
           )}
         >

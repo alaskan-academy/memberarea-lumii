@@ -33,7 +33,7 @@ export function BookmarkButton({ postId, userId, initialBookmarked, size = 'sm' 
       className={cn(
         'flex items-center gap-1 transition-colors',
         size === 'sm' ? '-m-1.5 p-1.5' : '-m-1 p-1',
-        bookmarked ? 'text-[#f6614f]' : 'text-foreground/50 hover:text-[#f6614f]'
+        bookmarked ? 'text-lumii-coral' : 'text-foreground/50 hover:text-lumii-coral'
       )}
       aria-label={bookmarked ? 'Remover dos salvos' : 'Salvar'}
     >

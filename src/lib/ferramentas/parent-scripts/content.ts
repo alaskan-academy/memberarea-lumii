@@ -2,7 +2,7 @@ import type { ParentScriptEntry } from "./types";
 
 /**
  * RASCUNHO — 90 entradas (18 situações × 5 faixas etárias) escritas seguindo o
- * checklist de PLAN-ferramentas.md (seção 5.3): sem linguagem de diagnóstico
+ * checklist de docs/PLAN-ferramentas.md (seção 5.3): sem linguagem de diagnóstico
  * clínico, sem tom culpabilizador em relação aos pais, linguagem adequada à
  * faixa etária, frases prontas para serem ditas literalmente (tom coloquial,
  * do jeito que um pai/mãe realmente fala no dia a dia — evitando vocabulário

@@ -19,7 +19,7 @@ export default function ClassListSection({
       <button
         type="button"
         onClick={() => setModalOpen(true)}
-        className="w-full mb-4 flex items-center justify-center gap-2 py-3 rounded-xl border border-dashed border-border hover:border-[#f6614f] text-sm font-semibold text-muted-foreground hover:text-[#f6614f] transition-colors min-h-[44px]"
+        className="w-full mb-4 flex items-center justify-center gap-2 py-3 rounded-xl border border-dashed border-border hover:border-lumii-coral text-sm font-semibold text-muted-foreground hover:text-lumii-coral transition-colors min-h-[44px]"
       >
         <Users className="w-4 h-4" />
         Cadastrar turma

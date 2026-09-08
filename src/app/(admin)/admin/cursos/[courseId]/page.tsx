@@ -67,7 +67,7 @@ export default async function AdminCoursePage({
           Slug: <span className="font-mono">{course.slug}</span>
           <span className="mx-2">·</span>
           <a href={`/cursos/${course.slug}`} target="_blank" rel="noopener noreferrer"
-            className="text-[#f6614f] hover:underline">
+            className="text-lumii-coral hover:underline">
             Ver página pública →
           </a>
         </p>

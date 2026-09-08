@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 /**
  * Verifica se a usuária autenticada é admin. Uso padrão em Server Actions do
@@ -25,4 +26,28 @@ export async function assertAdmin() {
   if (profile?.role !== "admin") throw new Error("Não autorizado");
 
   return { supabase, adminId: user.id };
+}
+
+/**
+ * Variante para Server Components / páginas (`page.tsx` do admin). Em vez de
+ * lançar — o que faria a usuária ver a página de erro do Next — REDIRECIONA:
+ * para `/login` se não autenticada e para `/dashboard` se autenticada mas sem
+ * role admin. Use no topo do componente da página:
+ * `const { supabase, user } = await assertAdminPage();`.
+ */
+export async function assertAdminPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+  if (profile?.role !== "admin") redirect("/dashboard");
+
+  return { supabase, user };
 }

@@ -17,7 +17,7 @@ export default function AlunosSearch({ defaultValue }: { defaultValue: string })
         name="q"
         defaultValue={defaultValue}
         placeholder="Buscar por nome, e-mail ou CPF…"
-        className="w-full pl-9 pr-4 py-2 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 focus:border-[#f6614f]"
+        className="w-full pl-9 pr-4 py-2 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 focus:border-lumii-coral"
         onChange={(e) => {
           if (e.target.value === "") formRef.current?.submit();
         }}

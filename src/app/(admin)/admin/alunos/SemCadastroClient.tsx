@@ -185,7 +185,7 @@ function TableRow({
 
       {/* Cursos */}
       <td className="px-4 py-3 hidden sm:table-cell">
-        <span className="inline-flex items-center gap-1 text-xs font-medium text-[#f6614f]">
+        <span className="inline-flex items-center gap-1 text-xs font-medium text-lumii-coral">
           <Package className="w-3.5 h-3.5" />
           {row.courses.length} curso{row.courses.length !== 1 ? "s" : ""}
         </span>
@@ -205,7 +205,7 @@ function TableRow({
       >
         <div className="flex items-center justify-end gap-2">
           {sent !== null && (
-            <span className="text-xs text-[#71c69a] font-medium whitespace-nowrap">
+            <span className="text-xs text-lumii-green font-medium whitespace-nowrap">
               {sent > 0
                 ? `${sent} enviado${sent !== 1 ? "s" : ""} ✓`
                 : "Sem cursos válidos"}
@@ -221,14 +221,14 @@ function TableRow({
             title="Copiar link de cadastro"
             className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-border text-foreground/70 hover:bg-muted transition-colors whitespace-nowrap"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-[#71c69a]" /> : <Link2 className="w-3.5 h-3.5" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-lumii-green" /> : <Link2 className="w-3.5 h-3.5" />}
             {copied ? "Copiado!" : "Copiar link"}
           </button>
           <button
             onClick={handleResend}
             disabled={pending}
             title="Reenviar e-mail de ativação"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[#f6614f]/30 text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors disabled:opacity-50 whitespace-nowrap"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-lumii-coral/30 text-lumii-coral hover:bg-lumii-coral/10 transition-colors disabled:opacity-50 whitespace-nowrap"
           >
             <RefreshCw
               className={`w-3.5 h-3.5 ${pending ? "animate-spin" : ""}`}
@@ -375,7 +375,7 @@ function DetailModal({
                   required
                   value={emailDraft}
                   onChange={(e) => setEmailDraft(e.target.value)}
-                  className="flex-1 min-w-0 text-sm px-2 py-1 rounded-md border border-[#f6614f] bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/25"
+                  className="flex-1 min-w-0 text-sm px-2 py-1 rounded-md border border-lumii-coral bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/25"
                   style={{ fontFamily: "inherit" }}
                 />
                 <button
@@ -383,7 +383,7 @@ function DetailModal({
                   disabled={correctPending}
                   title="Salvar"
                   aria-label="Salvar"
-                  className="w-7 h-7 rounded-md flex items-center justify-center bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50 shrink-0"
+                  className="w-7 h-7 rounded-md flex items-center justify-center bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50 shrink-0"
                 >
                   {correctPending
                     ? <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -408,13 +408,13 @@ function DetailModal({
                 <span className="text-xs text-muted-foreground truncate max-w-[200px] group-hover:text-foreground transition-colors">
                   {row.email}
                 </span>
-                <Pencil className="w-3 h-3 text-muted-foreground/40 group-hover:text-[#f6614f] transition-colors shrink-0" />
+                <Pencil className="w-3 h-3 text-muted-foreground/40 group-hover:text-lumii-coral transition-colors shrink-0" />
               </button>
             )}
 
             {/* Feedback da correção */}
             {correctResult?.sent != null && !editing && (
-              <p className="text-[11px] text-[#3d9e5a] mt-1 flex items-center gap-1">
+              <p className="text-[11px] text-lumii-green-dark mt-1 flex items-center gap-1">
                 <Check className="w-3 h-3" />
                 Link reenviado para o novo endereço.
               </p>
@@ -481,7 +481,7 @@ function DetailModal({
         {/* Footer */}
         <div className="px-5 pb-5 pt-3 space-y-2.5">
           {resendResult?.sent != null && (
-            <p className="text-center text-xs text-[#3d9e5a] flex items-center justify-center gap-1">
+            <p className="text-center text-xs text-lumii-green-dark flex items-center justify-center gap-1">
               <Check className="w-3.5 h-3.5" />
               {resendResult.sent > 0
                 ? `${resendResult.sent} e-mail${resendResult.sent !== 1 ? "s" : ""} enviado${resendResult.sent !== 1 ? "s" : ""}`
@@ -496,13 +496,13 @@ function DetailModal({
               onClick={copy}
               className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-border text-foreground hover:bg-muted transition-colors"
             >
-              {copied ? <Check className="w-4 h-4 text-[#71c69a]" /> : <Link2 className="w-4 h-4" />}
+              {copied ? <Check className="w-4 h-4 text-lumii-green" /> : <Link2 className="w-4 h-4" />}
               {copied ? "Copiado!" : "Copiar link"}
             </button>
             <button
               onClick={handleResend}
               disabled={resendPending}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${resendPending ? "animate-spin" : ""}`} />
               {resendPending ? "Enviando…" : "Reenviar e-mail"}
@@ -511,11 +511,11 @@ function DetailModal({
 
           {/* Criar conta + definir senha */}
           {pwSuccess ? (
-            <div className="rounded-xl bg-[#71c69a]/10 border border-[#71c69a]/30 px-4 py-3 text-center">
-              <p className="text-sm font-medium text-[#3d9e5a]">Conta criada com acesso liberado!</p>
+            <div className="rounded-xl bg-lumii-green/10 border border-lumii-green/30 px-4 py-3 text-center">
+              <p className="text-sm font-medium text-lumii-green-dark">Conta criada com acesso liberado!</p>
             </div>
           ) : showPwForm ? (
-            <form onSubmit={handleCreateAccount} className="space-y-2.5 rounded-xl border border-[#f6614f]/20 bg-[#f6614f]/5 p-3">
+            <form onSubmit={handleCreateAccount} className="space-y-2.5 rounded-xl border border-lumii-coral/20 bg-lumii-coral/5 p-3">
               <p className="text-[11px] text-muted-foreground">
                 Cria a conta desta compradora e libera o acesso aos cursos comprados imediatamente.
               </p>
@@ -530,7 +530,7 @@ function DetailModal({
                   onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
                   placeholder="Senha (mínimo 8 caracteres)"
                   autoFocus
-                  className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                  className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                 />
                 <button
                   type="button"
@@ -551,7 +551,7 @@ function DetailModal({
                   value={pwConfirm}
                   onChange={(e) => { setPwConfirm(e.target.value); setPwError(null); }}
                   placeholder="Confirmar senha"
-                  className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                  className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                 />
                 <button
                   type="button"
@@ -567,7 +567,7 @@ function DetailModal({
                 <button
                   type="submit"
                   disabled={pwPending}
-                  className="flex-1 px-3 py-2 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] rounded-lg transition-colors disabled:opacity-50"
+                  className="flex-1 px-3 py-2 text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover rounded-lg transition-colors disabled:opacity-50"
                 >
                   {pwPending ? "Criando…" : "Criar conta"}
                 </button>
@@ -583,7 +583,7 @@ function DetailModal({
           ) : (
             <button
               onClick={() => setShowPwForm(true)}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-dashed border-[#f6614f]/40 text-[#f6614f] hover:bg-[#f6614f]/5 transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border border-dashed border-lumii-coral/40 text-lumii-coral hover:bg-lumii-coral/5 transition-colors"
             >
               <Lock className="w-4 h-4" />
               Criar conta e definir senha

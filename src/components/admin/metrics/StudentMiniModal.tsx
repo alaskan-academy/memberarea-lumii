@@ -72,7 +72,7 @@ export function StudentMiniModal({
                   className="w-14 h-14 rounded-full object-cover shrink-0"
                 />
               ) : (
-                <div className="w-14 h-14 rounded-full bg-[#f6614f]/15 flex items-center justify-center text-xl font-bold text-[#f6614f] shrink-0">
+                <div className="w-14 h-14 rounded-full bg-lumii-coral/15 flex items-center justify-center text-xl font-bold text-lumii-coral shrink-0">
                   {initial}
                 </div>
               )}
@@ -93,7 +93,7 @@ export function StudentMiniModal({
               <Link
                 href={`/admin/alunos/${student.id}`}
                 onClick={markNavigating}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold bg-[#f6614f] text-white rounded-lg hover:bg-[#dd5747] transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold bg-lumii-coral text-white rounded-lg hover:bg-lumii-coral-hover transition-colors"
               >
                 <UserCircle className="w-4 h-4" />
                 Ver perfil completo
@@ -101,7 +101,7 @@ export function StudentMiniModal({
               <Link
                 href={`/admin/alunos/${student.id}?tab=atividade`}
                 onClick={markNavigating}
-                className="flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-[#f6614f] border border-[#f6614f]/30 rounded-lg hover:bg-[#f6614f]/5 transition-colors"
+                className="flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-lumii-coral border border-lumii-coral/30 rounded-lg hover:bg-lumii-coral/5 transition-colors"
                 title="Ver atividade"
                 aria-label="Ver atividade"
               >

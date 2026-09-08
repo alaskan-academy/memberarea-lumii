@@ -127,7 +127,7 @@ export function FinancialRankings({
               </div>
               <div className="text-right shrink-0 mr-2">
                 <p className="text-xs text-muted-foreground">Total gasto</p>
-                <p className="font-bold text-[#71c69a]">{fmtBRL(selected.totalSpent)}</p>
+                <p className="font-bold text-lumii-green">{fmtBRL(selected.totalSpent)}</p>
               </div>
               <button
                 onClick={() => setSelected(null)}

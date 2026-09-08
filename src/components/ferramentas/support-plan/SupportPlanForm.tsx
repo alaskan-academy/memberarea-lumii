@@ -64,8 +64,8 @@ export default function SupportPlanForm({
               className={cn(
                 "text-left text-sm px-3 py-2.5 rounded-lg border transition-colors",
                 dificuldade === d.value
-                  ? "border-[#f6614f] bg-[#f6614f]/10 text-[#f6614f] font-semibold"
-                  : "border-border hover:border-[#f6614f]/50"
+                  ? "border-lumii-coral bg-lumii-coral/10 text-lumii-coral font-semibold"
+                  : "border-border hover:border-lumii-coral/50"
               )}
             >
               {d.label}
@@ -80,7 +80,7 @@ export default function SupportPlanForm({
               value={outro}
               onChange={(e) => setOutro(e.target.value)}
               placeholder="Descreva rapidamente a dificuldade..."
-              className="w-full mt-2 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full mt-2 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
           </>
         )}
@@ -99,8 +99,8 @@ export default function SupportPlanForm({
               className={cn(
                 "text-xs px-3 py-1.5 rounded-full border transition-colors",
                 tambemApresenta.includes(chip)
-                  ? "border-[#eebc3e] bg-[#eebc3e]/15 text-[#a97e1a] font-semibold"
-                  : "border-border text-muted-foreground hover:border-[#eebc3e]/50"
+                  ? "border-lumii-yellow bg-lumii-yellow/15 text-[#a97e1a] font-semibold"
+                  : "border-border text-muted-foreground hover:border-lumii-yellow/50"
               )}
             >
               {chip}
@@ -145,7 +145,7 @@ export default function SupportPlanForm({
           type="checkbox"
           checked={sugerirCoordenacao}
           onChange={(e) => setSugerirCoordenacao(e.target.checked)}
-          className="w-4 h-4 accent-[#f6614f]"
+          className="w-4 h-4 accent-lumii-coral"
         />
         Incluir sugestão de conversar com a coordenação pedagógica
       </label>
@@ -153,7 +153,7 @@ export default function SupportPlanForm({
       <button
         type="submit"
         disabled={!podeGerar}
-        className="w-full py-3 rounded-xl font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+        className="w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
       >
         Gerar plano
       </button>

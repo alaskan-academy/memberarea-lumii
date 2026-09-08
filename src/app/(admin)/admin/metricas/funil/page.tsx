@@ -1,25 +1,16 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import { Ghost, Zap, Target, Star, Clock, TrendingDown, Users, Award } from "lucide-react";
 import { InfoTooltip } from "../metric-tooltip";
 import { StudentMiniModal, type StudentBasic } from "@/components/admin/metrics/StudentMiniModal";
 import { StudentListModal } from "@/components/admin/metrics/StudentListModal";
 import { FunnelTableClient, type FunnelRowData } from "./FunnelTableClient";
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 type Profile = { id: string; full_name: string | null; email: string; avatar_url: string | null };
 type SegmentEntry = { profile: Profile; courseTitle: string; extra?: string };
 
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
-
 export default async function FunilPage() {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const now = new Date().toISOString();
@@ -304,7 +295,7 @@ export default async function FunilPage() {
       {/* Funil por curso */}
       <div className="lumii-card p-6">
         <h2 className="font-semibold mb-1 flex items-center gap-2">
-          <TrendingDown className="w-4 h-4 text-[#f6614f]" />
+          <TrendingDown className="w-4 h-4 text-lumii-coral" />
           Funil de conclusão por curso
         </h2>
         <p className="text-xs text-muted-foreground mb-5">
@@ -316,7 +307,7 @@ export default async function FunilPage() {
       {/* Segmentos */}
       <div>
         <h2 className="font-semibold mb-1 flex items-center gap-2">
-          <Users className="w-4 h-4 text-[#f6614f]" />
+          <Users className="w-4 h-4 text-lumii-coral" />
           Segmentos acionáveis para pós-venda
         </h2>
         <p className="text-xs text-muted-foreground mb-4">
@@ -366,7 +357,7 @@ export default async function FunilPage() {
       {topStalledLessons.length > 0 && (
         <div className="lumii-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
-            <TrendingDown className="w-4 h-4 text-[#eebc3e]" />
+            <TrendingDown className="w-4 h-4 text-lumii-yellow" />
             Aulas onde mais alunas travaram
             <InfoTooltip text="Aulas com progresso registrado mas ainda não concluídas — indicam pontos de abandono ou dificuldade no conteúdo." />
           </h2>
@@ -480,7 +471,7 @@ function SegmentCard({
               subtitle={`${count} aluna${count !== 1 ? "s" : ""} neste segmento`}
               students={allStudents}
             >
-              <p className="text-[10px] text-muted-foreground pt-1 cursor-pointer hover:text-[#f6614f] transition-colors">
+              <p className="text-[10px] text-muted-foreground pt-1 cursor-pointer hover:text-lumii-coral transition-colors">
                 +{count - items.length} outras — ver todas
               </p>
             </StudentListModal>

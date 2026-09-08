@@ -99,7 +99,7 @@ export default async function MetricasPage() {
         {/* Top cursos */}
         <div className="lg:col-span-2 lumii-card p-6">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#f6614f]" />
+            <BookOpen className="w-4 h-4 text-lumii-coral" />
             Top cursos por matrículas
           </h2>
           {topCursosOrdenados.length === 0 ? (
@@ -110,10 +110,10 @@ export default async function MetricasPage() {
                 <Link key={curso.slug} href={`/admin/cursos/${curso.course_id}`} className="flex items-center gap-3 group">
                   <span className="text-xs font-bold text-muted-foreground w-5 text-right">{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate group-hover:text-[#f6614f] transition-colors">{curso.title}</p>
+                    <p className="text-sm font-medium truncate group-hover:text-lumii-coral transition-colors">{curso.title}</p>
                     <div className="mt-1 h-1.5 rounded-full bg-muted overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-[#f6614f]"
+                        className="h-full rounded-full bg-lumii-coral"
                         style={{ width: `${Math.round((curso.enrollment_count / (topCursosOrdenados[0]?.enrollment_count || 1)) * 100)}%` }}
                       />
                     </div>
@@ -129,7 +129,7 @@ export default async function MetricasPage() {
         <div className="space-y-4">
           <div className="lumii-card p-6">
             <h2 className="font-semibold mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-[#71c69a]" />
+              <TrendingUp className="w-4 h-4 text-lumii-green" />
               Origem das matrículas
             </h2>
             <div className="space-y-2">
@@ -148,7 +148,7 @@ export default async function MetricasPage() {
 
           <div className="lumii-card p-6">
             <h2 className="font-semibold mb-1 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-[#eebc3e]" />
+              <BookOpen className="w-4 h-4 text-lumii-yellow" />
               Cursos publicados
             </h2>
             <p className="text-3xl font-bold mt-2">{cursosPublicados ?? 0}</p>
@@ -159,7 +159,7 @@ export default async function MetricasPage() {
       {/* Webhooks recentes */}
       <div className="lumii-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
-          <Webhook className="w-4 h-4 text-[#f6614f]" />
+          <Webhook className="w-4 h-4 text-lumii-coral" />
           Webhooks Payt recentes
         </h2>
         {(webhooksRecentes ?? []).length === 0 ? (
@@ -224,7 +224,7 @@ function StatCard({ icon: Icon, label, value, color, tooltip, href }: {
 
   if (href) {
     return (
-      <Link href={href} className="lumii-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all group">
+      <Link href={href} className="lumii-card p-5 block hover:border-lumii-coral/40 hover:shadow-md transition-all group">
         {inner}
       </Link>
     );
@@ -240,12 +240,12 @@ function WebhookStatus({ processed, error }: { processed: boolean | null; error:
     </span>
   );
   if (processed) return (
-    <span className="inline-flex items-center gap-1 text-xs text-[#71c69a] font-medium">
+    <span className="inline-flex items-center gap-1 text-xs text-lumii-green font-medium">
       <CheckCircle2 className="w-3.5 h-3.5" /> Processado
     </span>
   );
   return (
-    <span className="inline-flex items-center gap-1 text-xs text-[#eebc3e] font-medium">
+    <span className="inline-flex items-center gap-1 text-xs text-lumii-yellow font-medium">
       <Clock className="w-3.5 h-3.5" /> Pendente
     </span>
   );

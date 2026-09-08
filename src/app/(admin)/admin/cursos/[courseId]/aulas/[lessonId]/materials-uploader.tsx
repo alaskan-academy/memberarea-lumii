@@ -136,7 +136,7 @@ export default function AdminMaterialsUploader({
           name="name"
           type="text"
           placeholder="Nome do material (opcional — usa o nome do arquivo se vazio)"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
         />
         <input
           ref={fileRef}
@@ -144,7 +144,7 @@ export default function AdminMaterialsUploader({
           type="file"
           required
           accept=".pdf,.zip,.png,.jpg,.jpeg,.webp,.mp4,.mp3,.doc,.docx,.ppt,.pptx"
-          className="w-full text-sm text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#f6614f]/10 file:text-[#f6614f] hover:file:bg-[#f6614f]/20 cursor-pointer"
+          className="w-full text-sm text-muted-foreground file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-lumii-coral/10 file:text-lumii-coral hover:file:bg-lumii-coral/20 cursor-pointer"
         />
         <p className="text-[11px] text-muted-foreground">
           Formatos aceitos: PDF, ZIP, PNG, JPG, MP4, MP3, DOC, PPT · Máx 50MB
@@ -152,7 +152,7 @@ export default function AdminMaterialsUploader({
         <button
           type="submit"
           disabled={isPending}
-          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
         >
           <Upload className="w-3 h-3" />
           {isPending ? "Enviando..." : "Enviar material"}
@@ -186,7 +186,7 @@ export default function AdminMaterialsUploader({
                   placeholder="Buscar por nome, aula ou curso..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full text-sm pl-8 pr-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+                  className="w-full text-sm pl-8 pr-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
                 />
               </div>
 
@@ -210,7 +210,7 @@ export default function AdminMaterialsUploader({
                       <button
                         onClick={() => handleLink(m)}
                         disabled={isPending || linkedIds.has(m.id)}
-                        className="shrink-0 flex items-center gap-1 text-[11px] px-2 py-1 rounded-md bg-[#f6614f]/10 text-[#f6614f] hover:bg-[#f6614f]/20 transition-colors disabled:opacity-50"
+                        className="shrink-0 flex items-center gap-1 text-[11px] px-2 py-1 rounded-md bg-lumii-coral/10 text-lumii-coral hover:bg-lumii-coral/20 transition-colors disabled:opacity-50"
                       >
                         {linkedIds.has(m.id) ? (
                           <><Check className="w-3 h-3" /> Vinculado</>
@@ -253,7 +253,7 @@ export default function AdminMaterialsUploader({
                   className="p-1.5 rounded hover:bg-muted transition-colors"
                 >
                   {copiedId === m.id ? (
-                    <Check className="w-3.5 h-3.5 text-[#71c69a]" />
+                    <Check className="w-3.5 h-3.5 text-lumii-green" />
                   ) : (
                     <Copy className="w-3.5 h-3.5 text-muted-foreground" />
                   )}

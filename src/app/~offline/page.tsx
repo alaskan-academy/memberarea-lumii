@@ -15,7 +15,7 @@ export default function OfflinePage() {
         <div className="mt-10 space-y-3 max-w-sm">
           <h1 className="text-xl font-bold text-lumii-muted">
             Você está{" "}
-            <span className="text-[#f6614f]">sem conexão</span>
+            <span className="text-lumii-coral">sem conexão</span>
           </h1>
           <p className="text-sm text-lumii-muted/70 leading-relaxed">
             Parece que a internet sumiu por aqui. Verifique sua conexão e tente
@@ -25,7 +25,7 @@ export default function OfflinePage() {
 
         <button
           onClick={() => window.location.reload()}
-          className="mt-10 inline-flex items-center gap-2 rounded-lg bg-[#f6614f] px-6 py-3 text-sm font-semibold text-white min-h-[44px] transition-opacity hover:opacity-90 active:opacity-75"
+          className="mt-10 inline-flex items-center gap-2 rounded-lg bg-lumii-coral px-6 py-3 text-sm font-semibold text-white min-h-[44px] transition-opacity hover:opacity-90 active:opacity-75"
         >
           Tentar novamente
         </button>

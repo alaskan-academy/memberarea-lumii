@@ -130,12 +130,12 @@ export default function PushPromptBanner() {
       </button>
 
       <div className="flex items-start gap-3">
-        <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
-          <Bell className="w-4 h-4 text-[#f6614f]" />
+        <div className="w-9 h-9 rounded-xl bg-lumii-coral/10 flex items-center justify-center shrink-0">
+          <Bell className="w-4 h-4 text-lumii-coral" />
         </div>
         <div className="flex-1 min-w-0 pr-4">
           {done ? (
-            <p className="text-sm font-semibold text-[#71c69a]">
+            <p className="text-sm font-semibold text-lumii-green">
               Notificações ativadas!
             </p>
           ) : (
@@ -153,7 +153,7 @@ export default function PushPromptBanner() {
                 <button
                   onClick={handleEnable}
                   disabled={isPending}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] transition-colors disabled:opacity-60"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors disabled:opacity-60"
                 >
                   {isPending ? (
                     <Loader2 className="w-3 h-3 animate-spin" />

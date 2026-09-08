@@ -1,5 +1,6 @@
 "use server";
 
+import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 export type SearchResult = {
@@ -20,6 +21,15 @@ export type SearchResults = {
 export async function searchPlatform(query: string): Promise<SearchResults> {
   const q = query.trim();
   if (q.length < 2) return { courses: [], lessons: [], news: [], total: 0 };
+
+  // Exige sessão: sem login não retornamos nada (não vaza títulos da plataforma).
+  // A busca em si usa o service client por causa da RLS, mas só depois de
+  // confirmar que há uma aluna autenticada.
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { courses: [], lessons: [], news: [], total: 0 };
 
   const service = createServiceClient();
   const pattern = `%${q}%`;

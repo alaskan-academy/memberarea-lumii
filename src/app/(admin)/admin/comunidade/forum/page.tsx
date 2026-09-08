@@ -92,14 +92,14 @@ export default async function AdminForumPage({
   return (
     <div>
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
-          <MessageSquare className="w-5 h-5 text-[#f6614f]" />
+        <div className="w-10 h-10 rounded-xl bg-lumii-coral/10 flex items-center justify-center">
+          <MessageSquare className="w-5 h-5 text-lumii-coral" />
         </div>
         <div>
           <h1 className="font-black text-xl text-foreground">Moderação do Fórum</h1>
           <p className="text-sm text-muted-foreground">
             {pendingCount > 0 ? (
-              <span className="text-[#eebc3e] font-semibold">{pendingCount} aguardando aprovação</span>
+              <span className="text-lumii-yellow font-semibold">{pendingCount} aguardando aprovação</span>
             ) : (
               "Nenhum post pendente"
             )}

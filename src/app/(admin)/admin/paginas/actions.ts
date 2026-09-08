@@ -1,18 +1,9 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 const PageSchema = z.object({
   title: z.string().min(1).max(200),
@@ -22,7 +13,7 @@ const PageSchema = z.object({
 });
 
 export async function savePage(id: string | null, formData: FormData) {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const raw = {
@@ -60,7 +51,7 @@ export async function savePage(id: string | null, formData: FormData) {
 }
 
 export async function deletePage(id: string) {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
   const { error } = await service.from("static_pages").delete().eq("id", id);
   if (error) return { error: error.message };
@@ -69,7 +60,7 @@ export async function deletePage(id: string) {
 }
 
 export async function togglePublished(id: string, published: boolean) {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
   const { error } = await service.from("static_pages").update({ published }).eq("id", id);
   if (error) return { error: error.message };

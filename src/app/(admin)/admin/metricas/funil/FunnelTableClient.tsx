@@ -50,7 +50,7 @@ export function FunnelTableClient({ rows }: { rows: FunnelRowData[] }) {
                 <td className="py-3 pr-4 font-medium max-w-[200px]">
                   <Link
                     href={`/admin/cursos/${f.courseId}`}
-                    className="truncate block hover:text-[#f6614f] transition-colors"
+                    className="truncate block hover:text-lumii-coral transition-colors"
                     title={f.title}
                   >
                     {f.title}

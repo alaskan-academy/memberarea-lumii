@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getUserPushEndpoints } from "@/lib/push/actions";
@@ -7,6 +8,8 @@ import PerfilView, {
   type CourseCard,
 } from "./perfil-view";
 
+export const metadata: Metadata = { title: "Meu Perfil — Lumii" };
+
 export default async function PerfilPage() {
   const supabase = await createClient();
   const {
@@ -14,10 +17,10 @@ export default async function PerfilPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const [profileRes, certRes, enrollRes, pushEndpoints] = await Promise.all([
+  const [profileRes, certRes, pushEndpoints] = await Promise.all([
     supabase
       .from("profiles")
-      .select("full_name, email, bio, avatar_url, email_prefs")
+      .select("full_name, email, bio, avatar_url, email_prefs, role")
       .eq("id", user.id)
       .single(),
     supabase
@@ -25,16 +28,11 @@ export default async function PerfilPage() {
       .select("id, issued_at, verify_hash, course:courses(title, workload_hours)")
       .eq("user_id", user.id)
       .order("issued_at", { ascending: false }),
-    supabase
-      .from("enrollments")
-      .select("course:courses(id, slug, title, thumbnail_url, workload_hours)")
-      .eq("user_id", user.id)
-      .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
-      .order("granted_at", { ascending: false }),
     getUserPushEndpoints(),
   ]);
 
   const profile = profileRes.data as Profile | null;
+  const isAdmin = (profileRes.data as { role?: string | null } | null)?.role === "admin";
   const certificates = (certRes.data ?? []) as unknown as Certificate[];
 
   // Calcula progresso por curso
@@ -45,9 +43,27 @@ export default async function PerfilPage() {
     thumbnail_url: string | null;
     workload_hours: number;
   };
-  const rawCourses = ((enrollRes.data ?? []) as unknown as { course: RawCourse | null }[])
-    .map((e) => e.course)
-    .filter(Boolean) as RawCourse[];
+
+  // Admin tem acesso irrestrito a todos os cursos (mesma lógica do dashboard),
+  // então não tem matrícula — busca todos os cursos publicados em vez de enrollments.
+  let rawCourses: RawCourse[];
+  if (isAdmin) {
+    const { data: allCourses } = await supabase
+      .from("courses")
+      .select("id, slug, title, thumbnail_url, workload_hours")
+      .order("position");
+    rawCourses = (allCourses as RawCourse[] | null) ?? [];
+  } else {
+    const { data: enrollData } = await supabase
+      .from("enrollments")
+      .select("course:courses(id, slug, title, thumbnail_url, workload_hours)")
+      .eq("user_id", user.id)
+      .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
+      .order("granted_at", { ascending: false });
+    rawCourses = ((enrollData ?? []) as unknown as { course: RawCourse | null }[])
+      .map((e) => e.course)
+      .filter(Boolean) as RawCourse[];
+  }
 
   let courses: CourseCard[] = [];
 

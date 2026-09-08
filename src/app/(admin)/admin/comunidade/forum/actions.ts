@@ -1,17 +1,8 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autorizado");
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") throw new Error("Acesso negado");
-  return { supabase, adminId: user.id };
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 export async function approveForumPost(postId: string, forumSlug: string): Promise<{ error?: string }> {
   const { supabase } = await assertAdmin();

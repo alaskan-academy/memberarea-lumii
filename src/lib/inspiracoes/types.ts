@@ -1,6 +1,6 @@
 // ── Tipos base ────────────────────────────────────────────────────────────────
 
-export type InspiracaoType = 'foto' | 'carrossel' | 'video' | 'receita' | 'dica' | 'destaque'
+export type InspiracaoType = 'foto' | 'carrossel' | 'video' | 'atividade' | 'dica' | 'destaque'
 
 export type InspiracaoNicho = string
 
@@ -16,22 +16,18 @@ export interface ContentBlock {
   position: number
 }
 
-export interface Ingrediente {
+export interface MaterialItem {
   item: string
-  quantidade: string
+  quantidade?: string
 }
 
-export interface ReceitaData {
-  ingredientes?: Ingrediente[]
-  passos?: string[]
-  como_fazer?: string[]     // passo a passo curto (inspirações com receita simplificada)
-  tempo?: string | null
-  temperatura?: string | null
-  nivel?: string | null
-  dicas?: string | null
-  paleta_cores?: string[]
-  custo_medio?: string | null
-  preco_venda?: string | null
+export interface AtividadeData {
+  materiais?: MaterialItem[]        // materiais necessários para a atividade
+  passo_a_passo?: string[]          // sequência de passos da atividade
+  duracao?: string | null           // tempo estimado da atividade
+  faixa_etaria?: string | null      // idade indicada
+  objetivos?: string[]              // objetivos pedagógicos (opcional)
+  dicas?: string | null             // dica para conduzir a atividade
 }
 
 // ── Row do banco ──────────────────────────────────────────────────────────────
@@ -45,7 +41,7 @@ export interface InspiracaoPostRow {
   media: MediaItem[]
   video_url: string | null
   blocks: ContentBlock[]
-  recipe_data: ReceitaData | null
+  recipe_data: AtividadeData | null
   tags: string[]
   course_id: string | null
   course_ids: string[]
@@ -125,7 +121,7 @@ export interface UpsertInspiracaoPayload {
   media?: MediaItem[]
   video_url?: string
   blocks?: ContentBlock[]
-  recipe_data?: ReceitaData
+  recipe_data?: AtividadeData
   tags?: string[]
   course_id?: string | null
   course_ids?: string[]

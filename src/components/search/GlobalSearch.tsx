@@ -180,7 +180,7 @@ export default function GlobalSearch() {
                           onClick={() => navigate(item.href)}
                           onMouseEnter={() => setActiveIndex(globalIdx)}
                           className={`w-full flex items-start gap-3 px-4 py-2.5 text-left transition-colors ${
-                            isActive ? "bg-[#f6614f]/10" : "hover:bg-muted/60"
+                            isActive ? "bg-lumii-coral/10" : "hover:bg-muted/60"
                           }`}
                         >
                           <div

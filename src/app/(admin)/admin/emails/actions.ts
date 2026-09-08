@@ -1,6 +1,5 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import {
   sendWelcomeEmail,
@@ -11,15 +10,7 @@ import {
   sendNewsPostEmail,
   sendRefundEmail,
 } from "@/lib/email";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autorizado");
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") throw new Error("Não autorizado");
-  return user;
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 export async function sendTestEmail(
   type: string,

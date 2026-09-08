@@ -1,20 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Award, ExternalLink, ArrowLeft, CheckCircle2 } from "lucide-react";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 export default async function CertificadosPage() {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const [{ data: certs }, { data: profiles }, { data: courses }] = await Promise.all([
@@ -50,7 +41,7 @@ export default async function CertificadosPage() {
         </Link>
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
-            <Award className="w-5 h-5 text-[#eebc3e]" />
+            <Award className="w-5 h-5 text-lumii-yellow" />
             Certificados emitidos
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -122,7 +113,7 @@ export default async function CertificadosPage() {
                       href={`/verificar/${row.verify_hash}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[#71c69a]/30 text-[#3d9e5a] hover:bg-[#71c69a]/10 transition-colors whitespace-nowrap"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-lumii-green/30 text-lumii-green-dark hover:bg-lumii-green/10 transition-colors whitespace-nowrap"
                       title="Verificar certificado"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />

@@ -18,7 +18,7 @@ export default async function NovaSenhaPage() {
     <div className="min-h-screen flex items-center justify-center bg-lumii-bg px-4 py-12">
       <div className="w-full max-w-md">
         <div className="flex justify-center mb-8">
-          <span className="text-2xl font-bold tracking-tight text-[#f6614f]">
+          <span className="text-2xl font-bold tracking-tight text-lumii-coral">
             Lumii
           </span>
         </div>

@@ -86,8 +86,8 @@ export default function AlunosTable({ profiles, enrollCount, emptyMessage }: Pro
       )}
 
       {selected.size > 0 && (
-        <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-[#f6614f]/10 border border-[#f6614f]/25">
-          <span className="text-sm font-medium text-[#f6614f]">
+        <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-lumii-coral/10 border border-lumii-coral/25">
+          <span className="text-sm font-medium text-lumii-coral">
             {selected.size} selecionada{selected.size !== 1 ? "s" : ""}
           </span>
           <button
@@ -117,7 +117,7 @@ export default function AlunosTable({ profiles, enrollCount, emptyMessage }: Pro
                   checked={allSelected}
                   onChange={toggleAll}
                   aria-label="Selecionar todas nesta página"
-                  className="accent-[#f6614f] w-4 h-4"
+                  className="accent-lumii-coral w-4 h-4"
                 />
               </th>
               <th className="text-left px-4 py-3 font-semibold text-foreground/70">
@@ -153,7 +153,7 @@ export default function AlunosTable({ profiles, enrollCount, emptyMessage }: Pro
                     checked={selected.has(p.id)}
                     onChange={() => toggleOne(p.id)}
                     aria-label={`Selecionar ${p.full_name ?? p.email ?? "aluna"}`}
-                    className="accent-[#f6614f] w-4 h-4"
+                    className="accent-lumii-coral w-4 h-4"
                   />
                 </td>
                 <td className="px-4 py-3">
@@ -210,7 +210,7 @@ export default function AlunosTable({ profiles, enrollCount, emptyMessage }: Pro
                       Banida
                     </span>
                   ) : (
-                    <span className="inline-block px-2 py-0.5 rounded-full bg-[#71c69a]/15 text-[#5bb577] text-xs font-medium">
+                    <span className="inline-block px-2 py-0.5 rounded-full bg-lumii-green/15 text-[#5bb577] text-xs font-medium">
                       Ativa
                     </span>
                   )}
@@ -218,7 +218,7 @@ export default function AlunosTable({ profiles, enrollCount, emptyMessage }: Pro
                 <td className="px-4 py-3 text-right">
                   <Link
                     href={`/admin/alunos/${p.id}`}
-                    className="text-xs font-medium text-[#f6614f] hover:underline"
+                    className="text-xs font-medium text-lumii-coral hover:underline"
                   >
                     Ver →
                   </Link>

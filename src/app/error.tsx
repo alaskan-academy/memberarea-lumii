@@ -26,7 +26,7 @@ export default function GlobalError({
 
         <div className="mt-10 space-y-3 max-w-sm">
           <h1 className="text-xl font-bold text-lumii-muted">
-            Algo deu <span className="text-[#f6614f]">errado</span>
+            Algo deu <span className="text-lumii-coral">errado</span>
           </h1>
           <p className="text-sm text-lumii-muted/70 leading-relaxed">
             Tivemos um problema inesperado por aqui. Tente novamente — se o
@@ -37,7 +37,7 @@ export default function GlobalError({
         <div className="mt-10 flex flex-col sm:flex-row gap-3">
           <button
             onClick={() => reset()}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#f6614f] px-6 py-3 text-sm font-semibold text-white min-h-[44px] transition-opacity hover:opacity-90 active:opacity-75"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-lumii-coral px-6 py-3 text-sm font-semibold text-white min-h-[44px] transition-opacity hover:opacity-90 active:opacity-75"
           >
             Tentar novamente
           </button>

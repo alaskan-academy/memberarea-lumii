@@ -76,7 +76,7 @@ export default function NovoAlunoModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -88,7 +88,7 @@ export default function NovoAlunoModal({
                 onChange={(e) => setAge(e.target.value.replace(/\D/g, ""))}
                 inputMode="numeric"
                 placeholder="opcional"
-                className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+                className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
               />
             </div>
             <div>
@@ -98,7 +98,7 @@ export default function NovoAlunoModal({
                 value={classLabel}
                 onChange={(e) => setClassLabel(e.target.value)}
                 placeholder="ex: 3º ano B"
-                className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+                className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
               />
             </div>
           </div>
@@ -108,7 +108,7 @@ export default function NovoAlunoModal({
           <button
             type="submit"
             disabled={isPending || !name.trim()}
-            className="w-full py-2.5 rounded-lg font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+            className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
           >
             {isPending ? "Salvando..." : "Cadastrar"}
           </button>

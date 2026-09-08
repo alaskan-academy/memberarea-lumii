@@ -40,7 +40,7 @@ export default function ToolsProfileBanner() {
             type="checkbox"
             checked={isParent}
             onChange={(e) => setIsParent(e.target.checked)}
-            className="w-4 h-4 accent-[#f6614f]"
+            className="w-4 h-4 accent-lumii-coral"
           />
           Mãe/Pai
         </label>
@@ -49,7 +49,7 @@ export default function ToolsProfileBanner() {
             type="checkbox"
             checked={isTeacher}
             onChange={(e) => setIsTeacher(e.target.checked)}
-            className="w-4 h-4 accent-[#f6614f]"
+            className="w-4 h-4 accent-lumii-coral"
           />
           Professor(a)
         </label>
@@ -57,7 +57,7 @@ export default function ToolsProfileBanner() {
           type="button"
           onClick={save}
           disabled={isPending || (!isParent && !isTeacher)}
-          className="text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] disabled:opacity-50 px-3 py-1.5 rounded-lg transition-colors"
+          className="text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 px-3 py-1.5 rounded-lg transition-colors"
         >
           Salvar
         </button>

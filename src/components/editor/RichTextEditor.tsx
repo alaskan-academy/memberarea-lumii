@@ -67,7 +67,7 @@ function ToolBtn({
       className={cn(
         "p-1.5 rounded transition-colors",
         active
-          ? "bg-[#f6614f] text-white"
+          ? "bg-lumii-coral text-white"
           : "text-muted-foreground hover:text-foreground hover:bg-muted",
         disabled && "opacity-30 cursor-not-allowed"
       )}
@@ -192,7 +192,7 @@ function LinkDialog({ editor }: { editor: Editor }) {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && apply()}
-              className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
             <div className="flex gap-2 justify-end">
               <button
@@ -205,7 +205,7 @@ function LinkDialog({ editor }: { editor: Editor }) {
               <button
                 type="button"
                 onClick={apply}
-                className="text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747]"
+                className="text-xs px-3 py-1.5 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover"
               >
                 Aplicar
               </button>
@@ -439,7 +439,7 @@ export default function RichTextEditor({
   if (!editor) return null;
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden bg-background focus-within:ring-2 focus-within:ring-[#f6614f]/40">
+    <div className="border border-border rounded-lg overflow-hidden bg-background focus-within:ring-2 focus-within:ring-lumii-coral/40">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

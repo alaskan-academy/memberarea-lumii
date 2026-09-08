@@ -33,7 +33,7 @@ export default function EmailsAdminPage() {
     <div className="max-w-2xl mx-auto space-y-8 py-8 px-4">
       <div>
         <h1 className="text-2xl font-bold flex items-center gap-2">
-          <Mail className="w-6 h-6 text-[#f6614f]" />
+          <Mail className="w-6 h-6 text-lumii-coral" />
           E-mails automáticos
         </h1>
         <p className="text-muted-foreground text-sm mt-1">
@@ -50,7 +50,7 @@ export default function EmailsAdminPage() {
               key={type.value}
               className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                 selected === type.value
-                  ? "border-[#f6614f] bg-[#f6614f]/5"
+                  ? "border-lumii-coral bg-lumii-coral/5"
                   : "border-border hover:bg-muted/50"
               }`}
             >
@@ -60,7 +60,7 @@ export default function EmailsAdminPage() {
                 value={type.value}
                 checked={selected === type.value}
                 onChange={() => setSelected(type.value)}
-                className="mt-0.5 accent-[#f6614f]"
+                className="mt-0.5 accent-lumii-coral"
               />
               <div>
                 <p className="text-sm font-medium">{type.label}</p>
@@ -82,7 +82,7 @@ export default function EmailsAdminPage() {
           value={to}
           onChange={(e) => setTo(e.target.value)}
           placeholder="seuemail@exemplo.com"
-          className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+          className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
         />
       </div>
 
@@ -91,7 +91,7 @@ export default function EmailsAdminPage() {
         <div
           className={`flex items-start gap-2 p-3 rounded-lg text-sm ${
             result.success
-              ? "bg-[#71c69a]/10 text-[#2a7a4a]"
+              ? "bg-lumii-green/10 text-[#2a7a4a]"
               : "bg-red-50 text-red-700"
           }`}
         >
@@ -108,7 +108,7 @@ export default function EmailsAdminPage() {
       <button
         onClick={handleSend}
         disabled={isPending || !to}
-        className="flex items-center gap-2 bg-[#f6614f] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#dd5747] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex items-center gap-2 bg-lumii-coral text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-lumii-coral-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <Send className="w-4 h-4" />
         {isPending ? "Enviando..." : "Enviar e-mail de teste"}

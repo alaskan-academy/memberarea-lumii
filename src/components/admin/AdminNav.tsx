@@ -123,14 +123,14 @@ function NavLinks({
                       ? "justify-center p-2.5 relative"
                       : "gap-3 px-3 py-2",
                     active
-                      ? "text-[#f6614f] bg-[#f6614f]/15"
+                      ? "text-lumii-coral bg-lumii-coral/15"
                       : "text-white/60 hover:text-white hover:bg-white/[0.08]"
                   )}
                 >
                   <span className="relative shrink-0">
                     <item.icon className="w-4 h-4" />
                     {badge > 0 && collapsed && (
-                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#f6614f] text-white text-[8px] font-bold flex items-center justify-center leading-none">
+                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-lumii-coral text-white text-[8px] font-bold flex items-center justify-center leading-none">
                         {badge > 9 ? "9+" : badge}
                       </span>
                     )}
@@ -139,7 +139,7 @@ function NavLinks({
                     <>
                       <span className="flex-1">{item.label}</span>
                       {badge > 0 && (
-                        <span className="ml-auto shrink-0 min-w-[18px] h-[18px] rounded-full bg-[#f6614f] text-white text-[10px] font-bold flex items-center justify-center px-1 leading-none">
+                        <span className="ml-auto shrink-0 min-w-[18px] h-[18px] rounded-full bg-lumii-coral text-white text-[10px] font-bold flex items-center justify-center px-1 leading-none">
                           {badge > 99 ? "99+" : badge}
                         </span>
                       )}

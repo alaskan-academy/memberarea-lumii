@@ -52,7 +52,7 @@ export default function CadastroPage() {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Criar conta</CardTitle>
         <CardDescription className="text-foreground/80 text-sm leading-relaxed">
-          <span className="font-semibold text-[#f6614f]">Fique tranquila(o), é rapidinho!</span> Você faz esse cadastro só uma vez — depois é só entrar com e-mail e senha.
+          <span className="font-semibold text-lumii-coral">Fique tranquila(o), é rapidinho!</span> Você faz esse cadastro só uma vez — depois é só entrar com e-mail e senha.
         </CardDescription>
       </CardHeader>
 
@@ -104,7 +104,7 @@ export default function CadastroPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="phone" className="flex items-center gap-1.5">
-                  <Phone className="w-4 h-4 text-[#f6614f]" />
+                  <Phone className="w-4 h-4 text-lumii-coral" />
                   WhatsApp
                 </Label>
                 <Input
@@ -124,7 +124,7 @@ export default function CadastroPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="cpf" className="flex items-center gap-1.5">
-                  <CreditCard className="w-4 h-4 text-[#f6614f]" />
+                  <CreditCard className="w-4 h-4 text-lumii-coral" />
                   CPF
                 </Label>
                 <Input
@@ -146,7 +146,7 @@ export default function CadastroPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="date_of_birth" className="flex items-center gap-1.5">
-                  <Cake className="w-4 h-4 text-[#f6614f]" />
+                  <Cake className="w-4 h-4 text-lumii-coral" />
                   Data de nascimento
                   <span className="text-[#999] font-normal text-xs">(opcional)</span>
                 </Label>
@@ -218,7 +218,7 @@ export default function CadastroPage() {
               href="https://wa.me/5548992215138"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#f6614f] underline-offset-4 hover:underline"
+              className="text-lumii-coral underline-offset-4 hover:underline"
             >
               Falar com suporte
             </a>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { notFound } from "next/navigation";
@@ -7,6 +8,22 @@ import Image from "next/image";
 import { Lock, Play, CheckCircle, Clock, BookOpen, RotateCcw, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const service = createServiceClient();
+  const { data } = await service
+    .from("courses")
+    .select("title")
+    .eq("slug", slug)
+    .eq("published", true)
+    .maybeSingle();
+  return { title: data?.title ? `${data.title} — Lumii` : "Curso — Lumii" };
+}
 
 type ModuleWithLessons = {
   id: string;
@@ -141,7 +158,7 @@ export default async function CourseDetailPage({
 
           {isEnrolled ? (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-[#71c69a] text-sm font-medium">
+              <div className="flex items-center gap-2 text-lumii-green text-sm font-medium">
                 <CheckCircle className="w-4 h-4" />
                 Você já tem acesso
               </div>
@@ -151,7 +168,7 @@ export default async function CourseDetailPage({
                 <div className="space-y-1">
                   <div className="flex justify-between items-center text-[11px] text-muted-foreground">
                     <span>{completedCount}/{totalLessons} aulas</span>
-                    <span className={cn("font-semibold", progressPct === 100 ? "text-[#71c69a]" : "text-[#f6614f]")}>
+                    <span className={cn("font-semibold", progressPct === 100 ? "text-lumii-green" : "text-lumii-coral")}>
                       {progressPct}%
                     </span>
                   </div>
@@ -174,9 +191,9 @@ export default async function CourseDetailPage({
                   className={cn(
                     "w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-semibold transition-colors",
                     progressPct === 100
-                      ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
+                      ? "bg-lumii-green/15 text-lumii-green hover:bg-lumii-green/25"
                       : lastWatchedLessonId
-                      ? "bg-[#f6614f] text-white hover:bg-[#dd5747]"
+                      ? "bg-lumii-coral text-white hover:bg-lumii-coral-hover"
                       : "bg-muted text-foreground hover:bg-muted/80"
                   )}
                 >
@@ -193,7 +210,7 @@ export default async function CourseDetailPage({
               {forumSlug && (
                 <Link
                   href={`/comunidade/forum/${forumSlug}`}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border border-border text-foreground/70 hover:text-[#f6614f] hover:border-[#f6614f]/40 hover:bg-[#f6614f]/5 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border border-border text-foreground/70 hover:text-lumii-coral hover:border-lumii-coral/40 hover:bg-lumii-coral/5 transition-colors"
                 >
                   <MessageSquare className="w-4 h-4" />
                   Comunidade do curso
@@ -208,7 +225,7 @@ export default async function CourseDetailPage({
                 rel={(course as unknown as { checkout_url: string | null }).checkout_url ? "noopener noreferrer" : undefined}
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "w-full bg-[#f6614f] hover:bg-[#dd5747] text-white font-semibold justify-center"
+                  "w-full bg-lumii-coral hover:bg-lumii-coral-hover text-white font-semibold justify-center"
                 )}
               >
                 Comprar curso
@@ -223,7 +240,7 @@ export default async function CourseDetailPage({
         {/* Info principal — aparece primeiro no mobile */}
         <div className="lg:col-span-2 space-y-4 order-first lg:order-first">
           {category && (
-            <span className="text-sm font-medium uppercase tracking-wide text-[#f6614f]">
+            <span className="text-sm font-medium uppercase tracking-wide text-lumii-coral">
               {category.name}
             </span>
           )}
@@ -273,7 +290,7 @@ export default async function CourseDetailPage({
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           {canAccess ? (
-                            <Play className="w-4 h-4 text-[#f6614f] shrink-0" />
+                            <Play className="w-4 h-4 text-lumii-coral shrink-0" />
                           ) : (
                             <Lock className="w-4 h-4 text-muted-foreground shrink-0" />
                           )}
@@ -281,7 +298,7 @@ export default async function CourseDetailPage({
                             {canAccess ? (
                               <Link
                                 href={`/aulas/${lesson.id}`}
-                                className="text-sm font-medium hover:text-[#f6614f] transition-colors line-clamp-1"
+                                className="text-sm font-medium hover:text-lumii-coral transition-colors line-clamp-1"
                               >
                                 {lesson.title}
                               </Link>
@@ -291,7 +308,7 @@ export default async function CourseDetailPage({
                               </span>
                             )}
                             {lesson.is_preview && (
-                              <span className="text-xs text-[#71c69a] font-medium">
+                              <span className="text-xs text-lumii-green font-medium">
                                 Prévia gratuita
                               </span>
                             )}

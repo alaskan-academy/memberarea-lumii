@@ -166,7 +166,7 @@ function ItemForm({
               name="active"
               value="true"
               defaultChecked={item?.active ?? true}
-              className="w-4 h-4 accent-[#f6614f]"
+              className="w-4 h-4 accent-lumii-coral"
             />
             <span className="text-sm font-medium">Ativo</span>
           </label>
@@ -280,7 +280,7 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
       <div
         key={item.id}
         className={`flex items-center gap-3 px-4 py-3 border-b border-border/30 last:border-0 ${
-          isChild ? "pl-10 bg-[#F5F5F0]" : "bg-white"
+          isChild ? "pl-10 bg-lumii-muted" : "bg-white"
         } ${!item.active ? "opacity-50" : ""}`}
       >
         <div className="text-muted-foreground w-4 shrink-0">
@@ -354,7 +354,7 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
         </div>
       ) : (
         <div className="rounded-xl border border-border/60 overflow-hidden shadow-sm">
-          <div className="px-4 py-2.5 bg-[#F5F5F0] border-b border-border/40 flex gap-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <div className="px-4 py-2.5 bg-lumii-muted border-b border-border/40 flex gap-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             <span className="w-4" />
             <span className="flex-1">Label / URL</span>
             <span className="hidden sm:block w-32">Visível para</span>

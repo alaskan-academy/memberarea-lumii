@@ -159,7 +159,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
       <div className="flex justify-end">
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f6614f] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-lumii-coral text-white text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           <Plus className="w-4 h-4" />
           Novo post
@@ -168,7 +168,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
 
       {/* Formulário inline */}
       {showForm && (
-        <div className="bg-white rounded-xl border border-[#f6614f]/30 shadow-sm p-6 space-y-5">
+        <div className="bg-white rounded-xl border border-lumii-coral/30 shadow-sm p-6 space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-base">{editingId ? "Editar post" : "Criar novo post"}</h2>
             <button onClick={closeForm} aria-label="Fechar formulário" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -189,7 +189,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                 placeholder="Título do post"
                 required
                 maxLength={200}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
               />
             </div>
 
@@ -202,7 +202,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                 placeholder="Escreva o conteúdo do post…"
                 rows={6}
                 maxLength={10000}
-                className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
               />
             </div>
 
@@ -216,7 +216,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                   value={form.image_url}
                   onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
                   placeholder="https://... ou faça upload →"
-                  className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                  className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                 />
                 <input
                   ref={fileInputRef}
@@ -257,7 +257,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                   type="checkbox"
                   checked={form.published}
                   onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))}
-                  className="w-4 h-4 rounded accent-[#f6614f]"
+                  className="w-4 h-4 rounded accent-lumii-coral"
                 />
                 <span className="text-sm font-medium">Publicar agora</span>
               </label>
@@ -266,7 +266,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                   type="checkbox"
                   checked={form.pinned}
                   onChange={(e) => setForm((f) => ({ ...f, pinned: e.target.checked }))}
-                  className="w-4 h-4 rounded accent-[#f6614f]"
+                  className="w-4 h-4 rounded accent-lumii-coral"
                 />
                 <span className="text-sm font-medium">Fixar no topo</span>
               </label>
@@ -283,7 +283,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
               <button
                 type="submit"
                 disabled={submitting || !form.title.trim()}
-                className="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#f6614f] text-white text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-5 py-2 rounded-lg bg-lumii-coral text-white text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity"
               >
                 {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
                 {editingId ? "Salvar" : "Publicar"}
@@ -325,9 +325,9 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                   <h3 className="font-semibold text-sm text-foreground flex-1 line-clamp-1">{post.title}</h3>
                   <div className="flex items-center gap-1 shrink-0">
                     {post.pinned && (
-                      <span className="text-[10px] font-semibold text-[#f6614f] bg-[#f6614f]/10 px-2 py-0.5 rounded-full">Fixado</span>
+                      <span className="text-[10px] font-semibold text-lumii-coral bg-lumii-coral/10 px-2 py-0.5 rounded-full">Fixado</span>
                     )}
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${post.published ? "text-[#71c69a] bg-[#71c69a]/10" : "text-muted-foreground bg-muted"}`}>
+                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${post.published ? "text-lumii-green bg-lumii-green/10" : "text-muted-foreground bg-muted"}`}>
                       {post.published ? "Publicado" : "Rascunho"}
                     </span>
                   </div>
@@ -354,7 +354,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   post.published
                     ? "text-muted-foreground hover:text-foreground hover:bg-muted"
-                    : "text-[#f6614f] bg-[#f6614f]/10 hover:bg-[#f6614f]/20"
+                    : "text-lumii-coral bg-lumii-coral/10 hover:bg-lumii-coral/20"
                 }`}
               >
                 {post.published ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -365,7 +365,7 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                 onClick={() => handleTogglePinned(post.id, post.pinned)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   post.pinned
-                    ? "text-[#eebc3e] bg-[#eebc3e]/10 hover:bg-[#eebc3e]/20"
+                    ? "text-lumii-yellow bg-lumii-yellow/10 hover:bg-lumii-yellow/20"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
@@ -406,8 +406,8 @@ export default function FeedAdminClient({ posts: initialPosts }: Props) {
                 ) : (
                   (commentsData[post.id] ?? []).map((comment) => (
                     <div key={comment.id} className="flex items-start gap-2.5 bg-white rounded-lg border border-border/40 px-3 py-2">
-                      <div className="w-7 h-7 rounded-full bg-[#f6614f]/15 flex items-center justify-center shrink-0">
-                        <User className="w-3.5 h-3.5 text-[#f6614f]" />
+                      <div className="w-7 h-7 rounded-full bg-lumii-coral/15 flex items-center justify-center shrink-0">
+                        <User className="w-3.5 h-3.5 text-lumii-coral" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline justify-between gap-2">

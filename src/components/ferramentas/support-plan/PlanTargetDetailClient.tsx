@@ -100,7 +100,7 @@ export default function PlanTargetDetailClient({
             <button
               type="button"
               onClick={() => setCheckinOpen(true)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] transition-colors min-h-[44px]"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px]"
             >
               Fazer check-in
             </button>
@@ -108,7 +108,7 @@ export default function PlanTargetDetailClient({
               type="button"
               onClick={handleClosePlan}
               disabled={isPending}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold border border-border hover:border-[#f6614f] hover:text-[#f6614f] transition-colors min-h-[44px] disabled:opacity-50"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold border border-border hover:border-lumii-coral hover:text-lumii-coral transition-colors min-h-[44px] disabled:opacity-50"
             >
               <CheckCircle2 className="w-4 h-4" />
               Encerrar plano
@@ -138,7 +138,7 @@ export default function PlanTargetDetailClient({
       ) : (
         <Link
           href={novoPlanoHref}
-          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] transition-colors min-h-[44px] mb-8"
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px] mb-8"
         >
           <Plus className="w-4 h-4" />
           Criar novo plano

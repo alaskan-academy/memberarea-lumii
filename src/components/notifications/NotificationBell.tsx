@@ -159,7 +159,7 @@ export default function NotificationBell({
             <div className="flex items-center gap-2">
               {unread > 0 && (
                 <button onClick={handleReadAll}
-                  className="flex items-center gap-1 text-xs text-[#f6614f] hover:text-[#dd5747] transition-colors"
+                  className="flex items-center gap-1 text-xs text-lumii-coral hover:text-lumii-coral-hover transition-colors"
                   aria-label="Marcar todas como lidas">
                   <CheckCheck className="w-3.5 h-3.5" />
                   Lidas
@@ -185,7 +185,7 @@ export default function NotificationBell({
                 const color = typeColor(n.type);
                 const content = (
                   <div
-                    className={`flex gap-3 px-4 py-3 border-b border-border/40 transition-colors cursor-pointer hover:bg-muted/50 ${!n.read ? "bg-[#f6614f]/5" : ""}`}
+                    className={`flex gap-3 px-4 py-3 border-b border-border/40 transition-colors cursor-pointer hover:bg-muted/50 ${!n.read ? "bg-lumii-coral/5" : ""}`}
                     onClick={() => { if (!n.read) handleRead(n.id); }}
                   >
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"

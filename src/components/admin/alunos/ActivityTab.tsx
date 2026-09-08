@@ -25,12 +25,12 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 ];
 
 const TYPE_CONFIG = {
-  forum_post:      { icon: MessageSquare,  label: "Post no fórum",         color: "#f6614f", bg: "bg-[#f6614f]/10",  filter: "forum"       as FilterKey },
-  forum_comment:   { icon: MessageCircle,  label: "Comentário no fórum",   color: "#f6614f", bg: "bg-[#f6614f]/10",  filter: "comments"    as FilterKey },
-  suggestion:      { icon: Store,          label: "Sugestão de fornecedor", color: "#eebc3e", bg: "bg-[#eebc3e]/15",  filter: "suggestions" as FilterKey },
-  lesson_completed:{ icon: CheckCircle2,   label: "Aula concluída",         color: "#71c69a", bg: "bg-[#71c69a]/10",  filter: "lessons"     as FilterKey },
+  forum_post:      { icon: MessageSquare,  label: "Post no fórum",         color: "#f6614f", bg: "bg-lumii-coral/10",  filter: "forum"       as FilterKey },
+  forum_comment:   { icon: MessageCircle,  label: "Comentário no fórum",   color: "#f6614f", bg: "bg-lumii-coral/10",  filter: "comments"    as FilterKey },
+  suggestion:      { icon: Store,          label: "Sugestão de fornecedor", color: "#eebc3e", bg: "bg-lumii-yellow/15",  filter: "suggestions" as FilterKey },
+  lesson_completed:{ icon: CheckCircle2,   label: "Aula concluída",         color: "#71c69a", bg: "bg-lumii-green/10",  filter: "lessons"     as FilterKey },
   insp_like:       { icon: Heart,          label: "Curtiu inspiração",      color: "#f87171", bg: "bg-red-50",        filter: "inspiracoes" as FilterKey },
-  insp_bookmark:   { icon: Bookmark,       label: "Salvou inspiração",      color: "#f6614f", bg: "bg-[#f6614f]/10",  filter: "inspiracoes" as FilterKey },
+  insp_bookmark:   { icon: Bookmark,       label: "Salvou inspiração",      color: "#f6614f", bg: "bg-lumii-coral/10",  filter: "inspiracoes" as FilterKey },
   insp_comment:    { icon: MessageCircle,  label: "Comentou em inspiração", color: "#a855f7", bg: "bg-purple-50",     filter: "inspiracoes" as FilterKey },
 };
 
@@ -78,22 +78,22 @@ export default function ActivityTab({ items }: { items: ActivityItem[] }) {
       {/* Summary chips */}
       <div className="flex flex-wrap gap-2">
         {forumPosts > 0 && (
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#f6614f]/10 text-[#f6614f]">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-lumii-coral/10 text-lumii-coral">
             {forumPosts} post{forumPosts !== 1 ? "s" : ""} no fórum
           </span>
         )}
         {comments > 0 && (
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#f6614f]/10 text-[#f6614f]">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-lumii-coral/10 text-lumii-coral">
             {comments} comentário{comments !== 1 ? "s" : ""}
           </span>
         )}
         {lessonsCompleted > 0 && (
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#71c69a]/10 text-[#5bb577]">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-lumii-green/10 text-[#5bb577]">
             {lessonsCompleted} aula{lessonsCompleted !== 1 ? "s" : ""} concluída{lessonsCompleted !== 1 ? "s" : ""}
           </span>
         )}
         {suggestions > 0 && (
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#eebc3e]/15 text-yellow-700">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-lumii-yellow/15 text-yellow-700">
             {suggestions} sugestão{suggestions !== 1 ? "ões" : ""}
           </span>
         )}
@@ -121,8 +121,8 @@ export default function ActivityTab({ items }: { items: ActivityItem[] }) {
               className={cn(
                 "px-3 py-1 rounded-lg text-xs font-medium transition-colors border",
                 filter === f.key
-                  ? "bg-[#f6614f] text-white border-[#f6614f]"
-                  : "bg-white text-muted-foreground border-border hover:border-[#f6614f]/40 hover:text-foreground"
+                  ? "bg-lumii-coral text-white border-lumii-coral"
+                  : "bg-white text-muted-foreground border-border hover:border-lumii-coral/40 hover:text-foreground"
               )}
             >
               {f.label}
@@ -164,7 +164,7 @@ export default function ActivityTab({ items }: { items: ActivityItem[] }) {
                         <span
                           className={`mt-1 inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold ${
                             item.status === "approved"
-                              ? "bg-[#71c69a]/10 text-[#5bb577]"
+                              ? "bg-lumii-green/10 text-[#5bb577]"
                               : item.status === "rejected"
                               ? "bg-red-100 text-red-600"
                               : "bg-muted text-muted-foreground"

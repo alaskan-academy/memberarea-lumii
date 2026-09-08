@@ -20,7 +20,7 @@ export default async function NotFound() {
 
         <div className="mt-10 space-y-3 max-w-sm">
           <h1 className="text-xl font-bold text-lumii-muted">
-            Página <span className="text-[#f6614f]">não encontrada</span>
+            Página <span className="text-lumii-coral">não encontrada</span>
           </h1>
           <p className="text-sm text-lumii-muted/70 leading-relaxed">
             Não encontramos o que você procurava. Talvez o link esteja errado
@@ -30,7 +30,7 @@ export default async function NotFound() {
 
         <Link
           href={href}
-          className="mt-10 inline-flex items-center gap-2 rounded-lg bg-[#f6614f] px-6 py-3 text-sm font-semibold text-white min-h-[44px] transition-opacity hover:opacity-90 active:opacity-75"
+          className="mt-10 inline-flex items-center gap-2 rounded-lg bg-lumii-coral px-6 py-3 text-sm font-semibold text-white min-h-[44px] transition-opacity hover:opacity-90 active:opacity-75"
         >
           {user ? "Voltar para meus cursos" : "Ir para o login"}
         </Link>

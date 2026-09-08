@@ -16,7 +16,7 @@ export default function SituacaoGrid({
             key={s.value}
             type="button"
             onClick={() => onSelect(s.value)}
-            className="lumii-card p-4 flex flex-col items-center gap-2 text-center min-h-[92px] justify-center hover:shadow-md transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]"
+            className="lumii-card p-4 flex flex-col items-center gap-2 text-center min-h-[92px] justify-center hover:shadow-md transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-lumii-coral"
           >
             <span className="text-2xl" aria-hidden>
               {s.emoji}

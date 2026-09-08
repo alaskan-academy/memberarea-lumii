@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import ParentScriptTool from "@/components/ferramentas/parent-scripts/ParentScriptTool";
+
+export const metadata: Metadata = { title: "O que eu digo agora? — Lumii" };
 
 export default async function OQueEuDigoAgoraPage() {
   const supabase = await createClient();

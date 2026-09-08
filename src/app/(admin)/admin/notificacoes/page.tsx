@@ -1,18 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import { Bell, Send, Clock, CheckCircle2, XCircle, Users, BookOpen, Loader2 } from "lucide-react";
 import { getCampaigns } from "@/lib/notifications/actions";
 import NovaCampanhaForm from "./NovaCampanhaForm";
 import { DeleteButton, CancelButton, SendNowButton } from "./CampaignActions";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 const STATUS_META: Record<string, { label: string; color: string; icon: React.ElementType }> = {
   draft:     { label: "Rascunho",  color: "#2D2D2D", icon: Bell },
@@ -29,7 +20,7 @@ function targetLabel(target: string) {
 }
 
 export default async function NotificacoesAdminPage() {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const [campaigns, { data: courses }] = await Promise.all([

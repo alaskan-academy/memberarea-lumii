@@ -1,20 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { TrendingUp, Award, BookOpen, ArrowLeft, CheckCircle2, Clock } from "lucide-react";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 export default async function TaxaConclusaoPage() {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const now = new Date().toISOString();
@@ -87,7 +78,7 @@ export default async function TaxaConclusaoPage() {
         </Link>
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-[#f6614f]" />
+            <TrendingUp className="w-5 h-5 text-lumii-coral" />
             Taxa de conclusão
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -100,25 +91,25 @@ export default async function TaxaConclusaoPage() {
       <div className="lumii-card p-6">
         <div className="flex items-end justify-between mb-3">
           <div>
-            <p className="text-4xl font-bold text-[#f6614f]">{taxa}%</p>
+            <p className="text-4xl font-bold text-lumii-coral">{taxa}%</p>
             <p className="text-sm text-muted-foreground mt-1">
               {concluded.length} de {totalMatriculas} alunas concluíram pelo menos um curso
             </p>
           </div>
           <div className="text-right text-sm text-muted-foreground space-y-1">
             <p className="flex items-center gap-1.5 justify-end">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#71c69a]" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-lumii-green" />
               {concluded.length} concluíram
             </p>
             <p className="flex items-center gap-1.5 justify-end">
-              <Clock className="w-3.5 h-3.5 text-[#eebc3e]" />
+              <Clock className="w-3.5 h-3.5 text-lumii-yellow" />
               {inProgress.length} em andamento
             </p>
           </div>
         </div>
         <div className="h-3 rounded-full bg-muted overflow-hidden">
           <div
-            className="h-full rounded-full bg-[#f6614f] transition-all"
+            className="h-full rounded-full bg-lumii-coral transition-all"
             style={{ width: `${taxa}%` }}
           />
         </div>
@@ -129,9 +120,9 @@ export default async function TaxaConclusaoPage() {
         {/* Concluíram */}
         <div className="lumii-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-            <Award className="w-4 h-4 text-[#71c69a]" />
+            <Award className="w-4 h-4 text-lumii-green" />
             <span className="font-semibold text-sm">Concluíram</span>
-            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-[#71c69a]/15 text-[#3d9e5a]">
+            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-lumii-green/15 text-lumii-green-dark">
               {concluded.length}
             </span>
           </div>
@@ -149,7 +140,7 @@ export default async function TaxaConclusaoPage() {
                     <p className="text-xs text-muted-foreground truncate">{profile!.email}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xs font-semibold text-[#71c69a]">
+                    <p className="text-xs font-semibold text-lumii-green">
                       {userCerts.length} cert.
                     </p>
                     <p className="text-[11px] text-muted-foreground">
@@ -167,9 +158,9 @@ export default async function TaxaConclusaoPage() {
         {/* Em andamento */}
         <div className="lumii-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#eebc3e]" />
+            <BookOpen className="w-4 h-4 text-lumii-yellow" />
             <span className="font-semibold text-sm">Em andamento</span>
-            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-[#eebc3e]/15 text-amber-700">
+            <span className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-lumii-yellow/15 text-amber-700">
               {inProgress.length}
             </span>
           </div>
@@ -187,7 +178,7 @@ export default async function TaxaConclusaoPage() {
                     <p className="text-xs text-muted-foreground truncate">{profile!.email}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xs font-semibold text-[#eebc3e]">
+                    <p className="text-xs font-semibold text-lumii-yellow">
                       {enrollCount} curso{enrollCount !== 1 ? "s" : ""}
                     </p>
                     <p className="text-[11px] text-muted-foreground">sem cert.</p>

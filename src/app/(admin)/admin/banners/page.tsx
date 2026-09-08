@@ -13,9 +13,9 @@ const SLOT_LABELS: Record<string, string> = {
 };
 
 const SLOT_COLORS: Record<string, string> = {
-  header: "bg-[#f6614f]/10 text-[#f6614f]",
-  lateral: "bg-[#71c69a]/10 text-[#5bb577]",
-  "pos-aula": "bg-[#eebc3e]/15 text-amber-600",
+  header: "bg-lumii-coral/10 text-lumii-coral",
+  lateral: "bg-lumii-green/10 text-[#5bb577]",
+  "pos-aula": "bg-lumii-yellow/15 text-amber-600",
 };
 
 export default async function BannersPage() {
@@ -54,7 +54,7 @@ export default async function BannersPage() {
         </div>
         <Link
           href="/admin/banners/novo"
-          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors"
         >
           <Plus className="w-4 h-4" />
           Novo banner
@@ -130,7 +130,7 @@ export default async function BannersPage() {
                       type="submit"
                       className={cn(
                         "relative inline-flex w-9 h-5 rounded-full transition-colors focus:outline-none",
-                        b.active ? "bg-[#f6614f]" : "bg-muted-foreground/30"
+                        b.active ? "bg-lumii-coral" : "bg-muted-foreground/30"
                       )}
                       title={b.active ? "Desativar" : "Ativar"}
                       aria-label={b.active ? "Desativar" : "Ativar"}

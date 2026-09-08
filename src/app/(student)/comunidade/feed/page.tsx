@@ -55,11 +55,11 @@ export default async function FeedPage() {
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
-          <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-3">
+          <p className="text-sm font-medium text-lumii-coral uppercase tracking-wide mb-3">
             Novidades
           </p>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#0F0F0F]">
-            Avisos da <span className="text-[#f6614f]">Lumii</span>
+          <h1 className="text-3xl sm:text-4xl font-black text-lumii-black">
+            Avisos da <span className="text-lumii-coral">Lumii</span>
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Novidades, lançamentos e destaques direto da equipe Lumii.

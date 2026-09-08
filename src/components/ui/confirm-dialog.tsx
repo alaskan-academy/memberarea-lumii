@@ -75,7 +75,7 @@ export default function ConfirmDialog({
             className={
               destructive
                 ? "px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors disabled:opacity-50"
-                : "px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] transition-colors disabled:opacity-50"
+                : "px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors disabled:opacity-50"
             }
           >
             {pending ? "Aguarde..." : confirmLabel}

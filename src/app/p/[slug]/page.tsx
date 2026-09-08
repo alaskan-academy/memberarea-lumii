@@ -66,7 +66,7 @@ export default async function StaticPage({
       {/* Conteúdo */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
         <div className="bg-white rounded-2xl shadow-sm border border-border/60 px-6 sm:px-10 py-10 sm:py-14">
-          <h1 className="text-2xl sm:text-3xl font-black text-[#2D2D2D] mb-8 pb-6 border-b border-border/40">
+          <h1 className="text-2xl sm:text-3xl font-black text-lumii-gray mb-8 pb-6 border-b border-border/40">
             {page.title}
           </h1>
 

@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { unstable_cache } from "next/cache";
 import { formatPrice, formatDuration } from "@/lib/format";
 import CursosGrid from "./cursos-grid";
 import BannerDisplay from "@/components/banner/BannerDisplay";
+
+export const metadata: Metadata = { title: "Cursos — Lumii" };
 
 export const revalidate = 60;
 
@@ -321,10 +324,10 @@ export default async function CursosPage({
       {/* Hero */}
       <div className="bg-white border-b border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
-          <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-3">
+          <p className="text-sm font-medium text-lumii-coral uppercase tracking-wide mb-3">
             Plataforma de Educação Infantil para Pais e Professores
           </p>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#0F0F0F]">
+          <h1 className="text-3xl sm:text-4xl font-black text-lumii-black">
             Cursos que <span className="accent-word">iluminam</span> sua jornada com a infância
           </h1>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">

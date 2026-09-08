@@ -40,7 +40,7 @@ export default function IdadeSelector({
           type="button"
           aria-label="Diminuir idade"
           onClick={() => setIdade((v) => clamp(v - 1))}
-          className="w-11 h-11 rounded-full border border-border flex items-center justify-center hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
+          className="w-11 h-11 rounded-full border border-border flex items-center justify-center hover:border-lumii-coral hover:text-lumii-coral transition-colors"
         >
           <Minus className="w-4 h-4" />
         </button>
@@ -52,7 +52,7 @@ export default function IdadeSelector({
           type="button"
           aria-label="Aumentar idade"
           onClick={() => setIdade((v) => clamp(v + 1))}
-          className="w-11 h-11 rounded-full border border-border flex items-center justify-center hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
+          className="w-11 h-11 rounded-full border border-border flex items-center justify-center hover:border-lumii-coral hover:text-lumii-coral transition-colors"
         >
           <Plus className="w-4 h-4" />
         </button>
@@ -61,7 +61,7 @@ export default function IdadeSelector({
       <button
         type="button"
         onClick={() => onConfirm(idade)}
-        className="w-full mt-5 py-3 rounded-xl font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] transition-colors min-h-[44px]"
+        className="w-full mt-5 py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px]"
       >
         Ver o que dizer
       </button>

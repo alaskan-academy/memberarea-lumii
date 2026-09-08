@@ -1,6 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
   Users, BookOpen, Award, TrendingUp,
@@ -8,19 +6,7 @@ import {
   BarChart3, CheckCircle2, Clock, XCircle, Webhook,
   ArrowRight, AlertTriangle, Flag, MessageCircle, Sparkles, PlusCircle,
 } from "lucide-react";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase
-    .from("profiles")
-    .select("role, full_name")
-    .eq("id", user.id)
-    .single();
-  if (p?.role !== "admin") redirect("/dashboard");
-  return p?.full_name as string | null;
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 const QUICK_ACTION_GROUPS = [
   {
@@ -48,14 +34,20 @@ const QUICK_ACTION_GROUPS = [
     label: "Inspirações",
     items: [
       { href: "/admin/inspiracoes",             icon: Sparkles,      label: "Posts",        desc: "Gerenciar feed de inspirações",  color: "#f6614f" },
-      { href: "/admin/inspiracoes/novo",        icon: PlusCircle,    label: "Novo post",    desc: "Criar foto, vídeo, receita...", color: "#71c69a" },
+      { href: "/admin/inspiracoes/novo",        icon: PlusCircle,    label: "Novo post",    desc: "Criar foto, vídeo, atividade...", color: "#71c69a" },
       { href: "/admin/inspiracoes/comentarios", icon: MessageCircle, label: "Comentários",  desc: "Aprovar comentários das alunas", color: "#eebc3e" },
     ],
   },
 ];
 
 export default async function AdminHomePage() {
-  const adminName = await assertAdmin();
+  const { supabase, user } = await assertAdminPage();
+  const { data: adminProfile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", user.id)
+    .single();
+  const adminName = adminProfile?.full_name as string | null;
   const service = createServiceClient();
 
   const hourBRT = (new Date().getUTCHours() - 3 + 24) % 24;
@@ -142,7 +134,7 @@ export default async function AdminHomePage() {
       <div>
         <h1 className="text-2xl font-bold text-foreground">
           {greeting},{" "}
-          <span className="text-[#f6614f]">{firstName}!</span>
+          <span className="text-lumii-coral">{firstName}!</span>
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
           {new Date().toLocaleDateString("pt-BR", {
@@ -158,7 +150,7 @@ export default async function AdminHomePage() {
       {((pendingReports ?? 0) > 0 || (pendingForumPosts ?? 0) > 0 || (pendingInspComments ?? 0) > 0) && (
         <div className="space-y-2">
           {(pendingReports ?? 0) > 0 && (
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eebc3e]/15 border border-[#eebc3e]/40">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-lumii-yellow/15 border border-lumii-yellow/40">
               <AlertTriangle className="w-5 h-5 text-[#b07d00] shrink-0" />
               <p className="text-sm font-medium text-foreground flex-1">
                 <span className="font-bold">{pendingReports}</span>{" "}
@@ -166,7 +158,7 @@ export default async function AdminHomePage() {
               </p>
               <Link
                 href="/admin/comunidade/forum"
-                className="text-xs font-semibold text-[#f6614f] hover:underline flex items-center gap-1 shrink-0"
+                className="text-xs font-semibold text-lumii-coral hover:underline flex items-center gap-1 shrink-0"
               >
                 Revisar <ArrowRight className="w-3 h-3" />
               </Link>
@@ -175,29 +167,29 @@ export default async function AdminHomePage() {
           {(pendingForumPosts ?? 0) > 0 && (
             <Link
               href="/admin/comunidade/forum"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f6614f]/10 border border-[#f6614f]/30 hover:bg-[#f6614f]/15 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-lumii-coral/10 border border-lumii-coral/30 hover:bg-lumii-coral/15 transition-colors"
             >
-              <Flag className="w-5 h-5 text-[#f6614f] shrink-0" />
+              <Flag className="w-5 h-5 text-lumii-coral shrink-0" />
               <p className="text-sm font-medium text-foreground flex-1">
-                <span className="font-bold text-[#f6614f]">{pendingForumPosts}</span>{" "}
+                <span className="font-bold text-lumii-coral">{pendingForumPosts}</span>{" "}
                 {pendingForumPosts === 1 ? "post aguarda aprovação" : "posts aguardam aprovação"}
                 {" · "}
                 <span className="text-foreground/50">{totalForumPosts ?? 0} no total</span>
               </p>
-              <ArrowRight className="w-4 h-4 text-[#f6614f] shrink-0" />
+              <ArrowRight className="w-4 h-4 text-lumii-coral shrink-0" />
             </Link>
           )}
           {(pendingInspComments ?? 0) > 0 && (
             <Link
               href="/admin/inspiracoes/comentarios"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f6614f]/10 border border-[#f6614f]/30 hover:bg-[#f6614f]/15 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-lumii-coral/10 border border-lumii-coral/30 hover:bg-lumii-coral/15 transition-colors"
             >
-              <Sparkles className="w-5 h-5 text-[#f6614f] shrink-0" />
+              <Sparkles className="w-5 h-5 text-lumii-coral shrink-0" />
               <p className="text-sm font-medium text-foreground flex-1">
-                <span className="font-bold text-[#f6614f]">{pendingInspComments}</span>{" "}
+                <span className="font-bold text-lumii-coral">{pendingInspComments}</span>{" "}
                 {pendingInspComments === 1 ? "comentário de inspiração aguarda" : "comentários de inspirações aguardam"} aprovação
               </p>
-              <ArrowRight className="w-4 h-4 text-[#f6614f] shrink-0" />
+              <ArrowRight className="w-4 h-4 text-lumii-coral shrink-0" />
             </Link>
           )}
         </div>
@@ -206,7 +198,7 @@ export default async function AdminHomePage() {
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {KPI_CARDS.map(({ icon: Icon, label, value, color, href }) => (
-          <Link key={label} href={href} className="lumii-card p-5 block hover:border-[#f6614f]/40 hover:shadow-md transition-all">
+          <Link key={label} href={href} className="lumii-card p-5 block hover:border-lumii-coral/40 hover:shadow-md transition-all">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
               style={{ background: color + "20" }}
@@ -241,7 +233,7 @@ export default async function AdminHomePage() {
                 <p className="text-sm font-semibold text-foreground">{label}</p>
                 <p className="text-xs text-foreground/50 mt-0.5 truncate">{desc}</p>
               </div>
-              <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
+              <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-lumii-coral transition-colors shrink-0" />
             </Link>
           ))}
         </div>
@@ -256,7 +248,7 @@ export default async function AdminHomePage() {
             <h2 className="text-sm font-semibold text-foreground/50 uppercase tracking-wider">
               Últimos pagamentos
             </h2>
-            <Link href="/admin/metricas" className="text-xs text-[#f6614f] hover:underline font-medium">
+            <Link href="/admin/metricas" className="text-xs text-lumii-coral hover:underline font-medium">
               Ver todos
             </Link>
           </div>
@@ -272,7 +264,7 @@ export default async function AdminHomePage() {
                       {w.buyer_email ?? "—"}
                     </p>
                     <p className="text-[11px] text-foreground/40 mt-0.5">
-                      <code className="bg-[#2D2D2D]/6 px-1 rounded">{w.event_type}</code>
+                      <code className="bg-lumii-gray/6 px-1 rounded">{w.event_type}</code>
                       {" · "}
                       {new Date(w.created_at).toLocaleDateString("pt-BR", {
                         day: "2-digit",
@@ -294,14 +286,14 @@ export default async function AdminHomePage() {
             Visão geral
           </h2>
           <div className="lumii-card p-4 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#71c69a]/20 flex items-center justify-center shrink-0">
-              <Webhook className="w-4 h-4 text-[#71c69a]" />
+            <div className="w-9 h-9 rounded-xl bg-lumii-green/20 flex items-center justify-center shrink-0">
+              <Webhook className="w-4 h-4 text-lumii-green" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[11px] text-foreground/40 font-medium uppercase tracking-wide">Cursos publicados</p>
               <p className="text-xl font-bold text-foreground">{cursosPublicados ?? 0}</p>
             </div>
-            <Link href="/admin/cursos" className="text-xs font-semibold text-[#f6614f] hover:underline flex items-center gap-1 shrink-0">
+            <Link href="/admin/cursos" className="text-xs font-semibold text-lumii-coral hover:underline flex items-center gap-1 shrink-0">
               Ver <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -309,14 +301,14 @@ export default async function AdminHomePage() {
             href="/admin/metricas"
             className="lumii-card p-4 flex items-center gap-3 hover:shadow-md transition-shadow group"
           >
-            <div className="w-9 h-9 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
-              <BarChart3 className="w-4 h-4 text-[#f6614f]" />
+            <div className="w-9 h-9 rounded-xl bg-lumii-coral/10 flex items-center justify-center shrink-0">
+              <BarChart3 className="w-4 h-4 text-lumii-coral" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-foreground">Métricas completas</p>
               <p className="text-xs text-foreground/50">Top cursos, funil, vídeos</p>
             </div>
-            <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-[#f6614f] transition-colors shrink-0" />
+            <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-lumii-coral transition-colors shrink-0" />
           </Link>
         </div>
       </div>
@@ -335,6 +327,6 @@ function WebhookDot({
   if (error)
     return <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />;
   if (processed)
-    return <CheckCircle2 className="w-4 h-4 text-[#71c69a] shrink-0 mt-0.5" />;
-  return <Clock className="w-4 h-4 text-[#eebc3e] shrink-0 mt-0.5" />;
+    return <CheckCircle2 className="w-4 h-4 text-lumii-green shrink-0 mt-0.5" />;
+  return <Clock className="w-4 h-4 text-lumii-yellow shrink-0 mt-0.5" />;
 }

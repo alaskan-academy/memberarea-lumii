@@ -105,9 +105,9 @@ export default function PerfilView({
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-12">
       {/* Banner certificado */}
       {newCert && (
-        <div className="lumii-card p-4 border-[#71c69a]/40 bg-[#71c69a]/10 flex items-center gap-3">
-          <PartyPopper className="w-5 h-5 text-[#71c69a] shrink-0" />
-          <p className="text-sm font-medium text-[#71c69a]">
+        <div className="lumii-card p-4 border-lumii-green/40 bg-lumii-green/10 flex items-center gap-3">
+          <PartyPopper className="w-5 h-5 text-lumii-green shrink-0" />
+          <p className="text-sm font-medium text-lumii-green">
             Parabéns! Seu certificado foi gerado e está disponível abaixo. 🎉
           </p>
         </div>
@@ -221,7 +221,7 @@ function ProfileSection({
         <div className="relative shrink-0">
           <button
             onClick={() => fileRef.current?.click()}
-            className="group relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#f6614f]/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f]"
+            className="group relative w-16 h-16 rounded-full overflow-hidden border-2 border-lumii-coral/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-lumii-coral"
             aria-label="Alterar foto de perfil"
             disabled={avatarPending}
           >
@@ -267,7 +267,7 @@ function ProfileSection({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Seu nome completo"
-                className="w-full text-xl font-bold bg-transparent border-b border-[#f6614f]/50 focus:border-[#f6614f] outline-none pb-0.5 placeholder:text-muted-foreground/50"
+                className="w-full text-xl font-bold bg-transparent border-b border-lumii-coral/50 focus:border-lumii-coral outline-none pb-0.5 placeholder:text-muted-foreground/50"
                 autoFocus
               />
             </>
@@ -284,7 +284,7 @@ function ProfileSection({
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            className="shrink-0 p-1.5 rounded-md text-muted-foreground hover:text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors"
+            className="shrink-0 p-1.5 rounded-md text-muted-foreground hover:text-lumii-coral hover:bg-lumii-coral/10 transition-colors"
             aria-label="Editar perfil"
           >
             <Pencil className="w-4 h-4" />
@@ -303,7 +303,7 @@ function ProfileSection({
             placeholder="Uma breve descrição sobre você…"
             rows={3}
             maxLength={300}
-            className="w-full text-sm text-muted-foreground bg-muted/50 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#f6614f]/50 placeholder:text-muted-foreground/50"
+            className="w-full text-sm text-muted-foreground bg-muted/50 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-lumii-coral/50 placeholder:text-muted-foreground/50"
           />
         </>
       ) : profile?.bio ? (
@@ -318,7 +318,7 @@ function ProfileSection({
             <button
               onClick={handleSave}
               disabled={isPending}
-              className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-1.5 min-h-[44px] rounded-lg hover:bg-[#dd5747] disabled:opacity-60 transition-colors"
+              className="flex items-center gap-1.5 text-sm font-medium bg-lumii-coral text-white px-4 py-1.5 min-h-[44px] rounded-lg hover:bg-lumii-coral-hover disabled:opacity-60 transition-colors"
             >
               {isPending ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -354,7 +354,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
   return (
     <section className="space-y-4">
       <h2 className="text-lg font-semibold flex items-center gap-2">
-        <BookOpen className="w-5 h-5 text-[#f6614f]" />
+        <BookOpen className="w-5 h-5 text-lumii-coral" />
         Meus cursos
       </h2>
 
@@ -367,7 +367,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
           </p>
           <Link
             href="/cursos"
-            className="inline-block mt-2 text-sm font-medium text-[#f6614f] hover:underline"
+            className="inline-block mt-2 text-sm font-medium text-lumii-coral hover:underline"
           >
             Ver cursos disponíveis →
           </Link>
@@ -385,7 +385,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
               <div key={course.id} className="lumii-card p-4 flex items-center gap-4">
                 {/* Thumbnail */}
                 <Link href={href} className="shrink-0">
-                  <div className="w-14 h-14 rounded-lg overflow-hidden bg-[#f6614f]/10">
+                  <div className="w-14 h-14 rounded-lg overflow-hidden bg-lumii-coral/10">
                     {course.thumbnail_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -404,7 +404,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
                 {/* Info + progresso */}
                 <div className="flex-1 min-w-0 space-y-1.5">
                   <Link href={`/cursos/${course.slug}`}>
-                    <p className="font-semibold text-sm line-clamp-1 hover:text-[#f6614f] transition-colors">
+                    <p className="font-semibold text-sm line-clamp-1 hover:text-lumii-coral transition-colors">
                       {course.title}
                     </p>
                   </Link>
@@ -420,7 +420,7 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
                         <span
                           className={cn(
                             "font-semibold",
-                            isComplete ? "text-[#71c69a]" : "text-[#f6614f]"
+                            isComplete ? "text-lumii-green" : "text-lumii-coral"
                           )}
                         >
                           {course.percentage}%
@@ -445,8 +445,8 @@ function CoursesSection({ courses }: { courses: CourseCard[] }) {
                   className={cn(
                     "shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-2.5 min-h-[44px] rounded-lg transition-colors",
                     isComplete
-                      ? "bg-[#71c69a]/15 text-[#71c69a] hover:bg-[#71c69a]/25"
-                      : "bg-[#f6614f] text-white hover:bg-[#dd5747]"
+                      ? "bg-lumii-green/15 text-lumii-green hover:bg-lumii-green/25"
+                      : "bg-lumii-coral text-white hover:bg-lumii-coral-hover"
                   )}
                 >
                   {isComplete ? (
@@ -481,7 +481,7 @@ function CertificatesSection({ certificates }: { certificates: Certificate[] }) 
   return (
     <section className="space-y-4">
       <h2 className="text-lg font-semibold flex items-center gap-2">
-        <Award className="w-5 h-5 text-[#f6614f]" />
+        <Award className="w-5 h-5 text-lumii-coral" />
         Meus certificados
       </h2>
 
@@ -535,8 +535,8 @@ function CertificateCard({ cert }: { cert: Certificate }) {
   return (
     <div className="lumii-card p-4">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-lg bg-[#f6614f]/15 flex items-center justify-center shrink-0">
-          <Award className="w-5 h-5 text-[#f6614f]" />
+        <div className="w-10 h-10 rounded-lg bg-lumii-coral/15 flex items-center justify-center shrink-0">
+          <Award className="w-5 h-5 text-lumii-coral" />
         </div>
 
         <div className="flex-1 min-w-0">
@@ -556,7 +556,7 @@ function CertificateCard({ cert }: { cert: Certificate }) {
         <button
           onClick={handleDownload}
           disabled={isPending}
-          className="flex-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:opacity-90 min-h-[44px] px-3 rounded-lg transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-white bg-lumii-coral hover:opacity-90 min-h-[44px] px-3 rounded-lg transition-colors"
           aria-label="Baixar certificado em PDF"
         >
           {isPending ? (
@@ -570,7 +570,7 @@ function CertificateCard({ cert }: { cert: Certificate }) {
           href={verifyUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center min-h-[44px] min-w-[44px] text-muted-foreground hover:text-[#f6614f] border border-border rounded-lg transition-colors"
+          className="flex items-center justify-center min-h-[44px] min-w-[44px] text-muted-foreground hover:text-lumii-coral border border-border rounded-lg transition-colors"
           aria-label="Verificar autenticidade"
           title="Verificar autenticidade"
         >
@@ -635,7 +635,7 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
     <section className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold flex items-center gap-2">
-          <Mail className="w-5 h-5 text-[#f6614f]" />
+          <Mail className="w-5 h-5 text-lumii-coral" />
           Preferências de e-mail
         </h2>
         <span
@@ -645,7 +645,7 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
             error
               ? "text-red-500 opacity-100"
               : saved
-              ? "text-[#71c69a] opacity-100"
+              ? "text-lumii-green opacity-100"
               : "opacity-0",
             saving && "opacity-100"
           )}
@@ -673,8 +673,8 @@ function EmailPrefsSection({ prefs }: { prefs: EmailPrefs }) {
               aria-label={label}
               onClick={() => toggle(key)}
               className={cn(
-                "relative shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f] focus-visible:ring-offset-2",
-                current[key] ? "bg-[#f6614f]" : "bg-muted-foreground/30"
+                "relative shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-lumii-coral focus-visible:ring-offset-2",
+                current[key] ? "bg-lumii-coral" : "bg-muted-foreground/30"
               )}
             >
               <span
@@ -748,7 +748,7 @@ function ChangePasswordSection() {
         {!open && (
           <button
             onClick={() => setOpen(true)}
-            className="text-sm text-[#f6614f] hover:underline underline-offset-4"
+            className="text-sm text-lumii-coral hover:underline underline-offset-4"
           >
             Alterar senha
           </button>
@@ -764,8 +764,8 @@ function ChangePasswordSection() {
       {open && (
         <div className="space-y-3">
           {success ? (
-            <div className="rounded-md bg-[#71c69a]/15 border border-[#71c69a]/30 px-4 py-3 text-sm text-[#2D2D2D] flex items-center gap-2">
-              <Check className="w-4 h-4 text-[#71c69a] shrink-0" />
+            <div className="rounded-md bg-lumii-green/15 border border-lumii-green/30 px-4 py-3 text-sm text-lumii-gray flex items-center gap-2">
+              <Check className="w-4 h-4 text-lumii-green shrink-0" />
               Senha alterada com sucesso!
             </div>
           ) : (
@@ -786,7 +786,7 @@ function ChangePasswordSection() {
                   placeholder="••••••••"
                   autoComplete="current-password"
                   disabled={isPending}
-                  className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/50 disabled:opacity-60"
+                  className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/50 disabled:opacity-60"
                 />
               </div>
 
@@ -802,7 +802,7 @@ function ChangePasswordSection() {
                   placeholder="Mínimo 8 caracteres"
                   autoComplete="new-password"
                   disabled={isPending}
-                  className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/50 disabled:opacity-60"
+                  className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/50 disabled:opacity-60"
                 />
               </div>
 
@@ -818,7 +818,7 @@ function ChangePasswordSection() {
                   placeholder="••••••••"
                   autoComplete="new-password"
                   disabled={isPending}
-                  className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/50 disabled:opacity-60"
+                  className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/50 disabled:opacity-60"
                 />
               </div>
 
@@ -826,7 +826,7 @@ function ChangePasswordSection() {
                 <button
                   onClick={handleSubmit}
                   disabled={isPending || !currentPwd || !newPwd || !confirmPwd}
-                  className="flex items-center gap-1.5 text-sm font-medium bg-[#f6614f] text-white px-4 py-2 min-h-[44px] rounded-lg hover:bg-[#dd5747] disabled:opacity-50 transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-medium bg-lumii-coral text-white px-4 py-2 min-h-[44px] rounded-lg hover:bg-lumii-coral-hover disabled:opacity-50 transition-colors"
                 >
                   {isPending ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />

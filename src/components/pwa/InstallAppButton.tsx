@@ -87,7 +87,7 @@ export default function InstallAppButton() {
 
   if (state === "installed" || installed) {
     return (
-      <div className="flex items-center gap-2.5 text-sm text-[#3d9e5a]">
+      <div className="flex items-center gap-2.5 text-sm text-lumii-green-dark">
         <CheckCircle className="w-4 h-4 shrink-0" />
         App instalado neste dispositivo
       </div>
@@ -114,7 +114,7 @@ export default function InstallAppButton() {
       <>
         <button
           onClick={() => setShowIosModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors min-h-[44px]"
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors min-h-[44px]"
         >
           <Share className="w-4 h-4 shrink-0" />
           Adicionar à tela inicial
@@ -156,7 +156,7 @@ export default function InstallAppButton() {
                   {[
                     {
                       n: 1,
-                      icon: <Share className="w-4 h-4 text-[#f6614f] shrink-0 mt-0.5" />,
+                      icon: <Share className="w-4 h-4 text-lumii-coral shrink-0 mt-0.5" />,
                       text: (
                         <>
                           Toque no ícone de{" "}
@@ -167,7 +167,7 @@ export default function InstallAppButton() {
                     },
                     {
                       n: 2,
-                      icon: <Download className="w-4 h-4 text-[#f6614f] shrink-0 mt-0.5" />,
+                      icon: <Download className="w-4 h-4 text-lumii-coral shrink-0 mt-0.5" />,
                       text: (
                         <>
                           Role e toque em{" "}
@@ -177,7 +177,7 @@ export default function InstallAppButton() {
                     },
                     {
                       n: 3,
-                      icon: <CheckCircle className="w-4 h-4 text-[#71c69a] shrink-0 mt-0.5" />,
+                      icon: <CheckCircle className="w-4 h-4 text-lumii-green shrink-0 mt-0.5" />,
                       text: (
                         <>
                           Toque em{" "}
@@ -204,7 +204,7 @@ export default function InstallAppButton() {
 
                 <button
                   onClick={() => setShowIosModal(false)}
-                  className="w-full py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors"
+                  className="w-full py-2.5 text-sm font-semibold rounded-xl bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors"
                 >
                   Entendido
                 </button>
@@ -220,7 +220,7 @@ export default function InstallAppButton() {
   return (
     <button
       onClick={handleInstall}
-      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors min-h-[44px]"
+      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors min-h-[44px]"
     >
       <Download className="w-4 h-4 shrink-0" />
       Baixar app

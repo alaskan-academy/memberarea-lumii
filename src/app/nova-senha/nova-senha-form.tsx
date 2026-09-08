@@ -40,7 +40,7 @@ export default function NovaSenhaForm({ email }: { email: string }) {
         <CardFooter>
           <a
             href="/dashboard"
-            className="w-full inline-flex items-center justify-center rounded-md bg-[#f6614f] text-white font-semibold px-4 py-2 text-sm hover:bg-[#dd5747] transition-colors"
+            className="w-full inline-flex items-center justify-center rounded-md bg-lumii-coral text-white font-semibold px-4 py-2 text-sm hover:bg-lumii-coral-hover transition-colors"
           >
             Ir para o dashboard
           </a>

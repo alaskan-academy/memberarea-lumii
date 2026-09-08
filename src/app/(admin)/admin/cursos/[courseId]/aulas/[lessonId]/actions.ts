@@ -4,23 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autorizado");
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (profile?.role !== "admin") throw new Error("Não autorizado");
-  return { supabase, user };
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 // ─── Blocos ────────────────────────────────────────────────────────────────────
 

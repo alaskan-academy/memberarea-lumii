@@ -1,19 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { FileText, Plus, Globe, EyeOff, Pencil } from "lucide-react";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 export default async function PaginasAdminPage() {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const { data: pages } = await service
@@ -32,7 +23,7 @@ export default async function PaginasAdminPage() {
         </div>
         <Link
           href="/admin/paginas/nova"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#f6614f] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-lumii-coral text-white text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           <Plus className="w-4 h-4" />
           Nova página
@@ -41,8 +32,8 @@ export default async function PaginasAdminPage() {
 
       {(!pages || pages.length === 0) ? (
         <div className="lumii-card p-12 flex flex-col items-center gap-3 text-center">
-          <div className="w-12 h-12 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
-            <FileText className="w-6 h-6 text-[#f6614f]" />
+          <div className="w-12 h-12 rounded-xl bg-lumii-coral/10 flex items-center justify-center">
+            <FileText className="w-6 h-6 text-lumii-coral" />
           </div>
           <p className="font-semibold text-foreground/70">Nenhuma página criada ainda</p>
           <p className="text-sm text-muted-foreground">
@@ -50,7 +41,7 @@ export default async function PaginasAdminPage() {
           </p>
           <Link
             href="/admin/paginas/nova"
-            className="mt-2 px-4 py-2 rounded-lg bg-[#f6614f] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="mt-2 px-4 py-2 rounded-lg bg-lumii-coral text-white text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Criar primeira página
           </Link>
@@ -61,11 +52,11 @@ export default async function PaginasAdminPage() {
             <div key={page.id} className="flex items-center gap-4 px-5 py-4">
               <div
                 className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  page.published ? "bg-[#71c69a]/15" : "bg-muted"
+                  page.published ? "bg-lumii-green/15" : "bg-muted"
                 }`}
               >
                 {page.published
-                  ? <Globe className="w-4 h-4 text-[#71c69a]" />
+                  ? <Globe className="w-4 h-4 text-lumii-green" />
                   : <EyeOff className="w-4 h-4 text-foreground/30" />
                 }
               </div>
@@ -77,7 +68,7 @@ export default async function PaginasAdminPage() {
 
               <div className="flex items-center gap-3 shrink-0">
                 {page.published ? (
-                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-[#71c69a]/15 text-[#2a7a48]">
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-lumii-green/15 text-[#2a7a48]">
                     Publicada
                   </span>
                 ) : (
@@ -98,7 +89,7 @@ export default async function PaginasAdminPage() {
                   <Link
                     href={`/p/${page.slug}`}
                     target="_blank"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-xs font-medium text-[#f6614f] hover:bg-[#f6614f]/5 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-xs font-medium text-lumii-coral hover:bg-lumii-coral/5 transition-colors"
                   >
                     <Globe className="w-3.5 h-3.5" />
                     Ver

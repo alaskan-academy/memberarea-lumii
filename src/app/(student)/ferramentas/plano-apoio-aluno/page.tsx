@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import PlanoApoioHub from "@/components/ferramentas/support-plan/PlanoApoioHub";
+
+export const metadata: Metadata = { title: "Plano de Apoio — Lumii" };
 
 export default async function PlanoApoioAlunoPage() {
   const supabase = await createClient();

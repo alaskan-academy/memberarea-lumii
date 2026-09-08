@@ -243,7 +243,7 @@ export default async function AlunosPage({
         <div className="flex items-center gap-2">
           <Link
             href="/admin/alunos/nova"
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors"
           >
             <UserPlus className="w-4 h-4" />
             Nova aluna
@@ -262,7 +262,7 @@ export default async function AlunosPage({
       {totalBuyers > 0 && (
         <div className="lumii-card p-5">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-4 h-4 text-[#f6614f]" />
+            <TrendingUp className="w-4 h-4 text-lumii-coral" />
             <h2 className="text-sm font-semibold">
               Taxa de conversão compra → conta
             </h2>
@@ -281,9 +281,9 @@ export default async function AlunosPage({
             {/* Com conta */}
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
-                <UserCheck className="w-4 h-4 text-[#71c69a]" />
+                <UserCheck className="w-4 h-4 text-lumii-green" />
               </div>
-              <p className="text-2xl font-bold text-[#71c69a]">{withAccount}</p>
+              <p className="text-2xl font-bold text-lumii-green">{withAccount}</p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 Criaram conta
               </p>
@@ -299,7 +299,7 @@ export default async function AlunosPage({
             {/* Taxa */}
             <div className="text-center">
               <div className="mb-1 h-5" />
-              <p className="text-2xl font-bold text-[#f6614f]">
+              <p className="text-2xl font-bold text-lumii-coral">
                 {conversionRate}%
               </p>
               <p className="text-xs text-muted-foreground mt-0.5">
@@ -332,14 +332,14 @@ export default async function AlunosPage({
             href="/admin/alunos?tab=cadastradas"
             className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
               activeTab === "cadastradas"
-                ? "border-[#f6614f] text-[#f6614f]"
+                ? "border-lumii-coral text-lumii-coral"
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
             }`}
           >
             <UserCheck className="w-4 h-4" />
             Cadastradas
             {activeTab === "cadastradas" && count > 0 && (
-              <span className="ml-1 text-xs bg-[#f6614f]/15 text-[#f6614f] px-1.5 py-0.5 rounded-full font-semibold">
+              <span className="ml-1 text-xs bg-lumii-coral/15 text-lumii-coral px-1.5 py-0.5 rounded-full font-semibold">
                 {count}
               </span>
             )}
@@ -407,7 +407,7 @@ export default async function AlunosPage({
         <>
           <AlunosSearch defaultValue={q} />
           {cpfSearch && (
-            <p className="text-xs text-[#f6614f]">
+            <p className="text-xs text-lumii-coral">
               Buscando por CPF nos registros de compra.
             </p>
           )}

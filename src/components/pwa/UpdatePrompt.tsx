@@ -72,7 +72,7 @@ export default function UpdatePrompt() {
     >
       <div
         role="alert"
-        className="w-full max-w-sm bg-[#0F0F0F] text-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden"
+        className="w-full max-w-sm bg-lumii-black text-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Faixa tricolor */}
@@ -80,8 +80,8 @@ export default function UpdatePrompt() {
 
         <div className="p-5">
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#f6614f]/20 flex items-center justify-center shrink-0">
-              <RefreshCw className="w-5 h-5 text-[#f6614f]" />
+            <div className="w-10 h-10 rounded-xl bg-lumii-coral/20 flex items-center justify-center shrink-0">
+              <RefreshCw className="w-5 h-5 text-lumii-coral" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-sm">Nova versão disponível</p>
@@ -101,7 +101,7 @@ export default function UpdatePrompt() {
           <div className="flex gap-2">
             <button
               onClick={handleUpdate}
-              className="flex-1 py-2.5 rounded-xl bg-[#f6614f] text-white text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
+              className="flex-1 py-2.5 rounded-xl bg-lumii-coral text-white text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
             >
               Atualizar agora
             </button>

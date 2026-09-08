@@ -97,7 +97,7 @@ export default function CadastroEmailForm({
                   aria-invalid={!!fe.full_name}
                 />
                 {defaultName && !fe.full_name && (
-                  <p className="text-xs text-[#f6614f]">
+                  <p className="text-xs text-lumii-coral">
                     Preenchido automaticamente com o nome da sua compra.
                   </p>
                 )}
@@ -120,7 +120,7 @@ export default function CadastroEmailForm({
               {/* WhatsApp */}
               <div className="space-y-2">
                 <Label htmlFor="phone" className="flex items-center gap-1.5">
-                  <Phone className="w-4 h-4 text-[#f6614f]" />
+                  <Phone className="w-4 h-4 text-lumii-coral" />
                   WhatsApp
                 </Label>
                 <Input
@@ -136,7 +136,7 @@ export default function CadastroEmailForm({
                   aria-invalid={!!fe.phone}
                 />
                 {defaultPhone && !fe.phone && (
-                  <p className="text-xs text-[#f6614f]">
+                  <p className="text-xs text-lumii-coral">
                     Preenchido automaticamente com o número da sua compra.
                   </p>
                 )}
@@ -146,7 +146,7 @@ export default function CadastroEmailForm({
               {/* CPF */}
               <div className="space-y-2">
                 <Label htmlFor="cpf" className="flex items-center gap-1.5">
-                  <CreditCard className="w-4 h-4 text-[#f6614f]" />
+                  <CreditCard className="w-4 h-4 text-lumii-coral" />
                   CPF
                 </Label>
                 <Input
@@ -164,7 +164,7 @@ export default function CadastroEmailForm({
                   aria-invalid={!!fe.cpf}
                 />
                 {defaultCpf && !fe.cpf && (
-                  <p className="text-xs text-[#f6614f]">
+                  <p className="text-xs text-lumii-coral">
                     Preenchido automaticamente com o CPF da sua compra.
                   </p>
                 )}
@@ -174,7 +174,7 @@ export default function CadastroEmailForm({
               {/* Data de nascimento */}
               <div className="space-y-2">
                 <Label htmlFor="date_of_birth" className="flex items-center gap-1.5">
-                  <Cake className="w-4 h-4 text-[#f6614f]" />
+                  <Cake className="w-4 h-4 text-lumii-coral" />
                   Data de nascimento
                   <span className="text-muted-foreground font-normal text-xs">(opcional)</span>
                 </Label>

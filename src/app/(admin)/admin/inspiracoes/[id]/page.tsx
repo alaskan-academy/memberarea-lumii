@@ -2,6 +2,7 @@ import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { InspiracaoForm } from '@/components/admin/inspiracoes/InspiracaoForm'
+import type { InspiracaoPostRow } from '@/lib/inspiracoes/types'
 
 export const metadata = { title: 'Admin — Editar Inspiração | Lumii' }
 
@@ -35,7 +36,7 @@ export default async function EditInspiracaoPage({
 
   return (
     <div className="max-w-3xl mx-auto">
-      <InspiracaoForm post={post as any} adminId={user.id} courses={courses ?? []} categories={categories} />
+      <InspiracaoForm post={post as InspiracaoPostRow} adminId={user.id} courses={courses ?? []} categories={categories} />
     </div>
   )
 }

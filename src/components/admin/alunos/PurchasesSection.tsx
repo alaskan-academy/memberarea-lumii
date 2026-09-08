@@ -38,7 +38,7 @@ export default async function PurchasesSection({ userId }: { userId: string }) {
   return (
     <section className="lumii-card overflow-hidden">
       <div className="px-5 py-4 border-b border-border/60 flex items-center gap-2">
-        <ShoppingBag className="w-4 h-4 text-[#f6614f]" />
+        <ShoppingBag className="w-4 h-4 text-lumii-coral" />
         <h2 className="font-semibold">
           Compras{" "}
           <span className="text-muted-foreground font-normal text-sm">
@@ -65,7 +65,7 @@ export default async function PurchasesSection({ userId }: { userId: string }) {
                       Revogado
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#71c69a]/15 text-[#3d9e5a] shrink-0">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-lumii-green/15 text-lumii-green-dark shrink-0">
                       Ativo
                     </span>
                   )}

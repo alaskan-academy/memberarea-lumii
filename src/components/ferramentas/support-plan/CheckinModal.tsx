@@ -106,7 +106,7 @@ export default function CheckinModal({
           type="button"
           onClick={handleSave}
           disabled={!status || isPending}
-          className="w-full py-2.5 rounded-lg font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+          className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
         >
           {isPending ? "Salvando..." : "Salvar check-in"}
         </button>

@@ -1,8 +1,11 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { MessageCircle, ClipboardList } from "lucide-react";
 import FerramentaCard from "@/components/ferramentas/hub/FerramentaCard";
 import ToolsProfileBanner from "@/components/ferramentas/hub/ToolsProfileBanner";
+
+export const metadata: Metadata = { title: "Ferramentas — Lumii" };
 
 export default async function FerramentasPage() {
   const supabase = await createClient();
@@ -22,7 +25,7 @@ export default async function FerramentasPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
       <div className="mb-6">
-        <p className="text-sm font-medium text-[#f6614f] uppercase tracking-wide mb-1">
+        <p className="text-sm font-medium text-lumii-coral uppercase tracking-wide mb-1">
           Ferramentas
         </p>
         <h1 className="text-2xl sm:text-3xl font-bold">Tenho essa situação agora</h1>

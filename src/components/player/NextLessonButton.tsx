@@ -32,7 +32,7 @@ export default function NextLessonButton({
     <div className="flex flex-col gap-1.5 w-full items-end">
       <button
         onClick={handleClick}
-        className="w-full flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-[#f6614f] hover:bg-[#dd5747] active:bg-[#c54e3f] transition-colors px-3 py-2.5 min-h-[44px] rounded-lg"
+        className="w-full flex items-center justify-center gap-1.5 text-sm font-medium text-white bg-lumii-coral hover:bg-lumii-coral-hover active:bg-lumii-coral-active transition-colors px-3 py-2.5 min-h-[44px] rounded-lg"
       >
         Próxima
         <ChevronRight className="w-4 h-4 shrink-0" />

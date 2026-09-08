@@ -69,7 +69,7 @@ export default function NovaTurmaModal({
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="ex: 3º ano B"
-              className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full mt-1 text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
           </div>
 
@@ -78,7 +78,7 @@ export default function NovaTurmaModal({
           <button
             type="submit"
             disabled={isPending || !name.trim()}
-            className="w-full py-2.5 rounded-lg font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+            className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
           >
             {isPending ? "Salvando..." : "Cadastrar"}
           </button>

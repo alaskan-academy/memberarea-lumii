@@ -86,16 +86,16 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
             <input id={`forum-edit-title-${forum.id}`} value={editTitle} onChange={(e) => setEditTitle(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleUpdate(forum.id)}
               autoFocus
-              className="w-full text-sm border border-[#f6614f] rounded-lg px-3 py-2 focus:outline-none" />
+              className="w-full text-sm border border-lumii-coral rounded-lg px-3 py-2 focus:outline-none" />
           </div>
           <div>
             <label htmlFor={`forum-edit-desc-${forum.id}`} className="text-xs font-medium text-muted-foreground mb-1 block">Descrição</label>
             <input id={`forum-edit-desc-${forum.id}`} value={editDesc} onChange={(e) => setEditDesc(e.target.value)}
-              className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
+              className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/30" />
           </div>
           <div className="flex gap-2">
             <button onClick={() => handleUpdate(forum.id)} disabled={!editTitle.trim()}
-              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50">
+              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50">
               <Check className="w-3.5 h-3.5" /> Salvar
             </button>
             <button onClick={() => setEditingId(null)}
@@ -108,9 +108,9 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
         <div className="flex items-center gap-4 p-4">
           <div className={cn(
             "w-9 h-9 rounded-lg flex items-center justify-center shrink-0",
-            forum.archived ? "bg-muted" : "bg-[#f6614f]/10"
+            forum.archived ? "bg-muted" : "bg-lumii-coral/10"
           )}>
-            <MessageSquare className={cn("w-4 h-4", forum.archived ? "text-muted-foreground" : "text-[#f6614f]")} />
+            <MessageSquare className={cn("w-4 h-4", forum.archived ? "text-muted-foreground" : "text-lumii-coral")} />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
@@ -143,7 +143,7 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
               className="p-2 rounded-lg hover:bg-muted transition-colors"
             >
               {forum.archived
-                ? <ArchiveRestore className="w-4 h-4 text-[#71c69a]" />
+                ? <ArchiveRestore className="w-4 h-4 text-lumii-green" />
                 : <Archive className="w-4 h-4 text-muted-foreground" />
               }
             </button>
@@ -162,8 +162,8 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
-            <MessageSquare className="w-5 h-5 text-[#f6614f]" />
+          <div className="w-10 h-10 rounded-xl bg-lumii-coral/10 flex items-center justify-center">
+            <MessageSquare className="w-5 h-5 text-lumii-coral" />
           </div>
           <div>
             <h1 className="font-black text-xl">Fóruns</h1>
@@ -175,7 +175,7 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
         </div>
         <button
           onClick={() => { setShowCreate(true); setEditingId(null); }}
-          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors font-medium"
+          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors font-medium"
         >
           <Plus className="w-4 h-4" /> Novo fórum
         </button>
@@ -185,7 +185,7 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
 
       {/* Formulário de criação */}
       {showCreate && (
-        <div className="bg-white rounded-xl border border-[#f6614f]/30 shadow-sm p-5 space-y-3">
+        <div className="bg-white rounded-xl border border-lumii-coral/30 shadow-sm p-5 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-sm">Novo fórum</h2>
             <button onClick={() => { setShowCreate(false); setNewTitle(""); setNewDesc(""); setError(null); }}
@@ -200,17 +200,17 @@ export default function ForumsAdminClient({ forums: initial }: Props) {
               placeholder="Ex: Fórum de Crochê"
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
               autoFocus
-              className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
+              className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/30" />
           </div>
           <div>
             <label htmlFor="forum-new-desc" className="text-xs font-medium text-muted-foreground mb-1 block">Descrição (opcional)</label>
             <input id="forum-new-desc" value={newDesc} onChange={(e) => setNewDesc(e.target.value)}
               placeholder="Sobre o que é este fórum..."
-              className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30" />
+              className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/30" />
           </div>
           <div className="flex gap-2">
             <button onClick={handleCreate} disabled={!newTitle.trim()}
-              className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50">
+              className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50">
               <Plus className="w-4 h-4" /> Criar fórum
             </button>
             <button onClick={() => { setShowCreate(false); setNewTitle(""); setNewDesc(""); setError(null); }}

@@ -33,8 +33,8 @@ export default function FavoritoButton({
       className={cn(
         "flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg border transition-colors min-h-[44px] disabled:opacity-60",
         favorited
-          ? "border-[#eebc3e] bg-[#eebc3e]/10 text-[#a97e1a]"
-          : "border-border hover:border-[#eebc3e] hover:text-[#a97e1a]"
+          ? "border-lumii-yellow bg-lumii-yellow/10 text-[#a97e1a]"
+          : "border-border hover:border-lumii-yellow hover:text-[#a97e1a]"
       )}
     >
       <Star className={cn("w-4 h-4", favorited && "fill-current")} />

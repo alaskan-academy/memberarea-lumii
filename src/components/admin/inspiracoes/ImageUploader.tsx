@@ -91,16 +91,16 @@ export function ImageUploader({ value, onChange, label, className }: Props) {
           className={cn(
             'flex flex-col items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed py-10 cursor-pointer transition-colors',
             dragging
-              ? 'border-[#f6614f] bg-[#f6614f]/5'
-              : 'border-border/60 hover:border-[#f6614f]/50 hover:bg-muted/30',
+              ? 'border-lumii-coral bg-lumii-coral/5'
+              : 'border-border/60 hover:border-lumii-coral/50 hover:bg-muted/30',
             isPending && 'pointer-events-none'
           )}
         >
           {isPending ? (
-            <Loader2 className="w-7 h-7 text-[#f6614f] animate-spin" />
+            <Loader2 className="w-7 h-7 text-lumii-coral animate-spin" />
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-[#f6614f]/10 flex items-center justify-center">
-              <ImageIcon className="w-5 h-5 text-[#f6614f]" />
+            <div className="w-10 h-10 rounded-xl bg-lumii-coral/10 flex items-center justify-center">
+              <ImageIcon className="w-5 h-5 text-lumii-coral" />
             </div>
           )}
           <div className="text-center">
@@ -113,7 +113,7 @@ export function ImageUploader({ value, onChange, label, className }: Props) {
       )}
 
       {isPending && value && (
-        <p className="text-xs text-[#f6614f] flex items-center gap-1">
+        <p className="text-xs text-lumii-coral flex items-center gap-1">
           <Loader2 className="w-3 h-3 animate-spin" /> Enviando imagem...
         </p>
       )}

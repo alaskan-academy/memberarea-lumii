@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import {
   ChevronLeft, ChevronRight, ChevronDown, ChevronUp, MessageCircle, User,
-  Image as ImageIcon, PlayCircle, ChefHat, Lightbulb, Star, GalleryHorizontal
+  Image as ImageIcon, PlayCircle, Blocks, Lightbulb, Star, GalleryHorizontal
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { sanitizeHtml } from '@/lib/sanitize'
@@ -17,7 +17,7 @@ const TYPE_CONFIG: Record<InspiracaoType, { label: string; icon: React.ElementTy
   foto:      { label: 'Foto',      icon: ImageIcon,         badge: 'bg-blue-100 text-blue-700' },
   carrossel: { label: 'Carrossel', icon: GalleryHorizontal, badge: 'bg-purple-100 text-purple-700' },
   video:     { label: 'Vídeo',     icon: PlayCircle,        badge: 'bg-red-100 text-red-700' },
-  receita:   { label: 'Receita',   icon: ChefHat,           badge: 'bg-orange-100 text-orange-700' },
+  atividade: { label: 'Atividade', icon: Blocks,            badge: 'bg-orange-100 text-orange-700' },
   dica:      { label: 'Dica',      icon: Lightbulb,         badge: 'bg-amber-100 text-amber-700' },
   destaque:  { label: 'Destaque',  icon: Star,              badge: 'bg-green-100 text-green-700' },
 }
@@ -53,7 +53,10 @@ function getPandaEmbedUrl(videoUrl: string): string | null {
     if (v) return `https://player.pandavideo.com.br/embed/?v=${v}`
     const seg = url.pathname.split('/').find(s => UUID_RE.test(s))
     if (seg) return `https://player.pandavideo.com.br/embed/?v=${seg}`
-  } catch {}
+  } catch (err) {
+    // URL malformada — não trava a renderização do post, apenas registra
+    console.warn('[Inspirações] URL de vídeo Panda inválida:', videoUrl, err)
+  }
   return null
 }
 
@@ -95,7 +98,7 @@ function Carrossel({ images }: { images: { url: string; alt?: string }[] }) {
                 onClick={() => setIdx(i)}
                 className={cn(
                   'w-1.5 h-1.5 rounded-full transition-colors',
-                  i === idx ? 'bg-[#f6614f]' : 'bg-foreground/25'
+                  i === idx ? 'bg-lumii-coral' : 'bg-foreground/25'
                 )}
                 aria-label={`Imagem ${i + 1}`}
               />
@@ -142,8 +145,8 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
 
       {/* Header do post */}
       <div className="px-4 pt-4 pb-3 flex items-start gap-3">
-        <div className="w-9 h-9 rounded-full bg-[#f6614f]/10 flex items-center justify-center shrink-0">
-          <Icon className="w-4.5 h-4.5 text-[#f6614f]" />
+        <div className="w-9 h-9 rounded-full bg-lumii-coral/10 flex items-center justify-center shrink-0">
+          <Icon className="w-4.5 h-4.5 text-lumii-coral" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
@@ -152,7 +155,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
               {label}
             </span>
             {post.pinned && (
-              <span className="text-[10px] bg-[#eebc3e] text-[#0F0F0F] px-1.5 py-0.5 rounded-full font-bold leading-none">
+              <span className="text-[10px] bg-lumii-yellow text-lumii-black px-1.5 py-0.5 rounded-full font-bold leading-none">
                 📌 Fixado
               </span>
             )}
@@ -242,8 +245,8 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
       >
         <div className="px-4 pt-3 space-y-3">
 
-          {/* RECEITA */}
-          {post.type === 'receita' && post.recipe_data && (
+          {/* ATIVIDADE */}
+          {post.type === 'atividade' && post.recipe_data && (
             <div className="space-y-4">
               {post.media[0] && (
                 <div className="relative w-full rounded-xl bg-muted/30" style={{ height: 400 }}>
@@ -257,64 +260,60 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
                 </div>
               )}
 
-              {(post.recipe_data.tempo || post.recipe_data.temperatura || post.recipe_data.nivel) && (
+              {(post.recipe_data.duracao || post.recipe_data.faixa_etaria) && (
                 <div className="flex flex-wrap gap-4 bg-muted/50 rounded-xl p-3">
-                  {post.recipe_data.tempo && (
+                  {post.recipe_data.duracao && (
                     <div className="text-xs">
-                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Tempo</p>
-                      <p className="font-semibold mt-0.5">{post.recipe_data.tempo}</p>
+                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Duração</p>
+                      <p className="font-semibold mt-0.5">{post.recipe_data.duracao}</p>
                     </div>
                   )}
-                  {post.recipe_data.temperatura && (
+                  {post.recipe_data.faixa_etaria && (
                     <div className="text-xs">
-                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Temperatura</p>
-                      <p className="font-semibold mt-0.5">{post.recipe_data.temperatura}</p>
-                    </div>
-                  )}
-                  {post.recipe_data.nivel && (
-                    <div className="text-xs">
-                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Nível</p>
-                      <p className="font-semibold mt-0.5">{post.recipe_data.nivel}</p>
+                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Faixa etária</p>
+                      <p className="font-semibold mt-0.5">{post.recipe_data.faixa_etaria}</p>
                     </div>
                   )}
                 </div>
               )}
 
-              {post.recipe_data.paleta_cores && post.recipe_data.paleta_cores.length > 0 && (
+              {post.recipe_data.materiais && post.recipe_data.materiais.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold mb-2">Paleta de cores</p>
-                  <div className="flex gap-2 flex-wrap">
-                    {post.recipe_data.paleta_cores.map((hex, i) => (
-                      <div key={i} className="flex flex-col items-center gap-1">
-                        <div className="w-9 h-9 rounded-lg border border-border/60 shadow-sm" style={{ background: hex }} />
-                        <span className="text-[9px] text-muted-foreground font-mono">{hex}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {post.recipe_data.ingredientes && post.recipe_data.ingredientes.length > 0 && (
-                <div>
-                  <p className="text-xs font-semibold mb-2">Ingredientes</p>
+                  <p className="text-xs font-semibold mb-2">Materiais</p>
                   <ul className="space-y-1">
-                    {post.recipe_data.ingredientes.map((ing, i) => (
+                    {post.recipe_data.materiais.map((mat, i) => (
                       <li key={i} className="flex justify-between items-center text-xs text-foreground/80 py-1.5 border-b border-border/30 last:border-0">
-                        <span>{ing.item}</span>
-                        <span className="font-semibold text-foreground ml-4 shrink-0">{ing.quantidade}</span>
+                        <span>{mat.item}</span>
+                        {mat.quantidade && (
+                          <span className="font-semibold text-foreground ml-4 shrink-0">{mat.quantidade}</span>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {post.recipe_data.passos && post.recipe_data.passos.length > 0 && (
+              {post.recipe_data.objetivos && post.recipe_data.objetivos.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold mb-2">Modo de preparo</p>
+                  <p className="text-xs font-semibold mb-2">Objetivos</p>
+                  <ul className="space-y-1.5">
+                    {post.recipe_data.objetivos.map((obj, i) => (
+                      <li key={i} className="flex gap-2 text-xs text-foreground/80 leading-relaxed">
+                        <span className="text-lumii-green font-bold shrink-0">•</span>
+                        {obj}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {post.recipe_data.passo_a_passo && post.recipe_data.passo_a_passo.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold mb-2">Passo a passo</p>
                   <ol className="space-y-2.5">
-                    {post.recipe_data.passos.map((passo, i) => (
+                    {post.recipe_data.passo_a_passo.map((passo, i) => (
                       <li key={i} className="flex gap-3 text-xs text-foreground/80 leading-relaxed">
-                        <span className="shrink-0 w-5 h-5 rounded-full bg-[#f6614f]/10 text-[#f6614f] font-bold flex items-center justify-center text-[10px]">
+                        <span className="shrink-0 w-5 h-5 rounded-full bg-lumii-coral/10 text-lumii-coral font-bold flex items-center justify-center text-[10px]">
                           {i + 1}
                         </span>
                         {passo}
@@ -325,26 +324,9 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
               )}
 
               {post.recipe_data.dicas && (
-                <div className="bg-[#71c69a]/10 rounded-xl p-3 border border-[#71c69a]/20">
+                <div className="bg-lumii-green/10 rounded-xl p-3 border border-lumii-green/20">
                   <p className="text-xs font-semibold text-[#2a9d5a] mb-1">💡 Dicas</p>
                   <p className="text-xs text-foreground/75 leading-relaxed">{post.recipe_data.dicas}</p>
-                </div>
-              )}
-
-              {(post.recipe_data.custo_medio || post.recipe_data.preco_venda) && (
-                <div className="flex gap-6">
-                  {post.recipe_data.custo_medio && (
-                    <div className="text-xs">
-                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Custo médio</p>
-                      <p className="font-bold mt-0.5">{post.recipe_data.custo_medio}</p>
-                    </div>
-                  )}
-                  {post.recipe_data.preco_venda && (
-                    <div className="text-xs">
-                      <p className="text-muted-foreground text-[10px] uppercase tracking-wide">Preço de venda</p>
-                      <p className="font-bold mt-0.5 text-[#f6614f]">{post.recipe_data.preco_venda}</p>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
@@ -391,12 +373,12 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
                       alt={post.featured_student.full_name ?? ''}
                       width={80}
                       height={80}
-                      className="w-20 h-20 rounded-full object-cover border-2 border-[#f6614f]/30"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-lumii-coral/30"
                       unoptimized
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-full bg-[#f6614f]/10 flex items-center justify-center">
-                      <User className="w-10 h-10 text-[#f6614f]/40" />
+                    <div className="w-20 h-20 rounded-full bg-lumii-coral/10 flex items-center justify-center">
+                      <User className="w-10 h-10 text-lumii-coral/40" />
                     </div>
                   )}
                   <div>
@@ -426,7 +408,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           )}
 
           {/* Body para demais tipos (foto, carrossel, video) */}
-          {!['dica', 'receita', 'destaque'].includes(post.type) && post.body && (
+          {!['dica', 'atividade', 'destaque'].includes(post.type) && post.body && (
             <div
               className="prose prose-sm max-w-none text-foreground/80 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(decodeHtmlEntities(post.body)) }}
@@ -447,7 +429,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           {post.tags.map(tag => (
             <span
               key={tag}
-              className="text-xs px-2 py-0.5 rounded-full bg-[#f6614f]/8 text-[#f6614f] border border-[#f6614f]/20 font-medium"
+              className="text-xs px-2 py-0.5 rounded-full bg-lumii-coral/8 text-lumii-coral border border-lumii-coral/20 font-medium"
             >
               #{tag}
             </span>
@@ -459,7 +441,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
       {needsExpand && (
         <button
           onClick={() => setExpanded(v => !v)}
-          className="w-full py-2 text-sm text-[#f6614f] font-semibold flex items-center justify-center gap-1 hover:bg-[#f6614f]/5 transition-colors"
+          className="w-full py-2 text-sm text-lumii-coral font-semibold flex items-center justify-center gap-1 hover:bg-lumii-coral/5 transition-colors"
         >
           {expanded ? (
             <>Ver menos <ChevronUp className="w-4 h-4" /></>
@@ -484,7 +466,7 @@ export function InspiracaoFeedItem({ post, userId }: Props) {
           aria-label="Ver comentários"
           className={cn(
             'flex items-center gap-1.5 text-sm transition-colors min-h-[44px] px-1',
-            commentsOpen ? 'text-[#f6614f]' : 'text-foreground/50 hover:text-foreground/80'
+            commentsOpen ? 'text-lumii-coral' : 'text-foreground/50 hover:text-foreground/80'
           )}
         >
           <MessageCircle className="w-5 h-5" />

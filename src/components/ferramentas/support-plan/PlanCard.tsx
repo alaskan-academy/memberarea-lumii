@@ -90,7 +90,7 @@ export default function PlanCard({
               type="button"
               onClick={handleSave}
               disabled={isPending}
-              className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg text-white bg-[#f6614f] hover:bg-[#e2543f] transition-colors disabled:opacity-50"
+              className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors disabled:opacity-50"
             >
               <Check className="w-3.5 h-3.5" />
               {isPending ? "Salvando..." : "Salvar edição"}
@@ -101,7 +101,7 @@ export default function PlanCard({
             <button
               type="button"
               onClick={handleEdit}
-              className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-border hover:border-[#f6614f] hover:text-[#f6614f] transition-colors"
+              className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-border hover:border-lumii-coral hover:text-lumii-coral transition-colors"
             >
               <Pencil className="w-3.5 h-3.5" />
               Editar

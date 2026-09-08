@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { getLessonAccess, getMaterialSignedUrl } from "@/app/(student)/aulas/actions";
@@ -10,6 +11,21 @@ import NextLessonButton from "@/components/player/NextLessonButton";
 import BannerDisplay from "@/components/banner/BannerDisplay";
 import { LessonSidebarDesktop } from "@/components/lesson/LessonSidebar";
 import { LessonBottomSheet } from "@/components/lesson/LessonBottomSheet";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("lessons")
+    .select("title")
+    .eq("id", id)
+    .maybeSingle();
+  return { title: data?.title ? `${data.title} — Lumii` : "Aula — Lumii" };
+}
 
 type CourseRef = { id: string; title: string; slug: string };
 type LessonModule = { id: string; title: string; position: number; course_id: string; course: CourseRef };
@@ -193,7 +209,7 @@ export default async function LessonPage({
                 className="w-16 h-16 rounded-full flex items-center justify-center"
                 style={{ background: "#f6614f" + "20" }}
               >
-                <Lock className="w-7 h-7 text-[#f6614f]" />
+                <Lock className="w-7 h-7 text-lumii-coral" />
               </div>
               <div className="text-center space-y-1">
                 <p className="font-semibold">Esta aula requer matrícula</p>
@@ -204,7 +220,7 @@ export default async function LessonPage({
               {mod?.course && (
                 <Link
                   href={`/cursos/${mod.course.slug}`}
-                  className="text-sm text-[#f6614f] hover:underline font-medium"
+                  className="text-sm text-lumii-coral hover:underline font-medium"
                 >
                   Ver detalhes do curso →
                 </Link>
@@ -233,8 +249,8 @@ export default async function LessonPage({
                   <LessonCompleteButton lessonId={id} isCompleted={isCompleted} />
                 )}
                 {lesson.is_preview && (
-                  <span className="inline-flex items-center gap-2 text-sm text-[#71c69a] font-medium bg-[#71c69a]/10 px-3 py-2 rounded-full self-start">
-                    <span className="w-2 h-2 rounded-full bg-[#71c69a]" />
+                  <span className="inline-flex items-center gap-2 text-sm text-lumii-green font-medium bg-lumii-green/10 px-3 py-2 rounded-full self-start">
+                    <span className="w-2 h-2 rounded-full bg-lumii-green" />
                     Prévia gratuita
                   </span>
                 )}
@@ -247,7 +263,7 @@ export default async function LessonPage({
                 {prevLesson ? (
                   <Link
                     href={`/aulas/${prevLesson.id}`}
-                    className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2.5 min-h-[44px] rounded-lg border border-border hover:border-[#f6614f]"
+                    className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2.5 min-h-[44px] rounded-lg border border-border hover:border-lumii-coral"
                   >
                     <ChevronLeft className="w-4 h-4 shrink-0" />
                     Anterior

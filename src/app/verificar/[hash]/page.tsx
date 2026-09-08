@@ -66,7 +66,7 @@ export default async function VerificarPage({
       {/* Header simples */}
       <header className="bg-white border-b border-border/40">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="font-bold text-[#f6614f] text-xl tracking-tight">
+          <Link href="/" className="font-bold text-lumii-coral text-xl tracking-tight">
             Lumii
           </Link>
           <span className="text-xs text-muted-foreground">Verificação de Certificado</span>
@@ -78,11 +78,11 @@ export default async function VerificarPage({
         <div className="w-full max-w-lg space-y-6">
           {/* Selo de verificação */}
           <div className="text-center space-y-3">
-            <div className="inline-flex w-20 h-20 rounded-full bg-[#71c69a]/15 items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10 text-[#71c69a]" />
+            <div className="inline-flex w-20 h-20 rounded-full bg-lumii-green/15 items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10 text-lumii-green" />
             </div>
             <div>
-              <p className="text-[#71c69a] text-sm font-semibold uppercase tracking-widest">
+              <p className="text-lumii-green text-sm font-semibold uppercase tracking-widest">
                 Certificado Autêntico
               </p>
               <h1 className="text-2xl font-bold text-foreground mt-1">
@@ -94,11 +94,11 @@ export default async function VerificarPage({
           {/* Card com dados do certificado */}
           <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
             {/* Header do card */}
-            <div className="bg-[#0F0F0F] px-6 py-5 flex items-center gap-3">
-              <Award className="w-6 h-6 text-[#f6614f] shrink-0" />
+            <div className="bg-lumii-black px-6 py-5 flex items-center gap-3">
+              <Award className="w-6 h-6 text-lumii-coral shrink-0" />
               <div>
                 <p className="text-white font-semibold text-sm">Certificado de Conclusão</p>
-                <p className="text-[#f6614f] text-xs font-medium">Lumii</p>
+                <p className="text-lumii-coral text-xs font-medium">Lumii</p>
               </div>
             </div>
 
@@ -148,7 +148,7 @@ export default async function VerificarPage({
 
           <p className="text-center text-sm text-muted-foreground">
             Este certificado foi emitido pela{" "}
-            <span className="font-semibold text-[#f6614f]">Lumii</span> — Plataforma de
+            <span className="font-semibold text-lumii-coral">Lumii</span> — Plataforma de
             Educação Infantil para Pais e Professores.
           </p>
         </div>

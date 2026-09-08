@@ -1,24 +1,16 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import PaginaFormClient from "../PaginaFormClient";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 export default async function EditarPaginaPage({
   params,
 }: {
   params: Promise<{ pageId: string }>;
 }) {
-  await assertAdmin();
+  await assertAdminPage();
   const { pageId } = await params;
   const service = createServiceClient();
 

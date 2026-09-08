@@ -39,7 +39,7 @@ export default function ScriptResultCard({
   return (
     <div className="lumii-card p-5 sm:p-6 space-y-5">
       <div>
-        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#71c69a] mb-1.5">
+        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-lumii-green mb-1.5">
           <CheckCircle className="w-3.5 h-3.5" />
           Primeiro diga
         </p>
@@ -47,7 +47,7 @@ export default function ScriptResultCard({
       </div>
 
       <div>
-        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#f6614f] mb-1.5">
+        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-lumii-coral mb-1.5">
           <ShieldAlert className="w-3.5 h-3.5" />
           Depois coloque o limite
         </p>
@@ -55,7 +55,7 @@ export default function ScriptResultCard({
       </div>
 
       <div>
-        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#eebc3e] mb-1.5">
+        <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-lumii-yellow mb-1.5">
           <SplitSquareHorizontal className="w-3.5 h-3.5" />
           Dê uma escolha possível
         </p>

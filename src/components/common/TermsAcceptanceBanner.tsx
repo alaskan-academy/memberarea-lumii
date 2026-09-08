@@ -19,16 +19,16 @@ export default function TermsAcceptanceBanner() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-16 md:bottom-0 z-[39] bg-[#0F0F0F] border-t border-white/10 shadow-2xl">
+    <div className="fixed inset-x-0 bottom-16 md:bottom-0 z-[39] bg-lumii-black border-t border-white/10 shadow-2xl">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3 flex-wrap sm:flex-nowrap">
-        <FileText className="w-4 h-4 text-[#f6614f] shrink-0 hidden sm:block" />
+        <FileText className="w-4 h-4 text-lumii-coral shrink-0 hidden sm:block" />
         <p className="text-xs text-white/70 flex-1 min-w-0">
           Ao usar a plataforma, você concorda com nossos{" "}
           <Link
             href="/p/termos"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#f6614f] underline underline-offset-2 hover:text-white transition-colors font-medium"
+            className="text-lumii-coral underline underline-offset-2 hover:text-white transition-colors font-medium"
           >
             Termos de Uso
           </Link>
@@ -38,7 +38,7 @@ export default function TermsAcceptanceBanner() {
           <button
             onClick={handleAccept}
             disabled={isPending}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#f6614f] text-white text-xs font-semibold hover:bg-[#dd5747] disabled:opacity-60 transition-colors min-h-[36px]"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-lumii-coral text-white text-xs font-semibold hover:bg-lumii-coral-hover disabled:opacity-60 transition-colors min-h-[36px]"
           >
             {isPending ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />

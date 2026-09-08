@@ -1,22 +1,12 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sendNewCourseEmail } from "@/lib/email";
 import { prepareImageForUpload } from "@/lib/images/to-webp";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Nao autorizado");
-  const { data: profile } = await supabase
-    .from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") throw new Error("Nao autorizado");
-  return supabase;
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 // ─── Thumbnail ────────────────────────────────────────────────────────────────
 
@@ -52,7 +42,7 @@ export async function uploadCourseThumbnail(
 export async function createCategory(
   name: string
 ): Promise<{ id?: string; name?: string; error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   if (!name.trim()) return { error: "Nome obrigatorio" };
   const slug = name.trim().toLowerCase()
     .normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -74,7 +64,7 @@ export async function updateCategory(
   id: string,
   name: string
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   if (!name.trim()) return { error: "Nome obrigatorio" };
   const slug = name.trim().toLowerCase()
     .normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -94,7 +84,7 @@ export async function updateCategory(
 export async function deleteCategory(
   id: string
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("categories").delete().eq("id", id);
   if (error) return { error: "Erro ao excluir: " + error.message };
   revalidatePath("/admin/cursos");
@@ -124,7 +114,7 @@ const CourseSchema = z.object({
 export async function createCourse(
   formData: FormData
 ): Promise<{ error?: string; courseId?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
 
   const raw = {
     title: formData.get("title") as string,
@@ -160,7 +150,7 @@ export async function updateCourse(
   courseId: string,
   formData: FormData
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
 
   const raw = {
     title: formData.get("title") as string,
@@ -194,7 +184,7 @@ export async function updateCourse(
 }
 
 export async function togglePublished(courseId: string, published: boolean): Promise<void> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   await supabase.from("courses").update({ published }).eq("id", courseId);
   revalidatePath("/admin/cursos");
   revalidateTag("catalog", "minutes");
@@ -247,7 +237,7 @@ async function notifyNewCourse(courseId: string) {
 }
 
 export async function reorderCourses(courseIds: string[]): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   await Promise.all(
     courseIds.map((id, i) => supabase.from("courses").update({ position: i }).eq("id", id))
   );
@@ -258,7 +248,7 @@ export async function reorderCourses(courseIds: string[]): Promise<{ error?: str
 }
 
 export async function deleteCourse(courseId: string): Promise<void> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("courses").delete().eq("id", courseId);
   if (error) throw new Error("Erro ao excluir: " + error.message);
   revalidatePath("/admin/cursos");

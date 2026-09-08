@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { MessageCircle, Image as ImageIcon, PlayCircle, ChefHat, Lightbulb, Star, GalleryHorizontal } from 'lucide-react'
+import { MessageCircle, Image as ImageIcon, PlayCircle, Blocks, Lightbulb, Star, GalleryHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { InspiracaoPost, InspiracaoType } from '@/lib/inspiracoes/types'
 import { LikeButton } from './LikeButton'
@@ -11,7 +11,7 @@ const TYPE_CONFIG: Record<InspiracaoType, { label: string; icon: React.ElementTy
   foto:      { label: 'Foto',      icon: ImageIcon,         badge: 'bg-blue-100 text-blue-700' },
   carrossel: { label: 'Carrossel', icon: GalleryHorizontal, badge: 'bg-purple-100 text-purple-700' },
   video:     { label: 'Vídeo',     icon: PlayCircle,        badge: 'bg-red-100 text-red-700' },
-  receita:   { label: 'Receita',   icon: ChefHat,           badge: 'bg-orange-100 text-orange-700' },
+  atividade: { label: 'Atividade', icon: Blocks,            badge: 'bg-orange-100 text-orange-700' },
   dica:      { label: 'Dica',      icon: Lightbulb,         badge: 'bg-amber-100 text-amber-700' },
   destaque:  { label: 'Destaque',  icon: Star,              badge: 'bg-green-100 text-green-700' },
 }
@@ -78,7 +78,7 @@ export function InspiracaoCard({ post, userId, onClick }: Props) {
   return (
     <article
       onClick={onClick}
-      className="group bg-white rounded-xl border border-border/60 overflow-hidden cursor-pointer hover:border-[#f6614f]/40 hover:shadow-md transition-all duration-200"
+      className="group bg-white rounded-xl border border-border/60 overflow-hidden cursor-pointer hover:border-lumii-coral/40 hover:shadow-md transition-all duration-200"
     >
       <div className="relative">
         <CardThumbnail post={post} />
@@ -87,7 +87,7 @@ export function InspiracaoCard({ post, userId, onClick }: Props) {
           {label}
         </span>
         {post.pinned && (
-          <span className="absolute top-2 right-2 text-[10px] bg-[#eebc3e] text-[#0F0F0F] px-1.5 py-0.5 rounded-full font-bold leading-none">
+          <span className="absolute top-2 right-2 text-[10px] bg-lumii-yellow text-lumii-black px-1.5 py-0.5 rounded-full font-bold leading-none">
             📌
           </span>
         )}

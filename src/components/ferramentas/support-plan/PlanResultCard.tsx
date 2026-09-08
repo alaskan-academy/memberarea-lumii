@@ -76,7 +76,7 @@ export default function PlanResultCard({
         type="button"
         onClick={handleSave}
         disabled={isPending}
-        className="w-full py-3 rounded-xl font-semibold text-white bg-[#f6614f] hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+        className="w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
       >
         {isPending ? "Salvando..." : "Salvar plano"}
       </button>

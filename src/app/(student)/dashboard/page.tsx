@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { CourseProgressCard, type CourseCardData } from "@/components/student/CourseProgressCard";
 import type { CourseMenuModule } from "@/components/student/CourseMenuModal";
+
+export const metadata: Metadata = { title: "Minha Jornada — Lumii" };
 
 type EnrolledCourse = {
   id: string;
@@ -213,7 +216,7 @@ export default async function MinhaJornadaPage() {
           </div>
           <Link
             href="/cursos"
-            className="inline-flex items-center min-h-[44px] px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors bg-[#f6614f] hover:bg-[#dd5747]"
+            className="inline-flex items-center min-h-[44px] px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors bg-lumii-coral hover:bg-lumii-coral-hover"
           >
             Explorar cursos
           </Link>
@@ -251,7 +254,7 @@ export default async function MinhaJornadaPage() {
         <div className="text-center pt-2">
           <Link
             href="/cursos"
-            className="text-sm text-[#f6614f] font-medium hover:underline"
+            className="text-sm text-lumii-coral font-medium hover:underline"
           >
             Explorar mais cursos →
           </Link>
@@ -274,7 +277,7 @@ function JornadaSection({
     <section>
       <div className="flex items-center gap-2 mb-4">
         <h2 className="text-lg font-semibold">{title}</h2>
-        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#f6614f]/10 text-[#f6614f]">
+        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-lumii-coral/10 text-lumii-coral">
           {badge}
         </span>
       </div>

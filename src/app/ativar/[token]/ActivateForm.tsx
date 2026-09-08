@@ -45,7 +45,7 @@ function PasswordInput({
         placeholder={placeholder}
         required={required}
         minLength={8}
-        className="w-full border border-border rounded-lg px-3 py-2.5 pr-10 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+        className="w-full border border-border rounded-lg px-3 py-2.5 pr-10 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
       />
       <button
         type="button"
@@ -103,7 +103,7 @@ export default function ActivateForm({
       <div className="min-h-screen bg-lumii-bg flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-sm border border-border p-8 w-full max-w-md text-center space-y-4">
           <div className="flex justify-center">
-            <CheckCircle2 className="w-14 h-14 text-[#71c69a]" />
+            <CheckCircle2 className="w-14 h-14 text-lumii-green" />
           </div>
           <h1 className="text-xl font-bold">Conta criada com sucesso!</h1>
           <p className="text-muted-foreground text-sm">
@@ -111,7 +111,7 @@ export default function ActivateForm({
           </p>
           <Link
             href={`/login?msg=cadastro-ok&email=${encodeURIComponent(email)}`}
-            className="inline-flex items-center justify-center w-full bg-[#f6614f] text-white py-3 rounded-lg text-sm font-bold hover:bg-[#dd5747] transition-colors min-h-[48px]"
+            className="inline-flex items-center justify-center w-full bg-lumii-coral text-white py-3 rounded-lg text-sm font-bold hover:bg-lumii-coral-hover transition-colors min-h-[48px]"
           >
             Ir para o login
           </Link>
@@ -125,7 +125,7 @@ export default function ActivateForm({
       <div className="min-h-screen bg-lumii-bg flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-sm border border-border p-8 w-full max-w-md text-center space-y-4">
           <div className="flex justify-center">
-            <CheckCircle2 className="w-14 h-14 text-[#71c69a]" />
+            <CheckCircle2 className="w-14 h-14 text-lumii-green" />
           </div>
           <h1 className="text-xl font-bold">Conta criada com sucesso!</h1>
           <p className="text-muted-foreground text-sm">
@@ -144,14 +144,14 @@ export default function ActivateForm({
       <div className="bg-white rounded-2xl shadow-sm border border-border p-8 w-full max-w-md space-y-6">
         {/* Cabeçalho */}
         <div className="text-center space-y-1">
-          <p className="text-[#f6614f] text-2xl font-black tracking-tight">
+          <p className="text-lumii-coral text-2xl font-black tracking-tight">
             Lumii
           </p>
           <h1 className="text-lg font-bold text-foreground">
             Criar sua conta
           </h1>
           <p className="text-foreground/80 text-sm leading-relaxed">
-            <span className="font-semibold text-[#f6614f]">Fique tranquila(o), é rapidinho!</span> Você faz esse cadastro só uma vez — depois é só entrar com e-mail e senha.
+            <span className="font-semibold text-lumii-coral">Fique tranquila(o), é rapidinho!</span> Você faz esse cadastro só uma vez — depois é só entrar com e-mail e senha.
           </p>
         </div>
 
@@ -171,10 +171,10 @@ export default function ActivateForm({
               required
               autoComplete="name"
               defaultValue={defaultName ?? ""}
-              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
             {defaultName && (
-              <p className="text-xs text-[#f6614f]">Preenchido com o nome da sua compra.</p>
+              <p className="text-xs text-lumii-coral">Preenchido com o nome da sua compra.</p>
             )}
           </div>
 
@@ -211,7 +211,7 @@ export default function ActivateForm({
           {/* Telefone / WhatsApp */}
           <div className="space-y-1">
             <label htmlFor="activate-phone" className="text-sm font-medium text-foreground flex items-center gap-1.5">
-              <Phone className="w-4 h-4 text-[#f6614f]" />
+              <Phone className="w-4 h-4 text-lumii-coral" />
               WhatsApp
             </label>
             <input
@@ -222,17 +222,17 @@ export default function ActivateForm({
               autoComplete="tel"
               required
               defaultValue={defaultPhone ?? ""}
-              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
             {defaultPhone && (
-              <p className="text-xs text-[#f6614f]">Preenchido com o número da sua compra.</p>
+              <p className="text-xs text-lumii-coral">Preenchido com o número da sua compra.</p>
             )}
           </div>
 
           {/* Data de nascimento */}
           <div className="space-y-1">
             <label htmlFor="activate-birth-date" className="text-sm font-medium text-foreground flex items-center gap-1.5">
-              <Cake className="w-4 h-4 text-[#f6614f]" />
+              <Cake className="w-4 h-4 text-lumii-coral" />
               Data de nascimento
               <span className="text-muted-foreground font-normal text-xs ml-1">(opcional)</span>
             </label>
@@ -245,7 +245,7 @@ export default function ActivateForm({
               onChange={birthDate.onChange}
               maxLength={10}
               autoComplete="bday"
-              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
             <input type="hidden" name="date_of_birth" value={birthDate.toISO()} />
             <p className="text-xs text-muted-foreground">
@@ -264,7 +264,7 @@ export default function ActivateForm({
           <button
             type="submit"
             disabled={pending}
-            className="w-full bg-[#f6614f] text-white py-3 rounded-lg text-sm font-bold hover:bg-[#dd5747] transition-colors disabled:opacity-60 disabled:cursor-not-allowed min-h-[48px]"
+            className="w-full bg-lumii-coral text-white py-3 rounded-lg text-sm font-bold hover:bg-lumii-coral-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed min-h-[48px]"
           >
             {pending ? "Criando conta..." : "Criar minha conta"}
           </button>
@@ -272,7 +272,7 @@ export default function ActivateForm({
 
         <p className="text-center text-xs text-muted-foreground">
           Já tem conta?{" "}
-          <a href="/login" className="text-[#f6614f] hover:underline font-medium">
+          <a href="/login" className="text-lumii-coral hover:underline font-medium">
             Fazer login
           </a>
         </p>

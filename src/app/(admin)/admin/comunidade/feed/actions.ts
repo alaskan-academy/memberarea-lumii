@@ -6,15 +6,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { sendNewsPostEmail } from "@/lib/email";
 import { prepareImageForUpload } from "@/lib/images/to-webp";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Não autorizado");
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") throw new Error("Não autorizado");
-  return { supabase, user };
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 export async function uploadCommunityImage(
   formData: FormData
@@ -47,7 +39,7 @@ const postSchema = z.object({
 });
 
 export async function createNewsPost(formData: FormData): Promise<{ error?: string }> {
-  const { user } = await assertAdmin();
+  const { adminId } = await assertAdmin();
 
   const parsed = postSchema.safeParse({
     title: formData.get("title"),
@@ -60,7 +52,7 @@ export async function createNewsPost(formData: FormData): Promise<{ error?: stri
 
   const supabase = await createClient();
   const { error } = await supabase.from("news_posts").insert({
-    author_id: user.id,
+    author_id: adminId,
     title: parsed.data.title,
     body: parsed.data.body,
     image_url: parsed.data.image_url || null,

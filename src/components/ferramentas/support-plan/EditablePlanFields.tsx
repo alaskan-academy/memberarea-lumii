@@ -45,15 +45,15 @@ export default function EditablePlanFields({
       ))}
 
       {plano.sugestao_coordenacao !== null && (
-        <div className="rounded-xl bg-[#212d42]/5 border border-[#212d42]/20 p-4">
-          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#212d42] mb-1.5">
+        <div className="rounded-xl bg-lumii-navy/5 border border-lumii-navy/20 p-4">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-lumii-navy mb-1.5">
             <MessageCircle className="w-3.5 h-3.5" />
             Vale conversar com a coordenação
           </p>
           <AutoGrowTextarea
             value={plano.sugestao_coordenacao}
             onChange={(v) => update("sugestao_coordenacao", v)}
-            className="bg-white focus:ring-[#212d42]/40"
+            className="bg-white focus:ring-lumii-navy/40"
           />
         </div>
       )}

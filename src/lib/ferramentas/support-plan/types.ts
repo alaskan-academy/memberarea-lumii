@@ -56,7 +56,7 @@ export interface SupportPlanRow {
 }
 
 /**
- * Ponto de extensão para IA futura (Fase 2 — ver PLAN-ferramentas.md seção 8).
+ * Ponto de extensão para IA futura (Fase 2 — ver docs/PLAN-ferramentas.md seção 8).
  * Hoje faz lookup síncrono em content.ts; no futuro pode virar uma chamada a um
  * modelo de linguagem, sem mudar a assinatura, o schema salvo ou a UI.
  */

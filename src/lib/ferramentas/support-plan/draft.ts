@@ -4,7 +4,7 @@ import { NOTA_SUGESTAO_COORDENACAO } from "./types";
 import type { PlanoGerado, SupportPlanInput } from "./types";
 
 /**
- * Ponto de extensão para IA futura — ver PLAN-ferramentas.md seção 8.
+ * Ponto de extensão para IA futura — ver docs/PLAN-ferramentas.md seção 8.
  * Hoje faz lookup síncrono no template estático (sem chamada de rede, por
  * isso não é Server Action). Se algum dia isso virar uma chamada de IA,
  * essa função vira async e passa a viver em actions.ts como Server Action

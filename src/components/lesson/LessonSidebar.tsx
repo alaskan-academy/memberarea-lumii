@@ -33,22 +33,22 @@ function ModuleList({ courseModules, lessonId, completedSet }: Props) {
                     className={cn(
                       "flex items-center gap-2.5 px-3 py-2.5 text-xs transition-colors min-h-[44px]",
                       isCurrent
-                        ? "bg-[#f6614f]/10 text-[#f6614f] font-semibold"
+                        ? "bg-lumii-coral/10 text-lumii-coral font-semibold"
                         : "hover:bg-muted/60 text-foreground/80"
                     )}
                   >
                     {done ? (
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#71c69a]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-lumii-green" />
                     ) : (
                       <span className={cn(
                         "w-3.5 h-3.5 shrink-0 rounded-full border",
-                        isCurrent ? "border-[#f6614f]" : "border-muted-foreground/40"
+                        isCurrent ? "border-lumii-coral" : "border-muted-foreground/40"
                       )} />
                     )}
                     <span className="line-clamp-2 leading-snug">
                       {l.title}
                       {l.is_preview && (
-                        <span className="ml-1 text-[10px] text-[#71c69a]">(grátis)</span>
+                        <span className="ml-1 text-[10px] text-lumii-green">(grátis)</span>
                       )}
                     </span>
                   </Link>

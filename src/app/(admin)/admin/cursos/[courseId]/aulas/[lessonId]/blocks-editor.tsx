@@ -84,7 +84,7 @@ function ContentInput({
         <textarea
           id={`${idPrefix}-html`}
           rows={10}
-          className="w-full text-xs border border-border rounded-lg px-3 py-2 font-mono resize-y focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-xs border border-border rounded-lg px-3 py-2 font-mono resize-y focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
           placeholder="<p>Conteúdo HTML aqui...</p>"
           value={rawHtml}
           onChange={(e) => onChange(JSON.stringify({ html: e.target.value }))}
@@ -109,7 +109,7 @@ function ContentInput({
         <input
           id={`${idPrefix}-embed-url`}
           type="url"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
           placeholder="https://docs.google.com/forms/..."
           value={(parsed.url as string) ?? ""}
           onChange={(e) =>
@@ -122,7 +122,7 @@ function ContentInput({
         <input
           id={`${idPrefix}-embed-title`}
           type="text"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
           placeholder="Título (opcional)"
           value={(parsed.title as string) ?? ""}
           onChange={(e) =>
@@ -135,7 +135,7 @@ function ContentInput({
         <input
           id={`${idPrefix}-embed-height`}
           type="number"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
           placeholder="Altura em px (ex: 600)"
           value={(parsed.height as number) ?? ""}
           onChange={(e) =>
@@ -160,7 +160,7 @@ function ContentInput({
         <input
           id={`${idPrefix}-download-material_id`}
           type="text"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
           placeholder="ID do material (copie da seção Materiais abaixo)"
           value={(parsed.material_id as string) ?? ""}
           onChange={(e) =>
@@ -183,7 +183,7 @@ function ContentInput({
         <input
           id={`${idPrefix}-video-id`}
           type="text"
-          className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 bg-background"
+          className="w-full text-sm border border-border rounded-lg px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 bg-background"
           placeholder="ID Panda, https://player.pandavideo.com.br/embed/?v=... ou https://youtu.be/..."
           value={(parsed.video_panda_id as string) ?? ""}
           onChange={(e) =>
@@ -344,8 +344,8 @@ export default function AdminBlocksEditor({
               onClick={() => openAddForm(t)}
               className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border transition-colors
                 ${addingType === t
-                  ? "bg-[#f6614f] border-[#f6614f] text-white"
-                  : "border-[#f6614f] text-[#f6614f] hover:bg-[#f6614f]/10"
+                  ? "bg-lumii-coral border-lumii-coral text-white"
+                  : "border-lumii-coral text-lumii-coral hover:bg-lumii-coral/10"
                 }`}
             >
               <Plus className="w-3 h-3" />
@@ -365,7 +365,7 @@ export default function AdminBlocksEditor({
 
       {/* Form: novo bloco */}
       {addingType && (
-        <div className="lumii-card p-4 space-y-3 border-[#f6614f]/40 bg-[#f6614f]/[0.03]">
+        <div className="lumii-card p-4 space-y-3 border-lumii-coral/40 bg-lumii-coral/[0.03]">
           <p className="text-sm font-semibold">
             Novo bloco: {BLOCK_LABELS[addingType]}
           </p>
@@ -379,7 +379,7 @@ export default function AdminBlocksEditor({
             <button
               onClick={handleAdd}
               disabled={isPending}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
             >
               <Save className="w-3 h-3" />
               {isPending ? "Salvando…" : "Salvar bloco"}
@@ -457,7 +457,7 @@ export default function AdminBlocksEditor({
                     id={`block-edit-type-${block.id}`}
                     value={editType}
                     onChange={(e) => setEditType(e.target.value as BlockType)}
-                    className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40"
+                    className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
                   >
                     {(["video", "text", "html", "embed", "download"] as BlockType[]).map(
                       (t) => (
@@ -476,7 +476,7 @@ export default function AdminBlocksEditor({
                   <button
                     onClick={() => handleSaveEdit(block)}
                     disabled={isPending}
-                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
+                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
                   >
                     <Save className="w-3 h-3" />
                     {isPending ? "Salvando…" : "Salvar"}

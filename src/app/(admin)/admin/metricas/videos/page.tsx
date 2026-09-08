@@ -1,21 +1,12 @@
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { redirect } from "next/navigation";
 import { getVideos, formatDuration, formatStorage, extractPandaVideoId } from "@/lib/video/panda-api";
 import { InfoTooltip } from "../metric-tooltip";
 import { Video, Clock, HardDrive, Eye, Play, AlertCircle } from "lucide-react";
 import Image from "next/image";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-  const { data: p } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (p?.role !== "admin") redirect("/dashboard");
-}
+import { assertAdminPage } from "@/lib/supabase/admin-guard";
 
 export default async function VideosMetricasPage() {
-  await assertAdmin();
+  await assertAdminPage();
   const service = createServiceClient();
 
   const [pandaResult, { data: lessons }, { data: allProgress }] = await Promise.all([
@@ -103,7 +94,7 @@ export default async function VideosMetricasPage() {
         {/* Mais assistidas */}
         <div className="lumii-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
-            <Eye className="w-4 h-4 text-[#f6614f]" />
+            <Eye className="w-4 h-4 text-lumii-coral" />
             Mais assistidas
           </h2>
           <p className="text-xs text-muted-foreground mb-4">por alunas com progresso registrado na plataforma</p>
@@ -118,7 +109,7 @@ export default async function VideosMetricasPage() {
                     <p className="text-sm font-medium truncate">{v.lesson.lessonTitle}</p>
                     <p className="text-xs text-muted-foreground truncate">{v.lesson.courseTitle}</p>
                     <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full rounded-full bg-[#f6614f]"
+                      <div className="h-full rounded-full bg-lumii-coral"
                         style={{ width: `${Math.round((v.started / maxStarted) * 100)}%` }} />
                     </div>
                   </div>
@@ -132,7 +123,7 @@ export default async function VideosMetricasPage() {
         {/* Mais concluídas */}
         <div className="lumii-card p-6">
           <h2 className="font-semibold mb-1 flex items-center gap-2">
-            <Play className="w-4 h-4 text-[#71c69a]" />
+            <Play className="w-4 h-4 text-lumii-green" />
             Mais concluídas
           </h2>
           <p className="text-xs text-muted-foreground mb-4">por alunas que finalizaram a aula</p>
@@ -147,7 +138,7 @@ export default async function VideosMetricasPage() {
                     <p className="text-sm font-medium truncate">{v.lesson.lessonTitle}</p>
                     <p className="text-xs text-muted-foreground truncate">{v.lesson.courseTitle}</p>
                     <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full rounded-full bg-[#71c69a]"
+                      <div className="h-full rounded-full bg-lumii-green"
                         style={{ width: `${Math.round((v.completed / (topByCompleted[0]?.completed || 1)) * 100)}%` }} />
                     </div>
                   </div>
@@ -163,7 +154,7 @@ export default async function VideosMetricasPage() {
       {linked.length > 0 && (
         <div className="lumii-card p-6">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
-            <Video className="w-4 h-4 text-[#f6614f]" />
+            <Video className="w-4 h-4 text-lumii-coral" />
             Todas as aulas em vídeo — {linked.length} vídeos
           </h2>
           <div className="overflow-x-auto">

@@ -29,16 +29,16 @@ export default function FerramentaCard({
       )}
     >
       <div className="flex items-center justify-between">
-        <div className="w-11 h-11 rounded-xl bg-[#f6614f]/10 flex items-center justify-center shrink-0">
-          <Icon className="w-5 h-5 text-[#f6614f]" />
+        <div className="w-11 h-11 rounded-xl bg-lumii-coral/10 flex items-center justify-center shrink-0">
+          <Icon className="w-5 h-5 text-lumii-coral" />
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-[#71c69a]/15 text-[#4f9c72]">
+        <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-lumii-green/15 text-[#4f9c72]">
           {publico}
         </span>
       </div>
 
       <div className="flex-1">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-[#f6614f] mb-1">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-lumii-coral mb-1">
           {subtitle}
         </p>
         <h3 className="font-bold text-base leading-snug">{title}</h3>
@@ -48,7 +48,7 @@ export default function FerramentaCard({
       {disabled ? (
         <span className="text-xs font-semibold text-muted-foreground">Em breve</span>
       ) : (
-        <span className="flex items-center gap-1 text-sm font-semibold text-[#f6614f]">
+        <span className="flex items-center gap-1 text-sm font-semibold text-lumii-coral">
           Abrir ferramenta
           <ChevronRight className="w-4 h-4" />
         </span>
@@ -61,7 +61,7 @@ export default function FerramentaCard({
   return (
     <Link
       href={href}
-      className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f6614f] rounded-xl"
+      className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-lumii-coral rounded-xl"
     >
       {content}
     </Link>

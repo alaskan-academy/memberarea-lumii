@@ -5,12 +5,12 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  ArrowLeft, Plus, X, Image as ImageIcon, Play, ChefHat,
+  ArrowLeft, Plus, X, Image as ImageIcon, Play, Blocks,
   Lightbulb, Star, GalleryHorizontal, Check,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { adminUpsertPost, adminDeletePost } from '@/lib/inspiracoes/actions'
-import type { InspiracaoType, InspiracaoPostRow, ReceitaData } from '@/lib/inspiracoes/types'
+import type { InspiracaoType, InspiracaoPostRow, AtividadeData, MaterialItem } from '@/lib/inspiracoes/types'
 import { ImageUploader } from './ImageUploader'
 
 const RichTextEditor = dynamic(
@@ -20,19 +20,19 @@ const RichTextEditor = dynamic(
 
 // ── Constantes ────────────────────────────────────────────────────────────────
 
-const TYPE_OPTIONS: { value: InspiracaoType; icon: any; label: string; desc: string }[] = [
+const TYPE_OPTIONS: { value: InspiracaoType; icon: React.ElementType; label: string; desc: string }[] = [
   { value: 'foto',      icon: ImageIcon,          label: 'Foto',      desc: 'Imagem única com legenda' },
   { value: 'carrossel', icon: GalleryHorizontal,  label: 'Carrossel', desc: '2+ imagens swipeable' },
   { value: 'video',     icon: Play,               label: 'Vídeo',     desc: 'YouTube ou Panda Video' },
-  { value: 'receita',   icon: ChefHat,            label: 'Receita',   desc: 'Ingredientes e passos' },
+  { value: 'atividade', icon: Blocks,             label: 'Atividade', desc: 'Materiais e passo a passo' },
   { value: 'dica',      icon: Lightbulb,          label: 'Dica',      desc: 'Texto rico / HTML' },
   { value: 'destaque',  icon: Star,               label: 'Destaque',  desc: 'Aluna em destaque' },
 ]
 
 
-const NIVEL_OPTIONS = ['Iniciante', 'Intermediário', 'Avançado']
+const FAIXA_ETARIA_OPTIONS = ['0–2 anos', '3–5 anos', '6–8 anos', '9–12 anos']
 
-const INPUT_CLS = "w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] bg-white"
+const INPUT_CLS = "w-full px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-lumii-coral/30 focus:border-lumii-coral bg-white"
 const LABEL_CLS = "block text-xs font-medium text-foreground mb-1"
 
 // ── Props ─────────────────────────────────────────────────────────────────────
@@ -69,19 +69,19 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
 
   // Foto / Carrossel
   const initialUrls = post?.media?.length
-    ? post.media.map((m: any) => m.url)
+    ? post.media.map((m) => m.url)
     : ['']
   const [mediaUrls, setMediaUrls] = useState<string[]>(initialUrls)
 
   // Video
   const [videoUrl, setVideoUrl] = useState(post?.video_url ?? '')
   const [videoAspect, setVideoAspect] = useState<'16/9' | '9/16' | '1/1'>(
-    ((post?.blocks ?? []).find((b: any) => b.type === 'video_meta')?.content as '16/9' | '9/16' | '1/1') ?? '16/9'
+    ((post?.blocks ?? []).find((b) => b.type === 'video_meta')?.content as '16/9' | '9/16' | '1/1') ?? '16/9'
   )
 
   // Dica — bloco HTML
   const [htmlBlock, setHtmlBlock] = useState(
-    (post?.blocks ?? []).find((b: any) => b.type === 'html')?.content ?? ''
+    (post?.blocks ?? []).find((b) => b.type === 'html')?.content ?? ''
   )
 
   // Dica / Destaque — imagem de capa opcional
@@ -89,21 +89,23 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
     (post?.type === 'dica' || post?.type === 'destaque') ? (post?.media?.[0]?.url ?? '') : ''
   )
 
-  // Receita
-  const rd = post?.recipe_data as ReceitaData | undefined
-  const [recipeMedia, setRecipeMedia]   = useState(post?.media?.[0]?.url ?? '')
-  const [ingredientes, setIngredientes] = useState<{ item: string; quantidade: string }[]>(
-    rd?.ingredientes?.length ? rd.ingredientes : [{ item: '', quantidade: '' }]
+  // Atividade
+  const rd: AtividadeData | undefined = post?.recipe_data ?? undefined
+  const [atividadeMedia, setAtividadeMedia] = useState(post?.media?.[0]?.url ?? '')
+  const [materiais, setMateriais] = useState<{ item: string; quantidade: string }[]>(
+    rd?.materiais?.length
+      ? rd.materiais.map(m => ({ item: m.item, quantidade: m.quantidade ?? '' }))
+      : [{ item: '', quantidade: '' }]
   )
   const [passos, setPassos]       = useState<string[]>(
-    rd?.passos?.length ? rd.passos : (rd?.como_fazer?.length ? rd.como_fazer : [''])
+    rd?.passo_a_passo?.length ? rd.passo_a_passo : ['']
   )
-  const [tempo, setTempo]         = useState(rd?.tempo ?? '')
-  const [temperatura, setTemperatura] = useState(rd?.temperatura ?? '')
-  const [nivel, setNivel]         = useState(rd?.nivel ?? '')
+  const [objetivos, setObjetivos] = useState<string[]>(
+    rd?.objetivos?.length ? rd.objetivos : ['']
+  )
+  const [duracao, setDuracao]     = useState(rd?.duracao ?? '')
+  const [faixaEtaria, setFaixaEtaria] = useState(rd?.faixa_etaria ?? '')
   const [dicas, setDicas]         = useState(rd?.dicas ?? '')
-  const [custoMedio, setCustoMedio]   = useState(rd?.custo_medio ?? '')
-  const [precoVenda, setPrecoVenda]   = useState(rd?.preco_venda ?? '')
 
   // Destaque
   const [featuredStudentId, setFeaturedStudentId] = useState(post?.featured_student_id ?? '')
@@ -112,15 +114,15 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
   const [deleting, setDeleting] = useState(false)
   const [error, setError]       = useState('')
 
-  // ── Ingredientes ────────────────────────────────────────────────────────────
-  function addIngrediente() {
-    setIngredientes(prev => [...prev, { item: '', quantidade: '' }])
+  // ── Materiais ─────────────────────────────────────────────────────────────
+  function addMaterial() {
+    setMateriais(prev => [...prev, { item: '', quantidade: '' }])
   }
-  function removeIngrediente(i: number) {
-    setIngredientes(prev => prev.filter((_, idx) => idx !== i))
+  function removeMaterial(i: number) {
+    setMateriais(prev => prev.filter((_, idx) => idx !== i))
   }
-  function updateIngrediente(i: number, key: 'item' | 'quantidade', val: string) {
-    setIngredientes(prev => prev.map((ing, idx) => idx === i ? { ...ing, [key]: val } : ing))
+  function updateMaterial(i: number, key: 'item' | 'quantidade', val: string) {
+    setMateriais(prev => prev.map((mat, idx) => idx === i ? { ...mat, [key]: val } : mat))
   }
 
   // ── Passos ──────────────────────────────────────────────────────────────────
@@ -128,6 +130,13 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
   function removePasso(i: number) { setPassos(prev => prev.filter((_, idx) => idx !== i)) }
   function updatePasso(i: number, val: string) {
     setPassos(prev => prev.map((p, idx) => idx === i ? val : p))
+  }
+
+  // ── Objetivos ─────────────────────────────────────────────────────────────
+  function addObjetivo() { setObjetivos(prev => [...prev, '']) }
+  function removeObjetivo(i: number) { setObjetivos(prev => prev.filter((_, idx) => idx !== i)) }
+  function updateObjetivo(i: number, val: string) {
+    setObjetivos(prev => prev.map((o, idx) => idx === i ? val : o))
   }
 
   // ── Media URLs (carrossel) ──────────────────────────────────────────────────
@@ -170,24 +179,28 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         media = mediaUrls
           .map((u, i) => ({ url: u.trim(), alt: `${title} ${i + 1}`, order: i }))
           .filter(m => m.url)
-      } else if (type === 'receita') {
-        if (recipeMedia.trim()) media = [{ url: recipeMedia.trim(), alt: title, order: 0 }]
+      } else if (type === 'atividade') {
+        if (atividadeMedia.trim()) media = [{ url: atividadeMedia.trim(), alt: title, order: 0 }]
       } else if (type === 'dica' || type === 'destaque') {
         if (coverImage.trim()) media = [{ url: coverImage.trim(), alt: title, order: 0 }]
       }
 
-      // Monta recipe_data
-      let recipe_data = undefined
-      if (type === 'receita') {
+      // Monta recipe_data (mantém o nome da coluna do banco; conteúdo = atividade)
+      let recipe_data: AtividadeData | undefined = undefined
+      if (type === 'atividade') {
+        const materiaisLimpos: MaterialItem[] = materiais
+          .filter(mat => mat.item.trim())
+          .map(mat => ({
+            item: mat.item.trim(),
+            quantidade: mat.quantidade.trim() || undefined,
+          }))
         recipe_data = {
-          ingredientes: ingredientes.filter(ing => ing.item.trim()),
-          passos: passos.filter(p => p.trim()),
-          tempo: tempo.trim() || undefined,
-          temperatura: temperatura.trim() || undefined,
-          nivel: nivel || undefined,
+          materiais: materiaisLimpos,
+          passo_a_passo: passos.filter(p => p.trim()),
+          objetivos: objetivos.filter(o => o.trim()),
+          duracao: duracao.trim() || undefined,
+          faixa_etaria: faixaEtaria || undefined,
           dicas: dicas.trim() || undefined,
-          custo_medio: custoMedio.trim() || undefined,
-          preco_venda: precoVenda.trim() || undefined,
         }
       }
 
@@ -218,8 +231,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
       })
 
       router.push('/admin/inspiracoes')
-    } catch (err: any) {
-      setError(err.message ?? 'Erro ao salvar.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao salvar.')
     }
     setLoading(false)
   }
@@ -274,12 +287,12 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 onClick={() => setType(opt.value)}
                 className={`flex items-center gap-2.5 p-3 rounded-xl border text-left transition-colors ${
                   active
-                    ? 'border-[#f6614f] bg-[#f6614f]/8 text-[#f6614f]'
-                    : 'border-border/60 hover:border-[#f6614f]/40 text-foreground'
+                    ? 'border-lumii-coral bg-lumii-coral/8 text-lumii-coral'
+                    : 'border-border/60 hover:border-lumii-coral/40 text-foreground'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  active ? 'bg-[#f6614f]/15' : 'bg-muted'
+                  active ? 'bg-lumii-coral/15' : 'bg-muted'
                 }`}>
                   <Icon className="w-4 h-4" />
                 </div>
@@ -307,7 +320,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
             value={title}
             onChange={e => setTitle(e.target.value)}
             className={INPUT_CLS}
-            placeholder="Ex: Sabonete de Aloe Vera Marmorizado"
+            placeholder="Ex: Caça ao tesouro das cores"
           />
         </div>
 
@@ -358,7 +371,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 </div>
               ))}
               <button type="button" onClick={addMediaUrl}
-                className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
+                className="flex items-center gap-1.5 text-xs text-lumii-coral hover:underline">
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar imagem
               </button>
@@ -391,8 +404,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                     className={cn(
                       'px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors',
                       videoAspect === val
-                        ? 'bg-[#f6614f] text-white border-[#f6614f]'
-                        : 'bg-white text-foreground/70 border-border hover:border-[#f6614f]/50'
+                        ? 'bg-lumii-coral text-white border-lumii-coral'
+                        : 'bg-white text-foreground/70 border-border hover:border-lumii-coral/50'
                     )}
                   >
                     {label}
@@ -447,62 +460,62 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         )}
       </div>
 
-      {/* ── Seção receita ─────────────────────────────────────────────────────── */}
-      {type === 'receita' && (
+      {/* ── Seção atividade ───────────────────────────────────────────────────── */}
+      {type === 'atividade' && (
         <div className="bg-white rounded-xl border border-border/60 p-5 space-y-5">
-          <h2 className="text-sm font-semibold">Receita</h2>
+          <h2 className="text-sm font-semibold">Atividade</h2>
 
-          {/* Imagem da receita */}
+          {/* Imagem da atividade */}
           <div>
             <ImageUploader
-              label="Imagem da receita"
-              value={recipeMedia}
-              onChange={setRecipeMedia}
+              label="Imagem da atividade"
+              value={atividadeMedia}
+              onChange={setAtividadeMedia}
             />
           </div>
 
-          {/* Ingredientes */}
+          {/* Materiais */}
           <div>
-            <label className={LABEL_CLS}>Ingredientes</label>
+            <label className={LABEL_CLS}>Materiais</label>
             <div className="space-y-2">
-              {ingredientes.map((ing, i) => (
+              {materiais.map((mat, i) => (
                 <div key={i} className="flex gap-2">
-                  <label htmlFor={`ingrediente-nome-${i}`} className="sr-only">Nome do ingrediente {i + 1}</label>
+                  <label htmlFor={`material-nome-${i}`} className="sr-only">Nome do material {i + 1}</label>
                   <input
-                    id={`ingrediente-nome-${i}`}
-                    value={ing.item}
-                    onChange={e => updateIngrediente(i, 'item', e.target.value)}
+                    id={`material-nome-${i}`}
+                    value={mat.item}
+                    onChange={e => updateMaterial(i, 'item', e.target.value)}
                     className={`${INPUT_CLS} flex-1`}
-                    placeholder="Ex: Base glicerinada branca"
+                    placeholder="Ex: Cartolina colorida"
                   />
-                  <label htmlFor={`ingrediente-quantidade-${i}`} className="sr-only">Quantidade do ingrediente {i + 1}</label>
+                  <label htmlFor={`material-quantidade-${i}`} className="sr-only">Quantidade do material {i + 1}</label>
                   <input
-                    id={`ingrediente-quantidade-${i}`}
-                    value={ing.quantidade}
-                    onChange={e => updateIngrediente(i, 'quantidade', e.target.value)}
-                    className="w-32 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 focus:border-[#f6614f] bg-white"
-                    placeholder="Ex: 300g"
+                    id={`material-quantidade-${i}`}
+                    value={mat.quantidade}
+                    onChange={e => updateMaterial(i, 'quantidade', e.target.value)}
+                    className="w-32 shrink-0 px-3 py-2 text-sm rounded-lg border border-border/60 focus:outline-none focus:ring-2 focus:ring-lumii-coral/30 focus:border-lumii-coral bg-white"
+                    placeholder="Ex: 2 folhas"
                   />
-                  {ingredientes.length > 1 && (
-                    <button type="button" onClick={() => removeIngrediente(i)}
-                      aria-label="Remover ingrediente"
+                  {materiais.length > 1 && (
+                    <button type="button" onClick={() => removeMaterial(i)}
+                      aria-label="Remover material"
                       className="p-2 text-muted-foreground hover:text-red-500 transition-colors shrink-0">
                       <X className="w-4 h-4" />
                     </button>
                   )}
                 </div>
               ))}
-              <button type="button" onClick={addIngrediente}
-                className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
+              <button type="button" onClick={addMaterial}
+                className="flex items-center gap-1.5 text-xs text-lumii-coral hover:underline">
                 <Plus className="w-3.5 h-3.5" />
-                Adicionar ingrediente
+                Adicionar material
               </button>
             </div>
           </div>
 
-          {/* Passos */}
+          {/* Passo a passo */}
           <div>
-            <label className={LABEL_CLS}>Passos / Como fazer</label>
+            <label className={LABEL_CLS}>Passo a passo</label>
             <div className="space-y-2">
               {passos.map((passo, i) => (
                 <div key={i} className="flex gap-2">
@@ -530,9 +543,40 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 </div>
               ))}
               <button type="button" onClick={addPasso}
-                className="flex items-center gap-1.5 text-xs text-[#f6614f] hover:underline">
+                className="flex items-center gap-1.5 text-xs text-lumii-coral hover:underline">
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar passo
+              </button>
+            </div>
+          </div>
+
+          {/* Objetivos pedagógicos (opcional) */}
+          <div>
+            <label className={LABEL_CLS}>Objetivos pedagógicos (opcional)</label>
+            <div className="space-y-2">
+              {objetivos.map((obj, i) => (
+                <div key={i} className="flex gap-2">
+                  <label htmlFor={`objetivo-${i}`} className="sr-only">Objetivo {i + 1}</label>
+                  <input
+                    id={`objetivo-${i}`}
+                    value={obj}
+                    onChange={e => updateObjetivo(i, e.target.value)}
+                    className={`${INPUT_CLS} flex-1`}
+                    placeholder="Ex: Desenvolver coordenação motora fina"
+                  />
+                  {objetivos.length > 1 && (
+                    <button type="button" onClick={() => removeObjetivo(i)}
+                      aria-label="Remover objetivo"
+                      className="p-2 text-muted-foreground hover:text-red-500 transition-colors shrink-0">
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button type="button" onClick={addObjetivo}
+                className="flex items-center gap-1.5 text-xs text-lumii-coral hover:underline">
+                <Plus className="w-3.5 h-3.5" />
+                Adicionar objetivo
               </button>
             </div>
           </div>
@@ -540,44 +584,29 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
           {/* Metadados */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="inspiracao-nivel" className={LABEL_CLS}>Nível</label>
-              <select id="inspiracao-nivel" value={nivel} onChange={e => setNivel(e.target.value)} className={INPUT_CLS}>
+              <label htmlFor="inspiracao-faixa-etaria" className={LABEL_CLS}>Faixa etária</label>
+              <select id="inspiracao-faixa-etaria" value={faixaEtaria} onChange={e => setFaixaEtaria(e.target.value)} className={INPUT_CLS}>
                 <option value="">Selecionar...</option>
-                {NIVEL_OPTIONS.map(n => <option key={n} value={n}>{n}</option>)}
+                {FAIXA_ETARIA_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
             </div>
             <div>
-              <label htmlFor="inspiracao-tempo" className={LABEL_CLS}>Tempo</label>
-              <input id="inspiracao-tempo" value={tempo} onChange={e => setTempo(e.target.value)}
-                className={INPUT_CLS} placeholder="Ex: 45 min" />
-            </div>
-            <div>
-              <label htmlFor="inspiracao-temperatura" className={LABEL_CLS}>Temperatura</label>
-              <input id="inspiracao-temperatura" value={temperatura} onChange={e => setTemperatura(e.target.value)}
-                className={INPUT_CLS} placeholder="Ex: 65°C–70°C (derretimento)" />
-            </div>
-            <div>
-              <label htmlFor="inspiracao-custo-medio" className={LABEL_CLS}>Custo médio</label>
-              <input id="inspiracao-custo-medio" value={custoMedio} onChange={e => setCustoMedio(e.target.value)}
-                className={INPUT_CLS} placeholder="Ex: R$ 3,20 por barra" />
-            </div>
-            <div>
-              <label htmlFor="inspiracao-preco-venda" className={LABEL_CLS}>Preço de venda sugerido</label>
-              <input id="inspiracao-preco-venda" value={precoVenda} onChange={e => setPrecoVenda(e.target.value)}
-                className={INPUT_CLS} placeholder="Ex: R$ 15 – R$ 22" />
+              <label htmlFor="inspiracao-duracao" className={LABEL_CLS}>Duração</label>
+              <input id="inspiracao-duracao" value={duracao} onChange={e => setDuracao(e.target.value)}
+                className={INPUT_CLS} placeholder="Ex: 30 min" />
             </div>
           </div>
 
           {/* Dicas */}
           <div>
-            <label htmlFor="inspiracao-dicas" className={LABEL_CLS}>Dica da receita</label>
+            <label htmlFor="inspiracao-dicas" className={LABEL_CLS}>Dica da atividade</label>
             <textarea
               id="inspiracao-dicas"
               value={dicas}
               onChange={e => setDicas(e.target.value)}
               rows={3}
               className={`${INPUT_CLS} resize-none`}
-              placeholder="Dica importante para o sucesso da receita..."
+              placeholder="Dica importante para o sucesso da atividade..."
             />
           </div>
         </div>
@@ -622,7 +651,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
       {/* Tags de categoria */}
       {categories.length > 0 && (
         <div className="bg-white rounded-xl border border-border/60 p-5 space-y-3">
-          <h2 className="text-sm font-semibold">Categorias de artesanato</h2>
+          <h2 className="text-sm font-semibold">Categorias</h2>
           <div className="flex flex-wrap gap-2">
             {categories.map(({ slug, name }) => (
               <button
@@ -631,8 +660,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 onClick={() => toggleTag(slug)}
                 className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                   tags.has(slug)
-                    ? 'bg-[#f6614f] text-white border-[#f6614f]'
-                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#f6614f]/60'
+                    ? 'bg-lumii-coral text-white border-lumii-coral'
+                    : 'bg-white text-muted-foreground border-border/60 hover:border-lumii-coral/60'
                 }`}
               >
                 {name}
@@ -648,7 +677,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Cursos relacionados (opcional)</h2>
             {courseIds.size > 0 && (
-              <span className="text-xs text-[#f6614f] font-medium">{courseIds.size} selecionado{courseIds.size > 1 ? 's' : ''}</span>
+              <span className="text-xs text-lumii-coral font-medium">{courseIds.size} selecionado{courseIds.size > 1 ? 's' : ''}</span>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -659,8 +688,8 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
                 onClick={() => toggleCourse(c.id)}
                 className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                   courseIds.has(c.id)
-                    ? 'bg-[#eebc3e] text-[#6b4f00] border-[#eebc3e]'
-                    : 'bg-white text-muted-foreground border-border/60 hover:border-[#eebc3e]/60'
+                    ? 'bg-lumii-yellow text-[#6b4f00] border-lumii-yellow'
+                    : 'bg-white text-muted-foreground border-border/60 hover:border-lumii-yellow/60'
                 }`}
               >
                 {c.title}
@@ -688,7 +717,7 @@ export function InspiracaoForm({ post, adminId, courses, categories = [] }: Prop
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 py-2.5 text-sm font-medium bg-[#f6614f] text-white rounded-lg hover:bg-[#dd5747] disabled:opacity-50 transition-colors"
+          className="flex-1 py-2.5 text-sm font-medium bg-lumii-coral text-white rounded-lg hover:bg-lumii-coral-hover disabled:opacity-50 transition-colors"
         >
           {loading ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar post'}
         </button>
@@ -702,7 +731,7 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
     <label className="flex items-center gap-2 cursor-pointer">
       <div
         onClick={() => onChange(!value)}
-        className={`w-10 h-6 rounded-full transition-colors relative ${value ? 'bg-[#f6614f]' : 'bg-muted-foreground/30'}`}
+        className={`w-10 h-6 rounded-full transition-colors relative ${value ? 'bg-lumii-coral' : 'bg-muted-foreground/30'}`}
       >
         <span className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-[left] ${value ? 'left-5' : 'left-1'}`} />
       </div>

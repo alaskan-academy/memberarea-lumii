@@ -46,7 +46,10 @@ export function extractPandaVideoId(value: string): string {
     const url = new URL(value);
     const v = url.searchParams.get("v");
     if (v) return v;
-  } catch {}
+  } catch {
+    // Não era uma URL válida — trata o valor como UUID direto (fallback normal).
+    console.warn(`[panda-api] extractPandaVideoId: valor não é URL, usando como UUID direto: "${value}"`);
+  }
   return value.trim();
 }
 

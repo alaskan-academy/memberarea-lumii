@@ -2,7 +2,7 @@ import type { SupportPlanTemplate } from "./types";
 
 /**
  * RASCUNHO — 8 templates (um por dificuldade_principal, exceto "outro") escritos
- * seguindo o checklist de PLAN-ferramentas.md (seção 6.3): nenhuma linguagem de
+ * seguindo o checklist de docs/PLAN-ferramentas.md (seção 6.3): nenhuma linguagem de
  * diagnóstico clínico, nenhum tom acusatório em relação ao aluno, estratégias
  * pedagógicas/comportamentais aplicáveis por um professor sem formação clínica,
  * específicas e práticas. Precisa de revisão humana (pedagogo/psicopedagogo)

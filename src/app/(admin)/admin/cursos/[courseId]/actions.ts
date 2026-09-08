@@ -4,16 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-
-async function assertAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Nao autorizado");
-  const { data: profile } = await supabase
-    .from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") throw new Error("Nao autorizado");
-  return supabase;
-}
+import { assertAdmin } from "@/lib/supabase/admin-guard";
 
 // ─── Tipos compartilhados ─────────────────────────────────────────────────────
 
@@ -39,7 +30,7 @@ export async function createModule(
   courseId: string,
   formData: FormData
 ): Promise<{ error?: string; module?: { id: string; title: string; position: number; archived: boolean } }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const raw = {
     title: formData.get("title") as string,
     position: Number(formData.get("position") ?? 0),
@@ -64,7 +55,7 @@ export async function updateModule(
   courseId: string,
   formData: FormData
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const raw = {
     title: formData.get("title") as string,
     position: Number(formData.get("position") ?? 0),
@@ -83,7 +74,7 @@ export async function deleteModule(
   moduleId: string,
   courseId: string
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("modules").delete().eq("id", moduleId);
   if (error) return { error: "Erro ao excluir modulo: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
@@ -96,7 +87,7 @@ export async function toggleArchivedModule(
   courseId: string,
   archived: boolean
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("modules").update({ archived }).eq("id", moduleId);
   if (error) return { error: "Erro ao arquivar modulo: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
@@ -145,7 +136,7 @@ export async function createLesson(
   courseId: string,
   formData: FormData
 ): Promise<{ error?: string; lesson?: LessonData }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const raw = {
     title: formData.get("title") as string,
     duration_seconds: Number(formData.get("duration_seconds") ?? 0),
@@ -184,7 +175,7 @@ export async function updateLesson(
   courseId: string,
   formData: FormData
 ): Promise<{ error?: string; lesson?: LessonData }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const raw = {
     title: formData.get("title") as string,
     duration_seconds: Number(formData.get("duration_seconds") ?? 0),
@@ -207,7 +198,7 @@ export async function deleteLesson(
   lessonId: string,
   courseId: string
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("lessons").delete().eq("id", lessonId);
   if (error) return { error: "Erro ao excluir aula: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
@@ -220,7 +211,7 @@ export async function toggleArchivedLesson(
   courseId: string,
   archived: boolean
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const { error } = await supabase.from("lessons").update({ archived }).eq("id", lessonId);
   if (error) return { error: "Erro ao arquivar aula: " + error.message };
   revalidatePath(`/admin/cursos/${courseId}`);
@@ -277,7 +268,7 @@ export async function finalizeMaterialUpload(
   filePath: string,
   name: string
 ): Promise<{ error?: string; material?: LessonMaterial }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
 
   const { data, error: dbError } = await supabase
     .from("lesson_materials")
@@ -298,7 +289,7 @@ export async function deleteLessonMaterial(
   filePath: string,
   courseId: string
 ): Promise<{ error?: string }> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   const service = createServiceClient();
 
   await service.storage.from("lesson-materials").remove([filePath]);
@@ -311,7 +302,7 @@ export async function deleteLessonMaterial(
 }
 
 export async function refreshLessonWithMaterials(lessonId: string): Promise<LessonData | null> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   return fetchLessonWithMaterials(supabase, lessonId);
 }
 
@@ -320,7 +311,7 @@ export async function refreshLessonWithMaterials(lessonId: string): Promise<Less
 export async function reorderModules(
   items: { id: string; position: number }[]
 ): Promise<void> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   await Promise.all(
     items.map(({ id, position }) =>
       supabase.from("modules").update({ position }).eq("id", id)
@@ -331,7 +322,7 @@ export async function reorderModules(
 export async function reorderLessons(
   items: { id: string; position: number }[]
 ): Promise<void> {
-  const supabase = await assertAdmin();
+  const { supabase } = await assertAdmin();
   await Promise.all(
     items.map(({ id, position }) =>
       supabase.from("lessons").update({ position }).eq("id", id)

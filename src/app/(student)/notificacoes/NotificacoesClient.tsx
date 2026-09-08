@@ -117,7 +117,7 @@ export default function NotificacoesClient({
         {unreadCount > 0 && (
           <button
             onClick={handleReadAll}
-            className="flex items-center gap-1.5 text-sm text-[#f6614f] hover:text-[#dd5747] transition-colors font-medium"
+            className="flex items-center gap-1.5 text-sm text-lumii-coral hover:text-lumii-coral-hover transition-colors font-medium"
           >
             <CheckCheck className="w-4 h-4" />
             Marcar todas como lidas
@@ -133,7 +133,7 @@ export default function NotificacoesClient({
             onClick={() => setFilter(f)}
             className={`px-3 py-2 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
               filter === f
-                ? "bg-[#f6614f] text-white"
+                ? "bg-lumii-coral text-white"
                 : "border border-border text-muted-foreground hover:bg-muted"
             }`}
           >
@@ -161,7 +161,7 @@ export default function NotificacoesClient({
             const inner = (
               <div
                 className={`flex gap-4 px-5 py-4 transition-colors ${
-                  !n.read ? "bg-[#f6614f]/[0.04]" : "hover:bg-muted/40"
+                  !n.read ? "bg-lumii-coral/[0.04]" : "hover:bg-muted/40"
                 }`}
                 onClick={() => { if (!n.read) handleRead(n.id); }}
               >

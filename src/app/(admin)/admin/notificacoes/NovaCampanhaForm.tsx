@@ -69,7 +69,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
             </label>
             <input id="campanha-title" name="title" required maxLength={120}
               placeholder="Ex: Novo curso disponível!"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40" />
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40" />
           </div>
 
           {/* Mensagem */}
@@ -79,7 +79,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
             </label>
             <textarea id="campanha-body" name="body" required maxLength={500} rows={3}
               placeholder="Texto da notificação que a aluna verá…"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 resize-none" />
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 resize-none" />
           </div>
 
           {/* Link opcional */}
@@ -88,7 +88,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
               Link ao clicar (opcional)
             </label>
             <input id="campanha-link" name="link" type="url" placeholder="https://… ou /cursos/slug"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40" />
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40" />
           </div>
 
           {/* Público-alvo */}
@@ -97,7 +97,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
               Para quem enviar <span className="text-red-500">*</span>
             </label>
             <select id="campanha-target" name="target" defaultValue="all"
-              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40">
+              className="w-full px-3 py-2 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40">
               <option value="all">
                 Todas as alunas
               </option>
@@ -113,7 +113,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
           <div className="flex items-center gap-3">
             <button type="button"
               onClick={() => setAgendado((v) => !v)}
-              className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${agendado ? "border-[#f6614f] text-[#f6614f] bg-[#f6614f]/10" : "border-border text-muted-foreground hover:border-[#f6614f] hover:text-[#f6614f]"}`}>
+              className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${agendado ? "border-lumii-coral text-lumii-coral bg-lumii-coral/10" : "border-border text-muted-foreground hover:border-lumii-coral hover:text-lumii-coral"}`}>
               <Clock className="w-3.5 h-3.5" />
               Agendar envio
             </button>
@@ -124,7 +124,7 @@ export default function NovaCampanhaForm({ courses }: { courses: Course[] }) {
                 </label>
                 <input id="campanha-scheduled_at" name="scheduled_at" type="datetime-local" required={agendado}
                   min={new Date().toISOString().slice(0, 16)}
-                  className="flex-1 px-3 py-1.5 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40" />
+                  className="flex-1 px-3 py-1.5 rounded-lg border border-border text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40" />
               </>
             )}
           </div>

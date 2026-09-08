@@ -44,7 +44,7 @@ export default function ParentScriptTool({ initialFavorites }: { initialFavorite
         </Link>
         <Link
           href="/ferramentas/o-que-eu-digo-agora/favoritos"
-          className="flex items-center gap-1.5 text-sm font-medium text-[#f6614f] hover:underline"
+          className="flex items-center gap-1.5 text-sm font-medium text-lumii-coral hover:underline"
         >
           <Star className="w-3.5 h-3.5" />
           Meus favoritos

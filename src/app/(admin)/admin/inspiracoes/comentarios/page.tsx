@@ -11,6 +11,15 @@ import { ArrowLeft, Check, Trash2 } from 'lucide-react'
 
 export const metadata = { title: 'Admin — Comentários de Inspirações | Lumii' }
 
+// Shape das linhas retornadas pelos selects desta página (client sem generics de Database).
+type AdminInspCommentRow = {
+  id: string
+  body: string
+  created_at: string
+  profiles: { full_name: string | null; avatar_url: string | null } | null
+  inspiration_posts: { title: string } | null
+}
+
 export default async function AdminInspComentariosPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -38,7 +47,7 @@ export default async function AdminInspComentariosPage() {
     await adminDeleteComment(id)
   }
 
-  function CommentRow({ c, showApprove }: { c: any; showApprove: boolean }) {
+  function CommentRow({ c, showApprove }: { c: AdminInspCommentRow; showApprove: boolean }) {
     const postTitle = c.inspiration_posts?.title ?? '—'
     return (
       <div className="bg-white rounded-lg border border-border/60 p-4">
@@ -47,7 +56,7 @@ export default async function AdminInspComentariosPage() {
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="text-xs font-medium">{c.profiles?.full_name ?? 'Aluna'}</span>
               <span className="text-[10px] text-muted-foreground">→</span>
-              <span className="text-xs text-[#f6614f] truncate max-w-[160px]">{postTitle}</span>
+              <span className="text-xs text-lumii-coral truncate max-w-[160px]">{postTitle}</span>
               <span className="text-[10px] text-muted-foreground ml-auto whitespace-nowrap">
                 {new Date(c.created_at).toLocaleDateString('pt-BR')}
               </span>
@@ -90,7 +99,7 @@ export default async function AdminInspComentariosPage() {
         <h2 className="text-sm font-semibold mb-3 flex items-center gap-2">
           Aguardando aprovação
           {pending.length > 0 && (
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#f6614f] text-white text-[10px] font-bold">
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-lumii-coral text-white text-[10px] font-bold">
               {pending.length}
             </span>
           )}
@@ -99,7 +108,7 @@ export default async function AdminInspComentariosPage() {
           <p className="text-xs text-muted-foreground">Nenhum comentário pendente. Ótimo!</p>
         ) : (
           <div className="space-y-2">
-            {pending.map((c: any) => <CommentRow key={c.id} c={c} showApprove={true} />)}
+            {pending.map((c: AdminInspCommentRow) => <CommentRow key={c.id} c={c} showApprove={true} />)}
           </div>
         )}
       </section>
@@ -113,7 +122,7 @@ export default async function AdminInspComentariosPage() {
           <p className="text-xs text-muted-foreground">Nenhum comentário aprovado ainda.</p>
         ) : (
           <div className="space-y-2">
-            {approved.map((c: any) => <CommentRow key={c.id} c={c} showApprove={false} />)}
+            {approved.map((c: AdminInspCommentRow) => <CommentRow key={c.id} c={c} showApprove={false} />)}
           </div>
         )}
       </section>

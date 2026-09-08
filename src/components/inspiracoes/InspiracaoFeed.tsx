@@ -12,7 +12,7 @@ const TIPOS: { value: InspiracaoType | ''; label: string }[] = [
   { value: 'foto',      label: 'Fotos' },
   { value: 'carrossel', label: 'Carrossel' },
   { value: 'video',     label: 'Vídeos' },
-  { value: 'receita',   label: 'Receitas' },
+  { value: 'atividade', label: 'Atividades' },
   { value: 'dica',      label: 'Dicas' },
   { value: 'destaque',  label: 'Destaques' },
 ]
@@ -100,7 +100,7 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
               value={busca}
               onChange={e => setBusca(e.target.value)}
               placeholder="Buscar inspirações..."
-              className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/40 transition-shadow"
+              className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-border bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/40 transition-shadow"
             />
           </div>
           <button
@@ -110,14 +110,14 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
             className={cn(
               'shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-sm font-medium transition-colors',
               filtersOpen || activeFilterCount > 0
-                ? 'border-[#f6614f] text-[#f6614f] bg-[#f6614f]/5'
-                : 'border-border text-foreground/60 hover:border-[#f6614f]/50 hover:text-[#f6614f]'
+                ? 'border-lumii-coral text-lumii-coral bg-lumii-coral/5'
+                : 'border-border text-foreground/60 hover:border-lumii-coral/50 hover:text-lumii-coral'
             )}
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span className="hidden sm:inline text-xs">Filtros</span>
             {activeFilterCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-[#f6614f] text-white text-[10px] font-bold flex items-center justify-center leading-none">
+              <span className="w-4 h-4 rounded-full bg-lumii-coral text-white text-[10px] font-bold flex items-center justify-center leading-none">
                 {activeFilterCount}
               </span>
             )}
@@ -139,8 +139,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                       tipo === t.value
-                        ? 'bg-[#f6614f] text-white shadow-sm'
-                        : 'bg-muted/60 text-foreground/70 hover:bg-[#f6614f]/10 hover:text-[#f6614f]'
+                        ? 'bg-lumii-coral text-white shadow-sm'
+                        : 'bg-muted/60 text-foreground/70 hover:bg-lumii-coral/10 hover:text-lumii-coral'
                     )}
                   >
                     {t.label}
@@ -152,15 +152,15 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
             {/* Categoria */}
             {categories.length > 0 && (
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">Artesanato</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">Categorias</p>
                 <div className="flex flex-wrap gap-1.5">
                   <button
                     onClick={() => setNicho('')}
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                       nicho === ''
-                        ? 'bg-[#71c69a] text-white shadow-sm'
-                        : 'bg-muted/60 text-foreground/70 hover:bg-[#71c69a]/15 hover:text-[#2a9d5a]'
+                        ? 'bg-lumii-green text-white shadow-sm'
+                        : 'bg-muted/60 text-foreground/70 hover:bg-lumii-green/15 hover:text-[#2a9d5a]'
                     )}
                   >
                     Todos
@@ -172,8 +172,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                       className={cn(
                         'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                         nicho === c.slug
-                          ? 'bg-[#71c69a] text-white shadow-sm'
-                          : 'bg-muted/60 text-foreground/70 hover:bg-[#71c69a]/15 hover:text-[#2a9d5a]'
+                          ? 'bg-lumii-green text-white shadow-sm'
+                          : 'bg-muted/60 text-foreground/70 hover:bg-lumii-green/15 hover:text-[#2a9d5a]'
                       )}
                     >
                       {c.name}
@@ -193,8 +193,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                       courseId === ''
-                        ? 'bg-[#eebc3e] text-[#6b4f00] shadow-sm'
-                        : 'bg-muted/60 text-foreground/70 hover:bg-[#eebc3e]/20 hover:text-[#6b4f00]'
+                        ? 'bg-lumii-yellow text-[#6b4f00] shadow-sm'
+                        : 'bg-muted/60 text-foreground/70 hover:bg-lumii-yellow/20 hover:text-[#6b4f00]'
                     )}
                   >
                     Todos
@@ -206,8 +206,8 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
                       className={cn(
                         'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                         courseId === c.id
-                          ? 'bg-[#eebc3e] text-[#6b4f00] shadow-sm'
-                          : 'bg-muted/60 text-foreground/70 hover:bg-[#eebc3e]/20 hover:text-[#6b4f00]'
+                          ? 'bg-lumii-yellow text-[#6b4f00] shadow-sm'
+                          : 'bg-muted/60 text-foreground/70 hover:bg-lumii-yellow/20 hover:text-[#6b4f00]'
                       )}
                     >
                       {c.title}
@@ -234,7 +234,7 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
       {/* Grid */}
       {isFetching ? (
         <div className="flex justify-center py-16">
-          <Loader2 className="w-6 h-6 text-[#f6614f] animate-spin" />
+          <Loader2 className="w-6 h-6 text-lumii-coral animate-spin" />
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
@@ -259,7 +259,7 @@ export function InspiracaoFeed({ userId, initialPosts, initialCursor, initialHas
               <button
                 onClick={loadMore}
                 disabled={isLoadingMore}
-                className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-[#f6614f] border border-[#f6614f]/40 rounded-xl hover:bg-[#f6614f]/5 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-lumii-coral border border-lumii-coral/40 rounded-xl hover:bg-lumii-coral/5 transition-colors disabled:opacity-50"
               >
                 {isLoadingMore ? (
                   <><Loader2 className="w-4 h-4 animate-spin" />Carregando...</>

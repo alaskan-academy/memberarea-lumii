@@ -112,11 +112,11 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
   return (
     <article className={cn(
       "bg-white rounded-xl border shadow-sm overflow-hidden",
-      isPending ? "border-[#eebc3e]/40 bg-[#eebc3e]/5" : "border-border/60"
+      isPending ? "border-lumii-yellow/40 bg-lumii-yellow/5" : "border-border/60"
     )}>
       {/* Banner pendente */}
       {isPending && (
-        <div className="flex items-center gap-2 px-4 py-2 bg-[#eebc3e]/10 border-b border-[#eebc3e]/30 text-xs font-medium text-[#b8900d]">
+        <div className="flex items-center gap-2 px-4 py-2 bg-lumii-yellow/10 border-b border-lumii-yellow/30 text-xs font-medium text-[#b8900d]">
           <Clock className="w-3.5 h-3.5" />
           Aguardando aprovação da equipe Lumii
         </div>
@@ -130,7 +130,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-semibold text-sm">{authorName}</span>
               {post.pinned && (
-                <span className="flex items-center gap-1 text-[10px] font-semibold text-[#f6614f] bg-[#f6614f]/10 px-2 py-0.5 rounded-full">
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-lumii-coral bg-lumii-coral/10 px-2 py-0.5 rounded-full">
                   <Pin className="w-2.5 h-2.5" /> Fixado
                 </span>
               )}
@@ -164,7 +164,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
         <h2 className="font-bold text-base mb-2">{post.title}</h2>
         <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{bodyPreview}</p>
         {post.body.length > 300 && (
-          <button onClick={() => setExpanded((v) => !v)} className="text-xs font-medium text-[#f6614f] hover:underline mt-1">
+          <button onClick={() => setExpanded((v) => !v)} className="text-xs font-medium text-lumii-coral hover:underline mt-1">
             {expanded ? "Ver menos" : "Ver mais"}
           </button>
         )}
@@ -172,7 +172,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
         {/* Anexo de arquivo */}
         {post.attachment_url && (
           <a href={post.attachment_url} target="_blank" rel="noopener noreferrer"
-            className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-muted/40 text-sm text-foreground/70 hover:text-[#f6614f] hover:border-[#f6614f]/40 transition-colors w-fit">
+            className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-muted/40 text-sm text-foreground/70 hover:text-lumii-coral hover:border-lumii-coral/40 transition-colors w-fit">
             <Paperclip className="w-4 h-4 shrink-0" />
             <span className="truncate">{post.attachment_name || "Ver anexo"}</span>
           </a>
@@ -191,7 +191,7 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
 
         <button onClick={handleToggleComments} disabled={isPending}
           className={cn("flex items-center gap-1.5 text-sm font-medium transition-colors",
-            isPending ? "opacity-40 cursor-not-allowed" : "text-foreground/50 hover:text-[#f6614f]")}>
+            isPending ? "opacity-40 cursor-not-allowed" : "text-foreground/50 hover:text-lumii-coral")}>
           <MessageCircle className="w-4 h-4" />
           <span>{commentCount} {commentCount === 1 ? "resposta" : "respostas"}</span>
           {showComments ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -223,12 +223,12 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
                   <div key={comment.id} className="flex gap-2.5">
                     <Avatar name={comment.profiles?.full_name || "?"} url={comment.profiles?.avatar_url} size={7} />
                     <div className={cn("flex-1 min-w-0 rounded-lg px-3 py-2 border",
-                      isAdmin ? "bg-[#f6614f]/5 border-[#f6614f]/20" : "bg-white border-border/40")}>
+                      isAdmin ? "bg-lumii-coral/5 border-lumii-coral/20" : "bg-white border-border/40")}>
                       <div className="flex items-baseline justify-between gap-2">
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <span className="text-xs font-semibold">{comment.profiles?.full_name || "Aluna"}</span>
                           {isAdmin && (
-                            <span className="flex items-center gap-0.5 text-[10px] font-semibold text-[#f6614f] bg-[#f6614f]/10 px-1.5 py-0.5 rounded">
+                            <span className="flex items-center gap-0.5 text-[10px] font-semibold text-lumii-coral bg-lumii-coral/10 px-1.5 py-0.5 rounded">
                               <ShieldCheck className="w-2.5 h-2.5" /> Equipe Lumii
                             </span>
                           )}
@@ -261,11 +261,11 @@ export default function ForumPostCard({ post, userId, initialLiked, onDelete }: 
               <textarea id="forum-comment-body" value={commentBody} onChange={(e) => setCommentBody(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleComment(e as unknown as React.FormEvent); } }}
                 placeholder="Escreva sua resposta… (Enter para enviar)"
-                rows={1} className="flex-1 resize-none rounded-lg border border-border px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 placeholder:text-muted-foreground"
+                rows={1} className="flex-1 resize-none rounded-lg border border-border px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/30 placeholder:text-muted-foreground"
                 style={{ minHeight: "44px" }} />
               <button type="submit" disabled={!commentBody.trim() || submitting}
                 aria-label="Enviar comentário"
-                className="p-2 rounded-lg bg-[#f6614f] text-white disabled:opacity-40 hover:opacity-90 transition-opacity shrink-0 self-end">
+                className="p-2 rounded-lg bg-lumii-coral text-white disabled:opacity-40 hover:opacity-90 transition-opacity shrink-0 self-end">
                 {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>
             </div>

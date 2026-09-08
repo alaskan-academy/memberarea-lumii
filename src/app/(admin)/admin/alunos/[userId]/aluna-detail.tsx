@@ -194,7 +194,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
           {resendFeedback && (
             <span className={cn(
               "flex items-center gap-1 text-xs font-medium whitespace-nowrap",
-              resendFeedback === "sent" ? "text-[#71c69a]" : "text-red-500"
+              resendFeedback === "sent" ? "text-lumii-green" : "text-red-500"
             )}>
               {resendFeedback === "sent" ? <Check className="w-3.5 h-3.5" /> : null}
               {resendFeedback === "sent" ? "E-mail enviado" : "Erro ao enviar"}
@@ -223,7 +223,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
             className={cn(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border",
               banned
-                ? "border-[#71c69a] text-[#5bb577] hover:bg-[#71c69a]/10"
+                ? "border-lumii-green text-[#5bb577] hover:bg-lumii-green/10"
                 : "border-red-300 text-red-600 hover:bg-red-50"
             )}
           >
@@ -246,7 +246,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
               className={cn(
                 "px-4 py-2.5 text-sm font-medium border-b-2 transition-colors capitalize",
                 activeTab === t
-                  ? "border-[#f6614f] text-[#f6614f]"
+                  ? "border-lumii-coral text-lumii-coral"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
               )}
             >
@@ -272,7 +272,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
           </h2>
           <button
             onClick={() => setEditingProfile(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-[#f6614f]/40 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-lumii-coral/40 transition-colors"
           >
             <Pencil className="w-3.5 h-3.5" />
             Editar
@@ -314,7 +314,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
               <Bell className="w-3.5 h-3.5" /> Push
             </p>
             {profile.hasPushEnabled ? (
-              <p className="text-sm font-medium flex items-center gap-1 text-[#71c69a]">
+              <p className="text-sm font-medium flex items-center gap-1 text-lumii-green">
                 <Bell className="w-3.5 h-3.5" /> Ativa
               </p>
             ) : (
@@ -345,7 +345,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
           </h2>
           <button
             onClick={() => setEditingProfile(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-[#f6614f]/40 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-lumii-coral/40 transition-colors"
           >
             <Pencil className="w-3.5 h-3.5" />
             Editar
@@ -369,7 +369,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
             {/* Header */}
             <div className="px-5 py-4 border-b border-border/60 space-y-3">
               <div className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-[#f6614f]" />
+                <BookOpen className="w-4 h-4 text-lumii-coral" />
                 <h2 className="font-semibold">Cursos</h2>
                 <span className="text-xs text-muted-foreground">
                   {enrolledCount} matrícula{enrolledCount !== 1 ? "s" : ""} · {courses.length} disponíveis
@@ -386,7 +386,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                   placeholder="Pesquisar curso…"
                   value={courseSearch}
                   onChange={(e) => setCourseSearch(e.target.value)}
-                  className="w-full pl-8 pr-8 py-1.5 text-xs rounded-lg border border-border bg-muted/30 focus:outline-none focus:ring-1 focus:ring-[#f6614f]/50 focus:bg-white"
+                  className="w-full pl-8 pr-8 py-1.5 text-xs rounded-lg border border-border bg-muted/30 focus:outline-none focus:ring-1 focus:ring-lumii-coral/50 focus:bg-white"
                 />
                 {courseSearch && (
                   <button
@@ -407,7 +407,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
               </div>
             ) : (
               <>
-                <div className="px-5 py-2 bg-[#71c69a]/5 border-b border-[#71c69a]/20">
+                <div className="px-5 py-2 bg-lumii-green/5 border-b border-lumii-green/20">
                   <p className="text-xs font-semibold text-[#5bb577] uppercase tracking-wide">
                     ✓ Com acesso ({enrolledCount})
                   </p>
@@ -480,7 +480,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
           >
             {/* Header */}
             <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-              <UserCircle className="w-5 h-5 text-[#f6614f]" />
+              <UserCircle className="w-5 h-5 text-lumii-coral" />
               <h2 className="font-semibold flex-1">Editar perfil</h2>
               <button
                 onClick={() => setEditingProfile(false)}
@@ -506,7 +506,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     name="full_name"
                     required
                     defaultValue={profile.full_name ?? ""}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                     placeholder="Nome da aluna"
                   />
                 </div>
@@ -522,7 +522,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                       name="phone"
                       type="tel"
                       defaultValue={profile.phone ?? ""}
-                      className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                      className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                       placeholder="(11) 99999-9999"
                     />
                   </div>
@@ -535,7 +535,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                       name="date_of_birth"
                       type="date"
                       defaultValue={profile.date_of_birth ?? ""}
-                      className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                      className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                     />
                   </div>
                 </div>
@@ -551,7 +551,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     type="email"
                     required
                     defaultValue={profile.email ?? ""}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                     placeholder="email@exemplo.com"
                   />
                 </div>
@@ -569,7 +569,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     maxLength={14}
                     defaultValue=""
                     placeholder={profile.cpf_masked ?? "000.000.000-00"}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                   />
                   <p className="text-[11px] text-muted-foreground">
                     {profile.cpf_masked
@@ -589,8 +589,8 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     name="admin_notes"
                     rows={4}
                     defaultValue={profile.admin_notes ?? ""}
-                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30 resize-none"
-                    placeholder="Ex: cliente solicitou reembolso em jun/24, potencial para curso avançado de sabonetes…"
+                    className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30 resize-none"
+                    placeholder="Ex: mãe solicitou reembolso em jun/24, interesse em turma de alfabetização…"
                   />
                 </div>
 
@@ -601,7 +601,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                   </div>
                 )}
                 {profileState.success && (
-                  <div className="rounded-lg bg-[#71c69a]/10 border border-[#71c69a]/30 px-4 py-3 text-sm text-[#3d9e5a]">
+                  <div className="rounded-lg bg-lumii-green/10 border border-lumii-green/30 px-4 py-3 text-sm text-lumii-green-dark">
                     {profileState.success}
                   </div>
                 )}
@@ -619,7 +619,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                 <button
                   type="submit"
                   disabled={profilePending}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   {profilePending ? "Salvando…" : "Salvar alterações"}
@@ -642,7 +642,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-              <Lock className="w-5 h-5 text-[#f6614f]" />
+              <Lock className="w-5 h-5 text-lumii-coral" />
               <h2 className="font-semibold flex-1">Definir senha</h2>
               <button
                 onClick={() => setShowPasswordModal(false)}
@@ -669,7 +669,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     value={pwPassword}
                     onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
                     placeholder="Mínimo 8 caracteres"
-                    className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                    className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                   />
                   <button
                     type="button"
@@ -693,7 +693,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     value={pwConfirm}
                     onChange={(e) => { setPwConfirm(e.target.value); setPwError(null); }}
                     placeholder="Repita a senha"
-                    className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-[#f6614f]/30"
+                    className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                   />
                   <button
                     type="button"
@@ -708,7 +708,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
 
               {pwError && <p role="alert" className="text-xs text-red-600">{pwError}</p>}
               {pwSuccess && (
-                <div className="rounded-lg bg-[#71c69a]/10 border border-[#71c69a]/30 px-4 py-3 text-sm text-[#3d9e5a] font-medium">
+                <div className="rounded-lg bg-lumii-green/10 border border-lumii-green/30 px-4 py-3 text-sm text-lumii-green-dark font-medium">
                   Senha definida com sucesso!
                 </div>
               )}
@@ -724,7 +724,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                 <button
                   type="submit"
                   disabled={pwPending || pwSuccess}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#f6614f] text-white hover:bg-[#dd5747] transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-lumii-coral text-white hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
                 >
                   <Lock className="w-4 h-4" />
                   {pwPending ? "Salvando…" : "Definir senha"}
@@ -778,7 +778,7 @@ function BulkGrantSection({
         onClick={() => setOpen((v) => !v)}
         className="w-full px-5 py-4 flex items-center gap-2 hover:bg-muted/30 transition-colors text-left"
       >
-        <Plus className="w-4 h-4 text-[#f6614f]" />
+        <Plus className="w-4 h-4 text-lumii-coral" />
         <span className="font-semibold text-sm">Dar acesso em lote</span>
         <span className="ml-auto text-xs text-muted-foreground">
           {open ? "Recolher" : `${unenrolledCourses.length} curso${unenrolledCourses.length !== 1 ? "s" : ""} sem acesso`}
@@ -796,7 +796,7 @@ function BulkGrantSection({
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   Selecionar cursos
                 </p>
-                <div className="flex gap-3 text-xs text-[#f6614f]">
+                <div className="flex gap-3 text-xs text-lumii-coral">
                   <button type="button" onClick={selectAll} className="hover:underline">
                     Todos
                   </button>
@@ -816,7 +816,7 @@ function BulkGrantSection({
                   placeholder="Pesquisar curso…"
                   value={bulkSearch}
                   onChange={(e) => setBulkSearch(e.target.value)}
-                  className="w-full pl-8 pr-8 py-1.5 text-xs rounded-lg border border-border bg-muted/30 focus:outline-none focus:ring-1 focus:ring-[#f6614f]/50 focus:bg-white"
+                  className="w-full pl-8 pr-8 py-1.5 text-xs rounded-lg border border-border bg-muted/30 focus:outline-none focus:ring-1 focus:ring-lumii-coral/50 focus:bg-white"
                 />
                 {bulkSearch && (
                   <button
@@ -839,7 +839,7 @@ function BulkGrantSection({
                     className={cn(
                       "flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer transition-colors text-sm",
                       selected.has(course.id)
-                        ? "bg-[#f6614f]/10 border border-[#f6614f]/30"
+                        ? "bg-lumii-coral/10 border border-lumii-coral/30"
                         : "bg-muted/30 border border-transparent hover:bg-muted/50"
                     )}
                   >
@@ -849,7 +849,7 @@ function BulkGrantSection({
                       value={course.id}
                       checked={selected.has(course.id)}
                       onChange={() => toggle(course.id)}
-                      className="accent-[#f6614f] w-4 h-4 shrink-0"
+                      className="accent-lumii-coral w-4 h-4 shrink-0"
                     />
                     <span className="truncate">{course.title}</span>
                   </label>
@@ -866,7 +866,7 @@ function BulkGrantSection({
                   name="reason"
                   required
                   placeholder="Ex.: cortesia, pacote especial…"
-                  className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-[#f6614f]/50"
+                  className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-lumii-coral/50"
                 />
               </div>
               <div className="flex flex-col gap-0.5">
@@ -876,7 +876,7 @@ function BulkGrantSection({
                   name="expires_at"
                   type="date"
                   min={new Date().toISOString().split("T")[0]}
-                  className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-[#f6614f]/50 w-36"
+                  className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-lumii-coral/50 w-36"
                 />
               </div>
             </div>
@@ -894,7 +894,7 @@ function BulkGrantSection({
               <button
                 type="submit"
                 disabled={pending || selected.size === 0}
-                className="px-4 py-1.5 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] rounded-md transition-colors disabled:opacity-50"
+                className="px-4 py-1.5 text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover rounded-md transition-colors disabled:opacity-50"
               >
                 {pending
                   ? "Salvando…"
@@ -943,7 +943,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
             />
           </div>
         ) : (
-          <div className="w-10 h-10 rounded bg-[#f6614f]/10 flex items-center justify-center text-lg shrink-0">
+          <div className="w-10 h-10 rounded bg-lumii-coral/10 flex items-center justify-center text-lg shrink-0">
             🎨
           </div>
         )}
@@ -978,7 +978,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
                   {pct}%
                 </span>
               )}
-              <CheckCircle2 className="w-4 h-4 text-[#71c69a]" />
+              <CheckCircle2 className="w-4 h-4 text-lumii-green" />
               <button
                 onClick={() => setMode(mode === "removing" ? "idle" : "removing")}
                 className="p-1.5 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-colors"
@@ -991,7 +991,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
           ) : (
             <button
               onClick={() => setMode(mode === "adding" ? "idle" : "adding")}
-              className="p-1.5 rounded-lg text-[#f6614f] hover:bg-[#f6614f]/10 transition-colors"
+              className="p-1.5 rounded-lg text-lumii-coral hover:bg-lumii-coral/10 transition-colors"
               title="Dar acesso"
               aria-label="Dar acesso"
             >
@@ -1018,7 +1018,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
       {mode === "adding" && (
         <form
           action={grantAction}
-          className="bg-[#f6614f]/5 border border-[#f6614f]/20 rounded-lg p-3 space-y-2 ml-13"
+          className="bg-lumii-coral/5 border border-lumii-coral/20 rounded-lg p-3 space-y-2 ml-13"
         >
           <input type="hidden" name="user_id" value={userId} />
           <input type="hidden" name="course_id" value={course.id} />
@@ -1036,7 +1036,7 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
                 name="reason"
                 required
                 placeholder="Motivo (obrigatório)"
-                className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-[#f6614f]/50"
+                className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-lumii-coral/50"
               />
             </div>
             <div className="flex flex-col gap-0.5">
@@ -1046,14 +1046,14 @@ function CourseRow({ course, userId }: { course: CourseEntry; userId: string }) 
                 name="expires_at"
                 type="date"
                 min={new Date().toISOString().split("T")[0]}
-                className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-[#f6614f]/50 w-36"
+                className="text-xs px-2.5 py-1.5 rounded border border-border bg-white focus:outline-none focus:ring-1 focus:ring-lumii-coral/50 w-36"
               />
             </div>
             <div className="flex gap-2">
               <button
                 type="submit"
                 disabled={grantPending}
-                className="px-3 py-1 text-xs font-semibold text-white bg-[#f6614f] hover:bg-[#dd5747] rounded-md transition-colors disabled:opacity-50"
+                className="px-3 py-1 text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover rounded-md transition-colors disabled:opacity-50"
               >
                 {grantPending ? "Salvando…" : "Dar acesso"}
               </button>

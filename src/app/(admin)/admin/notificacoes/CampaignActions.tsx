@@ -30,7 +30,7 @@ export function CancelButton({ id }: { id: string }) {
         if (!confirm("Cancelar o agendamento desta campanha?")) return;
         startTransition(() => cancelCampaign(id));
       }}
-      className="p-1.5 rounded-lg text-muted-foreground hover:text-[#eebc3e] hover:bg-[#eebc3e]/10 transition-colors disabled:opacity-40"
+      className="p-1.5 rounded-lg text-muted-foreground hover:text-lumii-yellow hover:bg-lumii-yellow/10 transition-colors disabled:opacity-40"
       aria-label="Cancelar agendamento"
     >
       <XCircle className="w-4 h-4" />

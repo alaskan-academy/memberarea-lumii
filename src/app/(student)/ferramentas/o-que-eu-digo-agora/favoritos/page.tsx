@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -5,6 +6,8 @@ import { ChevronLeft } from "lucide-react";
 import { PARENT_SCRIPTS } from "@/lib/ferramentas/parent-scripts/content";
 import { SITUACOES } from "@/lib/ferramentas/parent-scripts/types";
 import ScriptResultCard from "@/components/ferramentas/parent-scripts/ScriptResultCard";
+
+export const metadata: Metadata = { title: "Meus favoritos — Lumii" };
 
 export default async function FavoritosPage() {
   const supabase = await createClient();
