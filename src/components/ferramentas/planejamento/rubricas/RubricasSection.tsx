@@ -30,7 +30,13 @@ export default function RubricasSection({
   }, [scores]);
 
   if (view.mode === "form") {
-    return <RubricForm initial={view.rubric} onDone={() => setView({ mode: "list" })} />;
+    return (
+      <RubricForm
+        initial={view.rubric}
+        scoreCount={view.rubric ? scoreCountByRubric.get(view.rubric.id) ?? 0 : 0}
+        onDone={() => setView({ mode: "list" })}
+      />
+    );
   }
 
   if (view.mode === "avaliar") {

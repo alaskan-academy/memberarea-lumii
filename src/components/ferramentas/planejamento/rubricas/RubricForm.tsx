@@ -20,9 +20,11 @@ function novoId(): string {
 
 export default function RubricForm({
   initial,
+  scoreCount = 0,
   onDone,
 }: {
   initial: RubricRow | null;
+  scoreCount?: number;
   onDone: () => void;
 }) {
   const router = useRouter();
@@ -32,6 +34,7 @@ export default function RubricForm({
     initial?.itens?.length ? initial.itens : [{ id: novoId(), nome: "" }]
   );
   const [error, setError] = useState<string | null>(null);
+  const [confirmAfeta, setConfirmAfeta] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function setNivel(i: number, v: string) {
@@ -54,13 +57,30 @@ export default function RubricForm({
     setItens((prev) => (prev.length <= 1 ? prev : prev.filter((it) => it.id !== id)));
   }
 
-  function handleSave() {
+  // Avaliações guardam o ÍNDICE do nível marcado (não o rótulo). Mudar a escala
+  // — ou remover um critério — de uma rubrica que já tem avaliações reinterpreta
+  // ou esconde as avaliações antigas. Detecta isso pra avisar antes de salvar.
+  function afetaAvaliacoes(escalaLimpa: string[], itensLimpos: RubricCriterio[]): boolean {
+    if (!initial || scoreCount <= 0) return false;
+    const escalaMudou = JSON.stringify(escalaLimpa) !== JSON.stringify(initial.escala ?? []);
+    const criterioRemovido = (initial.itens ?? []).some(
+      (orig) => !itensLimpos.some((it) => it.id === orig.id)
+    );
+    return escalaMudou || criterioRemovido;
+  }
+
+  function limparCampos() {
     const escalaLimpa = escala.map((s) => s.trim()).filter(Boolean);
     const itensLimpos = itens.map((it) => ({ id: it.id, nome: it.nome.trim() })).filter((it) => it.nome);
-    if (!titulo.trim()) return setError("Dê um título à rubrica");
-    if (escalaLimpa.length < 2) return setError("A escala precisa de ao menos 2 níveis");
-    if (itensLimpos.length < 1) return setError("Adicione ao menos um critério");
+    if (!titulo.trim()) { setError("Dê um título à rubrica"); return null; }
+    if (escalaLimpa.length < 2) { setError("A escala precisa de ao menos 2 níveis"); return null; }
+    if (itensLimpos.length < 1) { setError("Adicione ao menos um critério"); return null; }
     setError(null);
+    return { escalaLimpa, itensLimpos };
+  }
+
+  function persistir(escalaLimpa: string[], itensLimpos: RubricCriterio[]) {
+    setConfirmAfeta(false);
     startTransition(async () => {
       const payload = { titulo: titulo.trim(), escala: escalaLimpa, itens: itensLimpos };
       const res = initial ? await updateRubric({ id: initial.id, ...payload }) : await createRubric(payload);
@@ -71,6 +91,16 @@ export default function RubricForm({
       onDone();
       router.refresh();
     });
+  }
+
+  function handleSave() {
+    const campos = limparCampos();
+    if (!campos) return;
+    if (afetaAvaliacoes(campos.escalaLimpa, campos.itensLimpos)) {
+      setConfirmAfeta(true);
+      return;
+    }
+    persistir(campos.escalaLimpa, campos.itensLimpos);
   }
 
   return (
@@ -153,6 +183,30 @@ export default function RubricForm({
       </div>
 
       {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
+
+      {confirmAfeta && (
+        <div role="alert" className="text-xs bg-lumii-yellow/15 text-[#8a6410] rounded-lg px-3 py-2.5 space-y-2">
+          <p>
+            Esta rubrica já tem <span className="font-semibold">{scoreCount} {scoreCount === 1 ? "avaliação" : "avaliações"}</span>.
+            Alterar a escala (ou remover um critério) muda como as avaliações
+            antigas são lidas — os níveis já marcados podem passar a significar
+            outra coisa. Salvar mesmo assim?
+          </p>
+          <div className="flex flex-wrap justify-end gap-2">
+            <button type="button" onClick={() => setConfirmAfeta(false)} disabled={isPending} className="px-3 py-1.5 rounded-lg border border-lumii-yellow/40 hover:bg-lumii-yellow/10 disabled:opacity-50">
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={() => { const c = limparCampos(); if (c) persistir(c.escalaLimpa, c.itensLimpos); }}
+              disabled={isPending}
+              className="px-3 py-1.5 rounded-lg bg-lumii-coral text-white font-semibold hover:bg-lumii-coral-hover disabled:opacity-50"
+            >
+              Salvar assim mesmo
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="flex justify-end gap-2">
         <button type="button" onClick={onDone} disabled={isPending} className="px-4 py-2 rounded-lg text-sm border border-border hover:bg-muted transition-colors min-h-[40px] disabled:opacity-50">
