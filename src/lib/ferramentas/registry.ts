@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { MessageCircle, Users, FileText } from "lucide-react";
+import { MessageCircle, Users, FileText, Dices } from "lucide-react";
 import type { Tier } from "@/lib/access/tier";
 
 // Registro das ferramentas (hardcoded por ora; vira tabela `tools` no admin
@@ -47,6 +47,17 @@ export const TOOLS: ToolDef[] = [
     icon: FileText,
     publico: "Professores",
     // Grátis: cavalo de entrada. Aparece para todos; salvar por aluno virá com o tier aluna.
+    free: true,
+    categorySlugs: ["professores"],
+  },
+  {
+    slug: "sala-de-aula",
+    title: "Sala de aula",
+    subtitle: "Sorteio, cronômetro e combinados",
+    description: "Utilitários ao vivo para a aula: sortear alunos, cronômetro visual e cartaz de combinados. Sem cadastro.",
+    icon: Dices,
+    publico: "Professores",
+    // Grátis (hook de uso diário): aparece para qualquer conta logada, sem salvar nada.
     free: true,
     categorySlugs: ["professores"],
   },
