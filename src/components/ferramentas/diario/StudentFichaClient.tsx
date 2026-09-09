@@ -3,20 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, BookOpen, ClipboardList, FileText, Lock, Target } from "lucide-react";
+import { ChevronLeft, BookOpen, ClipboardList, FileText, Lock, Target, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { tierAtLeast, type Tier } from "@/lib/access/tier";
 import type { SupportPlanRow } from "@/lib/ferramentas/support-plan/types";
 import type { StudentLogRow } from "@/lib/ferramentas/diario/types";
 import type { StudentRubricScore } from "@/lib/ferramentas/planejamento/rubricas/types";
 import type { GoalRow } from "@/lib/ferramentas/metas/types";
+import type { PortfolioItem } from "@/lib/ferramentas/portfolio/types";
 import PlanTargetDetailClient from "../support-plan/PlanTargetDetailClient";
 import DiarioPanel from "./DiarioPanel";
 import RelatorioAluno from "./RelatorioAluno";
 import RelatorioLocked from "./RelatorioLocked";
 import MetasPanel from "../metas/MetasPanel";
+import PortfolioPanel from "../portfolio/PortfolioPanel";
 
-type Aba = "diario" | "plano" | "metas" | "relatorio";
+type Aba = "diario" | "plano" | "metas" | "portfolio" | "relatorio";
 
 /** Ficha do aluno com abas — o "aluno é o centro" (Bloco 1 do plano). */
 export default function StudentFichaClient({
@@ -24,6 +26,7 @@ export default function StudentFichaClient({
   plans,
   logs,
   goals,
+  portfolioItems,
   tier,
   reportScores,
   initialTab,
@@ -32,6 +35,7 @@ export default function StudentFichaClient({
   plans: SupportPlanRow[];
   logs: StudentLogRow[];
   goals: GoalRow[];
+  portfolioItems: PortfolioItem[];
   tier: Tier;
   reportScores: StudentRubricScore[];
   initialTab: Aba;
@@ -111,6 +115,22 @@ export default function StudentFichaClient({
         </button>
         <button
           type="button"
+          onClick={() => switchTab("portfolio")}
+          className={cn(
+            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
+            aba === "portfolio" ? "border-lumii-coral text-lumii-coral" : "border-transparent text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <ImageIcon className="w-4 h-4" />
+          Portfólio
+          {portfolioItems.length > 0 && (
+            <span className="ml-0.5 min-w-[18px] h-[18px] rounded-full bg-muted text-foreground/60 text-[10px] font-bold flex items-center justify-center px-1">
+              {portfolioItems.length}
+            </span>
+          )}
+        </button>
+        <button
+          type="button"
           onClick={() => switchTab("relatorio")}
           className={cn(
             "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
@@ -131,6 +151,9 @@ export default function StudentFichaClient({
       )}
       {aba === "metas" && (
         <MetasPanel studentId={student.id} studentName={student.name} initialGoals={goals} />
+      )}
+      {aba === "portfolio" && (
+        <PortfolioPanel studentId={student.id} studentName={student.name} initialItems={portfolioItems} />
       )}
       {aba === "relatorio" &&
         (temCompleto ? (
