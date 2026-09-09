@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ChevronLeft, Plus, Search, Library } from "lucide-react";
+import { Plus, Search, Library } from "lucide-react";
 import {
   BIBLIOTECA_TIPOS,
   type BibliotecaTipo,
@@ -13,10 +12,10 @@ import ResourceCard from "./ResourceCard";
 
 type FormState = { mode: "new" } | { mode: "edit"; resource: LessonResourceRow } | null;
 
-export default function BibliotecaClient({
-  initialResources,
+export default function BibliotecaSection({
+  resources,
 }: {
-  initialResources: LessonResourceRow[];
+  resources: LessonResourceRow[];
 }) {
   const [busca, setBusca] = useState("");
   const [filtroTipo, setFiltroTipo] = useState<BibliotecaTipo | "todos">("todos");
@@ -24,7 +23,7 @@ export default function BibliotecaClient({
 
   const filtrados = useMemo(() => {
     const q = busca.trim().toLowerCase();
-    return initialResources.filter((r) => {
+    return resources.filter((r) => {
       if (filtroTipo !== "todos" && r.tipo !== filtroTipo) return false;
       if (!q) return true;
       return (
@@ -33,27 +32,16 @@ export default function BibliotecaClient({
         r.tags.some((t) => t.toLowerCase().includes(q))
       );
     });
-  }, [initialResources, busca, filtroTipo]);
+  }, [resources, busca, filtroTipo]);
 
-  const vazio = initialResources.length === 0;
+  const vazio = resources.length === 0;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-      <Link
-        href="/ferramentas"
-        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-      >
-        <ChevronLeft className="w-4 h-4" />
-        Ferramentas
-      </Link>
-
-      <div className="mb-6 flex items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold">Planejamento</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Sua biblioteca de planos e atividades — salve uma vez, reuse e adapte ano a ano.
-          </p>
-        </div>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          Salve uma vez, reuse e adapte ano a ano.
+        </p>
         {!form && (
           <button
             type="button"
@@ -67,12 +55,10 @@ export default function BibliotecaClient({
       </div>
 
       {form && (
-        <div className="mb-6">
-          <ResourceForm
-            initial={form.mode === "edit" ? form.resource : null}
-            onDone={() => setForm(null)}
-          />
-        </div>
+        <ResourceForm
+          initial={form.mode === "edit" ? form.resource : null}
+          onDone={() => setForm(null)}
+        />
       )}
 
       {vazio && !form ? (
@@ -94,8 +80,7 @@ export default function BibliotecaClient({
       ) : (
         !vazio && (
           <>
-            {/* Filtros */}
-            <div className="flex flex-col sm:flex-row gap-2 mb-4">
+            <div className="flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1">
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
                 <input

@@ -11,7 +11,7 @@ Primeiras duas Ferramentas da Lumii — seção nova, não existia nada antes:
 - **"Meus Alunos"** (`/ferramentas/meus-alunos`, ex-`plano-apoio-aluno` / ex-"Plano de Apoio" — virou o hub do Bloco 1 "aluno é o centro" ao ganhar o Diário) — professores. Hub lista alunos/turmas; a **ficha do aluno tem abas**: **Diário de bordo** (registro corrido por aluno) + **Plano de apoio** (plano de ação por aluno ou turma, com histórico e check-ins). A rota antiga `plano-apoio-aluno/*` redireciona para cá (catch-all `[[...rest]]`).
 - **"Parecer descritivo"** (`/ferramentas/parecer-descritivo`) — professores, gerador de parecer avulso (grátis, cavalo de entrada; sem salvar por aluno ainda)
 - **"Sala de aula"** (`/ferramentas/sala-de-aula`) — professores, **grátis** (free:true, sem banco): sorteio (aluno/grupos), cronômetro (regressivo+alarme / stopwatch) e cartaz de combinados. Hook de uso diário; tudo client-side.
-- **"Planejamento"** (`/ferramentas/planejamento`, Bloco 2) — professores (pago). Hoje é a **Biblioteca** de planos/atividades (`lesson_resources`): CRUD + busca/filtro por tipo + duplicar (reusa ano a ano). Estruturado para virar hub (Rubricas + planejador BNCC entram como seções depois).
+- **"Planejamento"** (`/ferramentas/planejamento`, Bloco 2) — professores (pago). **Hub com abas** (`?aba=`): **Biblioteca** de planos/atividades (`lesson_resources`: CRUD + busca/filtro + duplicar) + **Rubricas** (`rubrics` template + `rubric_scores` aplicada a um aluno). O planejador BNCC entra como 3ª seção depois.
 
 ## Regra crítica: nenhuma das duas usa IA no MVP
 
@@ -36,6 +36,8 @@ support_plans               ← plano por aluno, jsonb em plano_gerado
 support_plan_checkins       ← histórico de check-in (melhorou/igual/piorou)
 student_log                 ← Diário de bordo por aluno (migration 20260908_student_log_diario.sql)
 lesson_resources            ← Biblioteca de planos/atividades da prof (migration 20260908_lesson_resources.sql)
+rubrics                     ← Rubrica template (criterios jsonb {escala, itens}) (migration 20260908_rubrics.sql)
+rubric_scores               ← Rubrica aplicada a um aluno (rubric_id + student_id, notas jsonb {niveis, comentario})
 ```
 
 `lesson_resources` (Biblioteca) segue o padrão, mas **sem student_id** — é material da prof, não do aluno: `teacher_id`, `titulo`, `tipo` (CHECK espelhado em `src/lib/ferramentas/planejamento/types.ts`), `conteudo jsonb {texto}`, `tags text[]`. RLS `for all ((select auth.uid()) = teacher_id)`. Actions em `src/lib/ferramentas/planejamento/actions.ts` (create/update/delete/**duplicate**).
