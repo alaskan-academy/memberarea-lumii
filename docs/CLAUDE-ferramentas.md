@@ -50,6 +50,8 @@ year_plans                  ← Planejador BNCC (ano, bimestre, componente, bncc
 
 `student_log` (Diário) espelha o padrão de `support_plans`: `teacher_id` + FK `student_id → teacher_students`, RLS `for all ((select auth.uid()) = teacher_id)`. Vocabulário de `tipo` (registro/positivo/atencao/aprendizagem/socioemocional/familia) é fonte única em `src/lib/ferramentas/diario/types.ts`, espelhado no CHECK da coluna. Actions em `src/lib/ferramentas/diario/actions.ts` (auth → zod → recheck de posse do aluno → mutação → revalidate).
 
+`rubric_scores.notas.niveis` guarda o **ÍNDICE** do nível escolhido (0,1,2…) em `rubrics.criterios.escala`, não o rótulo. Consequência: mudar a escala de uma rubrica que já tem avaliações reinterpreta silenciosamente as antigas. Por isso `RubricForm` **avisa antes de salvar** (pede "Salvar assim mesmo") quando a edição muda a escala (rótulos/ordem/quantidade) ou remove um critério de uma rubrica com `scoreCount > 0` — ver `afetaAvaliacoes()`. Edições que não afetam a leitura (título, renomear critério — o id do critério é a chave, não o texto) salvam direto.
+
 `teacher_students` existe só dentro desta ferramenta — não confundir com "aluna" (cliente da Lumii, `profiles`). É o cadastro particular do professor.
 
 ## Pastas e arquivos
@@ -71,6 +73,8 @@ supabase/migrations/20260811_ferramentas_mvp.sql
 - Conteúdo estático das duas ferramentas é **exceção deliberada** ao princípio Backend-first do CLAUDE.md raiz — ver nota lá. Não mover para tabela sem decisão explícita (perderia a garantia de revisão humana pré-publicação)
 - Fundo navy (`#243149`) + cards off-white + coral `#f6614f` como cor de ação — ver `docs/brand/IDV-Lumii.md` antes de estilizar qualquer tela nova
 - Item de nav "Ferramentas" entra via `menu_items` (admin CRUD) — nunca hardcodar link na sidebar
+- **Modal novo = usar `useDialogA11y(ref, onClose, open)`** (`src/hooks/useDialogA11y.ts`) no elemento `role="dialog"` (com `ref` + `tabIndex={-1}`): foco entra ao abrir, Escape fecha, Tab preso dentro. Combina com `useModalBackGuard(open, onClose)` (botão voltar do celular fecha o modal). Nota: a restauração de foco pro gatilho vira no-op nesses modais — o `history.back()` do back-guard dispara um popstate que reseta o foco pro body depois; é intencional, não tentar "consertar" com timing. Modais atuais: CheckinModal, NovoAlunoModal, NovaTurmaModal, ConfirmDialog (common)
+- **A11y de botão só-ícone**: no mobile, esconder o rótulo com `sr-only sm:not-sr-only` (mantém nome acessível), nunca `hidden sm:inline` (some com o nome). Cor de ação/hover sempre por token (`bg-lumii-coral hover:bg-lumii-coral-hover`), nunca hex cru no className
 
 ## Ordem de implementação (não pular fases)
 
