@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 import { createCheckin } from "@/lib/ferramentas/support-plan/actions";
 import AutoGrowTextarea from "./AutoGrowTextarea";
 
@@ -26,11 +27,13 @@ export default function CheckinModal({
   supportPlanId: string;
 }) {
   const router = useRouter();
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<CheckinStatus | null>(null);
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   useModalBackGuard(open, onClose);
+  useDialogA11y(dialogRef, onClose, open);
 
   if (!open) return null;
 
@@ -59,6 +62,8 @@ export default function CheckinModal({
       role="dialog"
       aria-modal="true"
       aria-label="Fazer check-in"
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 sm:p-6">
         <div className="flex items-center justify-between mb-4">
@@ -106,7 +111,7 @@ export default function CheckinModal({
           type="button"
           onClick={handleSave}
           disabled={!status || isPending}
-          className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+          className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover disabled:opacity-50 transition-colors min-h-[44px]"
         >
           {isPending ? "Salvando..." : "Salvar check-in"}
         </button>

@@ -56,10 +56,10 @@ export default function MetasPanel({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] shrink-0"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Nova meta</span>
+            <span className="sr-only sm:not-sr-only">Nova meta</span>
           </button>
         )}
       </div>
@@ -98,7 +98,7 @@ export default function MetasPanel({
             <button type="button" onClick={() => { setOpen(false); setMeta(""); setError(null); }} disabled={isPending} className="px-4 py-2 rounded-lg text-sm border border-border hover:bg-muted transition-colors min-h-[40px] disabled:opacity-50">
               Cancelar
             </button>
-            <button type="button" onClick={handleCreate} disabled={isPending || !meta.trim()} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50">
+            <button type="button" onClick={handleCreate} disabled={isPending || !meta.trim()} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50">
               <Plus className="w-4 h-4" />
               Criar meta
             </button>

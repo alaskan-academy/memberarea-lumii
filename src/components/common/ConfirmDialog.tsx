@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -31,7 +33,9 @@ export default function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
   useModalBackGuard(open, onCancel);
+  useDialogA11y(dialogRef, onCancel, open);
 
   if (!open) return null;
 
@@ -44,6 +48,8 @@ export default function ConfirmDialog({
       role="dialog"
       aria-modal="true"
       aria-label={title}
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 sm:p-6 space-y-4">
         <div className="space-y-1.5">
@@ -75,7 +81,7 @@ export default function ConfirmDialog({
             className={
               destructive
                 ? "px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors disabled:opacity-50"
-                : "px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors disabled:opacity-50"
+                : "px-4 py-2 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors disabled:opacity-50"
             }
           >
             {pending ? "Aguarde..." : confirmLabel}

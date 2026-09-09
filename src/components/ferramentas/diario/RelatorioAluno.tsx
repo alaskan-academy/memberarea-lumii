@@ -36,6 +36,7 @@ export default function RelatorioAluno({
   scores: StudentRubricScore[];
 }) {
   const [copied, setCopied] = useState(false);
+  const [printError, setPrintError] = useState(false);
   const hoje = hojeExtenso();
 
   const logsPorTipo = useMemo(() => {
@@ -115,7 +116,11 @@ export default function RelatorioAluno({
 
   function imprimir() {
     const w = window.open("", "_blank", "width=820,height=1000");
-    if (!w) return;
+    if (!w) {
+      setPrintError(true);
+      return;
+    }
+    setPrintError(false);
     const partes: string[] = [];
     if (logs.length) {
       partes.push(`<h2>Diário de bordo <span class="muted">(${logs.length})</span></h2>`);
@@ -187,17 +192,23 @@ export default function RelatorioAluno({
         </p>
         {!vazio && (
           <div className="flex gap-2 shrink-0">
-            <button type="button" onClick={copiar} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold border border-border hover:border-lumii-coral hover:text-lumii-coral transition-colors min-h-[40px]">
+            <button type="button" onClick={copiar} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold border border-border hover:border-lumii-coral hover:text-lumii-coral transition-colors min-h-[44px]">
               {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
-              <span className="hidden sm:inline">{copied ? "Copiado" : "Copiar"}</span>
+              <span className="sr-only sm:not-sr-only">{copied ? "Copiado" : "Copiar"}</span>
             </button>
-            <button type="button" onClick={imprimir} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px]">
+            <button type="button" onClick={imprimir} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[44px]">
               <Printer className="w-4 h-4" />
-              <span className="hidden sm:inline">Imprimir</span>
+              <span className="sr-only sm:not-sr-only">Imprimir</span>
             </button>
           </div>
         )}
       </div>
+
+      {printError && (
+        <p role="alert" className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2">
+          Não foi possível abrir a janela de impressão — verifique o bloqueador de pop-ups, ou use “Copiar”.
+        </p>
+      )}
 
       {vazio ? (
         <div className="text-center py-10 text-muted-foreground">

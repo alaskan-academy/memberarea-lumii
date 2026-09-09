@@ -153,7 +153,7 @@ export default function SupportPlanForm({
       <button
         type="submit"
         disabled={!podeGerar}
-        className="w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+        className="w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover disabled:opacity-50 transition-colors min-h-[44px]"
       >
         Gerar plano
       </button>

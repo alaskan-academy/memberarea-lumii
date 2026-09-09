@@ -61,7 +61,7 @@ export default function IdadeSelector({
       <button
         type="button"
         onClick={() => onConfirm(idade)}
-        className="w-full mt-5 py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px]"
+        className="w-full mt-5 py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[44px]"
       >
         Ver o que dizer
       </button>

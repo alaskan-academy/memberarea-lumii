@@ -101,6 +101,7 @@ export default function RegistroItem({ log }: { log: StudentLogRow }) {
             value={data}
             max={hoje}
             onChange={(e) => setData(e.target.value)}
+            aria-label="Data do registro"
             className="rounded-lg border border-border bg-white px-2 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
           />
           <div className="flex items-center gap-2">
@@ -117,7 +118,7 @@ export default function RegistroItem({ log }: { log: StudentLogRow }) {
               type="button"
               onClick={handleSave}
               disabled={isPending || !texto.trim()}
-              className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50"
+              className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50"
             >
               <Check className="w-4 h-4" />
               Salvar

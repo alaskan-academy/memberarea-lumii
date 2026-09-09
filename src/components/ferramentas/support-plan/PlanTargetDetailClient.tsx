@@ -50,6 +50,7 @@ export default function PlanTargetDetailClient({
   const pastPlans = plans.filter((p) => p.status !== "ativo");
 
   const [checkinOpen, setCheckinOpen] = useState(false);
+  const [confirmClose, setConfirmClose] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -96,13 +97,13 @@ export default function PlanTargetDetailClient({
             <button
               type="button"
               onClick={() => setCheckinOpen(true)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px]"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[44px]"
             >
               Fazer check-in
             </button>
             <button
               type="button"
-              onClick={handleClosePlan}
+              onClick={() => setConfirmClose(true)}
               disabled={isPending}
               className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold border border-border hover:border-lumii-coral hover:text-lumii-coral transition-colors min-h-[44px] disabled:opacity-50"
             >
@@ -110,6 +111,23 @@ export default function PlanTargetDetailClient({
               Encerrar plano
             </button>
           </div>
+
+          {confirmClose && (
+            <div className="flex flex-wrap items-center gap-2 text-xs bg-lumii-yellow/15 text-[#8a6410] rounded-lg px-3 py-2.5">
+              <span className="flex-1 min-w-0">Encerrar este plano? Ele passa para os planos anteriores.</span>
+              <button type="button" onClick={() => setConfirmClose(false)} disabled={isPending} className="px-3 py-1.5 rounded-lg border border-lumii-yellow/40 hover:bg-lumii-yellow/10 disabled:opacity-50">
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => { setConfirmClose(false); handleClosePlan(); }}
+                disabled={isPending}
+                className="px-3 py-1.5 rounded-lg bg-lumii-coral text-white font-semibold hover:bg-lumii-coral-hover disabled:opacity-50"
+              >
+                Encerrar
+              </button>
+            </div>
+          )}
 
           {activePlan.checkins.length > 0 && (
             <div>
@@ -134,7 +152,7 @@ export default function PlanTargetDetailClient({
       ) : (
         <Link
           href={novoPlanoHref}
-          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px] mb-8"
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[44px] mb-8"
         >
           <Plus className="w-4 h-4" />
           Criar novo plano

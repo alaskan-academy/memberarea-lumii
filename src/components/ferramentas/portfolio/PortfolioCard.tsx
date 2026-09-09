@@ -66,6 +66,8 @@ export default function PortfolioCard({ item }: { item: PortfolioItem }) {
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
               maxLength={200}
+              aria-label="Título do item"
+              placeholder="Título"
               className="w-full text-sm border border-border rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
             />
             <AutoGrowTextarea value={descricao} onChange={setDescricao} maxLength={2000} maxHeight={140} className="bg-white" />
@@ -74,7 +76,7 @@ export default function PortfolioCard({ item }: { item: PortfolioItem }) {
               <button type="button" onClick={() => { setEditing(false); setTitulo(item.titulo); setDescricao(item.descricao); setError(null); }} disabled={isPending} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs border border-border hover:bg-muted transition-colors disabled:opacity-50">
                 <X className="w-3.5 h-3.5" /> Cancelar
               </button>
-              <button type="button" onClick={saveEdit} disabled={isPending || !titulo.trim()} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors disabled:opacity-50">
+              <button type="button" onClick={saveEdit} disabled={isPending || !titulo.trim()} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors disabled:opacity-50">
                 <Check className="w-3.5 h-3.5" /> Salvar
               </button>
             </div>

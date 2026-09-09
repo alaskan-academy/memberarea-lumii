@@ -85,7 +85,7 @@ export default function GoalCard({ goal }: { goal: GoalRow }) {
           <button type="button" onClick={() => { setEditing(false); setArea(goal.area); setMeta(goal.meta); setError(null); }} disabled={isPending} className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm border border-border hover:bg-muted transition-colors min-h-[40px] disabled:opacity-50">
             <X className="w-4 h-4" /> Cancelar
           </button>
-          <button type="button" onClick={saveEdit} disabled={isPending || !meta.trim()} className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50">
+          <button type="button" onClick={saveEdit} disabled={isPending || !meta.trim()} className="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50">
             <Check className="w-4 h-4" /> Salvar
           </button>
         </div>
@@ -125,7 +125,7 @@ export default function GoalCard({ goal }: { goal: GoalRow }) {
                 <span className="text-xs text-muted-foreground ml-1.5">{formatData(c.created_at)}</span>
                 {c.nota && <p className="text-xs text-muted-foreground mt-0.5">{c.nota}</p>}
               </div>
-              <button type="button" onClick={() => run(() => deleteGoalCheckin(c.id))} disabled={isPending} aria-label="Excluir check-in" className="opacity-0 group-hover:opacity-100 p-1 rounded text-muted-foreground/60 hover:text-red-500 transition-all shrink-0">
+              <button type="button" onClick={() => run(() => deleteGoalCheckin(c.id))} disabled={isPending} aria-label="Excluir check-in" className="opacity-60 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 p-1.5 rounded text-muted-foreground/60 hover:text-red-500 transition-all shrink-0">
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -153,7 +153,7 @@ export default function GoalCard({ goal }: { goal: GoalRow }) {
           <AutoGrowTextarea value={ckNota} onChange={setCkNota} placeholder="Uma nota (opcional)…" maxLength={500} maxHeight={120} className="bg-white" />
           <div className="flex justify-end gap-2">
             <button type="button" onClick={() => { setCheckinOpen(false); setCkNota(""); }} disabled={isPending} className="px-3 py-1.5 rounded-lg text-xs border border-border hover:bg-muted transition-colors disabled:opacity-50">Cancelar</button>
-            <button type="button" onClick={addCheckin} disabled={isPending} className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors disabled:opacity-50">
+            <button type="button" onClick={addCheckin} disabled={isPending} className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors disabled:opacity-50">
               <Check className="w-3.5 h-3.5" /> Registrar
             </button>
           </div>

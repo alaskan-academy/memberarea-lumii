@@ -156,7 +156,7 @@ export default function ResourceForm({
           type="button"
           onClick={handleSave}
           disabled={isPending || !titulo.trim()}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50"
         >
           <Check className="w-4 h-4" />
           {initial ? "Salvar" : "Adicionar à biblioteca"}

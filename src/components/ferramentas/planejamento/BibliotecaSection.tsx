@@ -46,10 +46,10 @@ export default function BibliotecaSection({
           <button
             type="button"
             onClick={() => setForm({ mode: "new" })}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] shrink-0"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Novo material</span>
+            <span className="sr-only sm:not-sr-only">Novo material</span>
           </button>
         )}
       </div>
@@ -71,7 +71,7 @@ export default function BibliotecaSection({
           <button
             type="button"
             onClick={() => setForm({ mode: "new" })}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors"
           >
             <Plus className="w-4 h-4" />
             Adicionar o primeiro

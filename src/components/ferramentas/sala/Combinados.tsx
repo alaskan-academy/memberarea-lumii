@@ -18,6 +18,7 @@ export default function Combinados() {
   const [selecionados, setSelecionados] = useState<string[]>([]);
   const [customInput, setCustomInput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [aviso, setAviso] = useState<string | null>(null);
 
   function adicionar(texto: string) {
     const t = texto.trim();
@@ -39,15 +40,21 @@ export default function Combinados() {
     try {
       await navigator.clipboard.writeText(texto);
       setCopied(true);
+      setAviso(null);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      /* ignore */
+      setAviso("Não foi possível copiar automaticamente — selecione e copie o texto do cartaz.");
     }
   }
 
   function imprimir() {
     const w = window.open("", "_blank", "width=820,height=920");
-    if (!w) return; // pop-up bloqueado — a professora pode usar Copiar
+    if (!w) {
+      // pop-up bloqueado
+      setAviso("Seu navegador bloqueou a janela de impressão — permita pop-ups ou use Copiar.");
+      return;
+    }
+    setAviso(null);
     const itens = selecionados.map((t) => `<li>${escapeHtml(t)}</li>`).join("");
     w.document.write(
       `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">` +
@@ -112,7 +119,7 @@ export default function Combinados() {
           type="button"
           onClick={adicionarCustom}
           disabled={!customInput.trim()}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50"
         >
           <Plus className="w-4 h-4" />
           Adicionar
@@ -170,12 +177,18 @@ export default function Combinados() {
           <button
             type="button"
             onClick={imprimir}
-            className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[44px]"
+            className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[44px]"
           >
             <Printer className="w-4 h-4" />
             Imprimir
           </button>
         </div>
+      )}
+
+      {aviso && (
+        <p role="alert" className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2">
+          {aviso}
+        </p>
       )}
     </div>
   );

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { X } from "lucide-react";
 import { useModalBackGuard } from "@/hooks/useModalBackGuard";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 import { createTeacherClass, type TeacherClassRow } from "@/lib/ferramentas/support-plan/actions";
 
 export default function NovaTurmaModal({
@@ -14,10 +15,12 @@ export default function NovaTurmaModal({
   onClose: () => void;
   onCreated: (teacherClass: TeacherClassRow) => void;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   useModalBackGuard(open, onClose);
+  useDialogA11y(dialogRef, onClose, open);
 
   if (!open) return null;
 
@@ -46,6 +49,8 @@ export default function NovaTurmaModal({
       role="dialog"
       aria-modal="true"
       aria-label="Cadastrar turma"
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 sm:p-6">
         <div className="flex items-center justify-between mb-4">
@@ -78,7 +83,7 @@ export default function NovaTurmaModal({
           <button
             type="submit"
             disabled={isPending || !name.trim()}
-            className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] disabled:opacity-50 transition-colors min-h-[44px]"
+            className="w-full py-2.5 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover disabled:opacity-50 transition-colors min-h-[44px]"
           >
             {isPending ? "Salvando..." : "Cadastrar"}
           </button>

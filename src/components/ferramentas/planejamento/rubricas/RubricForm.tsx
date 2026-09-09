@@ -158,7 +158,7 @@ export default function RubricForm({
         <button type="button" onClick={onDone} disabled={isPending} className="px-4 py-2 rounded-lg text-sm border border-border hover:bg-muted transition-colors min-h-[40px] disabled:opacity-50">
           Cancelar
         </button>
-        <button type="button" onClick={handleSave} disabled={isPending || !titulo.trim()} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50">
+        <button type="button" onClick={handleSave} disabled={isPending || !titulo.trim()} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50">
           <Check className="w-4 h-4" />
           {initial ? "Salvar" : "Criar rubrica"}
         </button>

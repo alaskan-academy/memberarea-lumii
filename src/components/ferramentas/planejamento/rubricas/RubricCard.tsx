@@ -61,7 +61,7 @@ export default function RubricCard({
         <button
           type="button"
           onClick={() => onAvaliar(rubric)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors"
         >
           <ClipboardCheck className="w-3.5 h-3.5" />
           Avaliar
@@ -72,7 +72,7 @@ export default function RubricCard({
         </button>
         <button type="button" onClick={duplicar} disabled={isPending} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-50">
           <Files className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Duplicar</span>
+          <span className="sr-only sm:not-sr-only">Duplicar</span>
         </button>
         <button type="button" onClick={() => setConfirmDelete(true)} aria-label="Excluir rubrica" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors ml-auto">
           <Trash2 className="w-3.5 h-3.5" />

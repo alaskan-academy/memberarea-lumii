@@ -201,7 +201,11 @@ export default function Cronometro() {
             >
               {formatar(valorMs, modo === "regressivo")}
             </span>
-            {alarming && <span className="text-sm font-semibold text-red-500 mt-1">Tempo!</span>}
+            {alarming && (
+              <span role="alert" aria-live="assertive" className="text-sm font-semibold text-red-500 mt-1">
+                Tempo!
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -212,7 +216,7 @@ export default function Cronometro() {
           <button
             type="button"
             onClick={pause}
-            className="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[48px]"
+            className="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[48px]"
           >
             <Pause className="w-5 h-5" />
             Pausar
@@ -222,7 +226,7 @@ export default function Cronometro() {
             type="button"
             onClick={start}
             disabled={modo === "regressivo" && remaining <= 0}
-            className="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[48px] disabled:opacity-50"
+            className="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[48px] disabled:opacity-50"
           >
             <Play className="w-5 h-5" />
             Iniciar

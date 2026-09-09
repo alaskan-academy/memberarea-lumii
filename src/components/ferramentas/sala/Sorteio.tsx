@@ -261,7 +261,7 @@ export default function Sorteio({ students }: { students: SortStudent[] }) {
               type="button"
               onClick={sortearUm}
               disabled={rolling || nomes.length === 0 || todosSorteados}
-              className="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[48px] disabled:opacity-50"
+              className="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[48px] disabled:opacity-50"
             >
               <Shuffle className="w-5 h-5" />
               {rolling ? "Sorteando…" : "Sortear"}
@@ -323,7 +323,7 @@ export default function Sorteio({ students }: { students: SortStudent[] }) {
             type="button"
             onClick={formarGrupos}
             disabled={nomes.length === 0}
-            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[48px] disabled:opacity-50"
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[48px] disabled:opacity-50"
           >
             <Shuffle className="w-5 h-5" />
             Formar grupos

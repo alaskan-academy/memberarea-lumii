@@ -130,10 +130,10 @@ export default function PortfolioPanel({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] shrink-0"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Novo item</span>
+            <span className="sr-only sm:not-sr-only">Novo item</span>
           </button>
         )}
       </div>
@@ -146,6 +146,7 @@ export default function PortfolioPanel({
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             placeholder="Título — ex.: Desenho da família"
+            aria-label="Título do item"
             maxLength={200}
             className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
           />
@@ -192,7 +193,7 @@ export default function PortfolioPanel({
             <button type="button" onClick={resetForm} disabled={isPending} className="px-4 py-2 rounded-lg text-sm border border-border hover:bg-muted transition-colors min-h-[40px] disabled:opacity-50">
               Cancelar
             </button>
-            <button type="button" onClick={handleSave} disabled={isPending || compressing || !titulo.trim()} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50">
+            <button type="button" onClick={handleSave} disabled={isPending || compressing || !titulo.trim()} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50">
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
               {isPending ? "Salvando…" : "Adicionar"}
             </button>

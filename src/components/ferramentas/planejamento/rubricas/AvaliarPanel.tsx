@@ -29,6 +29,7 @@ export default function AvaliarPanel({
   const [niveis, setNiveis] = useState<Record<string, number>>({});
   const [comentario, setComentario] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [confirmId, setConfirmId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function marcar(critId: string, nivel: number) {
@@ -53,9 +54,15 @@ export default function AvaliarPanel({
   }
 
   function excluirScore(id: string) {
+    setError(null);
     startTransition(async () => {
       const res = await deleteScore(id);
-      if (!res.error) router.refresh();
+      if (res.error) {
+        setError(res.error);
+        return;
+      }
+      setConfirmId(null);
+      router.refresh();
     });
   }
 
@@ -135,7 +142,7 @@ export default function AvaliarPanel({
                 type="button"
                 onClick={handleSave}
                 disabled={isPending || !studentId}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-[#e2543f] transition-colors min-h-[40px] disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-lumii-coral hover:bg-lumii-coral-hover transition-colors min-h-[40px] disabled:opacity-50"
               >
                 <Check className="w-4 h-4" />
                 Salvar avaliação
@@ -158,7 +165,7 @@ export default function AvaliarPanel({
                 </div>
                 <button
                   type="button"
-                  onClick={() => excluirScore(sc.id)}
+                  onClick={() => setConfirmId(sc.id)}
                   disabled={isPending}
                   aria-label="Excluir avaliação"
                   className="p-1.5 rounded-lg text-muted-foreground/60 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 shrink-0"
@@ -181,8 +188,16 @@ export default function AvaliarPanel({
                 })}
               </div>
               {sc.comentario && <p className="text-xs text-muted-foreground mt-2 whitespace-pre-wrap break-words">{sc.comentario}</p>}
+              {confirmId === sc.id && (
+                <div className="mt-2 flex items-center gap-2 text-xs bg-red-50 text-red-700 rounded-lg px-3 py-2">
+                  <span className="flex-1">Excluir esta avaliação? Não dá para desfazer.</span>
+                  <button type="button" onClick={() => setConfirmId(null)} disabled={isPending} className="px-2 py-1 rounded hover:bg-red-100 disabled:opacity-50">Cancelar</button>
+                  <button type="button" onClick={() => excluirScore(sc.id)} disabled={isPending} className="px-2 py-1 rounded bg-red-500 text-white font-semibold hover:bg-red-600 disabled:opacity-50">Excluir</button>
+                </div>
+              )}
             </div>
           ))}
+          {error && <p role="alert" className="text-xs text-red-500">{error}</p>}
         </div>
       )}
     </div>
