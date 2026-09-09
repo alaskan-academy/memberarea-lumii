@@ -5,7 +5,7 @@ import type { TeacherClassRow } from "@/lib/ferramentas/support-plan/actions";
 export default function ClassCard({ teacherClass }: { teacherClass: TeacherClassRow }) {
   return (
     <Link
-      href={`/ferramentas/plano-apoio-aluno/turma/${teacherClass.id}`}
+      href={`/ferramentas/meus-alunos/turma/${teacherClass.id}`}
       className="lumii-card p-4 flex items-center gap-3 hover:shadow-md transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-lumii-coral"
     >
       <div className="w-10 h-10 rounded-full bg-lumii-coral/10 flex items-center justify-center shrink-0">

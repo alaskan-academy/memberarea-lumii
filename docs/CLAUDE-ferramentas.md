@@ -8,7 +8,8 @@
 Primeiras duas Ferramentas da Lumii — seção nova, não existia nada antes:
 
 - **"O que eu digo agora?"** (`/ferramentas/o-que-eu-digo-agora`) — pais, script de conversa por situação + idade
-- **"Plano de Apoio"** (`/ferramentas/plano-apoio-aluno`, ex-"Plano Individual de Apoio ao Aluno" — renomeado ao ganhar o modo turma) — professores, plano de ação por aluno **ou por turma**, com histórico e check-ins
+- **"Meus Alunos"** (`/ferramentas/meus-alunos`, ex-`plano-apoio-aluno` / ex-"Plano de Apoio" — virou o hub do Bloco 1 "aluno é o centro" ao ganhar o Diário) — professores. Hub lista alunos/turmas; a **ficha do aluno tem abas**: **Diário de bordo** (registro corrido por aluno) + **Plano de apoio** (plano de ação por aluno ou turma, com histórico e check-ins). A rota antiga `plano-apoio-aluno/*` redireciona para cá (catch-all `[[...rest]]`).
+- **"Parecer descritivo"** (`/ferramentas/parecer-descritivo`) — professores, gerador de parecer avulso (grátis, cavalo de entrada; sem salvar por aluno ainda)
 
 ## Regra crítica: nenhuma das duas usa IA no MVP
 
@@ -31,7 +32,10 @@ parent_script_favorites   ← favoritos (Ferramenta 1)
 teacher_students           ← cadastro mínimo do professor — NÃO é a mesma coisa que profiles/enrollments
 support_plans               ← plano por aluno, jsonb em plano_gerado
 support_plan_checkins       ← histórico de check-in (melhorou/igual/piorou)
+student_log                 ← Diário de bordo por aluno (migration 20260908_student_log_diario.sql)
 ```
+
+`student_log` (Diário) espelha o padrão de `support_plans`: `teacher_id` + FK `student_id → teacher_students`, RLS `for all ((select auth.uid()) = teacher_id)`. Vocabulário de `tipo` (registro/positivo/atencao/aprendizagem/socioemocional/familia) é fonte única em `src/lib/ferramentas/diario/types.ts`, espelhado no CHECK da coluna. Actions em `src/lib/ferramentas/diario/actions.ts` (auth → zod → recheck de posse do aluno → mutação → revalidate).
 
 `teacher_students` existe só dentro desta ferramenta — não confundir com "aluna" (cliente da Lumii, `profiles`). É o cadastro particular do professor.
 

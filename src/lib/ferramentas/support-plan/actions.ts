@@ -18,8 +18,8 @@ const DIFICULDADE_VALUES = [
 
 function targetPath(studentId: string | null, classId: string | null): string {
   return studentId
-    ? `/ferramentas/plano-apoio-aluno/aluno/${studentId}`
-    : `/ferramentas/plano-apoio-aluno/turma/${classId}`;
+    ? `/ferramentas/meus-alunos/aluno/${studentId}`
+    : `/ferramentas/meus-alunos/turma/${classId}`;
 }
 
 // ─── Alunos (cadastro mínimo do professor) ─────────────────────────────────────
@@ -61,7 +61,7 @@ export async function createTeacherStudent(
     .single();
 
   if (error) return { error: error.message };
-  revalidatePath("/ferramentas/plano-apoio-aluno");
+  revalidatePath("/ferramentas/meus-alunos");
   return { student: data };
 }
 
@@ -95,7 +95,7 @@ export async function createTeacherClass(
     .single();
 
   if (error) return { error: error.message };
-  revalidatePath("/ferramentas/plano-apoio-aluno");
+  revalidatePath("/ferramentas/meus-alunos");
   return { teacherClass: data };
 }
 

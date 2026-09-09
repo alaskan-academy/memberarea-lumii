@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { assertToolAccess } from "@/lib/ferramentas/access";
 import PlanoApoioHub from "@/components/ferramentas/support-plan/PlanoApoioHub";
 
-export const metadata: Metadata = { title: "Plano de Apoio — Lumii" };
+export const metadata: Metadata = { title: "Meus Alunos — Lumii" };
 
-export default async function PlanoApoioAlunoPage() {
-  const { user, supabase } = await assertToolAccess("plano-apoio-aluno");
+export default async function MeusAlunosPage() {
+  const { user, supabase } = await assertToolAccess("meus-alunos");
 
   const [{ data: students }, { data: classes }] = await Promise.all([
     supabase

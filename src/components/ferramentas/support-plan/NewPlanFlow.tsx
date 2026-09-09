@@ -12,8 +12,8 @@ export default function NewPlanFlow({ target }: { target: PlanTarget }) {
   const [input, setInput] = useState<SupportPlanInput | null>(null);
   const backHref =
     target.kind === "aluno"
-      ? `/ferramentas/plano-apoio-aluno/aluno/${target.id}`
-      : `/ferramentas/plano-apoio-aluno/turma/${target.id}`;
+      ? `/ferramentas/meus-alunos/aluno/${target.id}`
+      : `/ferramentas/meus-alunos/turma/${target.id}`;
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">

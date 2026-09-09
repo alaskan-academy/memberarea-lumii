@@ -45,8 +45,8 @@ export default function PlanResultCard({
       }
       router.push(
         target.kind === "aluno"
-          ? `/ferramentas/plano-apoio-aluno/aluno/${target.id}`
-          : `/ferramentas/plano-apoio-aluno/turma/${target.id}`
+          ? `/ferramentas/meus-alunos/aluno/${target.id}`
+          : `/ferramentas/meus-alunos/turma/${target.id}`
       );
     });
   }

@@ -31,13 +31,19 @@ function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
 }
 
-/** Tela de detalhe — a mesma para aluno e turma, só muda de onde vêm o id/nome/links. */
+/**
+ * Tela de detalhe do plano — a mesma para aluno e turma.
+ * `embedded`: quando true, renderiza só o corpo (sem container/voltar/título),
+ * porque a ficha do aluno já fornece esse "chrome" e monta isto dentro de uma aba.
+ */
 export default function PlanTargetDetailClient({
   target,
   plans,
+  embedded = false,
 }: {
   target: PlanTarget;
   plans: SupportPlanRow[];
+  embedded?: boolean;
 }) {
   const router = useRouter();
   const activePlan = plans.find((p) => p.status === "ativo") ?? null;
@@ -49,8 +55,8 @@ export default function PlanTargetDetailClient({
 
   const novoPlanoHref =
     target.kind === "aluno"
-      ? `/ferramentas/plano-apoio-aluno/aluno/${target.id}/novo-plano`
-      : `/ferramentas/plano-apoio-aluno/turma/${target.id}/novo-plano`;
+      ? `/ferramentas/meus-alunos/aluno/${target.id}/novo-plano`
+      : `/ferramentas/meus-alunos/turma/${target.id}/novo-plano`;
 
   function handleClosePlan() {
     if (!activePlan) return;
@@ -65,18 +71,8 @@ export default function PlanTargetDetailClient({
     });
   }
 
-  return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-      <Link
-        href="/ferramentas/plano-apoio-aluno"
-        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-      >
-        <ChevronLeft className="w-4 h-4" />
-        {target.kind === "aluno" ? "Meus alunos" : "Minhas turmas"}
-      </Link>
-
-      <h1 className="text-2xl font-bold mb-6">{target.name}</h1>
-
+  const body = (
+    <>
       {activePlan ? (
         <div className="space-y-4 mb-8">
           <div className="flex items-center justify-between">
@@ -173,6 +169,25 @@ export default function PlanTargetDetailClient({
           supportPlanId={activePlan.id}
         />
       )}
+    </>
+  );
+
+  // Embutido na ficha do aluno (que já tem voltar + título + container + abas).
+  if (embedded) return body;
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <Link
+        href="/ferramentas/meus-alunos"
+        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+      >
+        <ChevronLeft className="w-4 h-4" />
+        {target.kind === "aluno" ? "Meus alunos" : "Minhas turmas"}
+      </Link>
+
+      <h1 className="text-2xl font-bold mb-6">{target.name}</h1>
+
+      {body}
     </div>
   );
 }

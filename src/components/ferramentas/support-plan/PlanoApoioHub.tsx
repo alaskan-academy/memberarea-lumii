@@ -30,9 +30,10 @@ export default function PlanoApoioHub({
       </Link>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Plano de Apoio</h1>
+        <h1 className="text-2xl font-bold">Meus Alunos</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Escolha se o plano é para um aluno específico ou para a turma toda.
+          Cada aluno tem diário de bordo e planos de apoio — o histórico do ano num lugar só.
+          Planos também podem ser feitos para a turma toda.
         </p>
       </div>
 

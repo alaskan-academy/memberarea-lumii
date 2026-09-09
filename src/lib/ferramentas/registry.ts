@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { MessageCircle, ClipboardList, FileText } from "lucide-react";
+import { MessageCircle, Users, FileText } from "lucide-react";
 import type { Tier } from "@/lib/access/tier";
 
 // Registro das ferramentas (hardcoded por ora; vira tabela `tools` no admin
@@ -30,11 +30,11 @@ export const TOOLS: ToolDef[] = [
     categorySlugs: ["pais"],
   },
   {
-    slug: "plano-apoio-aluno",
-    title: "Plano de Apoio",
-    subtitle: "Plano de ação — aluno ou turma",
-    description: "Cadastre o aluno ou a turma, gere um plano de apoio de 2 semanas e acompanhe com check-ins.",
-    icon: ClipboardList,
+    slug: "meus-alunos",
+    title: "Meus Alunos",
+    subtitle: "Diário, planos e acompanhamento",
+    description: "Cadastre seus alunos e turmas; registre o diário de bordo e planos de apoio. O histórico do ano num lugar só.",
+    icon: Users,
     publico: "Professores",
     free: false,
     categorySlugs: ["professores"],
