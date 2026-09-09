@@ -76,7 +76,7 @@ export default async function StudentLayout({
   // Rotas públicas (/cursos) usam CatalogHeader quando não autenticadas.
   // Cada page gerencia sua própria centralização para evitar cache parcial do RSC.
   return (
-    <div className="min-h-screen flex flex-col bg-lumii-bg w-full">
+    <div className="min-h-screen flex flex-col bg-lumii-bg w-full pt-[var(--install-bar-h,0px)]">
       <ScrollToTop />
       {user ? (
         <StudentHeader

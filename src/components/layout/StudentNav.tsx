@@ -80,7 +80,8 @@ export default function StudentNav({ navItems, role, fullName }: StudentNavProps
       <aside
         className={cn(
           "hidden md:flex flex-col shrink-0 bg-lumii-bg-sidebar border-r border-border/60 z-30",
-          "fixed top-[61px] left-0 h-[calc(100vh-61px)] overflow-hidden",
+          // Desconta a tarja de instalação (--install-bar-h: 52px quando visível, 0px normalmente)
+          "fixed top-[calc(61px_+_var(--install-bar-h,0px))] left-0 h-[calc(100vh_-_61px_-_var(--install-bar-h,0px))] overflow-hidden",
           "transition-[width] duration-200 ease-in-out",
           collapsed ? "w-16" : "w-60"
         )}

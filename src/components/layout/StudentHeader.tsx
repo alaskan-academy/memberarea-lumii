@@ -69,7 +69,7 @@ export default function StudentHeader({
 
   return (
     <>
-    <header className="sticky top-0 z-40 bg-lumii-bg-sidebar shadow-sm">
+    <header className="sticky top-[var(--install-bar-h,0px)] z-40 bg-lumii-bg-sidebar shadow-sm">
       <div className="brand-stripe"><span /><span /><span /></div>
 
       <div className="border-b border-border/60">
