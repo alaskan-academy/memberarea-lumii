@@ -85,6 +85,20 @@ export async function POST(req: NextRequest) {
   const buyerEmail = payload.customer.email;
   const buyerName = payload.customer.name?.trim() || undefined;
   const mainProductCode = payload.product.code;
+
+  // ⚠️ AVISO — PRIMEIRA ASSINATURA (Lumii Completo). Quando a assinatura anual
+  // começar a ser vendida, o postback trará um objeto `subscription` no raiz. O
+  // handler de membership (passo 2 do plano .claude/plans/ferramentas-e-tiers-lumii.md)
+  // AINDA NÃO ESTÁ IMPLEMENTADO: a compra NÃO cria membership nem libera os cursos
+  // in_plan automaticamente. Até implementar, conceder o Lumii Completo à mão em
+  // /admin/alunos/[id]. Este log é o gatilho para saber que a 1ª assinatura caiu.
+  if (rawJson && typeof rawJson === "object" && (rawJson as Record<string, unknown>)["subscription"]) {
+    console.error(
+      `[payt-webhook] ⚠️ ASSINATURA RECEBIDA (${buyerEmail}, produto ${mainProductCode}) — ` +
+        `handler de membership NÃO implementado (passo 2 do plano). Conceder o Lumii Completo ` +
+        `manualmente em /admin/alunos e implementar sync_membership_from_payments.`
+    );
+  }
   // Só registra valor pago em eventos de pagamento confirmado
   const amountPaid = action === "grant" ? (payload.transaction?.total_price ?? null) : null;
 
