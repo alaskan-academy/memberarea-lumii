@@ -13,8 +13,9 @@ export interface AlunoMapa {
   atencoes: number; // registros tipo 'atencao' (pontos de atenção)
   socioemocional: number; // registros tipo 'socioemocional'
   temPlanoAtivo: boolean;
+  metasAtivas: number; // metas socioemocionais em andamento
   avaliacoes: number; // nº de avaliações de rubrica
-  ultimaAtividade: string | null; // ISO do registro mais recente (diário/plano/avaliação)
+  ultimaAtividade: string | null; // ISO do registro mais recente (diário/plano/meta/avaliação)
 }
 
 function maiorData(a: string | null, b: string): string {
@@ -26,7 +27,7 @@ export async function fetchTurmaMapa(
   supabase: SupabaseClient,
   teacherId: string
 ): Promise<AlunoMapa[]> {
-  const [{ data: students }, { data: logs }, { data: plans }, { data: scores }] = await Promise.all([
+  const [{ data: students }, { data: logs }, { data: plans }, { data: goals }, { data: scores }] = await Promise.all([
     supabase
       .from("teacher_students")
       .select("id, name, class_label")
@@ -34,6 +35,7 @@ export async function fetchTurmaMapa(
       .order("name", { ascending: true }),
     supabase.from("student_log").select("student_id, tipo, created_at").eq("teacher_id", teacherId),
     supabase.from("support_plans").select("student_id, status, created_at").eq("teacher_id", teacherId),
+    supabase.from("student_goals").select("student_id, status, created_at").eq("teacher_id", teacherId),
     supabase.from("rubric_scores").select("student_id, created_at").eq("teacher_id", teacherId),
   ]);
 
@@ -48,6 +50,7 @@ export async function fetchTurmaMapa(
       atencoes: 0,
       socioemocional: 0,
       temPlanoAtivo: false,
+      metasAtivas: 0,
       avaliacoes: 0,
       ultimaAtividade: null,
     });
@@ -69,6 +72,13 @@ export async function fetchTurmaMapa(
     if (!a) continue;
     if (p.status === "ativo") a.temPlanoAtivo = true;
     a.ultimaAtividade = maiorData(a.ultimaAtividade, p.created_at);
+  }
+
+  for (const g of goals ?? []) {
+    const a = mapa.get(g.student_id);
+    if (!a) continue;
+    if (g.status === "em_andamento") a.metasAtivas += 1;
+    a.ultimaAtividade = maiorData(a.ultimaAtividade, g.created_at);
   }
 
   for (const sc of scores ?? []) {

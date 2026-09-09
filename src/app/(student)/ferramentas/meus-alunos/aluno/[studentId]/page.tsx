@@ -3,6 +3,7 @@ import { redirect, notFound } from "next/navigation";
 import StudentFichaClient from "@/components/ferramentas/diario/StudentFichaClient";
 import { fetchPlansForTarget } from "@/lib/ferramentas/support-plan/queries";
 import { fetchLogsForStudent } from "@/lib/ferramentas/diario/queries";
+import { fetchGoalsForStudent } from "@/lib/ferramentas/metas/queries";
 import { fetchScoresForStudent } from "@/lib/ferramentas/planejamento/rubricas/queries";
 import { getTier } from "@/lib/access/getTier";
 import { tierAtLeast } from "@/lib/access/tier";
@@ -33,9 +34,10 @@ export default async function StudentDetailPage({
 
   if (!student) notFound();
 
-  const [plans, logs, tier] = await Promise.all([
+  const [plans, logs, goals, tier] = await Promise.all([
     fetchPlansForTarget(supabase, "student_id", studentId),
     fetchLogsForStudent(supabase, studentId),
+    fetchGoalsForStudent(supabase, studentId),
     getTier(user.id),
   ]);
 
@@ -45,13 +47,15 @@ export default async function StudentDetailPage({
     ? await fetchScoresForStudent(supabase, user.id, studentId)
     : [];
 
-  const initialTab = aba === "plano" ? "plano" : aba === "relatorio" ? "relatorio" : "diario";
+  const initialTab =
+    aba === "plano" ? "plano" : aba === "metas" ? "metas" : aba === "relatorio" ? "relatorio" : "diario";
 
   return (
     <StudentFichaClient
       student={{ id: student.id, name: student.name }}
       plans={plans}
       logs={logs}
+      goals={goals}
       tier={tier}
       reportScores={reportScores}
       initialTab={initialTab}

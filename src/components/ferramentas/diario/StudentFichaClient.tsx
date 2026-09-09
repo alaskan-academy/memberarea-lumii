@@ -3,24 +3,27 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, BookOpen, ClipboardList, FileText, Lock } from "lucide-react";
+import { ChevronLeft, BookOpen, ClipboardList, FileText, Lock, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { tierAtLeast, type Tier } from "@/lib/access/tier";
 import type { SupportPlanRow } from "@/lib/ferramentas/support-plan/types";
 import type { StudentLogRow } from "@/lib/ferramentas/diario/types";
 import type { StudentRubricScore } from "@/lib/ferramentas/planejamento/rubricas/types";
+import type { GoalRow } from "@/lib/ferramentas/metas/types";
 import PlanTargetDetailClient from "../support-plan/PlanTargetDetailClient";
 import DiarioPanel from "./DiarioPanel";
 import RelatorioAluno from "./RelatorioAluno";
 import RelatorioLocked from "./RelatorioLocked";
+import MetasPanel from "../metas/MetasPanel";
 
-type Aba = "diario" | "plano" | "relatorio";
+type Aba = "diario" | "plano" | "metas" | "relatorio";
 
 /** Ficha do aluno com abas — o "aluno é o centro" (Bloco 1 do plano). */
 export default function StudentFichaClient({
   student,
   plans,
   logs,
+  goals,
   tier,
   reportScores,
   initialTab,
@@ -28,6 +31,7 @@ export default function StudentFichaClient({
   student: { id: string; name: string };
   plans: SupportPlanRow[];
   logs: StudentLogRow[];
+  goals: GoalRow[];
   tier: Tier;
   reportScores: StudentRubricScore[];
   initialTab: Aba;
@@ -47,6 +51,7 @@ export default function StudentFichaClient({
   }
 
   const planCount = plans.length;
+  const goalCount = goals.filter((g) => g.status === "em_andamento").length;
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
@@ -90,6 +95,22 @@ export default function StudentFichaClient({
         </button>
         <button
           type="button"
+          onClick={() => switchTab("metas")}
+          className={cn(
+            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
+            aba === "metas" ? "border-lumii-coral text-lumii-coral" : "border-transparent text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <Target className="w-4 h-4" />
+          Metas
+          {goalCount > 0 && (
+            <span className="ml-0.5 min-w-[18px] h-[18px] rounded-full bg-muted text-foreground/60 text-[10px] font-bold flex items-center justify-center px-1">
+              {goalCount}
+            </span>
+          )}
+        </button>
+        <button
+          type="button"
           onClick={() => switchTab("relatorio")}
           className={cn(
             "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
@@ -108,9 +129,12 @@ export default function StudentFichaClient({
       {aba === "plano" && (
         <PlanTargetDetailClient target={{ kind: "aluno", id: student.id, name: student.name }} plans={plans} embedded />
       )}
+      {aba === "metas" && (
+        <MetasPanel studentId={student.id} studentName={student.name} initialGoals={goals} />
+      )}
       {aba === "relatorio" &&
         (temCompleto ? (
-          <RelatorioAluno student={{ name: student.name }} logs={logs} plans={plans} scores={reportScores} />
+          <RelatorioAluno student={{ name: student.name }} logs={logs} plans={plans} goals={goals} scores={reportScores} />
         ) : (
           <RelatorioLocked studentName={student.name} />
         ))}

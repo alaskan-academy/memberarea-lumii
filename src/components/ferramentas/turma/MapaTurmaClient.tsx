@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Star, Search, ClipboardList, ClipboardCheck, Users, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Search, ClipboardList, ClipboardCheck, Users, Heart, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { AlunoMapa } from "@/lib/ferramentas/turma-mapa";
 
@@ -138,8 +138,9 @@ export default function MapaTurmaClient({ alunos }: { alunos: AlunoMapa[] }) {
                       {a.atencoes > 0 && <span className="inline-flex items-center gap-0.5"><Search className="w-3 h-3 text-lumii-coral" /> {a.atencoes}</span>}
                       {a.socioemocional > 0 && <span className="inline-flex items-center gap-0.5"><Heart className="w-3 h-3 text-[#8a63d2]" /> {a.socioemocional}</span>}
                       {a.temPlanoAtivo && <span className="inline-flex items-center gap-0.5 text-lumii-coral font-medium"><ClipboardList className="w-3 h-3" /> plano ativo</span>}
+                      {a.metasAtivas > 0 && <span className="inline-flex items-center gap-0.5"><Target className="w-3 h-3 text-primary" /> {a.metasAtivas}</span>}
                       {a.avaliacoes > 0 && <span className="inline-flex items-center gap-0.5"><ClipboardCheck className="w-3 h-3" /> {a.avaliacoes}</span>}
-                      {a.diarioTotal === 0 && !a.temPlanoAtivo && a.avaliacoes === 0 && <span className="italic">sem registros</span>}
+                      {a.diarioTotal === 0 && !a.temPlanoAtivo && a.metasAtivas === 0 && a.avaliacoes === 0 && <span className="italic">sem registros</span>}
                     </div>
                   </div>
                   <div className="text-right shrink-0">

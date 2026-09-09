@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Copy, Printer, Check, BookOpen, ClipboardList, ClipboardCheck } from "lucide-react";
+import { Copy, Printer, Check, BookOpen, ClipboardList, ClipboardCheck, Target } from "lucide-react";
 import { DIARIO_TIPOS, type StudentLogRow } from "@/lib/ferramentas/diario/types";
 import type { SupportPlanRow } from "@/lib/ferramentas/support-plan/types";
 import { corDoNivel, type StudentRubricScore } from "@/lib/ferramentas/planejamento/rubricas/types";
+import { GOAL_AREA_MAP, GOAL_STATUS_MAP, type GoalRow } from "@/lib/ferramentas/metas/types";
 
 const CHECKIN_LABEL: Record<string, string> = { melhorou: "melhorou", igual: "igual", piorou: "piorou" };
 
@@ -25,11 +26,13 @@ export default function RelatorioAluno({
   student,
   logs,
   plans,
+  goals,
   scores,
 }: {
   student: { name: string };
   logs: StudentLogRow[];
   plans: SupportPlanRow[];
+  goals: GoalRow[];
   scores: StudentRubricScore[];
 }) {
   const [copied, setCopied] = useState(false);
@@ -54,7 +57,7 @@ export default function RelatorioAluno({
     return c;
   }, [plans]);
 
-  const vazio = logs.length === 0 && plans.length === 0 && scores.length === 0;
+  const vazio = logs.length === 0 && plans.length === 0 && goals.length === 0 && scores.length === 0;
 
   function montarTexto(): string {
     const linhas: string[] = [];
@@ -74,6 +77,15 @@ export default function RelatorioAluno({
       if (activePlan) linhas.push(`Ativo — Objetivo: ${activePlan.plano_gerado.objetivo}`, `O que observar: ${activePlan.plano_gerado.o_que_observar}`);
       for (const p of pastPlans) linhas.push(`Anterior (${formatDataLonga(p.created_at)}): ${p.plano_gerado.objetivo}`);
       if (totalCheckins) linhas.push(`Check-ins: ${checkinResumo.melhorou} melhorou, ${checkinResumo.igual} igual, ${checkinResumo.piorou} piorou`);
+      linhas.push("");
+    }
+    if (goals.length) {
+      linhas.push(`METAS SOCIOEMOCIONAIS`);
+      for (const g of goals) {
+        const areaLabel = GOAL_AREA_MAP[g.area]?.label ?? g.area;
+        const statusLabel = GOAL_STATUS_MAP[g.status]?.label ?? g.status;
+        linhas.push(`• [${areaLabel} · ${statusLabel}] ${g.meta}`);
+      }
       linhas.push("");
     }
     if (scores.length) {
@@ -130,6 +142,15 @@ export default function RelatorioAluno({
         partes.push(`</ul>`);
       }
       if (totalCheckins) partes.push(`<p><b>Check-ins:</b> ${checkinResumo.melhorou} melhorou · ${checkinResumo.igual} igual · ${checkinResumo.piorou} piorou</p>`);
+    }
+    if (goals.length) {
+      partes.push(`<h2>Metas socioemocionais</h2><ul>`);
+      for (const g of goals) {
+        const areaLabel = GOAL_AREA_MAP[g.area]?.label ?? g.area;
+        const statusLabel = GOAL_STATUS_MAP[g.status]?.label ?? g.status;
+        partes.push(`<li><b>${escapeHtml(areaLabel)}</b> · ${escapeHtml(statusLabel)} — ${escapeHtml(g.meta)}</li>`);
+      }
+      partes.push(`</ul>`);
     }
     if (scores.length) {
       partes.push(`<h2>Avaliações</h2>`);
@@ -253,6 +274,32 @@ export default function RelatorioAluno({
                   Check-ins: {checkinResumo.melhorou} {CHECKIN_LABEL.melhorou} · {checkinResumo.igual} {CHECKIN_LABEL.igual} · {checkinResumo.piorou} {CHECKIN_LABEL.piorou}
                 </p>
               )}
+            </section>
+          )}
+
+          {/* Metas socioemocionais */}
+          {goals.length > 0 && (
+            <section>
+              <h3 className="flex items-center gap-1.5 text-sm font-bold text-foreground mb-2">
+                <Target className="w-4 h-4 text-lumii-coral" /> Metas socioemocionais
+              </h3>
+              <div className="space-y-2">
+                {goals.map((g) => {
+                  const am = GOAL_AREA_MAP[g.area] ?? GOAL_AREA_MAP.outra;
+                  const sm = GOAL_STATUS_MAP[g.status] ?? GOAL_STATUS_MAP.em_andamento;
+                  return (
+                    <div key={g.id} className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ${am.chip}`}>
+                          <span aria-hidden>{am.emoji}</span> {am.label}
+                        </span>
+                        <p className="text-sm text-foreground/85 mt-1">{g.meta}</p>
+                      </div>
+                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-medium shrink-0 ${sm.chip}`}>{sm.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </section>
           )}
 
