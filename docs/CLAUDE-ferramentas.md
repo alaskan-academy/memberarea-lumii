@@ -10,6 +10,8 @@ Primeiras duas Ferramentas da Lumii — seção nova, não existia nada antes:
 - **"O que eu digo agora?"** (`/ferramentas/o-que-eu-digo-agora`) — pais, script de conversa por situação + idade
 - **"Meus Alunos"** (`/ferramentas/meus-alunos`, ex-`plano-apoio-aluno` / ex-"Plano de Apoio" — virou o hub do Bloco 1 "aluno é o centro" ao ganhar o Diário) — professores. Hub lista alunos/turmas; a **ficha do aluno tem abas**: **Diário de bordo** (registro corrido por aluno) + **Plano de apoio** (plano de ação por aluno ou turma, com histórico e check-ins). A rota antiga `plano-apoio-aluno/*` redireciona para cá (catch-all `[[...rest]]`).
 - **"Parecer descritivo"** (`/ferramentas/parecer-descritivo`) — professores, gerador de parecer avulso (grátis, cavalo de entrada; sem salvar por aluno ainda)
+- **"Sala de aula"** (`/ferramentas/sala-de-aula`) — professores, **grátis** (free:true, sem banco): sorteio (aluno/grupos), cronômetro (regressivo+alarme / stopwatch) e cartaz de combinados. Hook de uso diário; tudo client-side.
+- **"Planejamento"** (`/ferramentas/planejamento`, Bloco 2) — professores (pago). Hoje é a **Biblioteca** de planos/atividades (`lesson_resources`): CRUD + busca/filtro por tipo + duplicar (reusa ano a ano). Estruturado para virar hub (Rubricas + planejador BNCC entram como seções depois).
 
 ## Regra crítica: nenhuma das duas usa IA no MVP
 
@@ -33,7 +35,10 @@ teacher_students           ← cadastro mínimo do professor — NÃO é a mesma
 support_plans               ← plano por aluno, jsonb em plano_gerado
 support_plan_checkins       ← histórico de check-in (melhorou/igual/piorou)
 student_log                 ← Diário de bordo por aluno (migration 20260908_student_log_diario.sql)
+lesson_resources            ← Biblioteca de planos/atividades da prof (migration 20260908_lesson_resources.sql)
 ```
+
+`lesson_resources` (Biblioteca) segue o padrão, mas **sem student_id** — é material da prof, não do aluno: `teacher_id`, `titulo`, `tipo` (CHECK espelhado em `src/lib/ferramentas/planejamento/types.ts`), `conteudo jsonb {texto}`, `tags text[]`. RLS `for all ((select auth.uid()) = teacher_id)`. Actions em `src/lib/ferramentas/planejamento/actions.ts` (create/update/delete/**duplicate**).
 
 `student_log` (Diário) espelha o padrão de `support_plans`: `teacher_id` + FK `student_id → teacher_students`, RLS `for all ((select auth.uid()) = teacher_id)`. Vocabulário de `tipo` (registro/positivo/atencao/aprendizagem/socioemocional/familia) é fonte única em `src/lib/ferramentas/diario/types.ts`, espelhado no CHECK da coluna. Actions em `src/lib/ferramentas/diario/actions.ts` (auth → zod → recheck de posse do aluno → mutação → revalidate).
 

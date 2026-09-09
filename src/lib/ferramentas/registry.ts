@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { MessageCircle, Users, FileText, Dices } from "lucide-react";
+import { MessageCircle, Users, FileText, Dices, Library } from "lucide-react";
 import type { Tier } from "@/lib/access/tier";
 
 // Registro das ferramentas (hardcoded por ora; vira tabela `tools` no admin
@@ -48,6 +48,16 @@ export const TOOLS: ToolDef[] = [
     publico: "Professores",
     // Grátis: cavalo de entrada. Aparece para todos; salvar por aluno virá com o tier aluna.
     free: true,
+    categorySlugs: ["professores"],
+  },
+  {
+    slug: "planejamento",
+    title: "Planejamento",
+    subtitle: "Biblioteca de planos e atividades",
+    description: "Salve seus planos de aula e atividades e reuse ano a ano — sua biblioteca particular.",
+    icon: Library,
+    publico: "Professores",
+    free: false,
     categorySlugs: ["professores"],
   },
   {
