@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Shuffle, Timer, ScrollText, type LucideIcon } from "lucide-react";
-import Sorteio from "./Sorteio";
+import Sorteio, { type SortStudent } from "./Sorteio";
 import Cronometro from "./Cronometro";
 import Combinados from "./Combinados";
 
@@ -15,7 +15,7 @@ const FERRAMENTAS: { key: Exclude<View, "menu">; title: string; desc: string; ic
   { key: "combinados", title: "Combinados", desc: "Monte o cartaz de combinados da turma", icon: ScrollText },
 ];
 
-export default function SalaDeAulaHub() {
+export default function SalaDeAulaHub({ students }: { students: SortStudent[] }) {
   const [view, setView] = useState<View>("menu");
 
   const ativa = FERRAMENTAS.find((f) => f.key === view);
@@ -75,7 +75,7 @@ export default function SalaDeAulaHub() {
             {ativa?.title}
           </h1>
 
-          {view === "sorteio" && <Sorteio />}
+          {view === "sorteio" && <Sorteio students={students} />}
           {view === "cronometro" && <Cronometro />}
           {view === "combinados" && <Combinados />}
         </>

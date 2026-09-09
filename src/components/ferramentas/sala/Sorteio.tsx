@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Shuffle, RotateCcw, Users, User } from "lucide-react";
 
 const NOMES_KEY = "lumii-sala-nomes";
+
+export type SortStudent = { name: string; classLabel: string | null };
 
 type Modo = "um" | "grupos";
 type AgruparPor = "tamanho" | "quantidade";
@@ -24,9 +26,22 @@ function embaralhar<T>(arr: T[]): T[] {
   return a;
 }
 
-export default function Sorteio() {
+export default function Sorteio({ students }: { students: SortStudent[] }) {
   const [raw, setRaw] = useState("");
   const [modo, setModo] = useState<Modo>("um");
+
+  // Turmas do professor (os class_labels distintos dos alunos cadastrados).
+  const turmas = useMemo(
+    () => [...new Set(students.map((s) => s.classLabel).filter((c): c is string => !!c))].sort(),
+    [students]
+  );
+
+  // Carrega os nomes de uma turma (ou de todos os alunos) na lista do sorteio.
+  function carregarTurma(valor: string) {
+    if (!valor) return;
+    const nomesTurma = (valor === "__all__" ? students : students.filter((s) => s.classLabel === valor)).map((s) => s.name);
+    if (nomesTurma.length) setRaw(nomesTurma.join("\n"));
+  }
 
   // Sortear um
   const [naoRepetir, setNaoRepetir] = useState(true);
@@ -137,6 +152,33 @@ export default function Sorteio() {
             (um por linha — fica salvo neste aparelho)
           </span>
         </label>
+
+        {students.length > 0 && (
+          <div className="flex items-center gap-2 rounded-lg bg-muted/40 px-3 py-2">
+            <Users className="w-4 h-4 text-lumii-coral shrink-0" />
+            <label htmlFor="sorteio-turma" className="text-xs text-muted-foreground shrink-0">
+              Carregar minha turma:
+            </label>
+            <select
+              id="sorteio-turma"
+              defaultValue=""
+              onChange={(e) => {
+                carregarTurma(e.target.value);
+                e.target.value = "";
+              }}
+              className="flex-1 min-w-0 text-sm rounded-lg border border-border bg-white px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
+            >
+              <option value="">Escolha…</option>
+              <option value="__all__">Todos os meus alunos ({students.length})</option>
+              {turmas.map((t) => (
+                <option key={t} value={t}>
+                  {t} ({students.filter((s) => s.classLabel === t).length})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <textarea
           id="sorteio-nomes"
           value={raw}
