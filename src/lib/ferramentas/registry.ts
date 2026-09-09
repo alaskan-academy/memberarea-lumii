@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { MessageCircle, ClipboardList } from "lucide-react";
+import { MessageCircle, ClipboardList, FileText } from "lucide-react";
 import type { Tier } from "@/lib/access/tier";
 
 // Registro das ferramentas (hardcoded por ora; vira tabela `tools` no admin
@@ -37,6 +37,17 @@ export const TOOLS: ToolDef[] = [
     icon: ClipboardList,
     publico: "Professores",
     free: false,
+    categorySlugs: ["professores"],
+  },
+  {
+    slug: "parecer-descritivo",
+    title: "Parecer descritivo",
+    subtitle: "Comentário de boletim pronto",
+    description: "Marque como o aluno está em cada aspecto e gere um parecer humanizado, pronto para copiar.",
+    icon: FileText,
+    publico: "Professores",
+    // Grátis: cavalo de entrada. Aparece para todos; salvar por aluno virá com o tier aluna.
+    free: true,
     categorySlugs: ["professores"],
   },
 ];
