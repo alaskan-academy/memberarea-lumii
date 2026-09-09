@@ -27,6 +27,18 @@ export interface RubricScoreRow {
   created_at: string;
 }
 
+// Avaliação de um aluno já enriquecida com a definição da rubrica — para o
+// relatório de conselho/reunião (que precisa dos rótulos de critério e nível).
+export interface StudentRubricScore {
+  id: string;
+  created_at: string;
+  comentario: string;
+  rubricTitulo: string;
+  escala: string[];
+  itens: RubricCriterio[];
+  niveis: Record<string, number>;
+}
+
 // Escala padrão ao criar uma rubrica nova (mesmo tom do gerador de parecer).
 export const ESCALA_PADRAO: string[] = ["Ainda não", "Em desenvolvimento", "Consolidado"];
 

@@ -3,35 +3,45 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, BookOpen, ClipboardList } from "lucide-react";
+import { ChevronLeft, BookOpen, ClipboardList, FileText, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { tierAtLeast, type Tier } from "@/lib/access/tier";
 import type { SupportPlanRow } from "@/lib/ferramentas/support-plan/types";
 import type { StudentLogRow } from "@/lib/ferramentas/diario/types";
+import type { StudentRubricScore } from "@/lib/ferramentas/planejamento/rubricas/types";
 import PlanTargetDetailClient from "../support-plan/PlanTargetDetailClient";
 import DiarioPanel from "./DiarioPanel";
+import RelatorioAluno from "./RelatorioAluno";
+import RelatorioLocked from "./RelatorioLocked";
 
-type Aba = "diario" | "plano";
+type Aba = "diario" | "plano" | "relatorio";
 
 /** Ficha do aluno com abas — o "aluno é o centro" (Bloco 1 do plano). */
 export default function StudentFichaClient({
   student,
   plans,
   logs,
+  tier,
+  reportScores,
   initialTab,
 }: {
   student: { id: string; name: string };
   plans: SupportPlanRow[];
   logs: StudentLogRow[];
+  tier: Tier;
+  reportScores: StudentRubricScore[];
   initialTab: Aba;
 }) {
   const pathname = usePathname();
   const [aba, setAba] = useState<Aba>(initialTab);
 
+  const temCompleto = tierAtLeast(tier, "completo");
+
   function switchTab(next: Aba) {
     setAba(next);
     // Mantém a aba na URL (sem navegar) para deep-link e voltar do navegador.
     if (typeof window !== "undefined") {
-      const url = next === "diario" ? pathname : `${pathname}?aba=plano`;
+      const url = next === "diario" ? pathname : `${pathname}?aba=${next}`;
       window.history.replaceState(null, "", url);
     }
   }
@@ -50,15 +60,13 @@ export default function StudentFichaClient({
 
       <h1 className="text-2xl font-bold mb-6">{student.name}</h1>
 
-      <div className="flex gap-1 mb-6 border-b border-border">
+      <div className="flex gap-1 mb-6 border-b border-border overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <button
           type="button"
           onClick={() => switchTab("diario")}
           className={cn(
-            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors",
-            aba === "diario"
-              ? "border-lumii-coral text-lumii-coral"
-              : "border-transparent text-muted-foreground hover:text-foreground"
+            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
+            aba === "diario" ? "border-lumii-coral text-lumii-coral" : "border-transparent text-muted-foreground hover:text-foreground"
           )}
         >
           <BookOpen className="w-4 h-4" />
@@ -68,10 +76,8 @@ export default function StudentFichaClient({
           type="button"
           onClick={() => switchTab("plano")}
           className={cn(
-            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors",
-            aba === "plano"
-              ? "border-lumii-coral text-lumii-coral"
-              : "border-transparent text-muted-foreground hover:text-foreground"
+            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
+            aba === "plano" ? "border-lumii-coral text-lumii-coral" : "border-transparent text-muted-foreground hover:text-foreground"
           )}
         >
           <ClipboardList className="w-4 h-4" />
@@ -82,17 +88,32 @@ export default function StudentFichaClient({
             </span>
           )}
         </button>
+        <button
+          type="button"
+          onClick={() => switchTab("relatorio")}
+          className={cn(
+            "flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap",
+            aba === "relatorio" ? "border-lumii-coral text-lumii-coral" : "border-transparent text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <FileText className="w-4 h-4" />
+          Relatório
+          {!temCompleto && <Lock className="w-3 h-3 text-lumii-yellow" />}
+        </button>
       </div>
 
-      {aba === "diario" ? (
+      {aba === "diario" && (
         <DiarioPanel studentId={student.id} studentName={student.name} initialLogs={logs} />
-      ) : (
-        <PlanTargetDetailClient
-          target={{ kind: "aluno", id: student.id, name: student.name }}
-          plans={plans}
-          embedded
-        />
       )}
+      {aba === "plano" && (
+        <PlanTargetDetailClient target={{ kind: "aluno", id: student.id, name: student.name }} plans={plans} embedded />
+      )}
+      {aba === "relatorio" &&
+        (temCompleto ? (
+          <RelatorioAluno student={{ name: student.name }} logs={logs} plans={plans} scores={reportScores} />
+        ) : (
+          <RelatorioLocked studentName={student.name} />
+        ))}
     </div>
   );
 }

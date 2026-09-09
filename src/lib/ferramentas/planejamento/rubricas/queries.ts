@@ -1,5 +1,14 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { RubricCriterio, RubricRow, RubricScoreRow } from "./types";
+import type { RubricCriterio, RubricRow, RubricScoreRow, StudentRubricScore } from "./types";
+
+function parseNiveis(raw: unknown): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries((raw ?? {}) as Record<string, unknown>)) {
+    const n = Number(v);
+    if (Number.isInteger(n) && n >= 0) out[k] = n;
+  }
+  return out;
+}
 
 interface CriteriosJson {
   escala?: unknown;
@@ -69,6 +78,38 @@ export async function fetchAllScores(
       niveis,
       comentario: typeof notas.comentario === "string" ? notas.comentario : "",
       created_at: s.created_at,
+    };
+  });
+}
+
+/**
+ * Avaliações de UM aluno, já com a definição da rubrica embutida — para o
+ * relatório de conselho/reunião. Ordena da mais recente para a mais antiga.
+ */
+export async function fetchScoresForStudent(
+  supabase: SupabaseClient,
+  teacherId: string,
+  studentId: string
+): Promise<StudentRubricScore[]> {
+  const { data } = await supabase
+    .from("rubric_scores")
+    .select("id, notas, created_at, rubrics(titulo, criterios)")
+    .eq("teacher_id", teacherId)
+    .eq("student_id", studentId)
+    .order("created_at", { ascending: false });
+
+  return (data ?? []).map((s) => {
+    const rubrica = (s as unknown as { rubrics: { titulo: string; criterios: unknown } | null }).rubrics;
+    const { escala, itens } = parseCriterios(rubrica?.criterios);
+    const notas = (s.notas ?? {}) as ScoreNotasJson;
+    return {
+      id: s.id,
+      created_at: s.created_at,
+      comentario: typeof notas.comentario === "string" ? notas.comentario : "",
+      rubricTitulo: rubrica?.titulo ?? "Rubrica",
+      escala,
+      itens,
+      niveis: parseNiveis(notas.niveis),
     };
   });
 }

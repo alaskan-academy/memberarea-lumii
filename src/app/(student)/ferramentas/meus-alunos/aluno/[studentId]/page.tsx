@@ -3,6 +3,10 @@ import { redirect, notFound } from "next/navigation";
 import StudentFichaClient from "@/components/ferramentas/diario/StudentFichaClient";
 import { fetchPlansForTarget } from "@/lib/ferramentas/support-plan/queries";
 import { fetchLogsForStudent } from "@/lib/ferramentas/diario/queries";
+import { fetchScoresForStudent } from "@/lib/ferramentas/planejamento/rubricas/queries";
+import { getTier } from "@/lib/access/getTier";
+import { tierAtLeast } from "@/lib/access/tier";
+import type { StudentRubricScore } from "@/lib/ferramentas/planejamento/rubricas/types";
 
 export default async function StudentDetailPage({
   params,
@@ -29,17 +33,28 @@ export default async function StudentDetailPage({
 
   if (!student) notFound();
 
-  const [plans, logs] = await Promise.all([
+  const [plans, logs, tier] = await Promise.all([
     fetchPlansForTarget(supabase, "student_id", studentId),
     fetchLogsForStudent(supabase, studentId),
+    getTier(user.id),
   ]);
+
+  // Relatório é do Lumii Completo — só busca a matéria-prima extra (avaliações)
+  // para quem tem acesso; para os demais a aba mostra o teaser, sem query.
+  const reportScores: StudentRubricScore[] = tierAtLeast(tier, "completo")
+    ? await fetchScoresForStudent(supabase, user.id, studentId)
+    : [];
+
+  const initialTab = aba === "plano" ? "plano" : aba === "relatorio" ? "relatorio" : "diario";
 
   return (
     <StudentFichaClient
       student={{ id: student.id, name: student.name }}
       plans={plans}
       logs={logs}
-      initialTab={aba === "plano" ? "plano" : "diario"}
+      tier={tier}
+      reportScores={reportScores}
+      initialTab={initialTab}
     />
   );
 }
