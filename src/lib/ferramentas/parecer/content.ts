@@ -45,7 +45,7 @@ export const ASPECTOS: { key: AspectoKey; label: string; desc: string }[] = [
 export const FRASES: Record<AspectoKey, Record<Nivel, string>> = {
   participacao: {
     a_desenvolver:
-      "tem participado de forma mais quieta, e temos incentivado a se soltar e mostrar o que pensa",
+      "participa de forma mais reservada, e seguimos incentivando para que se solte e mostre o que pensa",
     em_progresso:
       "vem participando cada vez mais das atividades, arriscando perguntas e ideias com mais confiança",
     consolidado:
@@ -53,9 +53,9 @@ export const FRASES: Record<AspectoKey, Record<Nivel, string>> = {
   },
   convivencia: {
     a_desenvolver:
-      "está aprendendo a conviver com os colegas, e seguimos ajudando a resolver os desentendimentos pelo diálogo",
+      "está aprendendo a conviver com os colegas, e seguimos apoiando para que resolva os desentendimentos pelo diálogo",
     em_progresso:
-      "convive bem com a turma e, aos poucos, tem lidado melhor com dividir e com as combinações",
+      "convive bem com a turma e, aos poucos, tem lidado melhor com os momentos de dividir e com as combinações",
     consolidado:
       "convive muito bem com colegas e adultos, respeita as combinações e acolhe quem está por perto",
   },
@@ -63,31 +63,31 @@ export const FRASES: Record<AspectoKey, Record<Nivel, string>> = {
     a_desenvolver:
       "ainda precisa de apoio para começar e concluir as tarefas, e trabalhamos isso passo a passo",
     em_progresso:
-      "vem construindo a autonomia: já tenta sozinho antes de pedir ajuda e conclui boa parte das tarefas",
+      "vem construindo a autonomia: já tenta por conta própria antes de pedir ajuda e conclui boa parte das tarefas",
     consolidado:
-      "realiza as tarefas com autonomia, organiza-se sozinho e pede ajuda quando de fato precisa",
+      "realiza as tarefas com autonomia, organiza-se por conta própria e pede ajuda quando de fato precisa",
   },
   atencao: {
     a_desenvolver:
-      "se distrai com facilidade, e temos usado combinados e tarefas mais curtas para ajudar na concentração",
+      "distrai-se com facilidade, e temos usado combinados e tarefas mais curtas para apoiar a concentração",
     em_progresso:
-      "tem sustentado a atenção por mais tempo, sobretudo nas atividades que desperta o interesse",
+      "tem sustentado a atenção por mais tempo, sobretudo nas atividades que mais despertam seu interesse",
     consolidado:
-      "mantém a atenção do início ao fim das atividades e retoma o foco sozinho quando se dispersa",
+      "mantém a atenção do início ao fim das atividades e retoma o foco por conta própria quando se dispersa",
   },
   organizacao: {
     a_desenvolver:
       "está aprendendo a cuidar dos materiais e a seguir a rotina, com lembretes ao longo do dia",
     em_progresso:
-      "vem se organizando melhor com os materiais e o tempo, precisando de menos lembretes",
+      "vem se organizando melhor com os materiais e com o tempo, precisando de menos lembretes",
     consolidado:
-      "mantém materiais e rotina em ordem e se prepara sozinho para cada momento do dia",
+      "mantém materiais e rotina em ordem e se prepara com autonomia para cada momento do dia",
   },
   autorregulacao: {
     a_desenvolver:
-      "está aprendendo a lidar com a frustração, e seguimos ajudando a nomear e acolher o que sente",
+      "está aprendendo a lidar com a frustração, e seguimos apoiando para nomear e acolher o que sente",
     em_progresso:
-      "tem lidado melhor com as emoções e, quando se desregula, aceita ajuda para se acalmar",
+      "tem lidado melhor com as emoções e, nos momentos mais difíceis, aceita ajuda para se acalmar",
     consolidado:
       "lida bem com a frustração e respeita os combinados mesmo nos momentos mais difíceis",
   },
@@ -95,7 +95,7 @@ export const FRASES: Record<AspectoKey, Record<Nivel, string>> = {
     a_desenvolver:
       "está descobrindo formas de se expressar e de ouvir, e incentivamos que compartilhe mais o que pensa e sente",
     em_progresso:
-      "comunica as ideias com mais clareza e vem aprendendo a ouvir os colegas antes de responder",
+      "comunica as próprias ideias com mais clareza e vem aprendendo a ouvir os colegas antes de responder",
     consolidado:
       "expressa as ideias com clareza, ouve os colegas com respeito e sabe esperar a vez de falar",
   },
