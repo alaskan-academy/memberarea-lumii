@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import {
   loginSchema,
   cadastroSchema,
+  cadastroGratuitoSchema,
   recuperarSenhaSchema,
   novaSenhaSchema,
 } from "@/lib/validations/auth";
@@ -98,7 +99,12 @@ export async function cadastroAction(
     confirm_password: formData.get("confirm_password"),
   };
 
-  const parsed = cadastroSchema.safeParse(raw);
+  // `origem=comecar`: veio da página pública de ferramentas grátis (/comecar) —
+  // sem CPF, e no fim cai em /ferramentas, que é o que a pessoa veio buscar.
+  const daPaginaGratuita = formData.get("origem") === "comecar";
+  const parsed = daPaginaGratuita
+    ? cadastroGratuitoSchema.safeParse(raw)
+    : cadastroSchema.safeParse(raw);
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
     for (const issue of parsed.error.issues) {
@@ -172,12 +178,16 @@ export async function cadastroAction(
 
     if (parsed.data.phone) profileUpdate.phone = parsed.data.phone;
 
-    const rawCpf = parsed.data.cpf.replace(/\D/g, "");
-    try {
-      profileUpdate.cpf_encrypted = encryptCpf(rawCpf);
-      profileUpdate.cpf_hash = hashCpf(rawCpf);
-    } catch {
-      console.warn("[cadastro] CPF não criptografado — CERTIFICATE_ENCRYPTION_KEY ausente?");
+    // Cadastro gratuito não coleta CPF (parsed.data.cpf é undefined/''); só
+    // criptografa quando vier um CPF completo (cadastro comum pós-compra).
+    const rawCpf = (parsed.data.cpf ?? "").replace(/\D/g, "");
+    if (rawCpf.length === 11) {
+      try {
+        profileUpdate.cpf_encrypted = encryptCpf(rawCpf);
+        profileUpdate.cpf_hash = hashCpf(rawCpf);
+      } catch {
+        console.warn("[cadastro] CPF não criptografado — CERTIFICATE_ENCRYPTION_KEY ausente?");
+      }
     }
 
     if (Object.keys(profileUpdate).length > 0) {
@@ -222,7 +232,8 @@ export async function cadastroAction(
     redirect(`/login?msg=cadastro-ok&email=${encodeURIComponent(emailLower)}`);
   }
 
-  redirect("/cursos");
+  // Veio das ferramentas grátis → cai direto nelas; cadastro comum → cursos.
+  redirect(daPaginaGratuita ? "/ferramentas" : "/cursos");
 }
 
 /** Verifica se o e-mail está cadastrado (sem expor token de reset). */

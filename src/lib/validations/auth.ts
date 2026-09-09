@@ -22,6 +22,26 @@ export const cadastroSchema = z
     path: ["confirm_password"],
   });
 
+/**
+ * Cadastro que vem de `/comecar` (ferramentas grátis): mesmos campos do cadastro
+ * comum, mas SEM CPF. O CPF é pedido quando a pessoa compra um curso, que é
+ * quando ele serve para algo (certificado). Exigir antes só afasta quem ainda
+ * nem experimentou a plataforma.
+ */
+export const cadastroGratuitoSchema = z
+  .object({
+    full_name: z.string().min(2, "Nome deve ter ao menos 2 caracteres").max(100),
+    email: z.string().email("E-mail inválido"),
+    phone: z.string().min(1, "WhatsApp obrigatório"),
+    cpf: z.string().optional(),
+    password: z.string().min(8, "Senha deve ter ao menos 8 caracteres"),
+    confirm_password: z.string(),
+  })
+  .refine((d) => d.password === d.confirm_password, {
+    message: "As senhas não coincidem",
+    path: ["confirm_password"],
+  });
+
 export const recuperarSenhaSchema = z.object({
   email: z.string().email("E-mail inválido"),
 });
@@ -38,5 +58,6 @@ export const novaSenhaSchema = z
 
 export type LoginInput = z.infer<typeof loginSchema>;
 export type CadastroInput = z.infer<typeof cadastroSchema>;
+export type CadastroGratuitoInput = z.infer<typeof cadastroGratuitoSchema>;
 export type RecuperarSenhaInput = z.infer<typeof recuperarSenhaSchema>;
 export type NovaSenhaInput = z.infer<typeof novaSenhaSchema>;

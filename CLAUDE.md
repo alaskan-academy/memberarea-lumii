@@ -158,10 +158,11 @@ Colunas: Nome, E-mail, Telefone, Nascimento, Qtd. Cursos, Cursos, Fonte, Data da
 
 ## Política de acesso — 100% fechado sem login
 
-**Regra não-negociável:** qualquer URL de `membros.lumiieduca.com.br` exige conta logada. Sem login → redireciona para `/login`. Sem exceções para alunas ou visitantes.
+**Regra não-negociável:** qualquer URL de `membros.lumiieduca.com.br` exige conta logada. Sem login → redireciona para `/login`. A única exceção "de página" (fora das técnicas) é a porta de entrada pública `/comecar`.
 
 Rotas que ficam abertas sem login (necessidades técnicas, não alterar):
 - `/login`, `/cadastro`, `/recuperar-senha`, `/nova-senha` — páginas de autenticação
+- `/comecar` — landing pública das ferramentas grátis (cadastro sem compra, foco em professores). É a porta de entrada: mostra as ferramentas gratuitas e cria conta tier `gratis` (via `cadastroAction` com `origem=comecar`, schema sem CPF, redireciona para `/ferramentas`). A própria page redireciona quem já está logada para `/ferramentas`.
 - `/api/*` — webhooks externos (ex: Payt, server-to-server sem cookies)
 - `/auth/*` — callback OAuth/magic-link do Supabase
 
@@ -171,7 +172,7 @@ Rotas que NÃO são mais públicas (mudança aplicada jun/2026):
 - `/p/[slug]` — páginas estáticas exigem login
 - `/verificar/[hash]` — verificação de certificado exige login
 
-Implementado em `src/proxy.ts` — `ALWAYS_PUBLIC_PREFIXES` contém `/api/`, `/auth/` e `/ebooks/` (materiais estáticos de aula, HTML sem dados de usuário, abrem em novo tab sem login).
+Implementado em `src/proxy.ts` — `ALWAYS_PUBLIC_PREFIXES` contém `/api/`, `/auth/` e `/ebooks/` (materiais estáticos de aula, HTML sem dados de usuário, abrem em novo tab sem login). As páginas de auth + `/comecar` ficam em `PUBLIC_ROUTES` (match por igualdade exata ou prefixo com barra).
 
 ## Middleware — `src/proxy.ts` (regras críticas)
 
