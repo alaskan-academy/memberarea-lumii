@@ -2,13 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendReengagementEmail, type ReengagementCourse } from "@/lib/email";
 
-// Vercel Cron: roda diariamente às 10h BRT (13h UTC)
-// vercel.json crons: [{ "path": "/api/cron/reengagement", "schedule": "0 13 * * *" }]
+// Vercel Cron: roda SEMANALMENTE — quinta às 21h30 BRT (= sexta 00h30 UTC).
+// vercel.json crons: [{ "path": "/api/cron/reengagement", "schedule": "30 0 * * 5" }]
 //
-// Envia no máximo 1 e-mail por aluna por execução, mesmo que ela tenha
-// vários cursos parados. Todo o cruzamento matrícula→módulo→aula→progresso
-// é feito em lote (poucas queries com .in(), nunca uma por matrícula) e
-// depois processado em memória — evita N+1 quando a base de matrículas cresce.
+// Trava de reengajamento (para não virar spam diário):
+// - no máximo 4 e-mails na VIDA da aluna: reengajamento-1 .. reengajamento-4
+// - intervalo mínimo entre eles (a cadência real vem do cron semanal)
+// - cada envio é registrado em `email_campaign_sends`
+//
+// Envia no máximo 1 e-mail por aluna por execução, mesmo com vários cursos
+// parados. Todo o cruzamento (matrícula→módulo→aula→progresso→histórico) é
+// feito em lote (poucas queries com .in(), nunca uma por aluna) e processado
+// em memória — sem N+1 quando a base cresce.
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
@@ -110,13 +115,41 @@ export async function GET(req: NextRequest) {
 
     if (byUser.size === 0) return NextResponse.json({ sent: 0 });
 
-    // ── Fase 3: busca perfis em lote e envia um único e-mail por aluna ─────
+    // ── Fase 3: aplica a trava, envia 1 e-mail por aluna e registra ────────
+    const candidateIds = [...byUser.keys()];
+
+    const MAX_LIFETIME = 4; // no máximo 4 e-mails de reengajamento na vida da aluna
+    // A cadência real (≈7 dias) vem do cron semanal; esta guarda de 6 dias tolera
+    // o jitter do agendador e bloqueia reenvio na mesma semana (ex.: re-run manual).
+    const MIN_GAP_DAYS = 6;
+    const gapCutoffMs = Date.now() - MIN_GAP_DAYS * 24 * 60 * 60 * 1000;
+
+    // UMA leitura em lote do histórico de reengajamento de todas as candidatas
+    // (nunca uma consulta por aluna).
+    const { data: priorSends } = candidateIds.length
+      ? await service
+          .from("email_campaign_sends")
+          .select("user_id, sent_at")
+          .in("user_id", candidateIds)
+          .like("campaign", "reengajamento-%")
+      : { data: [] };
+
+    // Quantos já recebeu e quando foi o último — agrupado em memória.
+    const histByUser = new Map<string, { count: number; last: string }>();
+    for (const s of priorSends ?? []) {
+      const cur = histByUser.get(s.user_id) ?? { count: 0, last: "" };
+      cur.count += 1;
+      if (s.sent_at > cur.last) cur.last = s.sent_at;
+      histByUser.set(s.user_id, cur);
+    }
+
     const { data: profiles } = await service
       .from("profiles")
       .select("id, full_name, email, email_prefs")
-      .in("id", [...byUser.keys()]);
+      .in("id", candidateIds);
 
     let sent = 0;
+    const novosRegistros: { user_id: string; campaign: string }[] = [];
 
     for (const profile of profiles ?? []) {
       if (!profile.email) continue;
@@ -125,6 +158,12 @@ export async function GET(req: NextRequest) {
 
       const courses = byUser.get(profile.id);
       if (!courses?.length) continue;
+
+      const hist = histByUser.get(profile.id);
+      const jaEnviados = hist?.count ?? 0;
+      if (jaEnviados >= MAX_LIFETIME) continue; // teto de 4 na vida
+      // respeita o intervalo mínimo (compara por timestamp, não por string ISO)
+      if (hist && new Date(hist.last).getTime() > gapCutoffMs) continue;
 
       const result = await sendReengagementEmail({
         to: profile.email,
@@ -137,7 +176,19 @@ export async function GET(req: NextRequest) {
         continue;
       }
 
+      novosRegistros.push({ user_id: profile.id, campaign: `reengajamento-${jaEnviados + 1}` });
       sent++;
+    }
+
+    // UMA escrita em lote registrando todos os envios desta execução (a trava
+    // da próxima semana lê isto).
+    if (novosRegistros.length) {
+      const { error: registroError } = await service
+        .from("email_campaign_sends")
+        .insert(novosRegistros);
+      if (registroError) {
+        console.error("[cron/reengagement] falha ao registrar envios:", registroError.message);
+      }
     }
 
     console.info(`[cron/reengagement] ${sent} e-mails enviados (${byUser.size} alunas elegíveis)`);
