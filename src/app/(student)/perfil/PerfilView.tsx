@@ -799,7 +799,7 @@ function ChangePasswordSection() {
                   type="password"
                   value={newPwd}
                   onChange={(e) => setNewPwd(e.target.value)}
-                  placeholder="Mínimo 8 caracteres"
+                  placeholder="Mínimo 6 caracteres"
                   autoComplete="new-password"
                   disabled={isPending}
                   className="w-full text-sm bg-muted/50 border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lumii-coral/50 disabled:opacity-60"

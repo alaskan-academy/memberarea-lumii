@@ -25,7 +25,7 @@ export function traduzErroAuth(raw: string | undefined | null): string | null {
 
   // Senha curta demais
   if (m.includes("password") && m.includes("at least")) {
-    return "A senha é muito curta. Use pelo menos 8 caracteres.";
+    return "A senha é muito curta. Escolha uma senha um pouco mais longa.";
   }
 
   // E-mail já cadastrado

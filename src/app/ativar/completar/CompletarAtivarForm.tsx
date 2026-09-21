@@ -181,7 +181,7 @@ export default function CompletarAtivarForm({ token, email, fullName, cpf, phone
             <PasswordInput
               id="password"
               name="password"
-              placeholder="Mínimo 8 caracteres"
+              placeholder="Mínimo 6 caracteres"
               autoComplete="new-password"
               required
               disabled={isPending}

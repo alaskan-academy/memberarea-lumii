@@ -6,6 +6,7 @@ import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { z } from "zod";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
 import { sendAccessConfirmedEmail, sendLoginReminderEmail } from "@/lib/email";
+import { traduzErroAuth } from "@/lib/auth/mensagens-erro";
 
 // ─── Helper compartilhado: concede acesso a um curso ───────────────────────────
 // Usado por grantAccessAction (1 curso) e grantMultipleAccessAction (N cursos).
@@ -284,7 +285,10 @@ export async function updateProfileAction(
       email,
       email_confirm: true,
     });
-    if (authErr) return { error: `Erro ao atualizar e-mail: ${authErr.message}` };
+    if (authErr) {
+      console.error("[updateProfile] auth error:", authErr.message, authErr.status);
+      return { error: traduzErroAuth(authErr.message) ?? "Não foi possível atualizar o e-mail. Verifique e tente novamente." };
+    }
   }
 
   const updateData: Record<string, unknown> = {
@@ -450,7 +454,7 @@ export async function resendAccessEmailAction(
 
 const setPasswordSchema = z.object({
   user_id: z.string().uuid(),
-  password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres."),
+  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres."),
 });
 
 export async function setStudentPasswordAction(
@@ -476,7 +480,10 @@ export async function setStudentPasswordAction(
     email_confirm: true,
   });
 
-  if (error) return { error: `Erro ao definir senha: ${error.message}` };
+  if (error) {
+    console.error("[setStudentPassword] error:", error.message, error.status);
+    return { error: traduzErroAuth(error.message) ?? "Não foi possível definir a senha. Tente novamente." };
+  }
 
   await service.from("audit_log").insert({
     admin_id: adminId,
@@ -523,8 +530,8 @@ export async function updateStudentEmailAction(
     email_confirm: true,
   });
   if (authErr) {
-    console.error("[updateEmail] auth error:", authErr);
-    return { error: `Erro ao atualizar e-mail: ${authErr.message}` };
+    console.error("[updateEmail] auth error:", authErr.message, authErr.status);
+    return { error: traduzErroAuth(authErr.message) ?? "Não foi possível atualizar o e-mail. Verifique e tente novamente." };
   }
 
   // Sincroniza no profiles

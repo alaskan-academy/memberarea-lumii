@@ -9,7 +9,7 @@ import { z } from "zod";
 const ActivateSchema = z.object({
   token: z.string().uuid("Token inválido"),
   full_name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-  password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
   confirm_password: z.string(),
   phone: z.string().min(10, "WhatsApp é obrigatório"),
   date_of_birth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data inválida").optional().or(z.literal("")),

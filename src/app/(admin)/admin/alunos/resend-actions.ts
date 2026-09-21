@@ -4,6 +4,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { revalidatePath } from "next/cache";
 import { sendAccessConfirmedEmail } from "@/lib/email";
+import { traduzErroAuth } from "@/lib/auth/mensagens-erro";
 
 // Trigger do banco cria a linha em `profiles` de forma assíncrona logo após
 // auth.admin.createUser — não é garantido que já exista no instante seguinte.
@@ -256,7 +257,7 @@ export async function createAccountAndSetPasswordAction(
 
   const service = createServiceClient();
 
-  if (password.length < 8) return { error: "A senha deve ter no mínimo 8 caracteres." };
+  if (password.length < 6) return { error: "A senha deve ter no mínimo 6 caracteres." };
 
   const normalizedEmail = email.toLowerCase().trim();
 
@@ -292,7 +293,8 @@ export async function createAccountAndSetPasswordAction(
     if (msg.includes("already registered") || msg.includes("already exists")) {
       return { error: "Já existe uma conta com este e-mail." };
     }
-    return { error: `Erro ao criar conta: ${createError.message}` };
+    console.error("[resendAccess] createUser error:", createError.message, createError.status);
+    return { error: traduzErroAuth(createError.message) ?? "Não foi possível criar a conta. Tente novamente." };
   }
 
   const userId = created.user.id;

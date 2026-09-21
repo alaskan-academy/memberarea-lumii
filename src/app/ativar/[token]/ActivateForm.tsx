@@ -44,7 +44,7 @@ function PasswordInput({
         type={show ? "text" : "password"}
         placeholder={placeholder}
         required={required}
-        minLength={8}
+        minLength={6}
         className="w-full border border-border rounded-lg px-3 py-2.5 pr-10 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
       />
       <button
@@ -197,7 +197,7 @@ export default function ActivateForm({
             <label htmlFor="activate-password" className="text-sm font-medium text-foreground">
               Criar senha <span className="text-red-500">*</span>
             </label>
-            <PasswordInput id="activate-password" name="password" placeholder="Mínimo 8 caracteres" required />
+            <PasswordInput id="activate-password" name="password" placeholder="Mínimo 6 caracteres" required />
           </div>
 
           {/* Confirmar senha */}

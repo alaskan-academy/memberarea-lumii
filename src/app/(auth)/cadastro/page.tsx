@@ -172,7 +172,7 @@ export default function CadastroPage() {
                 <PasswordInput
                   id="password"
                   name="password"
-                  placeholder="Mínimo 8 caracteres"
+                  placeholder="Mínimo 6 caracteres"
                   autoComplete="new-password"
                   required
                   disabled={isPending}

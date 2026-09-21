@@ -54,7 +54,7 @@ export default function NovaSenhaForm({ email }: { email: string }) {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Nova senha</CardTitle>
         <CardDescription>
-          Escolha uma senha segura de ao menos 8 caracteres
+          Escolha uma senha segura de ao menos 6 caracteres
         </CardDescription>
       </CardHeader>
 
@@ -87,7 +87,7 @@ export default function NovaSenhaForm({ email }: { email: string }) {
             <PasswordInput
               id="password"
               name="password"
-              placeholder="Mínimo 8 caracteres"
+              placeholder="Mínimo 6 caracteres"
               autoComplete="new-password"
               required
               disabled={isPending}

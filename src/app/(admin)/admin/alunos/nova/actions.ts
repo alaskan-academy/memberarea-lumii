@@ -5,6 +5,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { assertAdmin } from "@/lib/supabase/admin-guard";
 import { z } from "zod";
 import { encryptCpf, hashCpf } from "@/lib/cpf-crypto";
+import { traduzErroAuth } from "@/lib/auth/mensagens-erro";
 
 // Trigger do banco cria a linha em `profiles` de forma assíncrona logo após
 // auth.admin.createUser — não é garantido que já exista no instante seguinte.
@@ -78,8 +79,8 @@ export async function createStudentAction(
   });
   if (!parsed.success) return { error: parsed.error.issues[0].message };
 
-  if (rawPassword && rawPassword.length < 8) {
-    return { error: "Senha deve ter ao menos 8 caracteres" };
+  if (rawPassword && rawPassword.length < 6) {
+    return { error: "Senha deve ter ao menos 6 caracteres" };
   }
 
   const { full_name, email, phone, date_of_birth } = parsed.data;
@@ -111,7 +112,7 @@ export async function createStudentAction(
       if (existing?.id) redirect(`/admin/alunos/${existing.id}`);
       return { error: "Este e-mail já está cadastrado." };
     }
-    return { error: `Erro ao criar aluna: ${authErr.message}` };
+    return { error: traduzErroAuth(authErr.message) ?? "Não foi possível criar a aluna. Verifique os dados e tente novamente." };
   }
 
   // Campos extras além do que o trigger já preenche

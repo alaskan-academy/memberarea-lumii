@@ -96,8 +96,8 @@ export default function NovaAlunaForm() {
           id="nova-aluna-password"
           name="password"
           type="password"
-          minLength={8}
-          placeholder="Mín. 8 caracteres (opcional — gera automático se vazio)"
+          minLength={6}
+          placeholder="Mín. 6 caracteres (opcional — gera automático se vazio)"
           className="w-full text-sm px-3 py-2.5 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-lumii-coral/40"
         />
         <p className="text-xs text-muted-foreground mt-1">

@@ -142,8 +142,8 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
 
   function handleSetPassword(e: React.FormEvent) {
     e.preventDefault();
-    if (pwPassword.length < 8) {
-      setPwError("A senha deve ter no mínimo 8 caracteres.");
+    if (pwPassword.length < 6) {
+      setPwError("A senha deve ter no mínimo 6 caracteres.");
       return;
     }
     if (pwPassword !== pwConfirm) {
@@ -670,7 +670,7 @@ export default function AlunaDetail({ profile, courses, activity, defaultTab = "
                     type={pwShowPass ? "text" : "password"}
                     value={pwPassword}
                     onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
-                    placeholder="Mínimo 8 caracteres"
+                    placeholder="Mínimo 6 caracteres"
                     className="w-full px-3 py-2 pr-10 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                   />
                   <button

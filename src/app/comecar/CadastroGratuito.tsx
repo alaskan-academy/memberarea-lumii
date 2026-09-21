@@ -108,7 +108,7 @@ export default function CadastroGratuito() {
           <PasswordInput
             id="password"
             name="password"
-            placeholder="Ao menos 8 caracteres"
+            placeholder="Ao menos 6 caracteres"
             autoComplete="new-password"
             required
             disabled={isPending}

@@ -14,7 +14,7 @@ export const cadastroSchema = z
       (v) => v.replace(/\D/g, "").length === 11,
       "CPF inválido. Verifique e tente novamente."
     ),
-    password: z.string().min(8, "Senha deve ter ao menos 8 caracteres"),
+    password: z.string().min(6, "Senha deve ter ao menos 6 caracteres"),
     confirm_password: z.string(),
   })
   .refine((d) => d.password === d.confirm_password, {
@@ -34,7 +34,7 @@ export const cadastroGratuitoSchema = z
     email: z.string().email("E-mail inválido"),
     phone: z.string().min(1, "WhatsApp obrigatório"),
     cpf: z.string().optional(),
-    password: z.string().min(8, "Senha deve ter ao menos 8 caracteres"),
+    password: z.string().min(6, "Senha deve ter ao menos 6 caracteres"),
     confirm_password: z.string(),
   })
   .refine((d) => d.password === d.confirm_password, {
@@ -48,7 +48,7 @@ export const recuperarSenhaSchema = z.object({
 
 export const novaSenhaSchema = z
   .object({
-    password: z.string().min(8, "Senha deve ter ao menos 8 caracteres"),
+    password: z.string().min(6, "Senha deve ter ao menos 6 caracteres"),
     confirm_password: z.string(),
   })
   .refine((d) => d.password === d.confirm_password, {

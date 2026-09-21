@@ -269,7 +269,7 @@ function DetailModal({
 
   function handleCreateAccount(e: React.FormEvent) {
     e.preventDefault();
-    if (pwPassword.length < 8) { setPwError("A senha deve ter no mínimo 8 caracteres."); return; }
+    if (pwPassword.length < 6) { setPwError("A senha deve ter no mínimo 6 caracteres."); return; }
     if (pwPassword !== pwConfirm) { setPwError("As senhas não coincidem."); return; }
     setPwError(null);
     startPwTransition(async () => {
@@ -521,14 +521,14 @@ function DetailModal({
               </p>
               <div className="relative">
                 <label htmlFor="sem-cadastro-new-password" className="sr-only">
-                  Senha (mínimo 8 caracteres)
+                  Senha (mínimo 6 caracteres)
                 </label>
                 <input
                   id="sem-cadastro-new-password"
                   type={pwShowPass ? "text" : "password"}
                   value={pwPassword}
                   onChange={(e) => { setPwPassword(e.target.value); setPwError(null); }}
-                  placeholder="Senha (mínimo 8 caracteres)"
+                  placeholder="Senha (mínimo 6 caracteres)"
                   autoFocus
                   className="w-full px-3 py-2 pr-9 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-lumii-coral/30"
                 />
