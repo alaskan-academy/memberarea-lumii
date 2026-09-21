@@ -1,6 +1,14 @@
 import { defineConfig } from "vitest/config";
+import { fileURLToPath } from "node:url";
 
 export default defineConfig({
+  // Espelha o alias @/* → ./src/* do tsconfig para que os testes possam importar
+  // módulos do app (ex.: src/lib/certificate.ts, que importa @/lib/fonts/...).
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
   test: {
     environment: "node",
     globals: true,
