@@ -46,6 +46,10 @@ export default async function AlunosPage({
   const activeTab =
     rawTab === "sem-cadastro" ? "sem-cadastro" : "cadastradas";
   const q = rawQ?.trim() ?? "";
+  // Com termo de busca, as abas somem e os dois grupos (cadastradas + sem
+  // cadastro) aparecem juntos — senão uma compradora sem conta "some" quando
+  // buscada na aba padrão.
+  const searching = q.length > 0;
   const page = Math.max(1, parseInt(rawPage ?? "1"));
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
@@ -119,8 +123,8 @@ export default async function AlunosPage({
   // function sobre o grupo inteiro), suficiente para o badge da aba.
   const { data: unregisteredRpc } = await service.rpc("admin_unregistered_buyers", {
     search: q || null,
-    limit_n: activeTab === "sem-cadastro" ? PAGE_SIZE_SC : 1,
-    offset_n: activeTab === "sem-cadastro" ? scOffset : 0,
+    limit_n: activeTab === "sem-cadastro" || searching ? PAGE_SIZE_SC : 1,
+    offset_n: activeTab === "sem-cadastro" || searching ? scOffset : 0,
   });
 
   const unregisteredRows = (unregisteredRpc ?? []) as UnregisteredBuyerRpcRow[];
@@ -157,7 +161,7 @@ export default async function AlunosPage({
   let count = 0;
   let cpfSearch = false;
 
-  if (activeTab === "cadastradas") {
+  if (activeTab === "cadastradas" || searching) {
     if (q && isCpf(q)) {
       cpfSearch = true;
       const cpfDigits = formatCpfRaw(q);
@@ -229,7 +233,7 @@ export default async function AlunosPage({
   }
 
   const totalPages =
-    activeTab === "cadastradas" ? Math.ceil(count / PAGE_SIZE) : 0;
+    activeTab === "cadastradas" || searching ? Math.ceil(count / PAGE_SIZE) : 0;
 
   return (
     <div className="space-y-6">
@@ -326,128 +330,182 @@ export default async function AlunosPage({
         </div>
       )}
 
-      {/* Abas */}
-      <div className="border-b border-border">
-        <nav className="flex gap-1 -mb-px">
-          <Link
-            href="/admin/alunos?tab=cadastradas"
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
-              activeTab === "cadastradas"
-                ? "border-lumii-coral text-lumii-coral"
-                : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
-            }`}
-          >
-            <UserCheck className="w-4 h-4" />
-            Cadastradas
-            {activeTab === "cadastradas" && count > 0 && (
-              <span className="ml-1 text-xs bg-lumii-coral/15 text-lumii-coral px-1.5 py-0.5 rounded-full font-semibold">
-                {count}
-              </span>
+      {/* Busca — sempre visível. Com termo, as abas somem e os dois grupos
+          (cadastradas + sem cadastro) aparecem juntos. */}
+      <AlunosSearch defaultValue={q} />
+
+      {searching ? (
+        count === 0 && semCadastroCount === 0 ? (
+          <p className="text-sm text-muted-foreground text-center py-10">
+            Nenhum resultado para{" "}
+            <span className="font-medium text-foreground">&ldquo;{q}&rdquo;</span>.
+          </p>
+        ) : (
+          <div className="space-y-8">
+            {count > 0 && (
+              <section className="space-y-3">
+                <h2 className="text-sm font-semibold flex items-center gap-1.5">
+                  <UserCheck className="w-4 h-4 text-lumii-green" />
+                  Cadastradas
+                  <span className="ml-1 text-xs bg-lumii-green/15 text-lumii-green-dark px-1.5 py-0.5 rounded-full font-semibold">
+                    {count}
+                  </span>
+                </h2>
+                {cpfSearch && (
+                  <p className="text-xs text-lumii-coral">
+                    Buscando por CPF nos registros de compra.
+                  </p>
+                )}
+                <AlunosTable
+                  profiles={profiles}
+                  enrollCount={enrollCount}
+                  emptyMessage="Nenhuma cadastrada com esse termo."
+                />
+                {!cpfSearch && totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2">
+                    {page > 1 && (
+                      <Link href={`?q=${encodeURIComponent(q)}&page=${page - 1}&scpage=${scPage}`} className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors">← Anterior</Link>
+                    )}
+                    <span className="text-sm text-muted-foreground">Página {page} de {totalPages}</span>
+                    {page < totalPages && (
+                      <Link href={`?q=${encodeURIComponent(q)}&page=${page + 1}&scpage=${scPage}`} className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors">Próxima →</Link>
+                    )}
+                  </div>
+                )}
+              </section>
             )}
-          </Link>
-          <Link
-            href="/admin/alunos?tab=sem-cadastro"
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
-              activeTab === "sem-cadastro"
-                ? "border-amber-500 text-amber-600"
-                : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
-            }`}
-          >
-            <UserX className="w-4 h-4" />
-            Sem cadastro
+
             {semCadastroCount > 0 && (
-              <span
-                className={`ml-1 text-xs px-1.5 py-0.5 rounded-full font-semibold ${
-                  activeTab === "sem-cadastro"
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-muted text-muted-foreground"
+              <section className="space-y-3">
+                <h2 className="text-sm font-semibold flex items-center gap-1.5">
+                  <UserX className="w-4 h-4 text-amber-500" />
+                  Sem cadastro
+                  <span className="ml-1 text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">
+                    {semCadastroCount}
+                  </span>
+                </h2>
+                <SemCadastroClient rows={semCadastro} />
+                {totalPagesSC > 1 && (
+                  <div className="flex items-center justify-center gap-2">
+                    {scPage > 1 && (
+                      <Link href={`?q=${encodeURIComponent(q)}&page=${page}&scpage=${scPage - 1}`} className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors">← Anterior</Link>
+                    )}
+                    <span className="text-sm text-muted-foreground">Página {scPage} de {totalPagesSC}</span>
+                    {scPage < totalPagesSC && (
+                      <Link href={`?q=${encodeURIComponent(q)}&page=${page}&scpage=${scPage + 1}`} className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors">Próxima →</Link>
+                    )}
+                  </div>
+                )}
+              </section>
+            )}
+          </div>
+        )
+      ) : (
+        <>
+          {/* Abas (sem busca ativa) */}
+          <div className="border-b border-border">
+            <nav className="flex gap-1 -mb-px">
+              <Link
+                href="/admin/alunos?tab=cadastradas"
+                className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+                  activeTab === "cadastradas"
+                    ? "border-lumii-coral text-lumii-coral"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
                 }`}
               >
-                {semCadastroCount}
-              </span>
-            )}
-          </Link>
-        </nav>
-      </div>
+                <UserCheck className="w-4 h-4" />
+                Cadastradas
+                {activeTab === "cadastradas" && count > 0 && (
+                  <span className="ml-1 text-xs bg-lumii-coral/15 text-lumii-coral px-1.5 py-0.5 rounded-full font-semibold">
+                    {count}
+                  </span>
+                )}
+              </Link>
+              <Link
+                href="/admin/alunos?tab=sem-cadastro"
+                className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors flex items-center gap-1.5 ${
+                  activeTab === "sem-cadastro"
+                    ? "border-amber-500 text-amber-600"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                }`}
+              >
+                <UserX className="w-4 h-4" />
+                Sem cadastro
+                {semCadastroCount > 0 && (
+                  <span
+                    className={`ml-1 text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+                      activeTab === "sem-cadastro"
+                        ? "bg-amber-100 text-amber-700"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {semCadastroCount}
+                  </span>
+                )}
+              </Link>
+            </nav>
+          </div>
 
-      {/* Conteúdo do tab "Sem cadastro" */}
-      {activeTab === "sem-cadastro" && (
-        <>
-          <AlunosSearch defaultValue={q} />
-          <SemCadastroClient rows={semCadastro} />
-
-          {/* Paginação */}
-          {totalPagesSC > 1 && (
-            <div className="flex items-center justify-center gap-2">
-              {scPage > 1 && (
-                <Link
-                  href={`?tab=sem-cadastro&${q ? `q=${encodeURIComponent(q)}&` : ""}scpage=${scPage - 1}`}
-                  className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
-                >
-                  ← Anterior
-                </Link>
+          {activeTab === "sem-cadastro" && (
+            <>
+              <SemCadastroClient rows={semCadastro} />
+              {totalPagesSC > 1 && (
+                <div className="flex items-center justify-center gap-2">
+                  {scPage > 1 && (
+                    <Link
+                      href={`?tab=sem-cadastro&scpage=${scPage - 1}`}
+                      className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+                    >
+                      ← Anterior
+                    </Link>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    Página {scPage} de {totalPagesSC}
+                  </span>
+                  {scPage < totalPagesSC && (
+                    <Link
+                      href={`?tab=sem-cadastro&scpage=${scPage + 1}`}
+                      className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+                    >
+                      Próxima →
+                    </Link>
+                  )}
+                </div>
               )}
-              <span className="text-sm text-muted-foreground">
-                Página {scPage} de {totalPagesSC}
-              </span>
-              {scPage < totalPagesSC && (
-                <Link
-                  href={`?tab=sem-cadastro&${q ? `q=${encodeURIComponent(q)}&` : ""}scpage=${scPage + 1}`}
-                  className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
-                >
-                  Próxima →
-                </Link>
-              )}
-            </div>
+            </>
           )}
-        </>
-      )}
 
-      {/* Conteúdo do tab "Cadastradas" */}
-      {activeTab === "cadastradas" && (
-        <>
-          <AlunosSearch defaultValue={q} />
-          {cpfSearch && (
-            <p className="text-xs text-lumii-coral">
-              Buscando por CPF nos registros de compra.
-            </p>
-          )}
-
-          <AlunosTable
-            profiles={profiles}
-            enrollCount={enrollCount}
-            emptyMessage={
-              q
-                ? cpfSearch
-                  ? "CPF não encontrado nos registros."
-                  : "Nenhuma aluna encontrada. Tente um termo diferente."
-                : "Nenhuma aluna encontrada"
-            }
-          />
-
-          {/* Paginação */}
-          {!cpfSearch && totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2">
-              {page > 1 && (
-                <Link
-                  href={`?${q ? `q=${encodeURIComponent(q)}&` : ""}page=${page - 1}`}
-                  className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
-                >
-                  ← Anterior
-                </Link>
+          {activeTab === "cadastradas" && (
+            <>
+              <AlunosTable
+                profiles={profiles}
+                enrollCount={enrollCount}
+                emptyMessage="Nenhuma aluna encontrada"
+              />
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2">
+                  {page > 1 && (
+                    <Link
+                      href={`?page=${page - 1}`}
+                      className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+                    >
+                      ← Anterior
+                    </Link>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    Página {page} de {totalPages}
+                  </span>
+                  {page < totalPages && (
+                    <Link
+                      href={`?page=${page + 1}`}
+                      className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
+                    >
+                      Próxima →
+                    </Link>
+                  )}
+                </div>
               )}
-              <span className="text-sm text-muted-foreground">
-                Página {page} de {totalPages}
-              </span>
-              {page < totalPages && (
-                <Link
-                  href={`?${q ? `q=${encodeURIComponent(q)}&` : ""}page=${page + 1}`}
-                  className="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-muted transition-colors"
-                >
-                  Próxima →
-                </Link>
-              )}
-            </div>
+            </>
           )}
         </>
       )}
